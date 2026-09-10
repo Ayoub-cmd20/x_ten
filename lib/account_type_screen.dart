@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'login_screen.dart'; // Import this if you want the login link to work
 import 'profile_setup_screen.dart'; // Make sure this path is correct
+import 'company_registration_screen.dart';
 class AccountTypeScreen extends StatelessWidget {
   const AccountTypeScreen({super.key});
 
@@ -76,7 +77,10 @@ class AccountTypeScreen extends StatelessWidget {
                   'للشركات والوكالات التي تبحث عن\nأفضل المواهب لإدارة حملات تسويقية\nاستثنائية وتحقيق نتائج ملموسة.',
                   isHighlighted: true, // This applies the gold theme and glow
                   onSelect: () {
-                    // Action for selecting Client/Brand
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const CompanyRegistrationScreen()),
+                    );
                   },
                 ),
                 const SizedBox(height: 20),
