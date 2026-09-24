@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'splash_screen.dart';
+import 'package:x_ten/core/navigation/app_router.dart' show appRouter;
 
 void main() {
   runApp(const MyApp());
@@ -10,7 +10,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: appRouter,
       title: 'X Ten',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -21,7 +22,6 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const SplashScreen(),
     );
   }
 }
