@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'portfolio_selection_screen.dart';
+
 class ProjectApplicationScreen extends StatefulWidget {
   final String projectTitle;
   final String company;
@@ -33,6 +35,8 @@ class _ProjectApplicationScreenState
   late final TextEditingController _priceController;
   late final TextEditingController _deliveryDaysController;
 
+  final List<Map<String, String>> _selectedPortfolioWorks = [];
+
   bool _isSubmitting = false;
 
   @override
@@ -57,6 +61,51 @@ class _ProjectApplicationScreenState
     super.dispose();
   }
 
+  // =========================================================
+  // PORTFOLIO SELECTION
+  // =========================================================
+
+  Future<void> _openPortfolioSelection() async {
+    final result =
+    await Navigator.push<List<Map<String, String>>>(
+      context,
+      MaterialPageRoute(
+        builder: (_) => PortfolioSelectionScreen(
+          initiallySelectedIds: _selectedPortfolioWorks
+              .map((item) => item['id'])
+              .whereType<String>()
+              .toSet(),
+        ),
+      ),
+    );
+
+    if (!mounted || result == null) {
+      return;
+    }
+
+    setState(() {
+      _selectedPortfolioWorks
+        ..clear()
+        ..addAll(result);
+    });
+  }
+
+  void _removePortfolioWork(
+      Map<String, String> work,
+      ) {
+    final id = work['id'];
+
+    setState(() {
+      _selectedPortfolioWorks.removeWhere(
+            (item) => item['id'] == id,
+      );
+    });
+  }
+
+  // =========================================================
+  // SUBMIT APPLICATION
+  // =========================================================
+
   Future<void> _submitApplication() async {
     FocusManager.instance.primaryFocus?.unfocus();
 
@@ -72,18 +121,32 @@ class _ProjectApplicationScreenState
     });
 
     try {
+      final portfolioIds = _selectedPortfolioWorks
+          .map((work) => work['id'])
+          .whereType<String>()
+          .toList();
+
+      final payload = {
+        'projectTitle': widget.projectTitle,
+        'company': widget.company,
+        'category': widget.category,
+        'budget': widget.budget,
+        'message': _messageController.text.trim(),
+        'price': double.parse(
+          _priceController.text.trim(),
+        ),
+        'deliveryDays': int.parse(
+          _deliveryDaysController.text.trim(),
+        ),
+        'portfolioIds': portfolioIds,
+      };
+
+      debugPrint(
+        'PROJECT APPLICATION: $payload',
+      );
+
       // TODO:
-      // Replace this section with your backend/API call.
-      //
-      // Example payload:
-      //
-      // {
-      //   "projectTitle": widget.projectTitle,
-      //   "company": widget.company,
-      //   "message": _messageController.text.trim(),
-      //   "price": _priceController.text.trim(),
-      //   "deliveryDays": _deliveryDaysController.text.trim(),
-      // }
+      // Replace with your real API / Firebase / Supabase call.
 
       await Future.delayed(
         const Duration(seconds: 2),
@@ -93,18 +156,17 @@ class _ProjectApplicationScreenState
 
       await showDialog<void>(
         context: context,
+        barrierDismissible: false,
         builder: (dialogContext) {
           return Directionality(
             textDirection: TextDirection.rtl,
             child: AlertDialog(
               backgroundColor:
               const Color(0xFF171717),
-
               shape: RoundedRectangleBorder(
                 borderRadius:
                 BorderRadius.circular(20),
               ),
-
               title: const Row(
                 children: [
                   Icon(
@@ -124,17 +186,17 @@ class _ProjectApplicationScreenState
                   ),
                 ],
               ),
-
               content: Text(
                 'تم إرسال طلبك للمشروع:\n\n'
                     '${widget.projectTitle}\n\n'
+                    'عدد الأعمال المرفقة: '
+                    '${_selectedPortfolioWorks.length}\n\n'
                     'سيتم إشعارك عند مراجعة الطلب من طرف المعلن.',
                 style: const TextStyle(
                   color: Colors.white70,
-                  height: 1.6,
+                  height: 1.7,
                 ),
               ),
-
               actions: [
                 TextButton(
                   onPressed: () {
@@ -160,7 +222,7 @@ class _ProjectApplicationScreenState
           );
         },
       );
-    } catch (_) {
+    } catch (e) {
       if (!mounted) return;
 
       ScaffoldMessenger.of(context)
@@ -187,6 +249,10 @@ class _ProjectApplicationScreenState
     }
   }
 
+  // =========================================================
+  // BUILD
+  // =========================================================
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -212,11 +278,14 @@ class _ProjectApplicationScreenState
 
         body: SafeArea(
           child: GestureDetector(
+            behavior: HitTestBehavior.translucent,
             onTap: () {
               FocusManager.instance.primaryFocus
                   ?.unfocus();
             },
             child: SingleChildScrollView(
+              keyboardDismissBehavior:
+              ScrollViewKeyboardDismissBehavior.onDrag,
               padding: const EdgeInsets.all(18),
               child: Form(
                 key: _formKey,
@@ -224,13 +293,12 @@ class _ProjectApplicationScreenState
                   crossAxisAlignment:
                   CrossAxisAlignment.stretch,
                   children: [
-                    // ==============================
+                    // =====================================================
                     // PROJECT SUMMARY
-                    // ==============================
+                    // =====================================================
 
                     Container(
-                      padding:
-                      const EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           begin: Alignment.topRight,
@@ -277,7 +345,7 @@ class _ProjectApplicationScreenState
                             ),
                           ),
 
-                          const SizedBox(height: 12),
+                          const SizedBox(height: 14),
 
                           _summaryRow(
                             Icons.business_outlined,
@@ -303,17 +371,12 @@ class _ProjectApplicationScreenState
 
                     const SizedBox(height: 24),
 
-                    // ==============================
+                    // =====================================================
                     // MESSAGE
-                    // ==============================
+                    // =====================================================
 
-                    const Text(
+                    _fieldLabel(
                       'رسالة التقديم',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight:
-                        FontWeight.w700,
-                      ),
                     ),
 
                     const SizedBox(height: 8),
@@ -349,17 +412,12 @@ class _ProjectApplicationScreenState
 
                     const SizedBox(height: 20),
 
-                    // ==============================
+                    // =====================================================
                     // PRICE
-                    // ==============================
+                    // =====================================================
 
-                    const Text(
+                    _fieldLabel(
                       'عرض السعر',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight:
-                        FontWeight.w700,
-                      ),
                     ),
 
                     const SizedBox(height: 8),
@@ -400,17 +458,12 @@ class _ProjectApplicationScreenState
 
                     const SizedBox(height: 20),
 
-                    // ==============================
+                    // =====================================================
                     // DELIVERY
-                    // ==============================
+                    // =====================================================
 
-                    const Text(
+                    _fieldLabel(
                       'مدة التنفيذ',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight:
-                        FontWeight.w700,
-                      ),
                     ),
 
                     const SizedBox(height: 8),
@@ -451,13 +504,12 @@ class _ProjectApplicationScreenState
 
                     const SizedBox(height: 20),
 
-                    // ==============================
-                    // PORTFOLIO SECTION
-                    // ==============================
+                    // =====================================================
+                    // PORTFOLIO BUTTON
+                    // =====================================================
 
                     Container(
-                      padding:
-                      const EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         color: surface,
                         borderRadius:
@@ -494,13 +546,13 @@ class _ProjectApplicationScreenState
 
                           const SizedBox(width: 12),
 
-                          const Expanded(
+                          Expanded(
                             child: Column(
                               crossAxisAlignment:
                               CrossAxisAlignment
                                   .start,
                               children: [
-                                Text(
+                                const Text(
                                   'إضافة أعمال سابقة',
                                   style: TextStyle(
                                     color:
@@ -510,10 +562,13 @@ class _ProjectApplicationScreenState
                                         .w700,
                                   ),
                                 ),
-                                SizedBox(height: 4),
+                                const SizedBox(height: 4),
                                 Text(
-                                  'يمكنك لاحقاً اختيار أعمال من معرضك لإرفاقها مع طلب التقديم.',
-                                  style: TextStyle(
+                                  _selectedPortfolioWorks
+                                      .isEmpty
+                                      ? 'اختر أعمالاً من معرضك لإرفاقها مع طلب التقديم.'
+                                      : 'تم اختيار ${_selectedPortfolioWorks.length} من الأعمال.',
+                                  style: const TextStyle(
                                     color:
                                     Colors.white38,
                                     fontSize: 11.5,
@@ -525,10 +580,10 @@ class _ProjectApplicationScreenState
                           ),
 
                           IconButton(
-                            onPressed: () {
-                              // TODO:
-                              // Open portfolio selection.
-                            },
+                            tooltip:
+                            'اختيار أعمال',
+                            onPressed:
+                            _openPortfolioSelection,
                             icon: const Icon(
                               Icons
                                   .add_circle_outline_rounded,
@@ -539,11 +594,102 @@ class _ProjectApplicationScreenState
                       ),
                     ),
 
+                    // =====================================================
+                    // SELECTED PORTFOLIO WORKS
+                    // =====================================================
+
+                    if (_selectedPortfolioWorks
+                        .isNotEmpty) ...[
+                      const SizedBox(height: 12),
+
+                      Container(
+                        padding:
+                        const EdgeInsets.all(
+                          14,
+                        ),
+                        decoration:
+                        BoxDecoration(
+                          color: surface,
+                          borderRadius:
+                          BorderRadius.circular(
+                            16,
+                          ),
+                          border: Border.all(
+                            color:
+                            gold.withValues(
+                              alpha: 0.14,
+                            ),
+                          ),
+                        ),
+                        child: Column(
+                          crossAxisAlignment:
+                          CrossAxisAlignment
+                              .start,
+                          children: [
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons
+                                      .check_circle_outline_rounded,
+                                  color: gold,
+                                  size: 19,
+                                ),
+
+                                const SizedBox(
+                                  width: 8,
+                                ),
+
+                                Expanded(
+                                  child: Text(
+                                    'الأعمال المرفقة (${_selectedPortfolioWorks.length})',
+                                    style:
+                                    const TextStyle(
+                                      color:
+                                      Colors.white,
+                                      fontSize: 14,
+                                      fontWeight:
+                                      FontWeight
+                                          .w700,
+                                    ),
+                                  ),
+                                ),
+
+                                TextButton(
+                                  onPressed:
+                                  _openPortfolioSelection,
+                                  child:
+                                  const Text(
+                                    'تعديل',
+                                    style:
+                                    TextStyle(
+                                      color: gold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+
+                            const SizedBox(
+                              height: 8,
+                            ),
+
+                            ..._selectedPortfolioWorks
+                                .map(
+                                  (work) =>
+                                  _buildSelectedWork(
+                                    work,
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+
                     const SizedBox(height: 28),
 
-                    // ==============================
-                    // SUBMIT
-                    // ==============================
+                    // =====================================================
+                    // SUBMIT BUTTON
+                    // =====================================================
 
                     SizedBox(
                       height: 56,
@@ -624,6 +770,141 @@ class _ProjectApplicationScreenState
     );
   }
 
+  // =========================================================
+  // SELECTED PORTFOLIO ITEM
+  // =========================================================
+
+  Widget _buildSelectedWork(
+      Map<String, String> work,
+      ) {
+    final details = [
+      work['category'],
+      work['platform'],
+    ]
+        .whereType<String>()
+        .where(
+          (value) =>
+      value.trim().isNotEmpty,
+    )
+        .join(' • ');
+
+    return Container(
+      margin:
+      const EdgeInsets.only(
+        bottom: 8,
+      ),
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color:
+        const Color(0xFF1C1C1C),
+        borderRadius:
+        BorderRadius.circular(12),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 42,
+            height: 42,
+            decoration: BoxDecoration(
+              color:
+              gold.withValues(
+                alpha: 0.08,
+              ),
+              borderRadius:
+              BorderRadius.circular(
+                11,
+              ),
+            ),
+            child: const Icon(
+              Icons.image_outlined,
+              color: gold,
+              size: 20,
+            ),
+          ),
+
+          const SizedBox(width: 10),
+
+          Expanded(
+            child: Column(
+              crossAxisAlignment:
+              CrossAxisAlignment.start,
+              children: [
+                Text(
+                  work['title'] ??
+                      'عمل سابق',
+                  maxLines: 1,
+                  overflow:
+                  TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 13,
+                    fontWeight:
+                    FontWeight.w700,
+                  ),
+                ),
+
+                if (details.isNotEmpty) ...[
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  Text(
+                    details,
+                    maxLines: 1,
+                    overflow:
+                    TextOverflow.ellipsis,
+                    style:
+                    const TextStyle(
+                      color:
+                      Colors.white38,
+                      fontSize: 10.5,
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ),
+
+          IconButton(
+            tooltip: 'إزالة',
+            visualDensity:
+            VisualDensity.compact,
+            onPressed: () {
+              _removePortfolioWork(
+                work,
+              );
+            },
+            icon: const Icon(
+              Icons.close_rounded,
+              color: Colors.white38,
+              size: 18,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // =========================================================
+  // LABEL
+  // =========================================================
+
+  Widget _fieldLabel(
+      String title,
+      ) {
+    return Text(
+      title,
+      style: const TextStyle(
+        color: Colors.white,
+        fontSize: 14,
+        fontWeight: FontWeight.w700,
+      ),
+    );
+  }
+
+  // =========================================================
+  // SUMMARY ROW
+  // =========================================================
+
   Widget _summaryRow(
       IconData icon,
       String value,
@@ -635,7 +916,9 @@ class _ProjectApplicationScreenState
           color: gold,
           size: 17,
         ),
+
         const SizedBox(width: 7),
+
         Expanded(
           child: Text(
             value,
@@ -649,6 +932,10 @@ class _ProjectApplicationScreenState
     );
   }
 
+  // =========================================================
+  // INPUT DECORATION
+  // =========================================================
+
   InputDecoration _decoration({
     required String hint,
     required IconData icon,
@@ -656,42 +943,56 @@ class _ProjectApplicationScreenState
   }) {
     return InputDecoration(
       hintText: hint,
+
       hintStyle: const TextStyle(
         color: Colors.white30,
       ),
+
       prefixIcon: Icon(
         icon,
         color: gold,
         size: 20,
       ),
+
       suffixText: suffix,
-      suffixStyle: const TextStyle(
+
+      suffixStyle:
+      const TextStyle(
         color: gold,
-        fontWeight: FontWeight.w700,
+        fontWeight:
+        FontWeight.w700,
       ),
+
       filled: true,
       fillColor: surface,
+
       contentPadding:
       const EdgeInsets.symmetric(
         horizontal: 16,
         vertical: 16,
       ),
-      border: OutlineInputBorder(
+
+      border:
+      OutlineInputBorder(
         borderRadius:
         BorderRadius.circular(16),
-        borderSide: BorderSide.none,
+        borderSide:
+        BorderSide.none,
       ),
+
       enabledBorder:
       OutlineInputBorder(
         borderRadius:
         BorderRadius.circular(16),
-        borderSide: BorderSide(
+        borderSide:
+        BorderSide(
           color:
           Colors.white.withValues(
             alpha: 0.07,
           ),
         ),
       ),
+
       focusedBorder:
       OutlineInputBorder(
         borderRadius:
@@ -702,6 +1003,7 @@ class _ProjectApplicationScreenState
           width: 1.3,
         ),
       ),
+
       errorBorder:
       OutlineInputBorder(
         borderRadius:
@@ -711,6 +1013,7 @@ class _ProjectApplicationScreenState
           color: Colors.redAccent,
         ),
       ),
+
       focusedErrorBorder:
       OutlineInputBorder(
         borderRadius:

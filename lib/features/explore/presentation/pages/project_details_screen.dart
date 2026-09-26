@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'project_application_screen.dart';
-
+import 'advertiser_profile_screen.dart';
 class ProjectDetailsScreen extends StatelessWidget {
   final String title;
   final String company;
@@ -343,8 +343,15 @@ class ProjectDetailsScreen extends StatelessWidget {
 
                     OutlinedButton(
                       onPressed: () {
-                        // TODO:
-                        // Open advertiser profile
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => AdvertiserProfileScreen(
+                              companyName: company,
+                              category: category,
+                            ),
+                          ),
+                        );
                       },
                       style: OutlinedButton.styleFrom(
                         foregroundColor: gold,
