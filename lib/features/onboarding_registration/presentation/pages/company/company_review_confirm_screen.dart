@@ -137,7 +137,7 @@ class _CompanyReviewConfirmScreenState extends State<CompanyReviewConfirmScreen>
         children: [
           const Expanded(
             child: Text(
-              'Company Registration',
+              'تسجيل الشركة',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white,

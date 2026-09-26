@@ -470,27 +470,7 @@ class _StepBadge extends StatelessWidget {
           color: gold.withValues(alpha: 0.25),
         ),
       ),
-      child: const Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            Icons.stars_rounded,
-            color: gold,
-            size: 14,
-          ),
-          SizedBox(width: 5),
-          Text(
-            'الخطوة 1 من 3',
-            style: TextStyle(
-              fontFamily: 'Cairo',
-              color: gold,
-              fontSize: 11.5,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ],
-      ),
-    );
+      );
   }
 }
 

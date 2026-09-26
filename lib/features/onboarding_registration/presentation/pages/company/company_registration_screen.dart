@@ -47,7 +47,7 @@ class _CompanyRegistrationScreenState extends State<CompanyRegistrationScreen> {
                     ),
                     const Expanded(
                       child: Text(
-                        'Company\nRegistration',
+                        'تسجيل الشركة',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.white,
@@ -300,6 +300,34 @@ class _CompanyRegistrationScreenState extends State<CompanyRegistrationScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                 child: Row(
                   children: [
+                    const SizedBox(width: 16),
+                    Expanded(
+                      flex: 2,
+                      child: TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.arrow_back_ios,
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                            Text(
+                              'الرجوع',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                              ),
+                            ),
+                            SizedBox(width: 4),
+                           ],
+                        ),
+                      ),
+                    ),
                     Expanded(
                       flex: 3,
                       child: ElevatedButton(
@@ -325,10 +353,9 @@ class _CompanyRegistrationScreenState extends State<CompanyRegistrationScreen> {
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.arrow_back_ios, size: 16),
-                            SizedBox(width: 8),
+                           SizedBox(width: 8),
                             Text(
-                              'Next\nStep',
+                              'الخطوة التالية',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 15,
@@ -336,34 +363,7 @@ class _CompanyRegistrationScreenState extends State<CompanyRegistrationScreen> {
                                 height: 1.2,
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      flex: 2,
-                      child: TextButton(
-                        onPressed: () => Navigator.pop(context),
-                        style: TextButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                        ),
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Back',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                              ),
-                            ),
-                            SizedBox(width: 4),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              color: Colors.white,
-                              size: 16,
-                            ),
+                            Icon(Icons.arrow_forward_ios, size: 16),
                           ],
                         ),
                       ),

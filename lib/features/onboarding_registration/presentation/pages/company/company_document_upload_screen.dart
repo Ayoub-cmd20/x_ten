@@ -112,7 +112,7 @@ class _CompanyDocumentUploadScreenState
                     ),
                     const Expanded(
                       child: Text(
-                        'Company\nRegistration',
+                        'تسجيل الشركة',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.white,
@@ -247,7 +247,7 @@ class _CompanyDocumentUploadScreenState
                             ),
                             SizedBox(width: 4),
                             Text(
-                              'السابق',
+                              'الرجوع',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 15,

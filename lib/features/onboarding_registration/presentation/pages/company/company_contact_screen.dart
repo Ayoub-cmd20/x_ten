@@ -192,7 +192,7 @@ class _CompanyContactScreenState extends State<CompanyContactScreen> {
                     ),
                     const Expanded(
                       child: Text(
-                        'Company\nRegistration',
+                        'تسجيل الشركة',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.white,
@@ -497,7 +497,7 @@ class _CompanyContactScreenState extends State<CompanyContactScreen> {
                             ),
                             SizedBox(width: 4),
                             Text(
-                              'Back',
+                              'الرجوع',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 15,
@@ -507,7 +507,6 @@ class _CompanyContactScreenState extends State<CompanyContactScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 16),
                     Expanded(
                       flex: 3,
                       child: ElevatedButton(
@@ -533,19 +532,23 @@ class _CompanyContactScreenState extends State<CompanyContactScreen> {
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            SizedBox(width: 8),
                             Text(
-                              'Next Step',
+                              'الخطوة التالية',
                               style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
-                            SizedBox(width: 8),
                             Icon(Icons.arrow_forward_ios, size: 16),
                           ],
                         ),
                       ),
                     ),
+                    const SizedBox(width: 16),
+
+
+
                   ],
                 ),
               ),

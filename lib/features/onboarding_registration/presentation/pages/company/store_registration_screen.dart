@@ -222,7 +222,7 @@ class _StoreRegistrationScreenState extends State<StoreRegistrationScreen> {
                             ),
                             const SizedBox(height: 6),
                             DropdownButtonFormField<String>(
-                              value: _selectedPlatform,
+                              initialValue: _selectedPlatform,
                               dropdownColor: cardColor,
                               style: const TextStyle(color: Colors.white, fontSize: 14),
                               decoration: InputDecoration(

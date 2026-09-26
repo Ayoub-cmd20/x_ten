@@ -95,7 +95,7 @@ class _CompanyOfficialInfoScreenState extends State<CompanyOfficialInfoScreen> {
                     ),
                     const Expanded(
                       child: Text(
-                        'Company\nRegistration',
+                        'تسجيل الشركة',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.white,
@@ -423,6 +423,34 @@ class _CompanyOfficialInfoScreenState extends State<CompanyOfficialInfoScreen> {
                 child: Row(
                   children: [
                     Expanded(
+                      flex: 2,
+                      child: TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.arrow_back_ios,
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                            Text(
+                              'الرجوع',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                              ),
+                            ),
+                            SizedBox(width: 4),
+
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
                       flex: 3,
                       child: ElevatedButton(
                         onPressed: () {
@@ -447,47 +475,21 @@ class _CompanyOfficialInfoScreenState extends State<CompanyOfficialInfoScreen> {
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.arrow_forward_ios, size: 16),
                             SizedBox(width: 8),
                             Text(
-                              'Next Step',
+                              'الخطوة التالية',
                               style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
+                            Icon(Icons.arrow_forward_ios, size: 16),
                           ],
                         ),
                       ),
                     ),
                     const SizedBox(width: 16),
-                    Expanded(
-                      flex: 2,
-                      child: TextButton(
-                        onPressed: () => Navigator.pop(context),
-                        style: TextButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                        ),
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Back',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                              ),
-                            ),
-                            SizedBox(width: 4),
-                            Icon(
-                              Icons.arrow_back_ios,
-                              color: Colors.white,
-                              size: 16,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+
                   ],
                 ),
               ),
