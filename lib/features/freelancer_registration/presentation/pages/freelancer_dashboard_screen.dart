@@ -25,7 +25,6 @@ class _FreelancerDashboardScreenState
   static const Color _surface2 =
   Color(0xFF1B1B1B);
 
-  int _selectedIndex = 0;
 
   final List<_DashboardStat> _stats = const [
     _DashboardStat(
@@ -89,43 +88,6 @@ class _FreelancerDashboardScreenState
       deadline: '8 أيام',
     ),
   ];
-
-  void _changeTab(
-      int index,
-      ) {
-    setState(() {
-      _selectedIndex = index;
-    });
-
-    switch (index) {
-      case 0:
-        break;
-
-      case 1:
-        context.push(
-          '/freelancer/opportunities',
-        );
-        break;
-
-      case 2:
-        context.push(
-          '/freelancer/projects',
-        );
-        break;
-
-      case 3:
-        context.push(
-          '/messages',
-        );
-        break;
-
-      case 4:
-        context.push(
-          '/freelancer/profile',
-        );
-        break;
-    }
-  }
 
   @override
   Widget build(
@@ -327,8 +289,7 @@ class _FreelancerDashboardScreenState
           ),
         ),
 
-        bottomNavigationBar:
-        _buildBottomNavigation(),
+
       ),
     );
   }
@@ -944,81 +905,7 @@ class _FreelancerDashboardScreenState
     );
   }
 
-  Widget _buildBottomNavigation() {
-    return NavigationBar(
-      selectedIndex:
-      _selectedIndex,
-      backgroundColor:
-      const Color(
-        0xFF111111,
-      ),
-      indicatorColor:
-      _gold.withValues(
-        alpha: 0.15,
-      ),
-      onDestinationSelected:
-      _changeTab,
-      destinations:
-      const [
-        NavigationDestination(
-          icon: Icon(
-            Icons.home_outlined,
-          ),
-          selectedIcon: Icon(
-            Icons.home_rounded,
-            color: _gold,
-          ),
-          label: 'الرئيسية',
-        ),
-
-        NavigationDestination(
-          icon: Icon(
-            Icons.explore_outlined,
-          ),
-          selectedIcon: Icon(
-            Icons.explore_rounded,
-            color: _gold,
-          ),
-          label: 'الفرص',
-        ),
-
-        NavigationDestination(
-          icon: Icon(
-            Icons.work_outline,
-          ),
-          selectedIcon: Icon(
-            Icons.work_rounded,
-            color: _gold,
-          ),
-          label: 'مشاريعي',
-        ),
-
-        NavigationDestination(
-          icon: Icon(
-            Icons.chat_bubble_outline,
-          ),
-          selectedIcon: Icon(
-            Icons.chat_bubble_rounded,
-            color: _gold,
-          ),
-          label: 'الرسائل',
-        ),
-
-        NavigationDestination(
-          icon: Icon(
-            Icons.person_outline,
-          ),
-          selectedIcon: Icon(
-            Icons.person_rounded,
-            color: _gold,
-          ),
-          label: 'حسابي',
-        ),
-      ],
-    );
-  }
-
-  Widget _buildSectionTitle(
+   Widget _buildSectionTitle(
       String title,
       ) {
     return Text(
