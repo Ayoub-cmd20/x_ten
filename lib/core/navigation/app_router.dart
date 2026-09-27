@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-
+import 'package:x_ten/features/onboarding/presentation/pages/onboarding_screen.dart';
 // ============================================================
 // AUTH
 // ============================================================
@@ -69,6 +69,16 @@ final GoRouter appRouter = GoRouter(
   initialLocation: '/splash',
 
   routes: [
+    GoRoute(
+      path: '/onboarding',
+      name: 'onboarding',
+      builder: (
+          context,
+          state,
+          ) {
+        return const OnboardingScreen();
+      },
+    ),
     // =========================================================
     // SPLASH
     // =========================================================

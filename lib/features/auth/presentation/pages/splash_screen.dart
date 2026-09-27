@@ -17,9 +17,9 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     // Navigate to Login Screen after 3 seconds using GoRouter
-    _timer = Timer(const Duration(seconds: 3), () {
+    _timer = Timer(const Duration(seconds: 5), () {
       if (mounted) {
-        context.go('/login');
+        context.go('/onboarding');
       }
     });
   }
