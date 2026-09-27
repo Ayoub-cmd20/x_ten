@@ -29,7 +29,11 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     const oneSec = Duration(seconds: 1);
     _timer = Timer.periodic(
       oneSec,
-          (Timer timer) {
+      (Timer timer) {
+        if (!mounted) {
+          timer.cancel();
+          return;
+        }
         if (_start == 0) {
           setState(() {
             timer.cancel();

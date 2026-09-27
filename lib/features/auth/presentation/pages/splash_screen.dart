@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import 'package:x_ten/features/auth/presentation/pages/login_screen.dart'; // Import your login screen
+import 'package:go_router/go_router.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -11,15 +11,23 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  Timer? _timer;
+
   @override
   void initState() {
     super.initState();
-    // Navigate to Login Screen after 3 seconds
-    Timer(const Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
-      );
+    // Navigate to Login Screen after 3 seconds using GoRouter
+    _timer = Timer(const Duration(seconds: 3), () {
+      if (mounted) {
+        context.go('/login');
+      }
     });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
 
   @override
@@ -57,7 +65,7 @@ class MonolithLogo extends StatelessWidget {
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xFFE4BC4F).withValues(alpha:0.08),
+                    color: const Color(0xFFE4BC4F).withValues(alpha: 0.08),
                     blurRadius: 60,
                     spreadRadius: 20,
                   ),
@@ -83,7 +91,7 @@ class MonolithLogo extends StatelessWidget {
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha:0.5),
+                      color: Colors.black.withValues(alpha: 0.5),
                       blurRadius: 15,
                       offset: const Offset(5, 5),
                     ),

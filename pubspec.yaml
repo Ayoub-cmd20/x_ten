@@ -39,6 +39,8 @@ dependencies:
   intl: ^0.20.3
   go_router: ^14.0.0 # Add this line
   file_picker: ^10.3.3
+  image_picker: ^1.1.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

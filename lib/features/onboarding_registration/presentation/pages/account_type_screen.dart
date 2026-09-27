@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'package:x_ten/features/auth/presentation/pages/login_screen.dart';
-import 'package:x_ten/features/onboarding_registration/presentation/pages/profile_setup_screen.dart';
+import 'package:go_router/go_router.dart';
 import 'package:x_ten/features/onboarding_registration/presentation/pages/company/company_registration_screen.dart';
-import 'package:x_ten/features/onboarding_registration/presentation/pages/freelancer/freelancer_registration_screen.dart';
 
 enum AccountType {
   contentCreator,
@@ -39,35 +36,40 @@ class _AccountTypeScreenState extends State<AccountTypeScreen> {
       return;
     }
 
-    Widget destination;
-
     switch (selectedType) {
+    // =========================================================
+    // CONTENT CREATOR / INFLUENCER
+    // =========================================================
+
       case AccountType.contentCreator:
-        destination = const ProfileSetupScreen();
+        context.go('/influencer-registration');
         break;
+
+    // =========================================================
+    // BRAND / COMPANY
+    // =========================================================
 
       case AccountType.brand:
-        destination = const CompanyRegistrationScreen();
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) =>
+            const CompanyRegistrationScreen(),
+          ),
+        );
         break;
+
+    // =========================================================
+    // FREELANCER
+    // =========================================================
 
       case AccountType.freelancer:
-        destination = const FreelancerRegistrationScreen();
+        context.go('/freelancer-registration');
         break;
     }
-
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => destination,
-      ),
-    );
   }
-
   void _goToLogin() {
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(
-        builder: (_) => const LoginScreen(),
-      ),
-          (route) => false,
+    context.go(
+      '/login',
     );
   }
 
