@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:x_ten/features/onboarding/presentation/pages/onboarding_screen.dart';
+import 'package:x_ten/features/settings_security/presentation/pages/language_screen.dart';
 // ============================================================
 // AUTH
 // ============================================================
@@ -77,6 +78,17 @@ final GoRouter appRouter = GoRouter(
           state,
           ) {
         return const OnboardingScreen();
+      },
+    ),
+    GoRoute(
+      path: '/settings/language',
+      name: 'language',
+
+      builder: (
+          context,
+          state,
+          ) {
+        return const LanguageScreen();
       },
     ),
     // =========================================================
