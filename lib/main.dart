@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:x_ten/core/navigation/app_router.dart';
 import 'package:x_ten/core/localization/locale_controller.dart';
+import 'package:x_ten/core/navigation/app_router.dart';
 import 'package:x_ten/l10n/generated/app_localizations.dart';
 
 Future<void> main() async {
@@ -24,18 +24,22 @@ class XTenApp extends StatelessWidget {
       BuildContext context,
       ) {
     return ListenableBuilder(
-      listenable: localeController,
+      listenable:
+      localeController,
 
       builder: (
           context,
           child,
           ) {
         return MaterialApp.router(
-          debugShowCheckedModeBanner: false,
+          debugShowCheckedModeBanner:
+          false,
 
-          title: 'X Ten',
+          routerConfig:
+          appRouter,
 
-          routerConfig: appRouter,
+          title:
+          'X Ten',
 
           locale:
           localeController.locale,
@@ -48,11 +52,13 @@ class XTenApp extends StatelessWidget {
           AppLocalizations
               .localizationsDelegates,
 
-          theme: ThemeData(
+          theme:
+          ThemeData(
             brightness:
             Brightness.dark,
 
-            useMaterial3: true,
+            useMaterial3:
+            true,
 
             colorScheme:
             ColorScheme.fromSeed(

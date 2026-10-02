@@ -26,7 +26,7 @@ class _VerificationStatusScreenState
   static const Color background =
   Color(0xFF0A0A0A);
 
-  InfluencerVerificationStatus _status =
+  final InfluencerVerificationStatus _status =
       InfluencerVerificationStatus
           .submitted;
 

@@ -71,7 +71,7 @@ class _SocialAccountsStepState extends State<SocialAccountsStep> {
                       const SizedBox(height: 18),
 
                       DropdownButtonFormField<SocialPlatform>(
-                        value: platform,
+                        initialValue: platform,
                         dropdownColor: const Color(0xFF1C1C1C),
                         decoration:
                         _sheetDecoration('المنصة'),
@@ -100,7 +100,7 @@ class _SocialAccountsStepState extends State<SocialAccountsStep> {
                       if (platform == SocialPlatform.facebook) ...[
                         const SizedBox(height: 12),
                         DropdownButtonFormField<FacebookAccountType>(
-                          value: facebookType,
+                          initialValue: facebookType,
                           dropdownColor:
                           const Color(0xFF1C1C1C),
                           decoration:

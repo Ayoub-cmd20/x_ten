@@ -76,16 +76,20 @@ class _FinancialInfoStepState extends State<FinancialInfoStep> {
 
         const SizedBox(height: 16),
 
-        ...PaymentAccountType.values.map(
+        RadioGroup<PaymentAccountType>(
+          groupValue: type,
+          onChanged: _setType,
+          child: Column(
+            children: PaymentAccountType.values.map(
               (item) => RadioListTile<PaymentAccountType>(
-            value: item,
-            groupValue: type,
-            activeColor: gold,
-            title: Text(
-              item.arabicName,
-              style: const TextStyle(color: Colors.white),
-            ),
-            onChanged: _setType,
+                value: item,
+                activeColor: gold,
+                title: Text(
+                  item.arabicName,
+                  style: const TextStyle(color: Colors.white),
+                ),
+              ),
+            ).toList(),
           ),
         ),
 

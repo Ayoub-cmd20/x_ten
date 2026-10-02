@@ -91,6 +91,17 @@ final GoRouter appRouter = GoRouter(
         return const LanguageScreen();
       },
     ),
+    GoRoute(
+      path: '/choose-language',
+      name: 'chooseLanguage',
+
+      builder: (
+          context,
+          state,
+          ) {
+        return const LanguageScreen();
+      },
+    ),
     // =========================================================
     // SPLASH
     // =========================================================

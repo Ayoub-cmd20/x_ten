@@ -4,29 +4,29 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LocaleController extends ChangeNotifier {
   static const String _languageKey = 'app_language';
 
-  Locale _locale = const Locale('ar');
+  Locale? _locale;
 
-  Locale get locale => _locale;
+  Locale? get locale => _locale;
+
+  bool get hasSelectedLanguage =>
+      _locale != null;
 
   Future<void> loadLocale() async {
-    final prefs = await SharedPreferences.getInstance();
+    final prefs =
+    await SharedPreferences.getInstance();
 
-    final languageCode =
-    prefs.getString(_languageKey);
+    final code = prefs.getString(_languageKey);
 
-    if (languageCode == null) {
-      return;
+    if (code == 'ar' ||
+        code == 'fr' ||
+        code == 'en') {
+      _locale = Locale(code!);
     }
 
-    if (languageCode == 'ar' ||
-        languageCode == 'fr' ||
-        languageCode == 'en') {
-      _locale = Locale(languageCode);
-      notifyListeners();
-    }
+    notifyListeners();
   }
 
-  Future<void> changeLanguage(
+  Future<void> setLocale(
       String languageCode,
       ) async {
     if (![
@@ -37,12 +37,8 @@ class LocaleController extends ChangeNotifier {
       return;
     }
 
-    if (_locale.languageCode ==
-        languageCode) {
-      return;
-    }
-
-    _locale = Locale(languageCode);
+    _locale =
+        Locale(languageCode);
 
     notifyListeners();
 
@@ -56,13 +52,13 @@ class LocaleController extends ChangeNotifier {
   }
 
   Future<void> setArabic() =>
-      changeLanguage('ar');
+      setLocale('ar');
 
   Future<void> setFrench() =>
-      changeLanguage('fr');
+      setLocale('fr');
 
   Future<void> setEnglish() =>
-      changeLanguage('en');
+      setLocale('en');
 }
 
 final localeController =
