@@ -62,6 +62,27 @@ import 'package:x_ten/features/influencer/presentation/screens/opportunity_detai
 import 'package:x_ten/features/influencer/presentation/screens/creator_project_details_screen.dart';
 import 'package:x_ten/features/influencer/presentation/screens/creator_portfolio_screen.dart';
 import 'package:x_ten/features/influencer/presentation/screens/creator_settings_screen.dart';
+
+// ============================================================
+// ADVERTISER APP
+// ============================================================
+
+import 'package:x_ten/features/advertiser/presentation/widgets/advertiser_shell.dart';
+import 'package:x_ten/features/advertiser/presentation/pages/advertiser_dashboard_screen.dart';
+import 'package:x_ten/features/advertiser/presentation/pages/advertiser_explore_screen.dart';
+import 'package:x_ten/features/advertiser/presentation/pages/advertiser_profile_screen.dart';
+import 'package:x_ten/features/advertiser/presentation/pages/influencer_categories_screen.dart';
+import 'package:x_ten/features/advertiser/presentation/pages/influencer_details_screen.dart';
+import 'package:x_ten/features/advertiser/presentation/pages/campaign_creation_screen.dart';
+import 'package:x_ten/features/advertiser/presentation/pages/my_campaigns_screen.dart';
+
+// ============================================================
+// PROMOTION (ADVERTISER)
+// ============================================================
+
+import 'package:x_ten/features/work_management/presentation/pages/on_demand_promotion_screen.dart';
+import 'package:x_ten/features/work_management/presentation/pages/my_promotion_requests_screen.dart';
+
 // ============================================================
 // ROUTER
 // ============================================================
@@ -503,6 +524,181 @@ final GoRouter appRouter = GoRouter(
           state,
           ) {
         return const CreatorSettingsScreen();
+      },
+    ),
+
+    // =========================================================
+    // ADVERTISER SHELL
+    // =========================================================
+
+    ShellRoute(
+      builder: (
+          context,
+          state,
+          child,
+          ) {
+        return AdvertiserShell(
+          child: child,
+        );
+      },
+
+      routes: [
+        GoRoute(
+          path: '/advertiser/home',
+          name: 'advertiserHome',
+          builder: (
+              context,
+              state,
+              ) {
+            return const AdvertiserDashboardScreen();
+          },
+        ),
+
+        GoRoute(
+          path: '/advertiser/explore',
+          name: 'advertiserExplore',
+          builder: (
+              context,
+              state,
+              ) {
+            final categoryId =
+            state.uri.queryParameters['category'];
+
+            return AdvertiserExploreScreen(
+              categoryId: categoryId,
+            );
+          },
+        ),
+
+        GoRoute(
+          path: '/advertiser/promotion',
+          name: 'advertiserPromotion',
+          builder: (
+              context,
+              state,
+              ) {
+            return const MyCampaignsScreen();
+          },
+        ),
+
+        GoRoute(
+          path: '/advertiser/messages',
+          name: 'advertiserMessages',
+          builder: (
+              context,
+              state,
+              ) {
+            return const ConversationsScreen();
+          },
+        ),
+
+        GoRoute(
+          path: '/advertiser/profile',
+          name: 'advertiserProfile',
+          builder: (
+              context,
+              state,
+              ) {
+            return const AdvertiserProfileScreen();
+          },
+        ),
+      ],
+    ),
+
+    // =========================================================
+    // ADVERTISER SECONDARY SCREENS
+    // =========================================================
+
+    GoRoute(
+      path: '/advertiser/influencers',
+      name: 'advertiserInfluencers',
+      builder: (
+          context,
+          state,
+          ) {
+        final categoryId =
+        state.uri.queryParameters['category'];
+
+        return AdvertiserExploreScreen(
+          categoryId: categoryId,
+        );
+      },
+    ),
+
+    GoRoute(
+      path: '/advertiser/categories',
+      name: 'advertiserCategories',
+      builder: (
+          context,
+          state,
+          ) {
+        return const InfluencerCategoriesScreen();
+      },
+    ),
+
+    GoRoute(
+      path: '/advertiser/influencer-details',
+      name: 'advertiserInfluencerDetails',
+      builder: (
+          context,
+          state,
+          ) {
+        final influencerId =
+            state.extra as String?;
+
+        return InfluencerDetailsScreen(
+          influencerId:
+          influencerId ?? 'INF-001',
+        );
+      },
+    ),
+
+    GoRoute(
+      path: '/advertiser/campaign/new',
+      name: 'advertiserCampaignNew',
+      builder: (
+          context,
+          state,
+          ) {
+        final influencerName =
+            state.extra as String?;
+
+        return CampaignCreationScreen(
+          preselectedInfluencer: influencerName,
+        );
+      },
+    ),
+
+    GoRoute(
+      path: '/advertiser/campaigns',
+      name: 'advertiserCampaigns',
+      builder: (
+          context,
+          state,
+          ) {
+        return const MyCampaignsScreen();
+      },
+    ),
+
+    GoRoute(
+      path: '/advertiser/promotion/on-demand',
+      name: 'advertiserOnDemandPromotion',
+      builder: (
+          context,
+          state,
+          ) {
+        return const OnDemandPromotionScreen();
+      },
+    ),
+
+    GoRoute(
+      path: '/advertiser/promotion/requests',
+      name: 'advertiserPromotionRequests',
+      builder: (
+          context,
+          state,
+          ) {
+        return const MyPromotionRequestsScreen();
       },
     ),
   ],
