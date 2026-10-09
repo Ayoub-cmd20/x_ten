@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:x_ten/features/saved_items/data/saved_items_service.dart';
+import 'package:x_ten/features/saved_items/domain/models/saved_item.dart';
 import 'project_application_screen.dart';
 import 'advertiser_profile_screen.dart';
 class ProjectDetailsScreen extends StatelessWidget {
@@ -152,15 +154,63 @@ class ProjectDetailsScreen extends StatelessWidget {
                           ),
                         ),
 
-                        IconButton(
-                          onPressed: () {
-                            // TODO:
-                            // Save project
+                        ValueListenableBuilder<List<SavedItem>>(
+                          valueListenable: SavedItemsService.instance,
+                          builder: (context, savedItems, _) {
+                            final isSaved = SavedItemsService.instance.isProjectSaved(title);
+
+                            return IconButton(
+                              tooltip: isSaved ? 'إزالة من المحفوظات' : 'حفظ المشروع',
+                              onPressed: () {
+                                final newlySaved = SavedItemsService.instance.toggleSaveProject(
+                                  id: title,
+                                  title: title,
+                                  company: company,
+                                  category: category,
+                                  budget: budget,
+                                );
+
+                                ScaffoldMessenger.of(context)
+                                  ..hideCurrentSnackBar()
+                                  ..showSnackBar(
+                                    SnackBar(
+                                      content: Row(
+                                        children: [
+                                          Icon(
+                                            newlySaved
+                                                ? Icons.bookmark_rounded
+                                                : Icons.bookmark_border_rounded,
+                                            color: Colors.black,
+                                          ),
+                                          const SizedBox(width: 10),
+                                          Text(
+                                            newlySaved
+                                                ? 'تم حفظ المشروع في العناصر المحفوظة'
+                                                : 'تمت إزالة المشروع من العناصر المحفوظة',
+                                            style: const TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w700,
+                                              fontFamily: 'Cairo',
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      backgroundColor: gold,
+                                      behavior: SnackBarBehavior.floating,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                    ),
+                                  );
+                              },
+                              icon: Icon(
+                                isSaved
+                                    ? Icons.bookmark_rounded
+                                    : Icons.bookmark_border_rounded,
+                                color: gold,
+                              ),
+                            );
                           },
-                          icon: const Icon(
-                            Icons.bookmark_border_rounded,
-                            color: gold,
-                          ),
                         ),
                       ],
                     ),

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:video_player/video_player.dart';
 
 import 'package:x_ten/core/localization/locale_controller.dart';
 
@@ -15,48 +14,41 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
-  late VideoPlayerController _controller;
-  bool _isVideoInitialized = false;
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
   bool _hasNavigated = false;
+  Timer? _timer;
+  late AnimationController _animationController;
+  late Animation<double> _fadeAnimation;
+  late Animation<double> _scaleAnimation;
+
+  static const Color background = Color(0xFF090909);
+  static const Color gold = Color(0xFFE5C158);
 
   @override
   void initState() {
     super.initState();
-    _initializeVideo();
-  }
 
-  Future<void> _initializeVideo() async {
-    _controller = VideoPlayerController.asset(
-      'assets/videos/splash.mp4',
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
     );
 
-    try {
-      await _controller.initialize();
-      if (!mounted) return;
+    _fadeAnimation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeIn,
+    );
 
-      setState(() {
-        _isVideoInitialized = true;
-      });
+    _scaleAnimation = Tween<double>(begin: 0.88, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeOutBack,
+      ),
+    );
 
-      _controller.play();
+    _animationController.forward();
 
-      _controller.addListener(_videoListener);
-    } catch (e) {
-      _scheduleFallbackNavigation();
-    }
-  }
-
-  void _videoListener() {
-    if (_hasNavigated || !_controller.value.isInitialized) return;
-
-    if (_controller.value.position >= _controller.value.duration) {
-      _navigateNext();
-    }
-  }
-
-  void _scheduleFallbackNavigation() {
-    Future.delayed(const Duration(seconds: 3), () {
+    _timer = Timer(const Duration(seconds: 2, milliseconds: 500), () {
       _navigateNext();
     });
   }
@@ -66,37 +58,51 @@ class _SplashScreenState extends State<SplashScreen> {
     _hasNavigated = true;
 
     if (localeController.hasSelectedLanguage) {
+      context.go('/login');
+    } else {
       context.go('/choose-language');
     }
   }
 
   @override
   void dispose() {
-    if (_isVideoInitialized) {
-      _controller.removeListener(_videoListener);
-    }
-    _controller.dispose();
+    _timer?.cancel();
+    _animationController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      body: _isVideoInitialized
-          ? SizedBox.expand(
-              child: FittedBox(
-                fit: BoxFit.cover,
-                child: SizedBox(
-                  width: _controller.value.size.width,
-                  height: _controller.value.size.height,
-                  child: VideoPlayer(_controller),
+      backgroundColor: background,
+      body: Center(
+        child: FadeTransition(
+          opacity: _fadeAnimation,
+          child: ScaleTransition(
+            scale: _scaleAnimation,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/images/logo.png',
+                  width: 220,
+                  fit: BoxFit.contain,
                 ),
-              ),
-            )
-          : const Center(
-              child: CircularProgressIndicator(),
+                const SizedBox(height: 48),
+                SizedBox(
+                  width: 22,
+                  height: 22,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2.2,
+                    color: gold.withValues(alpha: 0.8),
+                  ),
+                ),
+              ],
             ),
+          ),
+        ),
+      ),
     );
   }
 }
+

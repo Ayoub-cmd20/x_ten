@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../data/saved_items_demo_data.dart';
+import '../../data/saved_items_service.dart';
 import '../../domain/models/saved_item.dart';
 
 class SavedItemsScreen extends StatefulWidget {
@@ -17,18 +18,12 @@ class _SavedItemsScreenState extends State<SavedItemsScreen> {
 
   SavedItemType? _selectedType;
 
-  final List<SavedItem> _items = [
-    ...demoSavedItems,
-  ];
-
-  List<SavedItem> get _filteredItems {
+  List<SavedItem> _getFilteredItems(List<SavedItem> items) {
     if (_selectedType == null) {
-      return _items;
+      return items;
     }
 
-    return _items
-        .where((item) => item.type == _selectedType)
-        .toList();
+    return items.where((item) => item.type == _selectedType).toList();
   }
 
   @override
@@ -37,7 +32,6 @@ class _SavedItemsScreenState extends State<SavedItemsScreen> {
       textDirection: TextDirection.rtl,
       child: Scaffold(
         backgroundColor: _background,
-
         appBar: AppBar(
           backgroundColor: _background,
           elevation: 0,
@@ -53,163 +47,148 @@ class _SavedItemsScreenState extends State<SavedItemsScreen> {
             ),
           ),
         ),
+        body: ValueListenableBuilder<List<SavedItem>>(
+          valueListenable: SavedItemsService.instance,
+          builder: (context, items, _) {
+            final filteredItems = _getFilteredItems(items);
 
-        body: Column(
-          children: [
-            const SizedBox(height: 8),
+            return Column(
+              children: [
+                const SizedBox(height: 8),
 
-            // ===============================
-            // FILTERS
-            // ===============================
-            SizedBox(
-              height: 44,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                ),
-                children: [
-                  _filterChip(
-                    label: 'الكل',
-                    icon: Icons.grid_view_rounded,
-                    selected: _selectedType == null,
-                    onTap: () {
-                      setState(() {
-                        _selectedType = null;
-                      });
-                    },
-                  ),
-
-                  _filterChip(
-                    label: 'المؤثرون',
-                    icon: Icons.people_alt_outlined,
-                    selected:
-                    _selectedType ==
-                        SavedItemType.influencer,
-                    onTap: () {
-                      setState(() {
-                        _selectedType =
-                            SavedItemType.influencer;
-                      });
-                    },
-                  ),
-
-                  _filterChip(
-                    label: 'الحملات',
-                    icon: Icons.campaign_outlined,
-                    selected:
-                    _selectedType ==
-                        SavedItemType.campaign,
-                    onTap: () {
-                      setState(() {
-                        _selectedType =
-                            SavedItemType.campaign;
-                      });
-                    },
-                  ),
-
-                  _filterChip(
-                    label: 'المشاريع',
-                    icon: Icons.folder_open_outlined,
-                    selected:
-                    _selectedType ==
-                        SavedItemType.project,
-                    onTap: () {
-                      setState(() {
-                        _selectedType =
-                            SavedItemType.project;
-                      });
-                    },
-                  ),
-
-                  _filterChip(
-                    label: 'المقالات',
-                    icon: Icons.article_outlined,
-                    selected:
-                    _selectedType ==
-                        SavedItemType.article,
-                    onTap: () {
-                      setState(() {
-                        _selectedType =
-                            SavedItemType.article;
-                      });
-                    },
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 14),
-
-            // ===============================
-            // COUNT
-            // ===============================
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-              ),
-              child: Row(
-                children: [
-                  const Expanded(
-                    child: Text(
-                      'المحفوظات',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w700,
+                // ===============================
+                // FILTERS
+                // ===============================
+                SizedBox(
+                  height: 44,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                    ),
+                    children: [
+                      _filterChip(
+                        label: 'الكل',
+                        icon: Icons.grid_view_rounded,
+                        selected: _selectedType == null,
+                        onTap: () {
+                          setState(() {
+                            _selectedType = null;
+                          });
+                        },
                       ),
-                    ),
+                      _filterChip(
+                        label: 'المؤثرون',
+                        icon: Icons.people_alt_outlined,
+                        selected: _selectedType == SavedItemType.influencer,
+                        onTap: () {
+                          setState(() {
+                            _selectedType = SavedItemType.influencer;
+                          });
+                        },
+                      ),
+                      _filterChip(
+                        label: 'الحملات',
+                        icon: Icons.campaign_outlined,
+                        selected: _selectedType == SavedItemType.campaign,
+                        onTap: () {
+                          setState(() {
+                            _selectedType = SavedItemType.campaign;
+                          });
+                        },
+                      ),
+                      _filterChip(
+                        label: 'المشاريع',
+                        icon: Icons.folder_open_outlined,
+                        selected: _selectedType == SavedItemType.project,
+                        onTap: () {
+                          setState(() {
+                            _selectedType = SavedItemType.project;
+                          });
+                        },
+                      ),
+                      _filterChip(
+                        label: 'المقالات',
+                        icon: Icons.article_outlined,
+                        selected: _selectedType == SavedItemType.article,
+                        onTap: () {
+                          setState(() {
+                            _selectedType = SavedItemType.article;
+                          });
+                        },
+                      ),
+                    ],
                   ),
-
-                  Text(
-                    '${_filteredItems.length} عنصر',
-                    style: TextStyle(
-                      color:
-                      Colors.white.withValues(alpha: 0.40),
-                      fontSize: 12,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 12),
-
-            // ===============================
-            // LIST
-            // ===============================
-            Expanded(
-              child: _filteredItems.isEmpty
-                  ? const _EmptySavedItems()
-                  : ListView.separated(
-                physics: const BouncingScrollPhysics(),
-                padding: const EdgeInsets.fromLTRB(
-                  16,
-                  0,
-                  16,
-                  28,
                 ),
-                itemCount: _filteredItems.length,
-                separatorBuilder:
-                    (_, _) =>
-                const SizedBox(height: 12),
-                itemBuilder: (context, index) {
-                  final item =
-                  _filteredItems[index];
 
-                  return _SavedItemCard(
-                    item: item,
-                    onTap: () {
-                      _openItem(item);
-                    },
-                    onRemove: () {
-                      _removeItem(item);
-                    },
-                  );
-                },
-              ),
-            ),
-          ],
+                const SizedBox(height: 14),
+
+                // ===============================
+                // COUNT
+                // ===============================
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                  ),
+                  child: Row(
+                    children: [
+                      const Expanded(
+                        child: Text(
+                          'المحفوظات',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        '${filteredItems.length} عنصر',
+                        style: TextStyle(
+                          color: Colors.white.withValues(alpha: 0.40),
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 12),
+
+                // ===============================
+                // LIST
+                // ===============================
+                Expanded(
+                  child: filteredItems.isEmpty
+                      ? const _EmptySavedItems()
+                      : ListView.separated(
+                          physics: const BouncingScrollPhysics(),
+                          padding: const EdgeInsets.fromLTRB(
+                            16,
+                            0,
+                            16,
+                            28,
+                          ),
+                          itemCount: filteredItems.length,
+                          separatorBuilder: (_, _) => const SizedBox(height: 12),
+                          itemBuilder: (context, index) {
+                            final item = filteredItems[index];
+
+                            return _SavedItemCard(
+                              item: item,
+                              onTap: () {
+                                _openItem(item);
+                              },
+                              onRemove: () {
+                                _removeItem(item);
+                              },
+                            );
+                          },
+                        ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -230,9 +209,7 @@ class _SavedItemsScreenState extends State<SavedItemsScreen> {
         avatar: Icon(
           icon,
           size: 17,
-          color: selected
-              ? Colors.black
-              : Colors.white54,
+          color: selected ? Colors.black : Colors.white54,
         ),
         label: Text(label),
         onSelected: (_) => onTap(),
@@ -244,9 +221,7 @@ class _SavedItemsScreenState extends State<SavedItemsScreen> {
               : Colors.white.withValues(alpha: 0.08),
         ),
         labelStyle: TextStyle(
-          color: selected
-              ? Colors.black
-              : Colors.white70,
+          color: selected ? Colors.black : Colors.white70,
           fontWeight: FontWeight.w600,
         ),
       ),
@@ -254,11 +229,7 @@ class _SavedItemsScreenState extends State<SavedItemsScreen> {
   }
 
   void _removeItem(SavedItem item) {
-    setState(() {
-      _items.removeWhere(
-            (element) => element.id == item.id,
-      );
-    });
+    SavedItemsService.instance.removeItem(item);
 
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
@@ -274,13 +245,14 @@ class _SavedItemsScreenState extends State<SavedItemsScreen> {
             label: 'تراجع',
             textColor: _gold,
             onPressed: () {
-              setState(() {
-                _items.add(item);
-                _items.sort(
-                      (a, b) =>
-                      b.savedAt.compareTo(a.savedAt),
-                );
-              });
+              SavedItemsService.instance.toggleSaveInfluencer(
+                id: item.id,
+                name: item.title,
+                category: item.subtitle,
+                rating: 5.0,
+                totalFollowers: 0,
+                imageUrl: item.imageUrl,
+              );
             },
           ),
         ),
@@ -290,41 +262,24 @@ class _SavedItemsScreenState extends State<SavedItemsScreen> {
   void _openItem(SavedItem item) {
     switch (item.type) {
       case SavedItemType.influencer:
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(
-              'افتح هنا صفحة تفاصيل المؤثر',
-            ),
-          ),
+        context.push(
+          '/advertiser/influencer-details',
+          extra: item.id.startsWith('INF') ? item.id : 'INF-001',
         );
         break;
 
       case SavedItemType.campaign:
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(
-              'افتح هنا صفحة تفاصيل الحملة',
-            ),
-          ),
-        );
+        context.push('/advertiser/campaigns');
         break;
 
       case SavedItemType.project:
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(
-              'افتح هنا صفحة تفاصيل المشروع',
-            ),
-          ),
-        );
+        context.push('/advertiser/promotion/requests');
         break;
 
       case SavedItemType.article:
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text(
-              'افتح هنا المقال',
-            ),
+            content: Text('عرض التفاصيل'),
           ),
         );
         break;
@@ -347,23 +302,19 @@ class _SavedItemCard extends StatelessWidget {
     required this.onRemove,
   });
 
-  static const Color gold =
-  Color(0xFFE5C158);
+  static const Color gold = Color(0xFFE5C158);
 
   @override
   Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
       borderRadius: BorderRadius.circular(18),
-
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(18),
         splashColor: gold.withValues(alpha: 0.10),
-
         child: Ink(
           padding: const EdgeInsets.all(14),
-
           decoration: BoxDecoration(
             gradient: const LinearGradient(
               begin: Alignment.topRight,
@@ -373,24 +324,18 @@ class _SavedItemCard extends StatelessWidget {
                 Color(0xFF121212),
               ],
             ),
-
             borderRadius: BorderRadius.circular(18),
-
             border: Border.all(
               color: gold.withValues(alpha: 0.14),
             ),
           ),
-
           child: Row(
             children: [
               _buildLeading(),
-
               const SizedBox(width: 13),
-
               Expanded(
                 child: Column(
-                  crossAxisAlignment:
-                  CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       children: [
@@ -398,25 +343,19 @@ class _SavedItemCard extends StatelessWidget {
                           child: Text(
                             item.title,
                             maxLines: 1,
-                            overflow:
-                            TextOverflow.ellipsis,
+                            overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 15,
-                              fontWeight:
-                              FontWeight.w800,
+                              fontWeight: FontWeight.w800,
                             ),
                           ),
                         ),
-
                         const SizedBox(width: 8),
-
                         _typeBadge(),
                       ],
                     ),
-
                     const SizedBox(height: 6),
-
                     Text(
                       item.subtitle,
                       maxLines: 2,
@@ -427,9 +366,7 @@ class _SavedItemCard extends StatelessWidget {
                         height: 1.45,
                       ),
                     ),
-
                     const SizedBox(height: 9),
-
                     Row(
                       children: [
                         const Icon(
@@ -437,9 +374,7 @@ class _SavedItemCard extends StatelessWidget {
                           size: 14,
                           color: Colors.white30,
                         ),
-
                         const SizedBox(width: 4),
-
                         Text(
                           _formatDate(item.savedAt),
                           style: const TextStyle(
@@ -452,9 +387,7 @@ class _SavedItemCard extends StatelessWidget {
                   ],
                 ),
               ),
-
               const SizedBox(width: 8),
-
               IconButton(
                 tooltip: 'إزالة من المحفوظات',
                 onPressed: onRemove,
@@ -479,8 +412,7 @@ class _SavedItemCard extends StatelessWidget {
           width: 62,
           height: 62,
           fit: BoxFit.cover,
-          errorBuilder: (_, _, _) =>
-              _fallbackIcon(),
+          errorBuilder: (_, _, _) => _fallbackIcon(),
         ),
       );
     }
@@ -574,12 +506,9 @@ class _EmptySavedItems extends StatelessWidget {
             Icon(
               Icons.bookmark_border_rounded,
               size: 64,
-              color:
-              Colors.white.withValues(alpha: 0.18),
+              color: Colors.white.withValues(alpha: 0.18),
             ),
-
             const SizedBox(height: 15),
-
             const Text(
               'لا توجد عناصر محفوظة',
               style: TextStyle(
@@ -588,9 +517,7 @@ class _EmptySavedItems extends StatelessWidget {
                 fontWeight: FontWeight.w700,
               ),
             ),
-
             const SizedBox(height: 7),
-
             const Text(
               'يمكنك حفظ المؤثرين والحملات والمشاريع للرجوع إليها لاحقاً.',
               textAlign: TextAlign.center,

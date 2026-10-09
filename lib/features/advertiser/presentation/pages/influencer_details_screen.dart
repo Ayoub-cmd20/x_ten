@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../data/advertiser_demo_data.dart';
 import '../../domain/models/advertiser_models.dart';
+import '../../../saved_items/data/saved_items_service.dart';
+import '../../../saved_items/domain/models/saved_item.dart';
 
 /// Full influencer profile as seen by an advertiser,
 /// with a direct call-to-action to start a campaign.
@@ -44,13 +46,60 @@ class InfluencerDetailsScreen extends StatelessWidget {
             ),
           ),
           actions: [
-            IconButton(
-              icon: const Icon(
-                Icons.bookmark_outline_rounded,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                // TODO: save influencer to saved items
+            ValueListenableBuilder<List<SavedItem>>(
+              valueListenable: SavedItemsService.instance,
+              builder: (context, savedItems, _) {
+                final isSaved = SavedItemsService.instance.isInfluencerSaved(influencer.id) ||
+                    SavedItemsService.instance.isInfluencerSaved(influencer.name);
+
+                return IconButton(
+                  tooltip: isSaved ? 'إزالة من المحفوظات' : 'حفظ في المحفوظات',
+                  icon: Icon(
+                    isSaved ? Icons.bookmark_rounded : Icons.bookmark_outline_rounded,
+                    color: isSaved ? _gold : Colors.white,
+                  ),
+                  onPressed: () {
+                    final newlySaved = SavedItemsService.instance.toggleSaveInfluencer(
+                      id: influencer.id,
+                      name: influencer.name,
+                      category: influencer.category,
+                      rating: influencer.rating,
+                      totalFollowers: influencer.totalFollowers,
+                      imageUrl: influencer.imageUrl.isNotEmpty ? influencer.imageUrl : null,
+                    );
+
+                    ScaffoldMessenger.of(context)
+                      ..hideCurrentSnackBar()
+                      ..showSnackBar(
+                        SnackBar(
+                          content: Row(
+                            children: [
+                              Icon(
+                                newlySaved ? Icons.bookmark_rounded : Icons.bookmark_border_rounded,
+                                color: Colors.black,
+                              ),
+                              const SizedBox(width: 10),
+                              Text(
+                                newlySaved
+                                    ? 'تم حفظ المؤثر في العناصر المحفوظة'
+                                    : 'تمت إزالة المؤثر من العناصر المحفوظة',
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: 'Cairo',
+                                ),
+                              ),
+                            ],
+                          ),
+                          backgroundColor: _gold,
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                      );
+                  },
+                );
               },
             ),
           ],
@@ -454,7 +503,7 @@ class InfluencerDetailsScreen extends StatelessWidget {
   // HELPERS
   // ============================================================
 
-  IconData _platformIcon(String platform) {
+  FaIconData _platformIcon(String platform) {
     switch (platform) {
       case 'instagram':
         return FontAwesomeIcons.instagram;
@@ -465,7 +514,7 @@ class InfluencerDetailsScreen extends StatelessWidget {
       case 'facebook':
         return FontAwesomeIcons.facebookF;
       default:
-        return Icons.public_rounded;
+        return FontAwesomeIcons.globe;
     }
   }
 

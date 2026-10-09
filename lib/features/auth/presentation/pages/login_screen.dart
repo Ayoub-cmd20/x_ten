@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:x_ten/features/auth/presentation/pages/signup_screen.dart';
 import 'package:x_ten/features/auth/presentation/pages/forgot_password_screen.dart';
 
@@ -116,9 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     try {
-      final email = _emailController.text.trim();
-
-      // ========================================================
+           // ========================================================
       // TODO:
       // Replace this section with Firebase / API / Repository.
       //
@@ -130,52 +129,11 @@ class _LoginScreenState extends State<LoginScreen> {
       // );
       // ========================================================
 
-      await Future.delayed(const Duration(seconds: 2));
+      await Future.delayed(const Duration(milliseconds: 600));
 
       if (!mounted) return;
 
-      // Temporary demonstration
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(
-          SnackBar(
-            backgroundColor: const Color(0xFF1B1B1B),
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(14),
-              side: BorderSide(
-                color: _gold.withValues(alpha: 0.30),
-              ),
-            ),
-            content: Row(
-              children: [
-                const Icon(
-                  Icons.check_circle_outline_rounded,
-                  color: _gold,
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    'تم التحقق من البيانات: $email',
-                    textDirection: TextDirection.rtl,
-                    style: const TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-
-      // After real authentication:
-      //
-      // Navigator.pushReplacement(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (_) => const HomeScreen(),
-      //   ),
-      // );
+      context.go('/advertiser/home');
     } catch (e) {
       if (!mounted) return;
 
@@ -244,36 +202,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         // ========================================
 
                         Center(
-                          child: Container(
-                            width: 72,
-                            height: 72,
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.topRight,
-                                end: Alignment.bottomLeft,
-                                colors: [
-                                  _gold,
-                                  _gold.withValues(alpha: 0.70),
-                                ],
-                              ),
-                              borderRadius: BorderRadius.circular(22),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: _gold.withValues(alpha: 0.18),
-                                  blurRadius: 30,
-                                  spreadRadius: 2,
-                                ),
-                              ],
-                            ),
-                            alignment: Alignment.center,
-                            child: const Text(
-                              'X',
-                              style: TextStyle(
-                                color: _background,
-                                fontSize: 34,
-                                fontWeight: FontWeight.w900,
-                              ),
-                            ),
+                          child: Image.asset(
+                            'assets/images/logo.png',
+                            height: 80,
+                            fit: BoxFit.contain,
                           ),
                         ),
 

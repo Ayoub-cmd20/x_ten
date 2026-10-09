@@ -347,7 +347,7 @@ class _InfluencerClassificationScreenState extends State<InfluencerClassificatio
 
   // Platform Chip Builder
   // Platform Chip Builder (UPDATED)
-  Widget _buildPlatformChip(String title, dynamic icon) { // Changed IconData to dynamic
+  Widget _buildPlatformChip(String title, FaIconData icon) {
     final isSelected = _selectedPlatform == title;
     return GestureDetector(
       onTap: () {

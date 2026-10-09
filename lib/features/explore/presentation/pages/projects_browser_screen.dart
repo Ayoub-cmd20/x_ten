@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:x_ten/features/saved_items/data/saved_items_service.dart';
+import 'package:x_ten/features/saved_items/domain/models/saved_item.dart';
 import 'project_details_screen.dart';
 
 class ProjectsBrowserScreen extends StatelessWidget {
@@ -131,6 +133,71 @@ class ProjectsBrowserScreen extends StatelessWidget {
                                 ),
                               ],
                             ),
+                          ),
+
+                          ValueListenableBuilder<List<SavedItem>>(
+                            valueListenable: SavedItemsService.instance,
+                            builder: (context, savedItems, _) {
+                              final isSaved = SavedItemsService.instance
+                                  .isProjectSaved(project['title']!);
+
+                              return InkWell(
+                                onTap: () {
+                                  final newlySaved =
+                                      SavedItemsService.instance.toggleSaveProject(
+                                    id: project['title']!,
+                                    title: project['title']!,
+                                    company: project['company']!,
+                                    category: project['category']!,
+                                    budget: project['budget']!,
+                                  );
+
+                                  ScaffoldMessenger.of(context)
+                                    ..hideCurrentSnackBar()
+                                    ..showSnackBar(
+                                      SnackBar(
+                                        content: Row(
+                                          children: [
+                                            Icon(
+                                              newlySaved
+                                                  ? Icons.bookmark_rounded
+                                                  : Icons.bookmark_border_rounded,
+                                              color: Colors.black,
+                                            ),
+                                            const SizedBox(width: 10),
+                                            Text(
+                                              newlySaved
+                                                  ? 'تم حفظ المشروع في العناصر المحفوظة'
+                                                  : 'تمت إزالة المشروع من العناصر المحفوظة',
+                                              style: const TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w700,
+                                                fontFamily: 'Cairo',
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        backgroundColor: gold,
+                                        behavior: SnackBarBehavior.floating,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(12),
+                                        ),
+                                      ),
+                                    );
+                                },
+                                borderRadius: BorderRadius.circular(20),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(6),
+                                  child: Icon(
+                                    isSaved
+                                        ? Icons.bookmark_rounded
+                                        : Icons.bookmark_border_rounded,
+                                    color: gold,
+                                    size: 22,
+                                  ),
+                                ),
+                              );
+                            },
                           ),
                         ],
                       ),

@@ -1,6 +1,10 @@
 import 'package:go_router/go_router.dart';
 import 'package:x_ten/features/onboarding/presentation/pages/onboarding_screen.dart';
 import 'package:x_ten/features/settings_security/presentation/pages/language_screen.dart';
+import 'package:x_ten/features/saved_items/presentation/pages/saved_items_screen.dart';
+import 'package:x_ten/features/contracts_agreements/presentation/pages/contracts_screen.dart';
+import 'package:x_ten/features/settings_security/presentation/pages/financial_security_screen.dart';
+import 'package:x_ten/features/settings_security/presentation/pages/settings_screen.dart';
 // ============================================================
 // AUTH
 // ============================================================
@@ -71,6 +75,7 @@ import 'package:x_ten/features/advertiser/presentation/widgets/advertiser_shell.
 import 'package:x_ten/features/advertiser/presentation/pages/advertiser_dashboard_screen.dart';
 import 'package:x_ten/features/advertiser/presentation/pages/advertiser_explore_screen.dart';
 import 'package:x_ten/features/advertiser/presentation/pages/advertiser_profile_screen.dart';
+import 'package:x_ten/features/advertiser/presentation/pages/edit_brand_profile_screen.dart';
 import 'package:x_ten/features/advertiser/presentation/pages/influencer_categories_screen.dart';
 import 'package:x_ten/features/advertiser/presentation/pages/influencer_details_screen.dart';
 import 'package:x_ten/features/advertiser/presentation/pages/campaign_creation_screen.dart';
@@ -111,6 +116,26 @@ final GoRouter appRouter = GoRouter(
           ) {
         return const LanguageScreen();
       },
+    ),
+    GoRoute(
+      path: '/settings/financial-security',
+      name: 'financialSecurity',
+      builder: (context, state) => const FinancialSecurityScreen(),
+    ),
+    GoRoute(
+      path: '/settings',
+      name: 'settings',
+      builder: (context, state) => const SettingsScreen(),
+    ),
+    GoRoute(
+      path: '/saved-items',
+      name: 'savedItems',
+      builder: (context, state) => const SavedItemsScreen(),
+    ),
+    GoRoute(
+      path: '/contracts',
+      name: 'contracts',
+      builder: (context, state) => const ContractsScreen(),
     ),
     GoRoute(
       path: '/choose-language',
@@ -608,6 +633,26 @@ final GoRouter appRouter = GoRouter(
     // =========================================================
     // ADVERTISER SECONDARY SCREENS
     // =========================================================
+
+    GoRoute(
+      path: '/advertiser/profile/edit',
+      name: 'advertiserProfileEdit',
+      builder: (
+        context,
+        state,
+      ) {
+        final extra = state.extra as Map<String, dynamic>?;
+        return EditBrandProfileScreen(
+          initialBrandName: extra?['brandName'] as String? ?? 'اسم العلامة التجارية',
+          initialEmail: extra?['email'] as String? ?? 'brand@example.com',
+          initialCategory: extra?['category'] as String? ?? 'التجارة الإلكترونية',
+          initialPhone: extra?['phone'] as String? ?? '+966 50 123 4567',
+          initialBio: extra?['bio'] as String? ?? 'علامة تجارية متخصصة في تقديم أحدث المنتجات والتجارب المبتكرة.',
+          initialWebsite: extra?['website'] as String? ?? 'https://brand.example.com',
+          initialLocation: extra?['location'] as String? ?? 'الرياض، المملكة العربية السعودية',
+        );
+      },
+    ),
 
     GoRoute(
       path: '/advertiser/influencers',
