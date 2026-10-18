@@ -487,4 +487,470 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get accountSuspended =>
       'Your account has been suspended. Please contact support.';
+
+  @override
+  String get registrationTitle => 'Creator profile';
+
+  @override
+  String get stepBasicInfo => 'Basic information';
+
+  @override
+  String get stepAudience => 'Categories & audience';
+
+  @override
+  String get stepAccounts => 'Accounts & portfolio';
+
+  @override
+  String get stepPhoto => 'Profile photo';
+
+  @override
+  String get stepFinancial => 'Payout & documents';
+
+  @override
+  String get stepReview => 'Review & submit';
+
+  @override
+  String stepCounter(int current, int total) {
+    return 'Step $current of $total';
+  }
+
+  @override
+  String get back => 'Back';
+
+  @override
+  String get saveAndContinue => 'Save and continue';
+
+  @override
+  String get add => 'Add';
+
+  @override
+  String get optional => 'Optional';
+
+  @override
+  String get fix => 'Fix';
+
+  @override
+  String get upload => 'Upload';
+
+  @override
+  String get fieldRequired => 'This field is required';
+
+  @override
+  String get urlInvalid => 'Enter a valid link starting with https://';
+
+  @override
+  String get listSeparator => ', ';
+
+  @override
+  String get firstName => 'First name';
+
+  @override
+  String get lastName => 'Last name';
+
+  @override
+  String get displayName => 'Display name';
+
+  @override
+  String get displayNameHint => 'The name brands will see';
+
+  @override
+  String get birthPlace => 'Place of birth';
+
+  @override
+  String get bio => 'About you';
+
+  @override
+  String get bioHint => 'Introduce yourself and the content you create';
+
+  @override
+  String get skills => 'Skills';
+
+  @override
+  String get skillsHint => 'e.g. filming, editing, presenting';
+
+  @override
+  String get whatsapp => 'WhatsApp number';
+
+  @override
+  String get primaryCategories => 'Main categories';
+
+  @override
+  String get secondaryCategories => 'Secondary categories';
+
+  @override
+  String chooseUpTo(int count) {
+    return 'Up to $count';
+  }
+
+  @override
+  String optionalChooseUpTo(int count) {
+    return 'Optional, up to $count';
+  }
+
+  @override
+  String get selectAtLeastOne => 'Select at least one';
+
+  @override
+  String get audienceAge => 'Audience age';
+
+  @override
+  String get audienceGender => 'Audience gender';
+
+  @override
+  String get audienceLocations => 'Audience locations';
+
+  @override
+  String get audienceInterests => 'Audience interests';
+
+  @override
+  String get addLocation => 'Add a wilaya';
+
+  @override
+  String percentTotal(String total) {
+    return 'Total $total';
+  }
+
+  @override
+  String get audienceMustTotal => 'Age percentages must add up to 100%';
+
+  @override
+  String get socialAccountsHint => 'At least one account';
+
+  @override
+  String get socialAccountsEmpty => 'Add at least one social account';
+
+  @override
+  String followersCount(String count) {
+    return '$count followers';
+  }
+
+  @override
+  String get addSocialAccount => 'Add a social account';
+
+  @override
+  String get platformLabel => 'Platform';
+
+  @override
+  String get accountUrl => 'Account link';
+
+  @override
+  String get username => 'Username';
+
+  @override
+  String get accountName => 'Account name';
+
+  @override
+  String get descriptionOptional => 'Description (optional)';
+
+  @override
+  String get portfolioTitle => 'Portfolio';
+
+  @override
+  String get portfolioEmpty => 'Add your past work to stand out to brands';
+
+  @override
+  String get addPortfolioItem => 'Add a project';
+
+  @override
+  String get portfolioItemTitle => 'Title';
+
+  @override
+  String get portfolioItemLink => 'Link';
+
+  @override
+  String get portfolioItemDescription => 'Description';
+
+  @override
+  String get photoTitle => 'Your profile photo';
+
+  @override
+  String get photoSubtitle =>
+      'A clear photo of your face builds trust with brands. This step is optional.';
+
+  @override
+  String get choosePhoto => 'Choose a photo';
+
+  @override
+  String get changePhoto => 'Change photo';
+
+  @override
+  String get removePhoto => 'Remove photo';
+
+  @override
+  String get fromGallery => 'From gallery';
+
+  @override
+  String get fromCamera => 'From camera';
+
+  @override
+  String get payoutMethod => 'Payout method';
+
+  @override
+  String get accountTypeCcp => 'CCP';
+
+  @override
+  String get accountTypeBank => 'Bank';
+
+  @override
+  String get accountTypeBoth => 'Both';
+
+  @override
+  String get ccpKey => 'Key';
+
+  @override
+  String get ccpKeyInvalid => 'Exactly 2 digits';
+
+  @override
+  String get bankName => 'Bank name';
+
+  @override
+  String get bankAccount => 'Bank account number';
+
+  @override
+  String get ribInvalid => 'Exactly 20 digits';
+
+  @override
+  String get documentsTitle => 'Documents';
+
+  @override
+  String get documentsSubtitle => 'JPG, PNG or PDF, up to 5MB';
+
+  @override
+  String get documentUploaded => 'Uploaded';
+
+  @override
+  String get documentVerified => 'Verified';
+
+  @override
+  String missingDocumentsWarning(String documents) {
+    return 'Missing documents: $documents';
+  }
+
+  @override
+  String get fileBadExtension => 'This file type isn’t supported';
+
+  @override
+  String get fileTooLarge => 'The file is larger than 5MB';
+
+  @override
+  String get docIdentityFront => 'ID card (front)';
+
+  @override
+  String get docIdentityBack => 'ID card (back)';
+
+  @override
+  String get docCcpCheque => 'Cancelled CCP cheque';
+
+  @override
+  String get docBankRib => 'Bank RIB';
+
+  @override
+  String get docOther => 'Other document';
+
+  @override
+  String get notificationsTitle => 'How should we contact you?';
+
+  @override
+  String get notifyInApp => 'In the app';
+
+  @override
+  String get notifyWhatsapp => 'WhatsApp';
+
+  @override
+  String get notifySms => 'SMS';
+
+  @override
+  String get notifyPhone => 'Phone call';
+
+  @override
+  String get consentsTitle => 'Consents';
+
+  @override
+  String get consentConfirm =>
+      'I confirm the information I provided is accurate';
+
+  @override
+  String get consentTerms => 'I accept the terms and conditions';
+
+  @override
+  String get consentPrivacy => 'I accept the privacy policy';
+
+  @override
+  String get consentVerification =>
+      'I agree to the identity verification process';
+
+  @override
+  String get consentContact => 'I agree to be contacted by the platform';
+
+  @override
+  String get acceptAll => 'Accept all';
+
+  @override
+  String get acceptAllConsents => 'Please accept all consents';
+
+  @override
+  String get submitForReview => 'Submit for review';
+
+  @override
+  String get submitMissingTitle => 'Complete these items before submitting';
+
+  @override
+  String get missingNames => 'First name, last name and display name';
+
+  @override
+  String get missingContact => 'Email or phone number';
+
+  @override
+  String get statusSubmittedTitle => 'Your profile has been submitted';
+
+  @override
+  String get statusSubmittedBody =>
+      'Our team will review your profile soon and keep you posted.';
+
+  @override
+  String get statusUnderReviewTitle => 'Your profile is under review';
+
+  @override
+  String get statusMeetingRequiredTitle => 'We need a short verification call';
+
+  @override
+  String get statusMeetingRequiredBody =>
+      'We’ll schedule the call with you soon.';
+
+  @override
+  String get statusMeetingScheduledTitle => 'Your verification call';
+
+  @override
+  String get statusMeetingScheduledBody =>
+      'Please be available at the time below.';
+
+  @override
+  String get statusNeedsChangesTitle => 'Your profile needs changes';
+
+  @override
+  String get statusNeedsChangesBody =>
+      'Send a new attempt with the changes. You’ll need to add your accounts and documents again.';
+
+  @override
+  String get statusRejectedTitle => 'Your profile was rejected';
+
+  @override
+  String get statusRejectedBody =>
+      'You can send a new attempt with updated information.';
+
+  @override
+  String attemptNumber(int number) {
+    return 'Attempt $number';
+  }
+
+  @override
+  String get startNewAttempt => 'New attempt';
+
+  @override
+  String get refreshStatus => 'Refresh status';
+
+  @override
+  String get platformWebsite => 'Website';
+
+  @override
+  String get platformBlog => 'Blog';
+
+  @override
+  String get platformOther => 'Other';
+
+  @override
+  String get facebookProfile => 'Profile';
+
+  @override
+  String get facebookPage => 'Page';
+
+  @override
+  String get catTechnology => 'Technology';
+
+  @override
+  String get catGaming => 'Gaming';
+
+  @override
+  String get catSports => 'Sports';
+
+  @override
+  String get catFootball => 'Football';
+
+  @override
+  String get catFitness => 'Fitness';
+
+  @override
+  String get catHealth => 'Health';
+
+  @override
+  String get catBeauty => 'Beauty';
+
+  @override
+  String get catFashion => 'Fashion';
+
+  @override
+  String get catLifestyle => 'Lifestyle';
+
+  @override
+  String get catCooking => 'Cooking';
+
+  @override
+  String get catTravel => 'Travel';
+
+  @override
+  String get catCars => 'Cars';
+
+  @override
+  String get catEducation => 'Education';
+
+  @override
+  String get catBusiness => 'Business';
+
+  @override
+  String get catFinance => 'Finance';
+
+  @override
+  String get catMarketing => 'Marketing';
+
+  @override
+  String get catEcommerce => 'E-commerce';
+
+  @override
+  String get catArt => 'Art';
+
+  @override
+  String get catMusic => 'Music';
+
+  @override
+  String get catEntertainment => 'Entertainment';
+
+  @override
+  String get catFamily => 'Family & parenting';
+
+  @override
+  String get catPhotography => 'Photography';
+
+  @override
+  String get ctPost => 'Post';
+
+  @override
+  String get ctReel => 'Reel';
+
+  @override
+  String get ctStory => 'Story';
+
+  @override
+  String get ctVideo => 'Long video';
+
+  @override
+  String get ctLive => 'Live';
+
+  @override
+  String get ctPodcast => 'Podcast';
+
+  @override
+  String get ctReview => 'Product review';
+
+  @override
+  String get ctTutorial => 'Tutorial';
 }

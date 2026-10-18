@@ -6,6 +6,7 @@ abstract final class ApiKeys {
   static const message = 'message';
   static const details = 'details';
   static const status = 'status';
+  static const missing = 'missing';
 
   static const count = 'count';
   static const next = 'next';
@@ -25,4 +26,71 @@ abstract final class ApiKeys {
   static const accountStatus = 'accountStatus';
   static const access = 'access';
   static const refresh = 'refresh';
-} 
+
+  static const attemptNumber = 'attemptNumber';
+  static const isCurrent = 'isCurrent';
+  static const firstName = 'firstName';
+  static const lastName = 'lastName';
+  static const displayName = 'displayName';
+  static const birthDate = 'birthDate';
+  static const birthPlace = 'birthPlace';
+  static const bio = 'bio';
+  static const skills = 'skills';
+  static const whatsapp = 'whatsapp';
+  static const profileImageUrl = 'profileImageUrl';
+  static const primaryCategories = 'primaryCategories';
+  static const secondaryCategories = 'secondaryCategories';
+  static const contentTypes = 'contentTypes';
+  static const audience = 'audience';
+  static const ageDistribution = 'ageDistribution';
+  static const malePercentage = 'malePercentage';
+  static const femalePercentage = 'femalePercentage';
+  static const locations = 'locations';
+  static const interests = 'interests';
+  static const financialInformation = 'financialInformation';
+  static const accountType = 'accountType';
+  static const ccpAccount = 'ccpAccount';
+  static const ccpKey = 'ccpKey';
+  static const bankName = 'bankName';
+  static const bankAccount = 'bankAccount';
+  static const rib = 'rib';
+  static const notificationPreferences = 'notificationPreferences';
+  static const inApp = 'inApp';
+  static const sms = 'sms';
+  static const phoneCall = 'phoneCall';
+  static const confirmInformation = 'confirmInformation';
+  static const acceptedTerms = 'acceptedTerms';
+  static const acceptedPrivacy = 'acceptedPrivacy';
+  static const acceptedVerification = 'acceptedVerification';
+  static const acceptedContact = 'acceptedContact';
+  static const verificationStatus = 'verificationStatus';
+  static const submittedAt = 'submittedAt';
+  static const createdAt = 'createdAt';
+  static const updatedAt = 'updatedAt';
+  static const socialAccounts = 'socialAccounts';
+  static const documents = 'documents';
+
+  static const platform = 'platform';
+  static const facebookAccountType = 'facebookAccountType';
+  static const url = 'url';
+  static const accountName = 'accountName';
+  static const username = 'username';
+  static const description = 'description';
+  static const followers = 'followers';
+  static const avatarUrl = 'avatarUrl';
+  static const verified = 'verified';
+
+  static const title = 'title';
+  static const link = 'link';
+  static const mediaUrls = 'mediaUrls';
+
+  static const type = 'type';
+  static const file = 'file';
+  static const fileName = 'fileName';
+  static const downloadUrl = 'downloadUrl';
+  static const image = 'image';
+
+  static const context = 'context';
+  static const contextId = 'contextId';
+  static const scheduledAt = 'scheduledAt';
+}

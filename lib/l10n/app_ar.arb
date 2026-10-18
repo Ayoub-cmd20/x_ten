@@ -178,5 +178,205 @@
     }
   },
   "passwordResetSuccess": "تم تغيير كلمة المرور بنجاح، سجّل الدخول الآن.",
-  "accountSuspended": "تم إيقاف حسابك، تواصل مع الدعم."
+  "accountSuspended": "تم إيقاف حسابك، تواصل مع الدعم.",
+  "registrationTitle": "ملف المؤثر",
+  "stepBasicInfo": "المعلومات الأساسية",
+  "stepAudience": "التصنيفات والجمهور",
+  "stepAccounts": "الحسابات والأعمال",
+  "stepPhoto": "الصورة الشخصية",
+  "stepFinancial": "الدفع والمستندات",
+  "stepReview": "المراجعة والإرسال",
+  "stepCounter": "الخطوة {current} من {total}",
+  "@stepCounter": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "back": "رجوع",
+  "saveAndContinue": "حفظ ومتابعة",
+  "add": "إضافة",
+  "optional": "اختياري",
+  "fix": "إكمال",
+  "upload": "رفع",
+  "fieldRequired": "هذا الحقل مطلوب",
+  "urlInvalid": "أدخل رابطًا صحيحًا يبدأ بـ https://",
+  "listSeparator": "، ",
+  "firstName": "الاسم",
+  "lastName": "اللقب",
+  "displayName": "الاسم المعروض",
+  "displayNameHint": "الاسم الذي تراه الشركات",
+  "birthPlace": "مكان الميلاد",
+  "bio": "نبذة عنك",
+  "bioHint": "عرّف بنفسك وبالمحتوى الذي تقدمه",
+  "skills": "المهارات",
+  "skillsHint": "مثال: تصوير، مونتاج، تقديم",
+  "whatsapp": "رقم واتساب",
+  "primaryCategories": "تصنيفاتك الأساسية",
+  "secondaryCategories": "تصنيفات ثانوية",
+  "chooseUpTo": "الحد الأقصى: {count}",
+  "@chooseUpTo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "optionalChooseUpTo": "اختياري، الحد الأقصى: {count}",
+  "@optionalChooseUpTo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "selectAtLeastOne": "اختر عنصرًا واحدًا على الأقل",
+  "audienceAge": "أعمار الجمهور",
+  "audienceGender": "جنس الجمهور",
+  "audienceLocations": "أماكن الجمهور",
+  "audienceInterests": "اهتمامات الجمهور",
+  "addLocation": "إضافة ولاية",
+  "percentTotal": "المجموع {total}",
+  "@percentTotal": {
+    "placeholders": {
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "audienceMustTotal": "مجموع نسب الأعمار يجب أن يكون 100%",
+  "socialAccountsHint": "حساب واحد على الأقل",
+  "socialAccountsEmpty": "أضف حسابًا اجتماعيًا واحدًا على الأقل",
+  "followersCount": "{count} متابع",
+  "@followersCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "addSocialAccount": "إضافة حساب اجتماعي",
+  "platformLabel": "المنصة",
+  "accountUrl": "رابط الحساب",
+  "username": "اسم المستخدم",
+  "accountName": "اسم الحساب",
+  "descriptionOptional": "وصف (اختياري)",
+  "portfolioTitle": "معرض الأعمال",
+  "portfolioEmpty": "أضف أعمالك السابقة لتبرز أمام الشركات",
+  "addPortfolioItem": "إضافة عمل",
+  "portfolioItemTitle": "عنوان العمل",
+  "portfolioItemLink": "رابط العمل",
+  "portfolioItemDescription": "وصف العمل",
+  "photoTitle": "صورتك الشخصية",
+  "photoSubtitle": "صورة واضحة لوجهك تزيد ثقة الشركات. هذه الخطوة اختيارية.",
+  "choosePhoto": "اختيار صورة",
+  "changePhoto": "تغيير الصورة",
+  "removePhoto": "حذف الصورة",
+  "fromGallery": "من المعرض",
+  "fromCamera": "من الكاميرا",
+  "payoutMethod": "طريقة استلام الأرباح",
+  "accountTypeCcp": "CCP",
+  "accountTypeBank": "بنك",
+  "accountTypeBoth": "الاثنين",
+  "ccpKey": "المفتاح",
+  "ccpKeyInvalid": "رقمين بالضبط",
+  "bankName": "اسم البنك",
+  "bankAccount": "رقم الحساب البنكي",
+  "ribInvalid": "20 رقمًا بالضبط",
+  "documentsTitle": "المستندات",
+  "documentsSubtitle": "JPG أو PNG أو PDF، حتى 5MB",
+  "documentUploaded": "تم الرفع",
+  "documentVerified": "تم التحقق",
+  "missingDocumentsWarning": "مستندات ناقصة: {documents}",
+  "@missingDocumentsWarning": {
+    "placeholders": {
+      "documents": {
+        "type": "String"
+      }
+    }
+  },
+  "fileBadExtension": "صيغة الملف غير مدعومة",
+  "fileTooLarge": "حجم الملف أكبر من 5MB",
+  "docIdentityFront": "بطاقة التعريف (الوجه)",
+  "docIdentityBack": "بطاقة التعريف (الظهر)",
+  "docCcpCheque": "صك CCP مشطوب",
+  "docBankRib": "كشف RIB",
+  "docOther": "مستند آخر",
+  "notificationsTitle": "كيف نتواصل معك؟",
+  "notifyInApp": "داخل التطبيق",
+  "notifyWhatsapp": "واتساب",
+  "notifySms": "رسائل SMS",
+  "notifyPhone": "مكالمة هاتفية",
+  "consentsTitle": "الموافقات",
+  "consentConfirm": "أؤكد أن المعلومات المقدمة صحيحة",
+  "consentTerms": "أوافق على الشروط والأحكام",
+  "consentPrivacy": "أوافق على سياسة الخصوصية",
+  "consentVerification": "أوافق على إجراءات التحقق من هويتي",
+  "consentContact": "أوافق على أن تتواصل معي المنصة",
+  "acceptAll": "الموافقة على الكل",
+  "acceptAllConsents": "يرجى قبول كل الموافقات",
+  "submitForReview": "إرسال للمراجعة",
+  "submitMissingTitle": "أكمل هذه العناصر قبل الإرسال",
+  "missingNames": "الاسم واللقب والاسم المعروض",
+  "missingContact": "البريد الإلكتروني أو رقم الهاتف",
+  "statusSubmittedTitle": "تم إرسال ملفك",
+  "statusSubmittedBody": "سيراجع فريقنا ملفك قريبًا، وسنعلمك بأي تحديث.",
+  "statusUnderReviewTitle": "ملفك قيد المراجعة",
+  "statusMeetingRequiredTitle": "نحتاج مكالمة تحقق قصيرة",
+  "statusMeetingRequiredBody": "سنحدد معك موعد المكالمة قريبًا.",
+  "statusMeetingScheduledTitle": "موعد مكالمة التحقق",
+  "statusMeetingScheduledBody": "كن متاحًا في الموعد التالي.",
+  "statusNeedsChangesTitle": "ملفك يحتاج تعديلات",
+  "statusNeedsChangesBody": "أرسل محاولة جديدة بعد التعديل. ستحتاج إعادة إضافة الحسابات والمستندات.",
+  "statusRejectedTitle": "تم رفض ملفك",
+  "statusRejectedBody": "يمكنك تقديم محاولة جديدة بمعلومات محدّثة.",
+  "attemptNumber": "المحاولة رقم {number}",
+  "@attemptNumber": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "startNewAttempt": "محاولة جديدة",
+  "refreshStatus": "تحديث الحالة",
+  "platformWebsite": "موقع إلكتروني",
+  "platformBlog": "مدونة",
+  "platformOther": "منصة أخرى",
+  "facebookProfile": "حساب شخصي",
+  "facebookPage": "صفحة",
+  "catTechnology": "التكنولوجيا",
+  "catGaming": "الألعاب",
+  "catSports": "الرياضة",
+  "catFootball": "كرة القدم",
+  "catFitness": "اللياقة البدنية",
+  "catHealth": "الصحة",
+  "catBeauty": "الجمال",
+  "catFashion": "الموضة",
+  "catLifestyle": "نمط الحياة",
+  "catCooking": "الطبخ",
+  "catTravel": "السفر والسياحة",
+  "catCars": "السيارات",
+  "catEducation": "التعليم",
+  "catBusiness": "الأعمال",
+  "catFinance": "المال",
+  "catMarketing": "التسويق",
+  "catEcommerce": "التجارة الإلكترونية",
+  "catArt": "الفن",
+  "catMusic": "الموسيقى",
+  "catEntertainment": "الترفيه",
+  "catFamily": "العائلة والأمومة",
+  "catPhotography": "التصوير",
+  "ctPost": "منشور",
+  "ctReel": "ريلز",
+  "ctStory": "ستوري",
+  "ctVideo": "فيديو طويل",
+  "ctLive": "بث مباشر",
+  "ctPodcast": "بودكاست",
+  "ctReview": "مراجعة منتج",
+  "ctTutorial": "شرح"
 }

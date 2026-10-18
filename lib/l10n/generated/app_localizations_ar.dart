@@ -489,4 +489,465 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get accountSuspended => 'تم إيقاف حسابك، تواصل مع الدعم.';
+
+  @override
+  String get registrationTitle => 'ملف المؤثر';
+
+  @override
+  String get stepBasicInfo => 'المعلومات الأساسية';
+
+  @override
+  String get stepAudience => 'التصنيفات والجمهور';
+
+  @override
+  String get stepAccounts => 'الحسابات والأعمال';
+
+  @override
+  String get stepPhoto => 'الصورة الشخصية';
+
+  @override
+  String get stepFinancial => 'الدفع والمستندات';
+
+  @override
+  String get stepReview => 'المراجعة والإرسال';
+
+  @override
+  String stepCounter(int current, int total) {
+    return 'الخطوة $current من $total';
+  }
+
+  @override
+  String get back => 'رجوع';
+
+  @override
+  String get saveAndContinue => 'حفظ ومتابعة';
+
+  @override
+  String get add => 'إضافة';
+
+  @override
+  String get optional => 'اختياري';
+
+  @override
+  String get fix => 'إكمال';
+
+  @override
+  String get upload => 'رفع';
+
+  @override
+  String get fieldRequired => 'هذا الحقل مطلوب';
+
+  @override
+  String get urlInvalid => 'أدخل رابطًا صحيحًا يبدأ بـ https://';
+
+  @override
+  String get listSeparator => '، ';
+
+  @override
+  String get firstName => 'الاسم';
+
+  @override
+  String get lastName => 'اللقب';
+
+  @override
+  String get displayName => 'الاسم المعروض';
+
+  @override
+  String get displayNameHint => 'الاسم الذي تراه الشركات';
+
+  @override
+  String get birthPlace => 'مكان الميلاد';
+
+  @override
+  String get bio => 'نبذة عنك';
+
+  @override
+  String get bioHint => 'عرّف بنفسك وبالمحتوى الذي تقدمه';
+
+  @override
+  String get skills => 'المهارات';
+
+  @override
+  String get skillsHint => 'مثال: تصوير، مونتاج، تقديم';
+
+  @override
+  String get whatsapp => 'رقم واتساب';
+
+  @override
+  String get primaryCategories => 'تصنيفاتك الأساسية';
+
+  @override
+  String get secondaryCategories => 'تصنيفات ثانوية';
+
+  @override
+  String chooseUpTo(int count) {
+    return 'الحد الأقصى: $count';
+  }
+
+  @override
+  String optionalChooseUpTo(int count) {
+    return 'اختياري، الحد الأقصى: $count';
+  }
+
+  @override
+  String get selectAtLeastOne => 'اختر عنصرًا واحدًا على الأقل';
+
+  @override
+  String get audienceAge => 'أعمار الجمهور';
+
+  @override
+  String get audienceGender => 'جنس الجمهور';
+
+  @override
+  String get audienceLocations => 'أماكن الجمهور';
+
+  @override
+  String get audienceInterests => 'اهتمامات الجمهور';
+
+  @override
+  String get addLocation => 'إضافة ولاية';
+
+  @override
+  String percentTotal(String total) {
+    return 'المجموع $total';
+  }
+
+  @override
+  String get audienceMustTotal => 'مجموع نسب الأعمار يجب أن يكون 100%';
+
+  @override
+  String get socialAccountsHint => 'حساب واحد على الأقل';
+
+  @override
+  String get socialAccountsEmpty => 'أضف حسابًا اجتماعيًا واحدًا على الأقل';
+
+  @override
+  String followersCount(String count) {
+    return '$count متابع';
+  }
+
+  @override
+  String get addSocialAccount => 'إضافة حساب اجتماعي';
+
+  @override
+  String get platformLabel => 'المنصة';
+
+  @override
+  String get accountUrl => 'رابط الحساب';
+
+  @override
+  String get username => 'اسم المستخدم';
+
+  @override
+  String get accountName => 'اسم الحساب';
+
+  @override
+  String get descriptionOptional => 'وصف (اختياري)';
+
+  @override
+  String get portfolioTitle => 'معرض الأعمال';
+
+  @override
+  String get portfolioEmpty => 'أضف أعمالك السابقة لتبرز أمام الشركات';
+
+  @override
+  String get addPortfolioItem => 'إضافة عمل';
+
+  @override
+  String get portfolioItemTitle => 'عنوان العمل';
+
+  @override
+  String get portfolioItemLink => 'رابط العمل';
+
+  @override
+  String get portfolioItemDescription => 'وصف العمل';
+
+  @override
+  String get photoTitle => 'صورتك الشخصية';
+
+  @override
+  String get photoSubtitle =>
+      'صورة واضحة لوجهك تزيد ثقة الشركات. هذه الخطوة اختيارية.';
+
+  @override
+  String get choosePhoto => 'اختيار صورة';
+
+  @override
+  String get changePhoto => 'تغيير الصورة';
+
+  @override
+  String get removePhoto => 'حذف الصورة';
+
+  @override
+  String get fromGallery => 'من المعرض';
+
+  @override
+  String get fromCamera => 'من الكاميرا';
+
+  @override
+  String get payoutMethod => 'طريقة استلام الأرباح';
+
+  @override
+  String get accountTypeCcp => 'CCP';
+
+  @override
+  String get accountTypeBank => 'بنك';
+
+  @override
+  String get accountTypeBoth => 'الاثنين';
+
+  @override
+  String get ccpKey => 'المفتاح';
+
+  @override
+  String get ccpKeyInvalid => 'رقمين بالضبط';
+
+  @override
+  String get bankName => 'اسم البنك';
+
+  @override
+  String get bankAccount => 'رقم الحساب البنكي';
+
+  @override
+  String get ribInvalid => '20 رقمًا بالضبط';
+
+  @override
+  String get documentsTitle => 'المستندات';
+
+  @override
+  String get documentsSubtitle => 'JPG أو PNG أو PDF، حتى 5MB';
+
+  @override
+  String get documentUploaded => 'تم الرفع';
+
+  @override
+  String get documentVerified => 'تم التحقق';
+
+  @override
+  String missingDocumentsWarning(String documents) {
+    return 'مستندات ناقصة: $documents';
+  }
+
+  @override
+  String get fileBadExtension => 'صيغة الملف غير مدعومة';
+
+  @override
+  String get fileTooLarge => 'حجم الملف أكبر من 5MB';
+
+  @override
+  String get docIdentityFront => 'بطاقة التعريف (الوجه)';
+
+  @override
+  String get docIdentityBack => 'بطاقة التعريف (الظهر)';
+
+  @override
+  String get docCcpCheque => 'صك CCP مشطوب';
+
+  @override
+  String get docBankRib => 'كشف RIB';
+
+  @override
+  String get docOther => 'مستند آخر';
+
+  @override
+  String get notificationsTitle => 'كيف نتواصل معك؟';
+
+  @override
+  String get notifyInApp => 'داخل التطبيق';
+
+  @override
+  String get notifyWhatsapp => 'واتساب';
+
+  @override
+  String get notifySms => 'رسائل SMS';
+
+  @override
+  String get notifyPhone => 'مكالمة هاتفية';
+
+  @override
+  String get consentsTitle => 'الموافقات';
+
+  @override
+  String get consentConfirm => 'أؤكد أن المعلومات المقدمة صحيحة';
+
+  @override
+  String get consentTerms => 'أوافق على الشروط والأحكام';
+
+  @override
+  String get consentPrivacy => 'أوافق على سياسة الخصوصية';
+
+  @override
+  String get consentVerification => 'أوافق على إجراءات التحقق من هويتي';
+
+  @override
+  String get consentContact => 'أوافق على أن تتواصل معي المنصة';
+
+  @override
+  String get acceptAll => 'الموافقة على الكل';
+
+  @override
+  String get acceptAllConsents => 'يرجى قبول كل الموافقات';
+
+  @override
+  String get submitForReview => 'إرسال للمراجعة';
+
+  @override
+  String get submitMissingTitle => 'أكمل هذه العناصر قبل الإرسال';
+
+  @override
+  String get missingNames => 'الاسم واللقب والاسم المعروض';
+
+  @override
+  String get missingContact => 'البريد الإلكتروني أو رقم الهاتف';
+
+  @override
+  String get statusSubmittedTitle => 'تم إرسال ملفك';
+
+  @override
+  String get statusSubmittedBody =>
+      'سيراجع فريقنا ملفك قريبًا، وسنعلمك بأي تحديث.';
+
+  @override
+  String get statusUnderReviewTitle => 'ملفك قيد المراجعة';
+
+  @override
+  String get statusMeetingRequiredTitle => 'نحتاج مكالمة تحقق قصيرة';
+
+  @override
+  String get statusMeetingRequiredBody => 'سنحدد معك موعد المكالمة قريبًا.';
+
+  @override
+  String get statusMeetingScheduledTitle => 'موعد مكالمة التحقق';
+
+  @override
+  String get statusMeetingScheduledBody => 'كن متاحًا في الموعد التالي.';
+
+  @override
+  String get statusNeedsChangesTitle => 'ملفك يحتاج تعديلات';
+
+  @override
+  String get statusNeedsChangesBody =>
+      'أرسل محاولة جديدة بعد التعديل. ستحتاج إعادة إضافة الحسابات والمستندات.';
+
+  @override
+  String get statusRejectedTitle => 'تم رفض ملفك';
+
+  @override
+  String get statusRejectedBody => 'يمكنك تقديم محاولة جديدة بمعلومات محدّثة.';
+
+  @override
+  String attemptNumber(int number) {
+    return 'المحاولة رقم $number';
+  }
+
+  @override
+  String get startNewAttempt => 'محاولة جديدة';
+
+  @override
+  String get refreshStatus => 'تحديث الحالة';
+
+  @override
+  String get platformWebsite => 'موقع إلكتروني';
+
+  @override
+  String get platformBlog => 'مدونة';
+
+  @override
+  String get platformOther => 'منصة أخرى';
+
+  @override
+  String get facebookProfile => 'حساب شخصي';
+
+  @override
+  String get facebookPage => 'صفحة';
+
+  @override
+  String get catTechnology => 'التكنولوجيا';
+
+  @override
+  String get catGaming => 'الألعاب';
+
+  @override
+  String get catSports => 'الرياضة';
+
+  @override
+  String get catFootball => 'كرة القدم';
+
+  @override
+  String get catFitness => 'اللياقة البدنية';
+
+  @override
+  String get catHealth => 'الصحة';
+
+  @override
+  String get catBeauty => 'الجمال';
+
+  @override
+  String get catFashion => 'الموضة';
+
+  @override
+  String get catLifestyle => 'نمط الحياة';
+
+  @override
+  String get catCooking => 'الطبخ';
+
+  @override
+  String get catTravel => 'السفر والسياحة';
+
+  @override
+  String get catCars => 'السيارات';
+
+  @override
+  String get catEducation => 'التعليم';
+
+  @override
+  String get catBusiness => 'الأعمال';
+
+  @override
+  String get catFinance => 'المال';
+
+  @override
+  String get catMarketing => 'التسويق';
+
+  @override
+  String get catEcommerce => 'التجارة الإلكترونية';
+
+  @override
+  String get catArt => 'الفن';
+
+  @override
+  String get catMusic => 'الموسيقى';
+
+  @override
+  String get catEntertainment => 'الترفيه';
+
+  @override
+  String get catFamily => 'العائلة والأمومة';
+
+  @override
+  String get catPhotography => 'التصوير';
+
+  @override
+  String get ctPost => 'منشور';
+
+  @override
+  String get ctReel => 'ريلز';
+
+  @override
+  String get ctStory => 'ستوري';
+
+  @override
+  String get ctVideo => 'فيديو طويل';
+
+  @override
+  String get ctLive => 'بث مباشر';
+
+  @override
+  String get ctPodcast => 'بودكاست';
+
+  @override
+  String get ctReview => 'مراجعة منتج';
+
+  @override
+  String get ctTutorial => 'شرح';
 }

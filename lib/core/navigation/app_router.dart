@@ -1,4 +1,11 @@
 import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:x_ten/core/di/injection_container.dart';
+import 'package:x_ten/features/influencer_registration/presentation/pages/registration_gate_page.dart';
+import 'package:x_ten/features/influencer_registration/presentation/pages/registration_status_page.dart';
+import 'package:x_ten/features/influencer_registration/presentation/pages/registration_wizard_page.dart';
+import 'package:x_ten/features/influencer_registration/presentation/registration_cubit.dart';
+import 'package:x_ten/features/influencer_registration/presentation/registration_routes.dart';
 import 'package:x_ten/features/auth/presentation/pages/splash_page.dart';
 import 'package:x_ten/features/auth/presentation/pages/login_page.dart';
 import 'package:x_ten/features/auth/presentation/pages/signup_page.dart';
@@ -37,10 +44,6 @@ import 'package:x_ten/features/influencer/presentation/screens/creator_profile_s
 // INFLUENCER REGISTRATION
 // ============================================================
 
-import 'package:x_ten/features/influencer_registration/presentation/pages/influencer_registration_screen.dart';
-import 'package:x_ten/features/influencer_registration/presentation/pages/registration_submitted_screen.dart';
-import 'package:x_ten/features/influencer_registration/presentation/pages/verification_status_screen.dart';
-import 'package:x_ten/features/influencer_registration/presentation/pages/verification_meeting_screen.dart';
 
 // ============================================================
 // FREELANCER REGISTRATION
@@ -209,54 +212,28 @@ final GoRouter appRouter = GoRouter(
     // INFLUENCER REGISTRATION
     // =========================================================
 
-    GoRoute(
-      path: '/influencer-registration',
-      name: 'influencerRegistration',
-      builder: (context, state) {
-        return const InfluencerRegistrationScreen();
-      },
-    ),
-
-    GoRoute(
-      path: '/influencer-registration/submitted',
-      name: 'influencerRegistrationSubmitted',
-      builder: (context, state) {
-        final registrationId =
-        state.extra as String?;
-
-        return RegistrationSubmittedScreen(
-          registrationId:
-          registrationId ?? 'UNKNOWN',
-        );
-      },
-    ),
-
-    GoRoute(
-      path: '/influencer-verification',
-      name: 'influencerVerification',
-      builder: (context, state) {
-        final registrationId =
-        state.extra as String?;
-
-        return VerificationStatusScreen(
-          registrationId:
-          registrationId ?? 'UNKNOWN',
-        );
-      },
-    ),
-
-    GoRoute(
-      path: '/influencer-verification/meeting',
-      name: 'influencerVerificationMeeting',
-      builder: (context, state) {
-        final registrationId =
-        state.extra as String?;
-
-        return VerificationMeetingScreen(
-          registrationId:
-          registrationId ?? 'UNKNOWN',
-        );
-      },
+    ShellRoute(
+      builder: (context, state, child) => BlocProvider(
+        create: (_) => sl<RegistrationCubit>(),
+        child: child,
+      ),
+      routes: [
+        GoRoute(
+          path: RegistrationRoutes.gate,
+          name: 'influencerRegistration',
+          builder: (context, state) => const RegistrationGatePage(),
+        ),
+        GoRoute(
+          path: RegistrationRoutes.form,
+          name: 'influencerRegistrationForm',
+          builder: (context, state) => const RegistrationWizardPage(),
+        ),
+        GoRoute(
+          path: RegistrationRoutes.status,
+          name: 'influencerRegistrationStatus',
+          builder: (context, state) => const RegistrationStatusPage(),
+        ),
+      ],
     ),
 
     // =========================================================

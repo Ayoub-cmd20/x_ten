@@ -12,7 +12,7 @@ abstract final class AuthRoutes {
   static const companyRegistration = '/company-registration';
 
   static String homeFor(Role role) => switch (role) {
-        Role.contentCreator => '/creator/home',
+        Role.contentCreator => influencerRegistration,
         Role.brand => '/advertiser/home',
         Role.management || Role.unknown => login,
       };

@@ -492,4 +492,475 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get accountSuspended =>
       'Votre compte a été suspendu. Contactez le support.';
+
+  @override
+  String get registrationTitle => 'Profil créateur';
+
+  @override
+  String get stepBasicInfo => 'Informations de base';
+
+  @override
+  String get stepAudience => 'Catégories et audience';
+
+  @override
+  String get stepAccounts => 'Comptes et portfolio';
+
+  @override
+  String get stepPhoto => 'Photo de profil';
+
+  @override
+  String get stepFinancial => 'Paiement et documents';
+
+  @override
+  String get stepReview => 'Vérification et envoi';
+
+  @override
+  String stepCounter(int current, int total) {
+    return 'Étape $current sur $total';
+  }
+
+  @override
+  String get back => 'Retour';
+
+  @override
+  String get saveAndContinue => 'Enregistrer et continuer';
+
+  @override
+  String get add => 'Ajouter';
+
+  @override
+  String get optional => 'Facultatif';
+
+  @override
+  String get fix => 'Compléter';
+
+  @override
+  String get upload => 'Téléverser';
+
+  @override
+  String get fieldRequired => 'Ce champ est obligatoire';
+
+  @override
+  String get urlInvalid => 'Saisissez un lien valide commençant par https://';
+
+  @override
+  String get listSeparator => ', ';
+
+  @override
+  String get firstName => 'Prénom';
+
+  @override
+  String get lastName => 'Nom';
+
+  @override
+  String get displayName => 'Nom affiché';
+
+  @override
+  String get displayNameHint => 'Le nom que verront les marques';
+
+  @override
+  String get birthPlace => 'Lieu de naissance';
+
+  @override
+  String get bio => 'À propos de vous';
+
+  @override
+  String get bioHint => 'Présentez-vous et le contenu que vous créez';
+
+  @override
+  String get skills => 'Compétences';
+
+  @override
+  String get skillsHint => 'ex. : tournage, montage, présentation';
+
+  @override
+  String get whatsapp => 'Numéro WhatsApp';
+
+  @override
+  String get primaryCategories => 'Catégories principales';
+
+  @override
+  String get secondaryCategories => 'Catégories secondaires';
+
+  @override
+  String chooseUpTo(int count) {
+    return 'Jusqu’à $count';
+  }
+
+  @override
+  String optionalChooseUpTo(int count) {
+    return 'Facultatif, jusqu’à $count';
+  }
+
+  @override
+  String get selectAtLeastOne => 'Sélectionnez au moins un élément';
+
+  @override
+  String get audienceAge => 'Âge de l’audience';
+
+  @override
+  String get audienceGender => 'Genre de l’audience';
+
+  @override
+  String get audienceLocations => 'Localisation de l’audience';
+
+  @override
+  String get audienceInterests => 'Centres d’intérêt de l’audience';
+
+  @override
+  String get addLocation => 'Ajouter une wilaya';
+
+  @override
+  String percentTotal(String total) {
+    return 'Total $total';
+  }
+
+  @override
+  String get audienceMustTotal =>
+      'Les pourcentages d’âge doivent totaliser 100 %';
+
+  @override
+  String get socialAccountsHint => 'Au moins un compte';
+
+  @override
+  String get socialAccountsEmpty => 'Ajoutez au moins un compte social';
+
+  @override
+  String followersCount(String count) {
+    return '$count abonnés';
+  }
+
+  @override
+  String get addSocialAccount => 'Ajouter un compte social';
+
+  @override
+  String get platformLabel => 'Plateforme';
+
+  @override
+  String get accountUrl => 'Lien du compte';
+
+  @override
+  String get username => 'Nom d’utilisateur';
+
+  @override
+  String get accountName => 'Nom du compte';
+
+  @override
+  String get descriptionOptional => 'Description (facultative)';
+
+  @override
+  String get portfolioTitle => 'Portfolio';
+
+  @override
+  String get portfolioEmpty =>
+      'Ajoutez vos travaux pour vous démarquer auprès des marques';
+
+  @override
+  String get addPortfolioItem => 'Ajouter un projet';
+
+  @override
+  String get portfolioItemTitle => 'Titre';
+
+  @override
+  String get portfolioItemLink => 'Lien';
+
+  @override
+  String get portfolioItemDescription => 'Description';
+
+  @override
+  String get photoTitle => 'Votre photo de profil';
+
+  @override
+  String get photoSubtitle =>
+      'Une photo nette de votre visage inspire confiance aux marques. Cette étape est facultative.';
+
+  @override
+  String get choosePhoto => 'Choisir une photo';
+
+  @override
+  String get changePhoto => 'Changer la photo';
+
+  @override
+  String get removePhoto => 'Supprimer la photo';
+
+  @override
+  String get fromGallery => 'Depuis la galerie';
+
+  @override
+  String get fromCamera => 'Depuis l’appareil photo';
+
+  @override
+  String get payoutMethod => 'Mode de paiement';
+
+  @override
+  String get accountTypeCcp => 'CCP';
+
+  @override
+  String get accountTypeBank => 'Banque';
+
+  @override
+  String get accountTypeBoth => 'Les deux';
+
+  @override
+  String get ccpKey => 'Clé';
+
+  @override
+  String get ccpKeyInvalid => 'Exactement 2 chiffres';
+
+  @override
+  String get bankName => 'Nom de la banque';
+
+  @override
+  String get bankAccount => 'Numéro de compte bancaire';
+
+  @override
+  String get ribInvalid => 'Exactement 20 chiffres';
+
+  @override
+  String get documentsTitle => 'Documents';
+
+  @override
+  String get documentsSubtitle => 'JPG, PNG ou PDF, jusqu’à 5 Mo';
+
+  @override
+  String get documentUploaded => 'Téléversé';
+
+  @override
+  String get documentVerified => 'Vérifié';
+
+  @override
+  String missingDocumentsWarning(String documents) {
+    return 'Documents manquants : $documents';
+  }
+
+  @override
+  String get fileBadExtension => 'Ce type de fichier n’est pas pris en charge';
+
+  @override
+  String get fileTooLarge => 'Le fichier dépasse 5 Mo';
+
+  @override
+  String get docIdentityFront => 'Carte d’identité (recto)';
+
+  @override
+  String get docIdentityBack => 'Carte d’identité (verso)';
+
+  @override
+  String get docCcpCheque => 'Chèque CCP barré';
+
+  @override
+  String get docBankRib => 'RIB bancaire';
+
+  @override
+  String get docOther => 'Autre document';
+
+  @override
+  String get notificationsTitle => 'Comment vous contacter ?';
+
+  @override
+  String get notifyInApp => 'Dans l’application';
+
+  @override
+  String get notifyWhatsapp => 'WhatsApp';
+
+  @override
+  String get notifySms => 'SMS';
+
+  @override
+  String get notifyPhone => 'Appel téléphonique';
+
+  @override
+  String get consentsTitle => 'Consentements';
+
+  @override
+  String get consentConfirm =>
+      'Je confirme que les informations fournies sont exactes';
+
+  @override
+  String get consentTerms => 'J’accepte les conditions générales';
+
+  @override
+  String get consentPrivacy => 'J’accepte la politique de confidentialité';
+
+  @override
+  String get consentVerification =>
+      'J’accepte la procédure de vérification d’identité';
+
+  @override
+  String get consentContact => 'J’accepte d’être contacté par la plateforme';
+
+  @override
+  String get acceptAll => 'Tout accepter';
+
+  @override
+  String get acceptAllConsents => 'Veuillez accepter tous les consentements';
+
+  @override
+  String get submitForReview => 'Envoyer pour vérification';
+
+  @override
+  String get submitMissingTitle => 'Complétez ces éléments avant l’envoi';
+
+  @override
+  String get missingNames => 'Prénom, nom et nom affiché';
+
+  @override
+  String get missingContact => 'E-mail ou numéro de téléphone';
+
+  @override
+  String get statusSubmittedTitle => 'Votre profil a été envoyé';
+
+  @override
+  String get statusSubmittedBody =>
+      'Notre équipe examinera votre profil prochainement et vous tiendra informé.';
+
+  @override
+  String get statusUnderReviewTitle =>
+      'Votre profil est en cours de vérification';
+
+  @override
+  String get statusMeetingRequiredTitle =>
+      'Un court appel de vérification est nécessaire';
+
+  @override
+  String get statusMeetingRequiredBody =>
+      'Nous allons planifier l’appel avec vous très bientôt.';
+
+  @override
+  String get statusMeetingScheduledTitle => 'Votre appel de vérification';
+
+  @override
+  String get statusMeetingScheduledBody =>
+      'Merci d’être disponible à l’horaire ci-dessous.';
+
+  @override
+  String get statusNeedsChangesTitle =>
+      'Votre profil nécessite des modifications';
+
+  @override
+  String get statusNeedsChangesBody =>
+      'Envoyez une nouvelle demande corrigée. Vous devrez ajouter à nouveau vos comptes et documents.';
+
+  @override
+  String get statusRejectedTitle => 'Votre profil a été refusé';
+
+  @override
+  String get statusRejectedBody =>
+      'Vous pouvez envoyer une nouvelle demande avec des informations à jour.';
+
+  @override
+  String attemptNumber(int number) {
+    return 'Tentative n° $number';
+  }
+
+  @override
+  String get startNewAttempt => 'Nouvelle tentative';
+
+  @override
+  String get refreshStatus => 'Actualiser le statut';
+
+  @override
+  String get platformWebsite => 'Site web';
+
+  @override
+  String get platformBlog => 'Blog';
+
+  @override
+  String get platformOther => 'Autre';
+
+  @override
+  String get facebookProfile => 'Profil';
+
+  @override
+  String get facebookPage => 'Page';
+
+  @override
+  String get catTechnology => 'Technologie';
+
+  @override
+  String get catGaming => 'Jeux vidéo';
+
+  @override
+  String get catSports => 'Sport';
+
+  @override
+  String get catFootball => 'Football';
+
+  @override
+  String get catFitness => 'Fitness';
+
+  @override
+  String get catHealth => 'Santé';
+
+  @override
+  String get catBeauty => 'Beauté';
+
+  @override
+  String get catFashion => 'Mode';
+
+  @override
+  String get catLifestyle => 'Lifestyle';
+
+  @override
+  String get catCooking => 'Cuisine';
+
+  @override
+  String get catTravel => 'Voyage';
+
+  @override
+  String get catCars => 'Automobile';
+
+  @override
+  String get catEducation => 'Éducation';
+
+  @override
+  String get catBusiness => 'Business';
+
+  @override
+  String get catFinance => 'Finance';
+
+  @override
+  String get catMarketing => 'Marketing';
+
+  @override
+  String get catEcommerce => 'E-commerce';
+
+  @override
+  String get catArt => 'Art';
+
+  @override
+  String get catMusic => 'Musique';
+
+  @override
+  String get catEntertainment => 'Divertissement';
+
+  @override
+  String get catFamily => 'Famille et parentalité';
+
+  @override
+  String get catPhotography => 'Photographie';
+
+  @override
+  String get ctPost => 'Publication';
+
+  @override
+  String get ctReel => 'Reel';
+
+  @override
+  String get ctStory => 'Story';
+
+  @override
+  String get ctVideo => 'Vidéo longue';
+
+  @override
+  String get ctLive => 'Live';
+
+  @override
+  String get ctPodcast => 'Podcast';
+
+  @override
+  String get ctReview => 'Avis produit';
+
+  @override
+  String get ctTutorial => 'Tutoriel';
 }
