@@ -1,4 +1,11 @@
 import 'package:go_router/go_router.dart';
+import 'package:x_ten/features/auth/presentation/pages/splash_page.dart';
+import 'package:x_ten/features/auth/presentation/pages/login_page.dart';
+import 'package:x_ten/features/auth/presentation/pages/signup_page.dart';
+import 'package:x_ten/features/auth/presentation/pages/otp_page.dart';
+import 'package:x_ten/features/auth/presentation/pages/account_type_page.dart';
+import 'package:x_ten/features/auth/presentation/pages/forgot_password_page.dart';
+import 'package:x_ten/features/company_profile/presentation/pages/company_registration_screen.dart';
 import 'package:x_ten/features/onboarding/presentation/pages/onboarding_screen.dart';
 import 'package:x_ten/features/settings_security/presentation/pages/language_screen.dart';
 import 'package:x_ten/features/saved_items/presentation/pages/saved_items_screen.dart';
@@ -9,8 +16,6 @@ import 'package:x_ten/features/settings_security/presentation/pages/settings_scr
 // AUTH
 // ============================================================
 
-import 'package:x_ten/features/auth/presentation/pages/splash_screen.dart';
-import 'package:x_ten/features/auth/presentation/pages/login_screen.dart';
 
 // ============================================================
 // INFLUENCER DASHBOARD
@@ -23,8 +28,8 @@ import 'package:x_ten/features/dashboard/presentation/pages/dashboard_screen.dar
 // ============================================================
 
 import 'package:x_ten/features/influencer/presentation/widgets/influencer_shell.dart';
-import 'package:x_ten/features/influencer/presentation/screens/opportunities_screen.dart';
-import 'package:x_ten/features/influencer/presentation/screens/creator_work_screen.dart';
+import 'package:x_ten/features/campaigns/presentation/pages/influencer/opportunities_screen.dart';
+import 'package:x_ten/features/campaigns/presentation/pages/influencer/creator_work_screen.dart';
 import 'package:x_ten/features/influencer/presentation/screens/conversations_screen.dart';
 import 'package:x_ten/features/influencer/presentation/screens/creator_profile_screen.dart';
 
@@ -62,9 +67,9 @@ import 'package:x_ten/features/freelancer/presentation/widgets/freelancer_shell.
 import 'package:x_ten/features/freelancer/presentation/screens/freelancer_opportunities_screen.dart';
 import 'package:x_ten/features/freelancer/presentation/screens/freelancer_work_screen.dart';
 import 'package:x_ten/features/freelancer/presentation/screens/freelancer_profile_screen.dart';
-import 'package:x_ten/features/influencer/presentation/screens/opportunity_details_screen.dart';
-import 'package:x_ten/features/influencer/presentation/screens/creator_project_details_screen.dart';
-import 'package:x_ten/features/influencer/presentation/screens/creator_portfolio_screen.dart';
+import 'package:x_ten/features/campaigns/presentation/pages/influencer/opportunity_details_screen.dart';
+import 'package:x_ten/features/campaigns/presentation/pages/influencer/creator_project_details_screen.dart';
+import 'package:x_ten/features/influencer_registration/presentation/pages/creator_portfolio_screen.dart';
 import 'package:x_ten/features/influencer/presentation/screens/creator_settings_screen.dart';
 
 // ============================================================
@@ -73,20 +78,20 @@ import 'package:x_ten/features/influencer/presentation/screens/creator_settings_
 
 import 'package:x_ten/features/advertiser/presentation/widgets/advertiser_shell.dart';
 import 'package:x_ten/features/advertiser/presentation/pages/advertiser_dashboard_screen.dart';
-import 'package:x_ten/features/advertiser/presentation/pages/advertiser_explore_screen.dart';
-import 'package:x_ten/features/advertiser/presentation/pages/advertiser_profile_screen.dart';
-import 'package:x_ten/features/advertiser/presentation/pages/edit_brand_profile_screen.dart';
-import 'package:x_ten/features/advertiser/presentation/pages/influencer_categories_screen.dart';
-import 'package:x_ten/features/advertiser/presentation/pages/influencer_details_screen.dart';
-import 'package:x_ten/features/advertiser/presentation/pages/campaign_creation_screen.dart';
-import 'package:x_ten/features/advertiser/presentation/pages/my_campaigns_screen.dart';
+import 'package:x_ten/features/marketplace/presentation/pages/advertiser_explore_screen.dart';
+import 'package:x_ten/features/company_profile/presentation/pages/advertiser_profile_screen.dart';
+import 'package:x_ten/features/company_profile/presentation/pages/edit_brand_profile_screen.dart';
+import 'package:x_ten/features/marketplace/presentation/pages/influencer_categories_screen.dart';
+import 'package:x_ten/features/marketplace/presentation/pages/influencer_details_screen.dart';
+import 'package:x_ten/features/campaigns/presentation/pages/client/campaign_creation_screen.dart';
+import 'package:x_ten/features/campaigns/presentation/pages/client/my_campaigns_screen.dart';
 
 // ============================================================
 // PROMOTION (ADVERTISER)
 // ============================================================
 
-import 'package:x_ten/features/work_management/presentation/pages/on_demand_promotion_screen.dart';
-import 'package:x_ten/features/work_management/presentation/pages/my_promotion_requests_screen.dart';
+import 'package:x_ten/features/campaigns/presentation/pages/client/on_demand_promotion_screen.dart';
+import 'package:x_ten/features/campaigns/presentation/pages/client/my_promotion_requests_screen.dart';
 
 // ============================================================
 // ROUTER
@@ -156,7 +161,7 @@ final GoRouter appRouter = GoRouter(
       path: '/splash',
       name: 'splash',
       builder: (context, state) {
-        return const SplashScreen();
+        return const SplashPage();
       },
     ),
 
@@ -167,9 +172,37 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/login',
       name: 'login',
-      builder: (context, state) {
-        return const LoginScreen();
-      },
+      builder: (context, state) => const LoginPage(),
+    ),
+
+    GoRoute(
+      path: '/signup',
+      name: 'signup',
+      builder: (context, state) => const SignupPage(),
+    ),
+
+    GoRoute(
+      path: '/forgot-password',
+      name: 'forgotPassword',
+      builder: (context, state) => const ForgotPasswordPage(),
+    ),
+
+    GoRoute(
+      path: '/verify-otp',
+      name: 'verifyOtp',
+      builder: (context, state) => const OtpPage(),
+    ),
+
+    GoRoute(
+      path: '/account-type',
+      name: 'accountType',
+      builder: (context, state) => const AccountTypePage(),
+    ),
+
+    GoRoute(
+      path: '/company-registration',
+      name: 'companyRegistration',
+      builder: (context, state) => const CompanyRegistrationScreen(),
     ),
 
     // =========================================================

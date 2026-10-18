@@ -1,109 +1,67 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-
-import 'package:x_ten/core/localization/locale_controller.dart';
+import 'package:x_ten/core/localization/locale_cubit.dart';
 import 'package:x_ten/core/localization/localization_extension.dart';
+import 'package:x_ten/core/theme/app_colors.dart';
+import 'package:x_ten/core/theme/app_dimens.dart';
+import 'package:x_ten/core/theme/theme_context.dart';
 
 class LanguageScreen extends StatelessWidget {
-  const LanguageScreen({
-    super.key,
-  });
+  const LanguageScreen({super.key});
 
-  static const Color background = Color(0xFF090909);
-  static const Color cardColor = Color(0xFF151515);
-  static const Color gold = Color(0xFFE5C158);
+  static const _languages = [
+    (code: 'ar', flag: '🇩🇿', name: 'العربية', subtitle: 'Arabic'),
+    (code: 'fr', flag: '🇫🇷', name: 'Français', subtitle: 'French'),
+    (code: 'en', flag: '🇬🇧', name: 'English', subtitle: 'English'),
+  ];
+
+  Future<void> _continue(BuildContext context) async {
+    final cubit = context.read<LocaleCubit>();
+    await cubit.setLocale(cubit.state.languageCode);
+    if (!context.mounted) return;
+    if (context.canPop()) {
+      context.pop();
+    } else {
+      context.go('/login');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ListenableBuilder(
-      listenable: localeController,
-      builder: (context, child) {
-        final selected = localeController.locale?.languageCode;
+    final selected = context.select((LocaleCubit cubit) => cubit.state.languageCode);
 
-        return Scaffold(
-          backgroundColor: background,
-          appBar: AppBar(
-            backgroundColor: background,
-            elevation: 0,
-            title: Text(
-              context.l10n.selectLanguage,
-            ),
+    return Scaffold(
+      appBar: AppBar(title: Text(context.l10n.selectLanguage)),
+      body: ListView.separated(
+        padding: const EdgeInsets.all(AppSpacing.lg),
+        itemCount: _languages.length,
+        separatorBuilder: (context, index) => const SizedBox(height: AppSpacing.sm),
+        itemBuilder: (context, index) {
+          final language = _languages[index];
+          return _LanguageCard(
+            flag: language.flag,
+            title: language.name,
+            subtitle: language.subtitle,
+            selected: selected == language.code,
+            onTap: () => context.read<LocaleCubit>().setLocale(language.code),
+          );
+        },
+      ),
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(AppSpacing.lg),
+          child: ElevatedButton(
+            onPressed: () => _continue(context),
+            child: Text(context.l10n.continueText),
           ),
-          body: ListView(
-            padding: const EdgeInsets.all(20),
-            children: [
-              _LanguageCard(
-                flag: '🇩🇿',
-                title: 'العربية',
-                subtitle: 'Arabic',
-                selected: selected == 'ar',
-                onTap: () {
-                  localeController.setArabic();
-                },
-              ),
-              const SizedBox(height: 14),
-              _LanguageCard(
-                flag: '🇫🇷',
-                title: 'Français',
-                subtitle: 'French',
-                selected: selected == 'fr',
-                onTap: () {
-                  localeController.setFrench();
-                },
-              ),
-              const SizedBox(height: 14),
-              _LanguageCard(
-                flag: '🇬🇧',
-                title: 'English',
-                subtitle: 'English',
-                selected: selected == 'en',
-                onTap: () {
-                  localeController.setEnglish();
-                },
-              ),
-            ],
-          ),
-          bottomNavigationBar: selected != null
-              ? SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        context.go('/login');
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: gold,
-                        foregroundColor: Colors.black,
-                        minimumSize: const Size.fromHeight(56),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        elevation: 0,
-                      ),
-                      child: Text(
-                        context.l10n.continueText,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              : null,
-        );
-      },
+        ),
+      ),
     );
   }
 }
 
 class _LanguageCard extends StatelessWidget {
-  final String flag;
-  final String title;
-  final String subtitle;
-  final bool selected;
-  final VoidCallback onTap;
-
   const _LanguageCard({
     required this.flag,
     required this.title,
@@ -112,31 +70,35 @@ class _LanguageCard extends StatelessWidget {
     required this.onTap,
   });
 
+  final String flag;
+  final String title;
+  final String subtitle;
+  final bool selected;
+  final VoidCallback onTap;
+
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: AppRadius.xlAll,
         onTap: onTap,
         child: AnimatedContainer(
-          duration: const Duration(
-            milliseconds: 220,
-          ),
-          padding: const EdgeInsets.all(18),
+          duration: const Duration(milliseconds: 220),
+          padding: const EdgeInsets.all(AppSpacing.lg),
           decoration: BoxDecoration(
-            color: LanguageScreen.cardColor,
-            borderRadius: BorderRadius.circular(18),
+            color: colors.surfaceContainer,
+            borderRadius: AppRadius.xlAll,
             border: Border.all(
-              color: selected ? LanguageScreen.gold : Colors.white12,
+              color: selected ? colors.primary : colors.outlineVariant,
               width: selected ? 1.6 : 1,
             ),
             boxShadow: selected
                 ? [
                     BoxShadow(
-                      color: LanguageScreen.gold.withValues(
-                        alpha: 0.12,
-                      ),
+                      color: colors.primary.withValues(alpha: 0.12),
                       blurRadius: 22,
                       spreadRadius: 1,
                     ),
@@ -145,61 +107,31 @@ class _LanguageCard extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Text(
-                flag,
-                style: const TextStyle(
-                  fontSize: 31,
-                ),
-              ),
-              const SizedBox(
-                width: 16,
-              ),
+              Text(flag, style: const TextStyle(fontSize: 30)),
+              const SizedBox(width: AppSpacing.md),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       title,
-                      style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w700,
-                        color: selected ? LanguageScreen.gold : Colors.white,
+                      style: context.textTheme.titleSmall?.copyWith(
+                        color: selected ? colors.primary : null,
                       ),
                     ),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    Text(
-                      subtitle,
-                      style: const TextStyle(
-                        color: Colors.white54,
-                        fontSize: 13,
-                      ),
-                    ),
+                    const SizedBox(height: AppSpacing.xxs),
+                    Text(subtitle, style: context.textTheme.bodySmall),
                   ],
                 ),
               ),
               AnimatedSwitcher(
-                duration: const Duration(
-                  milliseconds: 200,
+                duration: const Duration(milliseconds: 200),
+                child: Icon(
+                  selected ? Icons.check_circle_rounded : Icons.radio_button_unchecked,
+                  key: ValueKey(selected),
+                  color: selected ? colors.primary : AppColors.textDisabled,
+                  size: 25,
                 ),
-                child: selected
-                    ? const Icon(
-                        Icons.check_circle_rounded,
-                        key: ValueKey(
-                          'selected',
-                        ),
-                        color: LanguageScreen.gold,
-                        size: 25,
-                      )
-                    : const Icon(
-                        Icons.radio_button_unchecked,
-                        key: ValueKey(
-                          'unselected',
-                        ),
-                        color: Colors.white24,
-                        size: 25,
-                      ),
               ),
             ],
           ),

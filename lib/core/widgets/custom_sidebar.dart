@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:x_ten/features/auth/presentation/pages/login_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:x_ten/features/auth/presentation/auth_cubit.dart';
+import 'package:x_ten/features/auth/presentation/auth_routes.dart';
 
 class CustomSidebar extends StatelessWidget {
   const CustomSidebar({super.key});
@@ -47,15 +50,12 @@ class CustomSidebar extends StatelessWidget {
               ListTile(
                 leading: const Icon(Icons.logout, color: Colors.redAccent),
                 title: const Text('تسجيل الخروج', style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold)),
-                onTap: () {
-                  // Close the drawer first
+                onTap: () async {
+                  final router = GoRouter.of(context);
+                  final auth = context.read<AuthCubit>();
                   Navigator.pop(context);
-                  // Navigate to Login Screen and clear navigation stack
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => const LoginScreen()),
-                    (route) => false,
-                  );
+                  await auth.logout();
+                  router.go(AuthRoutes.login);
                 },
               ),
               const SizedBox(height: 20),

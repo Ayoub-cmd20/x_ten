@@ -337,4 +337,156 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get releasePayment => 'تحرير المبلغ';
+
+  @override
+  String get loginSubtitle => 'سجّل الدخول إلى حسابك للمتابعة';
+
+  @override
+  String get passwordHint => 'أدخل كلمة المرور';
+
+  @override
+  String get emailRequired => 'يرجى إدخال البريد الإلكتروني';
+
+  @override
+  String get emailInvalid => 'يرجى إدخال بريد إلكتروني صحيح';
+
+  @override
+  String get passwordRequired => 'يرجى إدخال كلمة المرور';
+
+  @override
+  String get showPassword => 'إظهار كلمة المرور';
+
+  @override
+  String get hidePassword => 'إخفاء كلمة المرور';
+
+  @override
+  String get loginUnsupportedAccount => 'هذا الحساب لا يمكنه استعمال التطبيق.';
+
+  @override
+  String get errorNetwork =>
+      'تعذر الاتصال بالخادم، تحقق من الإنترنت وحاول مجددًا.';
+
+  @override
+  String errorThrottled(int seconds) {
+    String _temp0 = intl.Intl.pluralLogic(
+      seconds,
+      locale: localeName,
+      other: '$seconds ثانية',
+      many: '$seconds ثانية',
+      few: '$seconds ثوانٍ',
+      two: 'ثانيتين',
+      one: 'ثانية واحدة',
+    );
+    return 'محاولات كثيرة، حاول مجددًا بعد $_temp0.';
+  }
+
+  @override
+  String get errorThrottledGeneric =>
+      'محاولات كثيرة، انتظر قليلًا ثم حاول مجددًا.';
+
+  @override
+  String get errorInvalidCredentials =>
+      'البريد الإلكتروني أو كلمة المرور غير صحيحة، أو أن الحساب موقوف.';
+
+  @override
+  String get errorSessionExpired => 'انتهت جلستك، سجّل الدخول من جديد.';
+
+  @override
+  String get errorPermission => 'ليس لديك صلاحية للقيام بهذا الإجراء.';
+
+  @override
+  String get errorNotFound => 'العنصر غير موجود.';
+
+  @override
+  String get errorConflict =>
+      'تغيّرت حالة هذا العنصر، حدّث الصفحة وحاول مجددًا.';
+
+  @override
+  String get errorValidation => 'تحقق من البيانات المدخلة.';
+
+  @override
+  String get errorUnexpected => 'حدث خطأ غير متوقع، حاول مجددًا.';
+
+  @override
+  String get retry => 'إعادة المحاولة';
+
+  @override
+  String get comingSoon => 'قريبًا';
+
+  @override
+  String get changePhone => 'تغيير رقم الهاتف';
+
+  @override
+  String get newPassword => 'كلمة المرور الجديدة';
+
+  @override
+  String get signupTitle => 'انضم إلى X Ten';
+
+  @override
+  String get signupSubtitle =>
+      'أنشئ حسابك وابدأ رحلتك مع أقوى منصة للمؤثرين والعلامات التجارية.';
+
+  @override
+  String get fullNameHint => 'اسمك الكامل';
+
+  @override
+  String get fullNameRequired => 'يرجى إدخال الاسم الكامل';
+
+  @override
+  String get phoneRequired => 'يرجى إدخال رقم الهاتف';
+
+  @override
+  String get phoneInvalid => 'أدخل رقم هاتف جزائري صحيح يبدأ بـ 05 أو 06 أو 07';
+
+  @override
+  String get passwordWeak =>
+      'يجب أن تتكون كلمة المرور من 8 أحرف على الأقل وألا تكون أرقامًا فقط';
+
+  @override
+  String get passwordsDoNotMatch => 'كلمتا المرور غير متطابقتين';
+
+  @override
+  String get otpTitle => 'تحقق من رقمك';
+
+  @override
+  String otpSentTo(String phone) {
+    return 'أرسلنا رمز التحقق إلى $phone';
+  }
+
+  @override
+  String get otpInvalid => 'أدخل الرمز المكون من 6 أرقام';
+
+  @override
+  String resendCodeIn(String time) {
+    return 'إعادة إرسال الرمز بعد $time';
+  }
+
+  @override
+  String get codeResent => 'تم إرسال رمز جديد';
+
+  @override
+  String get registrationExpired =>
+      'انتهت صلاحية جلسة التسجيل، يرجى البدء من جديد.';
+
+  @override
+  String get startOver => 'ابدأ من جديد';
+
+  @override
+  String get forgotPasswordTitle => 'استعادة كلمة المرور';
+
+  @override
+  String get forgotPasswordSubtitle =>
+      'أدخل رقم هاتفك وسنرسل لك رمزًا لإعادة تعيين كلمة المرور.';
+
+  @override
+  String resetCodeSubtitle(String phone) {
+    return 'أدخل الرمز المرسل إلى $phone وكلمة المرور الجديدة.';
+  }
+
+  @override
+  String get passwordResetSuccess =>
+      'تم تغيير كلمة المرور بنجاح، سجّل الدخول الآن.';
+
+  @override
+  String get accountSuspended => 'تم إيقاف حسابك، تواصل مع الدعم.';
 }

@@ -337,4 +337,154 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get releasePayment => 'Release Payment';
+
+  @override
+  String get loginSubtitle => 'Sign in to your account to continue';
+
+  @override
+  String get passwordHint => 'Enter your password';
+
+  @override
+  String get emailRequired => 'Please enter your email';
+
+  @override
+  String get emailInvalid => 'Please enter a valid email';
+
+  @override
+  String get passwordRequired => 'Please enter your password';
+
+  @override
+  String get showPassword => 'Show password';
+
+  @override
+  String get hidePassword => 'Hide password';
+
+  @override
+  String get loginUnsupportedAccount => 'This account can\'t use the app.';
+
+  @override
+  String get errorNetwork =>
+      'Couldn\'t reach the server. Check your connection and try again.';
+
+  @override
+  String errorThrottled(int seconds) {
+    String _temp0 = intl.Intl.pluralLogic(
+      seconds,
+      locale: localeName,
+      other: '$seconds seconds',
+      one: '1 second',
+    );
+    return 'Too many attempts. Try again in $_temp0.';
+  }
+
+  @override
+  String get errorThrottledGeneric =>
+      'Too many attempts. Please wait and try again.';
+
+  @override
+  String get errorInvalidCredentials =>
+      'Incorrect email or password, or the account is suspended.';
+
+  @override
+  String get errorSessionExpired =>
+      'Your session has expired. Please sign in again.';
+
+  @override
+  String get errorPermission => 'You don\'t have permission to do this.';
+
+  @override
+  String get errorNotFound => 'Not found.';
+
+  @override
+  String get errorConflict => 'This item has changed. Refresh and try again.';
+
+  @override
+  String get errorValidation => 'Please check the information you entered.';
+
+  @override
+  String get errorUnexpected => 'Something went wrong. Please try again.';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
+  String get comingSoon => 'Coming soon';
+
+  @override
+  String get changePhone => 'Change phone number';
+
+  @override
+  String get newPassword => 'New password';
+
+  @override
+  String get signupTitle => 'Join X Ten';
+
+  @override
+  String get signupSubtitle =>
+      'Create your account and start your journey on the leading platform for creators and brands.';
+
+  @override
+  String get fullNameHint => 'Your full name';
+
+  @override
+  String get fullNameRequired => 'Please enter your full name';
+
+  @override
+  String get phoneRequired => 'Please enter your phone number';
+
+  @override
+  String get phoneInvalid =>
+      'Enter a valid Algerian mobile number starting with 05, 06 or 07';
+
+  @override
+  String get passwordWeak =>
+      'Password must be at least 8 characters and not only numbers';
+
+  @override
+  String get passwordsDoNotMatch => 'Passwords do not match';
+
+  @override
+  String get otpTitle => 'Verify your number';
+
+  @override
+  String otpSentTo(String phone) {
+    return 'We sent a verification code to $phone';
+  }
+
+  @override
+  String get otpInvalid => 'Enter the 6-digit code';
+
+  @override
+  String resendCodeIn(String time) {
+    return 'Resend code in $time';
+  }
+
+  @override
+  String get codeResent => 'A new code has been sent';
+
+  @override
+  String get registrationExpired =>
+      'Your registration session has expired. Please start again.';
+
+  @override
+  String get startOver => 'Start over';
+
+  @override
+  String get forgotPasswordTitle => 'Reset your password';
+
+  @override
+  String get forgotPasswordSubtitle =>
+      'Enter your phone number and we\'ll send you a code to reset your password.';
+
+  @override
+  String resetCodeSubtitle(String phone) {
+    return 'Enter the code sent to $phone and your new password.';
+  }
+
+  @override
+  String get passwordResetSuccess => 'Password changed. You can sign in now.';
+
+  @override
+  String get accountSuspended =>
+      'Your account has been suspended. Please contact support.';
 }

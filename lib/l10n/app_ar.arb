@@ -24,7 +24,6 @@
   "viewDetails": "عرض التفاصيل",
   "uploadFile": "رفع ملف",
   "downloadPdf": "تحميل بصيغة PDF",
-
   "login": "تسجيل الدخول",
   "logout": "تسجيل الخروج",
   "logoutConfirm": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
@@ -42,7 +41,6 @@
   "dontHaveAccount": "ليس لديك حساب؟",
   "createAccount": "إنشاء حساب جديد",
   "alreadyHaveAccount": "هل لديك حساب بالفعل؟",
-
   "accountTypeTitle": "ما الذي يجلبك إلى X Ten؟",
   "accountTypeSubtitle": "اختر المسار الأنسب لك، وسنخصص تجربتك...",
   "contentCreator": "صانع محتوى / مؤثر",
@@ -54,7 +52,6 @@
   "privacyPolicy": "سياسة الخصوصية",
   "termsConditions": "الشروط والأحكام",
   "helpCenter": "مركز المساعدة",
-
   "companyName": "اسم الشركة / العلامة التجارية",
   "businessType": "نوع النشاط التجاري",
   "commercialRegister": "رقم السجل التجاري (RC)",
@@ -64,7 +61,6 @@
   "officialPhone": "رقم الهاتف الرسمي",
   "storeName": "اسم المتجر الإلكتروني",
   "storeUrl": "رابط المتجر",
-
   "personalInfo": "البيانات الشخصية",
   "gender": "الجنس",
   "male": "ذكر",
@@ -81,7 +77,6 @@
   "verificationStatus": "حالة التوثيق",
   "pendingVerification": "قيد المراجعة",
   "verified": "موثق",
-
   "dashboardTitle": "لوحة التحكم الإبداعية",
   "welcomeBack": "مرحباً بك مجدداً",
   "managementAndMarketing": "الإدارة والتسويق",
@@ -102,7 +97,6 @@
   "aboutUs": "من نحن",
   "faq": "أسئلة شائعة",
   "contactUs": "اتصل بنا",
-
   "contracts": "العقود والاتفاقيات",
   "contractId": "رقم العقد",
   "contractValue": "قيمة العقد",
@@ -114,5 +108,75 @@
   "pendingConfirmation": "في انتظار التأكيد",
   "pendingPublishing": "في انتظار النشر",
   "submitDeliverable": "تسليم العمل النهائي",
-  "releasePayment": "تحرير المبلغ"
+  "releasePayment": "تحرير المبلغ",
+  "loginSubtitle": "سجّل الدخول إلى حسابك للمتابعة",
+  "passwordHint": "أدخل كلمة المرور",
+  "emailRequired": "يرجى إدخال البريد الإلكتروني",
+  "emailInvalid": "يرجى إدخال بريد إلكتروني صحيح",
+  "passwordRequired": "يرجى إدخال كلمة المرور",
+  "showPassword": "إظهار كلمة المرور",
+  "hidePassword": "إخفاء كلمة المرور",
+  "loginUnsupportedAccount": "هذا الحساب لا يمكنه استعمال التطبيق.",
+  "errorNetwork": "تعذر الاتصال بالخادم، تحقق من الإنترنت وحاول مجددًا.",
+  "errorThrottled": "محاولات كثيرة، حاول مجددًا بعد {seconds, plural, =1{ثانية واحدة} =2{ثانيتين} few{{seconds} ثوانٍ} many{{seconds} ثانية} other{{seconds} ثانية}}.",
+  "@errorThrottled": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "errorThrottledGeneric": "محاولات كثيرة، انتظر قليلًا ثم حاول مجددًا.",
+  "errorInvalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة، أو أن الحساب موقوف.",
+  "errorSessionExpired": "انتهت جلستك، سجّل الدخول من جديد.",
+  "errorPermission": "ليس لديك صلاحية للقيام بهذا الإجراء.",
+  "errorNotFound": "العنصر غير موجود.",
+  "errorConflict": "تغيّرت حالة هذا العنصر، حدّث الصفحة وحاول مجددًا.",
+  "errorValidation": "تحقق من البيانات المدخلة.",
+  "errorUnexpected": "حدث خطأ غير متوقع، حاول مجددًا.",
+  "retry": "إعادة المحاولة",
+  "comingSoon": "قريبًا",
+  "changePhone": "تغيير رقم الهاتف",
+  "newPassword": "كلمة المرور الجديدة",
+  "signupTitle": "انضم إلى X Ten",
+  "signupSubtitle": "أنشئ حسابك وابدأ رحلتك مع أقوى منصة للمؤثرين والعلامات التجارية.",
+  "fullNameHint": "اسمك الكامل",
+  "fullNameRequired": "يرجى إدخال الاسم الكامل",
+  "phoneRequired": "يرجى إدخال رقم الهاتف",
+  "phoneInvalid": "أدخل رقم هاتف جزائري صحيح يبدأ بـ 05 أو 06 أو 07",
+  "passwordWeak": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل وألا تكون أرقامًا فقط",
+  "passwordsDoNotMatch": "كلمتا المرور غير متطابقتين",
+  "otpTitle": "تحقق من رقمك",
+  "otpSentTo": "أرسلنا رمز التحقق إلى {phone}",
+  "@otpSentTo": {
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "otpInvalid": "أدخل الرمز المكون من 6 أرقام",
+  "resendCodeIn": "إعادة إرسال الرمز بعد {time}",
+  "@resendCodeIn": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "codeResent": "تم إرسال رمز جديد",
+  "registrationExpired": "انتهت صلاحية جلسة التسجيل، يرجى البدء من جديد.",
+  "startOver": "ابدأ من جديد",
+  "forgotPasswordTitle": "استعادة كلمة المرور",
+  "forgotPasswordSubtitle": "أدخل رقم هاتفك وسنرسل لك رمزًا لإعادة تعيين كلمة المرور.",
+  "resetCodeSubtitle": "أدخل الرمز المرسل إلى {phone} وكلمة المرور الجديدة.",
+  "@resetCodeSubtitle": {
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "passwordResetSuccess": "تم تغيير كلمة المرور بنجاح، سجّل الدخول الآن.",
+  "accountSuspended": "تم إيقاف حسابك، تواصل مع الدعم."
 }

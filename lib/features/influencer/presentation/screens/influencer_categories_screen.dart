@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../data/influencers_demo_data.dart';
-import '../../domain/models/influencer_category.dart';
-import 'category_influencers_screen.dart';
+import 'package:x_ten/features/marketplace/data/influencers_demo_data.dart';
+import 'package:x_ten/features/marketplace/domain/models/influencer_category.dart';
+import 'package:x_ten/features/marketplace/presentation/pages/category_influencers_screen.dart';
 
 class InfluencerCategoriesScreen extends StatelessWidget {
   const InfluencerCategoriesScreen({super.key});

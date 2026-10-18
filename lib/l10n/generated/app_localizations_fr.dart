@@ -338,4 +338,158 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get releasePayment => 'Libérer le paiement';
+
+  @override
+  String get loginSubtitle => 'Connectez-vous à votre compte pour continuer';
+
+  @override
+  String get passwordHint => 'Saisissez votre mot de passe';
+
+  @override
+  String get emailRequired => 'Veuillez saisir votre e-mail';
+
+  @override
+  String get emailInvalid => 'Veuillez saisir un e-mail valide';
+
+  @override
+  String get passwordRequired => 'Veuillez saisir votre mot de passe';
+
+  @override
+  String get showPassword => 'Afficher le mot de passe';
+
+  @override
+  String get hidePassword => 'Masquer le mot de passe';
+
+  @override
+  String get loginUnsupportedAccount =>
+      'Ce compte ne peut pas utiliser l\'application.';
+
+  @override
+  String get errorNetwork =>
+      'Impossible de joindre le serveur. Vérifiez votre connexion et réessayez.';
+
+  @override
+  String errorThrottled(int seconds) {
+    String _temp0 = intl.Intl.pluralLogic(
+      seconds,
+      locale: localeName,
+      other: '$seconds secondes',
+      one: '1 seconde',
+    );
+    return 'Trop de tentatives. Réessayez dans $_temp0.';
+  }
+
+  @override
+  String get errorThrottledGeneric =>
+      'Trop de tentatives. Patientez puis réessayez.';
+
+  @override
+  String get errorInvalidCredentials =>
+      'E-mail ou mot de passe incorrect, ou compte suspendu.';
+
+  @override
+  String get errorSessionExpired =>
+      'Votre session a expiré. Veuillez vous reconnecter.';
+
+  @override
+  String get errorPermission =>
+      'Vous n\'avez pas l\'autorisation d\'effectuer cette action.';
+
+  @override
+  String get errorNotFound => 'Élément introuvable.';
+
+  @override
+  String get errorConflict => 'Cet élément a changé. Actualisez et réessayez.';
+
+  @override
+  String get errorValidation => 'Vérifiez les informations saisies.';
+
+  @override
+  String get errorUnexpected =>
+      'Une erreur inattendue s\'est produite. Réessayez.';
+
+  @override
+  String get retry => 'Réessayer';
+
+  @override
+  String get comingSoon => 'Bientôt';
+
+  @override
+  String get changePhone => 'Changer de numéro';
+
+  @override
+  String get newPassword => 'Nouveau mot de passe';
+
+  @override
+  String get signupTitle => 'Rejoignez X Ten';
+
+  @override
+  String get signupSubtitle =>
+      'Créez votre compte et commencez avec la plateforme de référence des créateurs et des marques.';
+
+  @override
+  String get fullNameHint => 'Votre nom complet';
+
+  @override
+  String get fullNameRequired => 'Veuillez saisir votre nom complet';
+
+  @override
+  String get phoneRequired => 'Veuillez saisir votre numéro de téléphone';
+
+  @override
+  String get phoneInvalid =>
+      'Saisissez un numéro mobile algérien valide commençant par 05, 06 ou 07';
+
+  @override
+  String get passwordWeak =>
+      'Le mot de passe doit contenir au moins 8 caractères et pas uniquement des chiffres';
+
+  @override
+  String get passwordsDoNotMatch => 'Les mots de passe ne correspondent pas';
+
+  @override
+  String get otpTitle => 'Vérifiez votre numéro';
+
+  @override
+  String otpSentTo(String phone) {
+    return 'Nous avons envoyé un code de vérification au $phone';
+  }
+
+  @override
+  String get otpInvalid => 'Saisissez le code à 6 chiffres';
+
+  @override
+  String resendCodeIn(String time) {
+    return 'Renvoyer le code dans $time';
+  }
+
+  @override
+  String get codeResent => 'Un nouveau code a été envoyé';
+
+  @override
+  String get registrationExpired =>
+      'Votre session d\'inscription a expiré. Veuillez recommencer.';
+
+  @override
+  String get startOver => 'Recommencer';
+
+  @override
+  String get forgotPasswordTitle => 'Réinitialiser le mot de passe';
+
+  @override
+  String get forgotPasswordSubtitle =>
+      'Saisissez votre numéro et nous vous enverrons un code pour réinitialiser votre mot de passe.';
+
+  @override
+  String resetCodeSubtitle(String phone) {
+    return 'Saisissez le code envoyé au $phone et votre nouveau mot de passe.';
+  }
+
+  @override
+  String get passwordResetSuccess =>
+      'Mot de passe modifié. Vous pouvez vous connecter.';
+
+  @override
+  String get accountSuspended =>
+      'Votre compte a été suspendu. Contactez le support.';
 }

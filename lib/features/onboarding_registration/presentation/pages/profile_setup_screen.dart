@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:x_ten/features/onboarding_registration/presentation/pages/influencer/language_registration_screen.dart'; // Adjust path if necessary
+import 'package:x_ten/features/influencer_registration/presentation/pages/onboarding/language_registration_screen.dart'; // Adjust path if necessary
 
 class ProfileSetupScreen extends StatefulWidget {
   const ProfileSetupScreen({super.key});
