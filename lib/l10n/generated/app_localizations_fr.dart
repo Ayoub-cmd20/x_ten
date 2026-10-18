@@ -1063,4 +1063,332 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get featuredWorks => 'Travaux à la une';
+
+  @override
+  String get all => 'Tout';
+
+  @override
+  String get yes => 'Oui';
+
+  @override
+  String get no => 'Non';
+
+  @override
+  String get adStatusDraft => 'Brouillon';
+
+  @override
+  String get adStatusSubmitted => 'Chez la plateforme';
+
+  @override
+  String get adStatusAwaitingInfluencer => 'En attente de l\'influenceur';
+
+  @override
+  String get adStatusInfluencerReplied => 'L\'influenceur a répondu';
+
+  @override
+  String get adStatusClientReviewing => 'En attente de l\'annonceur';
+
+  @override
+  String get adStatusClientReviewingYou => 'En attente de votre réponse';
+
+  @override
+  String get adStatusClientReplied => 'L\'annonceur a répondu';
+
+  @override
+  String get adStatusAgreed => 'Accord conclu';
+
+  @override
+  String get adStatusRejected => 'Refusé';
+
+  @override
+  String get adFormatPost => 'Publication';
+
+  @override
+  String get adFormatReel => 'Reel';
+
+  @override
+  String get adFormatStory => 'Story';
+
+  @override
+  String get adEntryTemplate => 'Selon le modèle';
+
+  @override
+  String get adEntryTemplateDesc =>
+      'Choisissez le type et la source du contenu';
+
+  @override
+  String get adEntryFreeText => 'Sur demande';
+
+  @override
+  String get adEntryFreeTextDesc => 'Décrivez votre besoin librement';
+
+  @override
+  String get adMediaImage => 'Image';
+
+  @override
+  String get adMediaVideo => 'Vidéo';
+
+  @override
+  String get adSourceReady => 'J\'ai un contenu prêt';
+
+  @override
+  String get adSourceInfluencer => 'L\'influenceur le crée';
+
+  @override
+  String get adEventSubmitted => 'Demande envoyée à la plateforme';
+
+  @override
+  String get adEventForwarded => 'Transmise à l\'influenceur';
+
+  @override
+  String get adEventModificationSent =>
+      'La plateforme a proposé une modification';
+
+  @override
+  String get adEventModificationAccepted => 'Modification acceptée';
+
+  @override
+  String get adEventModificationRefused => 'Modification refusée';
+
+  @override
+  String get adEventInfluencerChanged => 'Influenceur changé';
+
+  @override
+  String get adEventInfluencerAccepted => 'L\'influenceur a accepté';
+
+  @override
+  String get adEventCounterOffer => 'Contre-proposition de l\'influenceur';
+
+  @override
+  String get adEventUnclear => 'L\'influenceur demande des précisions';
+
+  @override
+  String get adEventDeclined => 'L\'influenceur a décliné';
+
+  @override
+  String get adEventRejected => 'Demande refusée';
+
+  @override
+  String get adEventUnknown => 'Demande mise à jour';
+
+  @override
+  String get adPartyClient => 'l\'annonceur';
+
+  @override
+  String get adPartyPlatform => 'la plateforme';
+
+  @override
+  String get adPartyInfluencer => 'l\'influenceur';
+
+  @override
+  String get adInfluencer => 'Influenceur';
+
+  @override
+  String get adChooseInfluencer => 'Choisissez un influenceur dans Explorer';
+
+  @override
+  String get adRequiresTravel => 'Présence de l\'influenceur requise';
+
+  @override
+  String get adRequiresTravelHint =>
+      'Le déplacement est organisé par la plateforme hors de l\'app';
+
+  @override
+  String get adTravelAddress => 'Adresse du lieu';
+
+  @override
+  String get adPresenceRequirements => 'Exigences de présence';
+
+  @override
+  String get adPresenceHint => 'Durée, tenue, ce qu\'il faut faire...';
+
+  @override
+  String get adEntryMode => 'Type de demande';
+
+  @override
+  String get adMediaType => 'Type de contenu';
+
+  @override
+  String get adContentSource => 'Source du contenu';
+
+  @override
+  String get adSampleRequired => 'Voir un aperçu avant publication ?';
+
+  @override
+  String get adDetails => 'Détails de la demande';
+
+  @override
+  String get adDetailsHint =>
+      'Décrivez l\'idée, le message et l\'audience visée...';
+
+  @override
+  String get adFormats => 'Formats';
+
+  @override
+  String get adPlatforms => 'Plateformes';
+
+  @override
+  String get adBudget => 'Budget';
+
+  @override
+  String get adDeadline => 'Date limite de publication';
+
+  @override
+  String get adNeedsPlatformServices =>
+      'J\'ai besoin des services de la plateforme (tournage, montage...)';
+
+  @override
+  String get adBriefFiles => 'Fichiers de référence';
+
+  @override
+  String get adBriefFilesHint => 'Images ou PDF, jusqu\'à 10 Mo';
+
+  @override
+  String get adReadyContent => 'Contenu prêt';
+
+  @override
+  String get adReadyContentHint =>
+      'Images jusqu\'à 10 Mo, vidéo MP4/MOV jusqu\'à 100 Mo';
+
+  @override
+  String get adAddFile => 'Ajouter un fichier';
+
+  @override
+  String get adSend => 'Envoyer la demande';
+
+  @override
+  String get adSentTitle => 'Demande envoyée';
+
+  @override
+  String get adSentBody =>
+      'La plateforme examinera votre demande avant de la transmettre à l\'influenceur.';
+
+  @override
+  String get adDeadlineFuture => 'La date doit être postérieure à aujourd\'hui';
+
+  @override
+  String get adReadyContentMissing => 'Ajoutez votre contenu prêt';
+
+  @override
+  String get adFileTooLarge =>
+      'Fichier trop lourd : images 10 Mo, vidéos 100 Mo';
+
+  @override
+  String get adInfluencerUnavailable =>
+      'Cet influenceur n\'est plus disponible';
+
+  @override
+  String get adCheckFields => 'Vérifiez les champs signalés';
+
+  @override
+  String adRequestTitle(String code) {
+    return 'Demande $code';
+  }
+
+  @override
+  String get adPendingModification => 'Modification proposée par la plateforme';
+
+  @override
+  String get adProposedBudget => 'Budget proposé';
+
+  @override
+  String get adAcceptModification => 'Accepter';
+
+  @override
+  String get adRefuseModification => 'Refuser';
+
+  @override
+  String get adRefuseHint => 'Pourquoi refusez-vous ?';
+
+  @override
+  String get adMessageOptional => 'Message (facultatif)';
+
+  @override
+  String get adCancelRequest => 'Annuler la demande';
+
+  @override
+  String get adCancelHint => 'Motif de l\'annulation';
+
+  @override
+  String adRejectedBy(String party) {
+    return 'Refusé par $party';
+  }
+
+  @override
+  String get adTimeline => 'Historique';
+
+  @override
+  String get adDeleteDraft => 'Supprimer le brouillon';
+
+  @override
+  String get adDeleteDraftConfirm => 'Supprimer définitivement ce brouillon ?';
+
+  @override
+  String get adAttachments => 'Pièces jointes';
+
+  @override
+  String get adWithPlatformServices => 'Avec services de la plateforme';
+
+  @override
+  String get adTravel => 'Sur place';
+
+  @override
+  String get adEmpty => 'Aucune demande dans ce statut';
+
+  @override
+  String get adUpdated => 'Demande mise à jour';
+
+  @override
+  String get oppTabRequested => 'Nouvelles demandes';
+
+  @override
+  String get oppTabDiscussing => 'En discussion';
+
+  @override
+  String get oppEmpty => 'Aucune demande pour l\'instant';
+
+  @override
+  String get oppClient => 'Annonceur';
+
+  @override
+  String get oppClientVerified => 'Annonceur vérifié';
+
+  @override
+  String oppClientDeals(int count) {
+    return 'Accords conclus : $count';
+  }
+
+  @override
+  String get oppAccept => 'Accepter';
+
+  @override
+  String get oppCounter => 'Contre-proposition';
+
+  @override
+  String get oppUnclear => 'Demander des précisions';
+
+  @override
+  String get oppDecline => 'Décliner';
+
+  @override
+  String get oppCounterHint => 'Expliquez votre proposition';
+
+  @override
+  String get oppDeclineHint => 'Motif du refus';
+
+  @override
+  String get oppUnclearHint => 'Qu\'est-ce qui n\'est pas clair ?';
+
+  @override
+  String get oppProposedBudgetOptional => 'Budget proposé (facultatif)';
+
+  @override
+  String get oppReplied => 'Votre réponse a été envoyée';
+
+  @override
+  String get oppWaiting =>
+      'Réponse reçue ; la plateforme fera le suivi avec l\'annonceur';
+
+  @override
+  String get oppAgreed => 'Cette publicité est conclue';
 }

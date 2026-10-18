@@ -185,7 +185,7 @@ class _InfluencerDetailsScreenState extends State<InfluencerDetailsScreen> {
                     ? () {
                         context.push(
                           '/advertiser/campaign/new',
-                          extra: influencer.name,
+                          extra: influencer,
                         );
                       }
                     : null,

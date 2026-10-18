@@ -1051,4 +1051,331 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get featuredWorks => 'Featured work';
+
+  @override
+  String get all => 'All';
+
+  @override
+  String get yes => 'Yes';
+
+  @override
+  String get no => 'No';
+
+  @override
+  String get adStatusDraft => 'Draft';
+
+  @override
+  String get adStatusSubmitted => 'With the platform';
+
+  @override
+  String get adStatusAwaitingInfluencer => 'Awaiting influencer';
+
+  @override
+  String get adStatusInfluencerReplied => 'Influencer replied';
+
+  @override
+  String get adStatusClientReviewing => 'Awaiting advertiser';
+
+  @override
+  String get adStatusClientReviewingYou => 'Awaiting your reply';
+
+  @override
+  String get adStatusClientReplied => 'Advertiser replied';
+
+  @override
+  String get adStatusAgreed => 'Agreed';
+
+  @override
+  String get adStatusRejected => 'Rejected';
+
+  @override
+  String get adFormatPost => 'Post';
+
+  @override
+  String get adFormatReel => 'Reel';
+
+  @override
+  String get adFormatStory => 'Story';
+
+  @override
+  String get adEntryTemplate => 'Template';
+
+  @override
+  String get adEntryTemplateDesc =>
+      'Pick the content type and source from set options';
+
+  @override
+  String get adEntryFreeText => 'Custom request';
+
+  @override
+  String get adEntryFreeTextDesc => 'Describe what you need in your own words';
+
+  @override
+  String get adMediaImage => 'Image';
+
+  @override
+  String get adMediaVideo => 'Video';
+
+  @override
+  String get adSourceReady => 'I have ready content';
+
+  @override
+  String get adSourceInfluencer => 'The influencer creates it';
+
+  @override
+  String get adEventSubmitted => 'Request sent to the platform';
+
+  @override
+  String get adEventForwarded => 'Forwarded to the influencer';
+
+  @override
+  String get adEventModificationSent => 'The platform proposed a change';
+
+  @override
+  String get adEventModificationAccepted => 'Change accepted';
+
+  @override
+  String get adEventModificationRefused => 'Change refused';
+
+  @override
+  String get adEventInfluencerChanged => 'Influencer changed';
+
+  @override
+  String get adEventInfluencerAccepted => 'Influencer accepted';
+
+  @override
+  String get adEventCounterOffer => 'Influencer made a counter-offer';
+
+  @override
+  String get adEventUnclear => 'Influencer asked for clarification';
+
+  @override
+  String get adEventDeclined => 'Influencer declined';
+
+  @override
+  String get adEventRejected => 'Request rejected';
+
+  @override
+  String get adEventUnknown => 'Request updated';
+
+  @override
+  String get adPartyClient => 'the advertiser';
+
+  @override
+  String get adPartyPlatform => 'the platform';
+
+  @override
+  String get adPartyInfluencer => 'the influencer';
+
+  @override
+  String get adInfluencer => 'Influencer';
+
+  @override
+  String get adChooseInfluencer => 'Pick an influencer from Explore';
+
+  @override
+  String get adRequiresTravel => 'Requires the influencer on site';
+
+  @override
+  String get adRequiresTravelHint =>
+      'Travel is arranged by the platform outside the app';
+
+  @override
+  String get adTravelAddress => 'Venue address';
+
+  @override
+  String get adPresenceRequirements => 'Presence requirements';
+
+  @override
+  String get adPresenceHint => 'Duration, dress code, what to do...';
+
+  @override
+  String get adEntryMode => 'Request type';
+
+  @override
+  String get adMediaType => 'Content type';
+
+  @override
+  String get adContentSource => 'Content source';
+
+  @override
+  String get adSampleRequired => 'Review a sample before publishing?';
+
+  @override
+  String get adDetails => 'Request details';
+
+  @override
+  String get adDetailsHint =>
+      'Describe the idea, the message and the target audience...';
+
+  @override
+  String get adFormats => 'Ad formats';
+
+  @override
+  String get adPlatforms => 'Platforms';
+
+  @override
+  String get adBudget => 'Budget';
+
+  @override
+  String get adDeadline => 'Publish deadline';
+
+  @override
+  String get adNeedsPlatformServices =>
+      'I need platform services (filming, editing...)';
+
+  @override
+  String get adBriefFiles => 'Reference files';
+
+  @override
+  String get adBriefFilesHint => 'Images or PDF, up to 10MB';
+
+  @override
+  String get adReadyContent => 'Ready content';
+
+  @override
+  String get adReadyContentHint =>
+      'Images up to 10MB, MP4/MOV video up to 100MB';
+
+  @override
+  String get adAddFile => 'Add file';
+
+  @override
+  String get adSend => 'Send request';
+
+  @override
+  String get adSentTitle => 'Request sent';
+
+  @override
+  String get adSentBody =>
+      'The platform will review your request before forwarding it to the influencer.';
+
+  @override
+  String get adDeadlineFuture => 'The date must be after today';
+
+  @override
+  String get adReadyContentMissing => 'Add your ready content';
+
+  @override
+  String get adFileTooLarge =>
+      'File too large: images up to 10MB, videos up to 100MB';
+
+  @override
+  String get adInfluencerUnavailable =>
+      'This influencer is no longer available';
+
+  @override
+  String get adCheckFields => 'Check the highlighted fields';
+
+  @override
+  String adRequestTitle(String code) {
+    return 'Request $code';
+  }
+
+  @override
+  String get adPendingModification => 'Change proposed by the platform';
+
+  @override
+  String get adProposedBudget => 'Proposed budget';
+
+  @override
+  String get adAcceptModification => 'Accept change';
+
+  @override
+  String get adRefuseModification => 'Refuse change';
+
+  @override
+  String get adRefuseHint => 'Why are you refusing?';
+
+  @override
+  String get adMessageOptional => 'Message (optional)';
+
+  @override
+  String get adCancelRequest => 'Cancel request';
+
+  @override
+  String get adCancelHint => 'Reason for cancelling';
+
+  @override
+  String adRejectedBy(String party) {
+    return 'Rejected by $party';
+  }
+
+  @override
+  String get adTimeline => 'History';
+
+  @override
+  String get adDeleteDraft => 'Delete draft';
+
+  @override
+  String get adDeleteDraftConfirm => 'Delete this draft permanently?';
+
+  @override
+  String get adAttachments => 'Attachments';
+
+  @override
+  String get adWithPlatformServices => 'With platform services';
+
+  @override
+  String get adTravel => 'On-site';
+
+  @override
+  String get adEmpty => 'No requests in this status';
+
+  @override
+  String get adUpdated => 'Request updated';
+
+  @override
+  String get oppTabRequested => 'New requests';
+
+  @override
+  String get oppTabDiscussing => 'In discussion';
+
+  @override
+  String get oppEmpty => 'No requests here yet';
+
+  @override
+  String get oppClient => 'Advertiser';
+
+  @override
+  String get oppClientVerified => 'Verified advertiser';
+
+  @override
+  String oppClientDeals(int count) {
+    return 'Successful deals: $count';
+  }
+
+  @override
+  String get oppAccept => 'Accept';
+
+  @override
+  String get oppCounter => 'Counter-offer';
+
+  @override
+  String get oppUnclear => 'Ask for clarification';
+
+  @override
+  String get oppDecline => 'Decline';
+
+  @override
+  String get oppCounterHint => 'Explain your proposal';
+
+  @override
+  String get oppDeclineHint => 'Reason for declining';
+
+  @override
+  String get oppUnclearHint => 'What is unclear?';
+
+  @override
+  String get oppProposedBudgetOptional => 'Proposed budget (optional)';
+
+  @override
+  String get oppReplied => 'Your reply was sent';
+
+  @override
+  String get oppWaiting =>
+      'Your reply was received; the platform will follow up with the advertiser';
+
+  @override
+  String get oppAgreed => 'This ad has been agreed';
 }

@@ -2079,6 +2079,630 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'أعمال مميزة'**
   String get featuredWorks;
+
+  /// No description provided for @all.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكل'**
+  String get all;
+
+  /// No description provided for @yes.
+  ///
+  /// In ar, this message translates to:
+  /// **'نعم'**
+  String get yes;
+
+  /// No description provided for @no.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا'**
+  String get no;
+
+  /// No description provided for @adStatusDraft.
+  ///
+  /// In ar, this message translates to:
+  /// **'مسودة'**
+  String get adStatusDraft;
+
+  /// No description provided for @adStatusSubmitted.
+  ///
+  /// In ar, this message translates to:
+  /// **'عند المنصة'**
+  String get adStatusSubmitted;
+
+  /// No description provided for @adStatusAwaitingInfluencer.
+  ///
+  /// In ar, this message translates to:
+  /// **'بانتظار المؤثر'**
+  String get adStatusAwaitingInfluencer;
+
+  /// No description provided for @adStatusInfluencerReplied.
+  ///
+  /// In ar, this message translates to:
+  /// **'ردّ المؤثر'**
+  String get adStatusInfluencerReplied;
+
+  /// No description provided for @adStatusClientReviewing.
+  ///
+  /// In ar, this message translates to:
+  /// **'بانتظار المعلن'**
+  String get adStatusClientReviewing;
+
+  /// No description provided for @adStatusClientReviewingYou.
+  ///
+  /// In ar, this message translates to:
+  /// **'بانتظار ردّك'**
+  String get adStatusClientReviewingYou;
+
+  /// No description provided for @adStatusClientReplied.
+  ///
+  /// In ar, this message translates to:
+  /// **'ردّ المعلن'**
+  String get adStatusClientReplied;
+
+  /// No description provided for @adStatusAgreed.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم الاتفاق'**
+  String get adStatusAgreed;
+
+  /// No description provided for @adStatusRejected.
+  ///
+  /// In ar, this message translates to:
+  /// **'مرفوض'**
+  String get adStatusRejected;
+
+  /// No description provided for @adFormatPost.
+  ///
+  /// In ar, this message translates to:
+  /// **'منشور'**
+  String get adFormatPost;
+
+  /// No description provided for @adFormatReel.
+  ///
+  /// In ar, this message translates to:
+  /// **'ريلز'**
+  String get adFormatReel;
+
+  /// No description provided for @adFormatStory.
+  ///
+  /// In ar, this message translates to:
+  /// **'ستوري'**
+  String get adFormatStory;
+
+  /// No description provided for @adEntryTemplate.
+  ///
+  /// In ar, this message translates to:
+  /// **'حسب النموذج'**
+  String get adEntryTemplate;
+
+  /// No description provided for @adEntryTemplateDesc.
+  ///
+  /// In ar, this message translates to:
+  /// **'تختار نوع المحتوى ومصدره من خيارات جاهزة'**
+  String get adEntryTemplateDesc;
+
+  /// No description provided for @adEntryFreeText.
+  ///
+  /// In ar, this message translates to:
+  /// **'حسب الطلب'**
+  String get adEntryFreeText;
+
+  /// No description provided for @adEntryFreeTextDesc.
+  ///
+  /// In ar, this message translates to:
+  /// **'تكتب طلبك بكلماتك'**
+  String get adEntryFreeTextDesc;
+
+  /// No description provided for @adMediaImage.
+  ///
+  /// In ar, this message translates to:
+  /// **'صورة'**
+  String get adMediaImage;
+
+  /// No description provided for @adMediaVideo.
+  ///
+  /// In ar, this message translates to:
+  /// **'فيديو'**
+  String get adMediaVideo;
+
+  /// No description provided for @adSourceReady.
+  ///
+  /// In ar, this message translates to:
+  /// **'عندي محتوى جاهز'**
+  String get adSourceReady;
+
+  /// No description provided for @adSourceInfluencer.
+  ///
+  /// In ar, this message translates to:
+  /// **'المؤثر يصنع المحتوى'**
+  String get adSourceInfluencer;
+
+  /// No description provided for @adEventSubmitted.
+  ///
+  /// In ar, this message translates to:
+  /// **'أُرسل الطلب للمنصة'**
+  String get adEventSubmitted;
+
+  /// No description provided for @adEventForwarded.
+  ///
+  /// In ar, this message translates to:
+  /// **'حوّلت المنصة الطلب للمؤثر'**
+  String get adEventForwarded;
+
+  /// No description provided for @adEventModificationSent.
+  ///
+  /// In ar, this message translates to:
+  /// **'اقترحت المنصة تعديلاً'**
+  String get adEventModificationSent;
+
+  /// No description provided for @adEventModificationAccepted.
+  ///
+  /// In ar, this message translates to:
+  /// **'قُبل التعديل'**
+  String get adEventModificationAccepted;
+
+  /// No description provided for @adEventModificationRefused.
+  ///
+  /// In ar, this message translates to:
+  /// **'رُفض التعديل'**
+  String get adEventModificationRefused;
+
+  /// No description provided for @adEventInfluencerChanged.
+  ///
+  /// In ar, this message translates to:
+  /// **'تغيّر المؤثر'**
+  String get adEventInfluencerChanged;
+
+  /// No description provided for @adEventInfluencerAccepted.
+  ///
+  /// In ar, this message translates to:
+  /// **'وافق المؤثر'**
+  String get adEventInfluencerAccepted;
+
+  /// No description provided for @adEventCounterOffer.
+  ///
+  /// In ar, this message translates to:
+  /// **'اقترح المؤثر عرضاً آخر'**
+  String get adEventCounterOffer;
+
+  /// No description provided for @adEventUnclear.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلب المؤثر توضيحاً'**
+  String get adEventUnclear;
+
+  /// No description provided for @adEventDeclined.
+  ///
+  /// In ar, this message translates to:
+  /// **'اعتذر المؤثر'**
+  String get adEventDeclined;
+
+  /// No description provided for @adEventRejected.
+  ///
+  /// In ar, this message translates to:
+  /// **'رُفض الطلب'**
+  String get adEventRejected;
+
+  /// No description provided for @adEventUnknown.
+  ///
+  /// In ar, this message translates to:
+  /// **'تحديث على الطلب'**
+  String get adEventUnknown;
+
+  /// No description provided for @adPartyClient.
+  ///
+  /// In ar, this message translates to:
+  /// **'المعلن'**
+  String get adPartyClient;
+
+  /// No description provided for @adPartyPlatform.
+  ///
+  /// In ar, this message translates to:
+  /// **'المنصة'**
+  String get adPartyPlatform;
+
+  /// No description provided for @adPartyInfluencer.
+  ///
+  /// In ar, this message translates to:
+  /// **'المؤثر'**
+  String get adPartyInfluencer;
+
+  /// No description provided for @adInfluencer.
+  ///
+  /// In ar, this message translates to:
+  /// **'المؤثر'**
+  String get adInfluencer;
+
+  /// No description provided for @adChooseInfluencer.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر مؤثراً من صفحة الاكتشاف'**
+  String get adChooseInfluencer;
+
+  /// No description provided for @adRequiresTravel.
+  ///
+  /// In ar, this message translates to:
+  /// **'يتطلب حضور المؤثر'**
+  String get adRequiresTravel;
+
+  /// No description provided for @adRequiresTravelHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'التنقل يُنسَّق بين المنصة والمؤثر خارج التطبيق'**
+  String get adRequiresTravelHint;
+
+  /// No description provided for @adTravelAddress.
+  ///
+  /// In ar, this message translates to:
+  /// **'عنوان الحضور'**
+  String get adTravelAddress;
+
+  /// No description provided for @adPresenceRequirements.
+  ///
+  /// In ar, this message translates to:
+  /// **'متطلبات الحضور'**
+  String get adPresenceRequirements;
+
+  /// No description provided for @adPresenceHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'المدة، اللباس، واش لازم يدير...'**
+  String get adPresenceHint;
+
+  /// No description provided for @adEntryMode.
+  ///
+  /// In ar, this message translates to:
+  /// **'طريقة الطلب'**
+  String get adEntryMode;
+
+  /// No description provided for @adMediaType.
+  ///
+  /// In ar, this message translates to:
+  /// **'نوع المحتوى'**
+  String get adMediaType;
+
+  /// No description provided for @adContentSource.
+  ///
+  /// In ar, this message translates to:
+  /// **'مصدر المحتوى'**
+  String get adContentSource;
+
+  /// No description provided for @adSampleRequired.
+  ///
+  /// In ar, this message translates to:
+  /// **'تحب تشوف نموذجاً قبل النشر؟'**
+  String get adSampleRequired;
+
+  /// No description provided for @adDetails.
+  ///
+  /// In ar, this message translates to:
+  /// **'تفاصيل الطلب'**
+  String get adDetails;
+
+  /// No description provided for @adDetailsHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'اشرح فكرة الإعلان، الرسالة، والجمهور اللي تستهدفه...'**
+  String get adDetailsHint;
+
+  /// No description provided for @adFormats.
+  ///
+  /// In ar, this message translates to:
+  /// **'صيغ الإعلان'**
+  String get adFormats;
+
+  /// No description provided for @adPlatforms.
+  ///
+  /// In ar, this message translates to:
+  /// **'المنصات'**
+  String get adPlatforms;
+
+  /// No description provided for @adBudget.
+  ///
+  /// In ar, this message translates to:
+  /// **'الميزانية'**
+  String get adBudget;
+
+  /// No description provided for @adDeadline.
+  ///
+  /// In ar, this message translates to:
+  /// **'آخر أجل للنشر'**
+  String get adDeadline;
+
+  /// No description provided for @adNeedsPlatformServices.
+  ///
+  /// In ar, this message translates to:
+  /// **'أحتاج خدمات المنصة (تصوير، مونتاج...)'**
+  String get adNeedsPlatformServices;
+
+  /// No description provided for @adBriefFiles.
+  ///
+  /// In ar, this message translates to:
+  /// **'ملفات توضيحية'**
+  String get adBriefFiles;
+
+  /// No description provided for @adBriefFilesHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'صور أو PDF، حتى 10MB'**
+  String get adBriefFilesHint;
+
+  /// No description provided for @adReadyContent.
+  ///
+  /// In ar, this message translates to:
+  /// **'المحتوى الجاهز'**
+  String get adReadyContent;
+
+  /// No description provided for @adReadyContentHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'صور حتى 10MB، فيديو MP4/MOV حتى 100MB'**
+  String get adReadyContentHint;
+
+  /// No description provided for @adAddFile.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة ملف'**
+  String get adAddFile;
+
+  /// No description provided for @adSend.
+  ///
+  /// In ar, this message translates to:
+  /// **'إرسال الطلب'**
+  String get adSend;
+
+  /// No description provided for @adSentTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم إرسال الطلب'**
+  String get adSentTitle;
+
+  /// No description provided for @adSentBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلبك عند المنصة، تراجعه قبل ما تحوّله للمؤثر.'**
+  String get adSentBody;
+
+  /// No description provided for @adDeadlineFuture.
+  ///
+  /// In ar, this message translates to:
+  /// **'لازم يكون التاريخ بعد اليوم'**
+  String get adDeadlineFuture;
+
+  /// No description provided for @adReadyContentMissing.
+  ///
+  /// In ar, this message translates to:
+  /// **'أضف المحتوى الجاهز'**
+  String get adReadyContentMissing;
+
+  /// No description provided for @adFileTooLarge.
+  ///
+  /// In ar, this message translates to:
+  /// **'الملف كبير: الصور حتى 10MB والفيديو حتى 100MB'**
+  String get adFileTooLarge;
+
+  /// No description provided for @adInfluencerUnavailable.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا المؤثر لم يعد متاحاً'**
+  String get adInfluencerUnavailable;
+
+  /// No description provided for @adCheckFields.
+  ///
+  /// In ar, this message translates to:
+  /// **'راجع الحقول المعلّمة'**
+  String get adCheckFields;
+
+  /// No description provided for @adRequestTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلب {code}'**
+  String adRequestTitle(String code);
+
+  /// No description provided for @adPendingModification.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل مقترح من المنصة'**
+  String get adPendingModification;
+
+  /// No description provided for @adProposedBudget.
+  ///
+  /// In ar, this message translates to:
+  /// **'الميزانية المقترحة'**
+  String get adProposedBudget;
+
+  /// No description provided for @adAcceptModification.
+  ///
+  /// In ar, this message translates to:
+  /// **'قبول التعديل'**
+  String get adAcceptModification;
+
+  /// No description provided for @adRefuseModification.
+  ///
+  /// In ar, this message translates to:
+  /// **'رفض التعديل'**
+  String get adRefuseModification;
+
+  /// No description provided for @adRefuseHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'علاش ترفض التعديل؟'**
+  String get adRefuseHint;
+
+  /// No description provided for @adMessageOptional.
+  ///
+  /// In ar, this message translates to:
+  /// **'رسالة (اختياري)'**
+  String get adMessageOptional;
+
+  /// No description provided for @adCancelRequest.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء الطلب'**
+  String get adCancelRequest;
+
+  /// No description provided for @adCancelHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'سبب الإلغاء'**
+  String get adCancelHint;
+
+  /// No description provided for @adRejectedBy.
+  ///
+  /// In ar, this message translates to:
+  /// **'رُفض من طرف {party}'**
+  String adRejectedBy(String party);
+
+  /// No description provided for @adTimeline.
+  ///
+  /// In ar, this message translates to:
+  /// **'سجل الطلب'**
+  String get adTimeline;
+
+  /// No description provided for @adDeleteDraft.
+  ///
+  /// In ar, this message translates to:
+  /// **'حذف المسودة'**
+  String get adDeleteDraft;
+
+  /// No description provided for @adDeleteDraftConfirm.
+  ///
+  /// In ar, this message translates to:
+  /// **'تحذف هذي المسودة نهائياً؟'**
+  String get adDeleteDraftConfirm;
+
+  /// No description provided for @adAttachments.
+  ///
+  /// In ar, this message translates to:
+  /// **'المرفقات'**
+  String get adAttachments;
+
+  /// No description provided for @adWithPlatformServices.
+  ///
+  /// In ar, this message translates to:
+  /// **'مع خدمات المنصة'**
+  String get adWithPlatformServices;
+
+  /// No description provided for @adTravel.
+  ///
+  /// In ar, this message translates to:
+  /// **'حضور ميداني'**
+  String get adTravel;
+
+  /// No description provided for @adEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'ما كاين حتى طلب في هذي الحالة'**
+  String get adEmpty;
+
+  /// No description provided for @adUpdated.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم تحديث الطلب'**
+  String get adUpdated;
+
+  /// No description provided for @oppTabRequested.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلبات جديدة'**
+  String get oppTabRequested;
+
+  /// No description provided for @oppTabDiscussing.
+  ///
+  /// In ar, this message translates to:
+  /// **'قيد النقاش'**
+  String get oppTabDiscussing;
+
+  /// No description provided for @oppEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'ما عندك حتى طلب هنا حالياً'**
+  String get oppEmpty;
+
+  /// No description provided for @oppClient.
+  ///
+  /// In ar, this message translates to:
+  /// **'المعلن'**
+  String get oppClient;
+
+  /// No description provided for @oppClientVerified.
+  ///
+  /// In ar, this message translates to:
+  /// **'معلن موثّق'**
+  String get oppClientVerified;
+
+  /// No description provided for @oppClientDeals.
+  ///
+  /// In ar, this message translates to:
+  /// **'صفقات ناجحة: {count}'**
+  String oppClientDeals(int count);
+
+  /// No description provided for @oppAccept.
+  ///
+  /// In ar, this message translates to:
+  /// **'قبول الطلب'**
+  String get oppAccept;
+
+  /// No description provided for @oppCounter.
+  ///
+  /// In ar, this message translates to:
+  /// **'اقتراح عرض آخر'**
+  String get oppCounter;
+
+  /// No description provided for @oppUnclear.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلب توضيح'**
+  String get oppUnclear;
+
+  /// No description provided for @oppDecline.
+  ///
+  /// In ar, this message translates to:
+  /// **'اعتذار'**
+  String get oppDecline;
+
+  /// No description provided for @oppCounterHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'اشرح اقتراحك'**
+  String get oppCounterHint;
+
+  /// No description provided for @oppDeclineHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'سبب الاعتذار'**
+  String get oppDeclineHint;
+
+  /// No description provided for @oppUnclearHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'واش اللي ماهوش واضح؟'**
+  String get oppUnclearHint;
+
+  /// No description provided for @oppProposedBudgetOptional.
+  ///
+  /// In ar, this message translates to:
+  /// **'الميزانية المقترحة (اختياري)'**
+  String get oppProposedBudgetOptional;
+
+  /// No description provided for @oppReplied.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم إرسال ردك'**
+  String get oppReplied;
+
+  /// No description provided for @oppWaiting.
+  ///
+  /// In ar, this message translates to:
+  /// **'ردّك وصل، المنصة راح تتواصل مع المعلن'**
+  String get oppWaiting;
+
+  /// No description provided for @oppAgreed.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم الاتفاق على هذا الإعلان'**
+  String get oppAgreed;
 }
 
 class _AppLocalizationsDelegate

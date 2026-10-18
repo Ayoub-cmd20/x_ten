@@ -1046,4 +1046,324 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get featuredWorks => 'أعمال مميزة';
+
+  @override
+  String get all => 'الكل';
+
+  @override
+  String get yes => 'نعم';
+
+  @override
+  String get no => 'لا';
+
+  @override
+  String get adStatusDraft => 'مسودة';
+
+  @override
+  String get adStatusSubmitted => 'عند المنصة';
+
+  @override
+  String get adStatusAwaitingInfluencer => 'بانتظار المؤثر';
+
+  @override
+  String get adStatusInfluencerReplied => 'ردّ المؤثر';
+
+  @override
+  String get adStatusClientReviewing => 'بانتظار المعلن';
+
+  @override
+  String get adStatusClientReviewingYou => 'بانتظار ردّك';
+
+  @override
+  String get adStatusClientReplied => 'ردّ المعلن';
+
+  @override
+  String get adStatusAgreed => 'تم الاتفاق';
+
+  @override
+  String get adStatusRejected => 'مرفوض';
+
+  @override
+  String get adFormatPost => 'منشور';
+
+  @override
+  String get adFormatReel => 'ريلز';
+
+  @override
+  String get adFormatStory => 'ستوري';
+
+  @override
+  String get adEntryTemplate => 'حسب النموذج';
+
+  @override
+  String get adEntryTemplateDesc => 'تختار نوع المحتوى ومصدره من خيارات جاهزة';
+
+  @override
+  String get adEntryFreeText => 'حسب الطلب';
+
+  @override
+  String get adEntryFreeTextDesc => 'تكتب طلبك بكلماتك';
+
+  @override
+  String get adMediaImage => 'صورة';
+
+  @override
+  String get adMediaVideo => 'فيديو';
+
+  @override
+  String get adSourceReady => 'عندي محتوى جاهز';
+
+  @override
+  String get adSourceInfluencer => 'المؤثر يصنع المحتوى';
+
+  @override
+  String get adEventSubmitted => 'أُرسل الطلب للمنصة';
+
+  @override
+  String get adEventForwarded => 'حوّلت المنصة الطلب للمؤثر';
+
+  @override
+  String get adEventModificationSent => 'اقترحت المنصة تعديلاً';
+
+  @override
+  String get adEventModificationAccepted => 'قُبل التعديل';
+
+  @override
+  String get adEventModificationRefused => 'رُفض التعديل';
+
+  @override
+  String get adEventInfluencerChanged => 'تغيّر المؤثر';
+
+  @override
+  String get adEventInfluencerAccepted => 'وافق المؤثر';
+
+  @override
+  String get adEventCounterOffer => 'اقترح المؤثر عرضاً آخر';
+
+  @override
+  String get adEventUnclear => 'طلب المؤثر توضيحاً';
+
+  @override
+  String get adEventDeclined => 'اعتذر المؤثر';
+
+  @override
+  String get adEventRejected => 'رُفض الطلب';
+
+  @override
+  String get adEventUnknown => 'تحديث على الطلب';
+
+  @override
+  String get adPartyClient => 'المعلن';
+
+  @override
+  String get adPartyPlatform => 'المنصة';
+
+  @override
+  String get adPartyInfluencer => 'المؤثر';
+
+  @override
+  String get adInfluencer => 'المؤثر';
+
+  @override
+  String get adChooseInfluencer => 'اختر مؤثراً من صفحة الاكتشاف';
+
+  @override
+  String get adRequiresTravel => 'يتطلب حضور المؤثر';
+
+  @override
+  String get adRequiresTravelHint =>
+      'التنقل يُنسَّق بين المنصة والمؤثر خارج التطبيق';
+
+  @override
+  String get adTravelAddress => 'عنوان الحضور';
+
+  @override
+  String get adPresenceRequirements => 'متطلبات الحضور';
+
+  @override
+  String get adPresenceHint => 'المدة، اللباس، واش لازم يدير...';
+
+  @override
+  String get adEntryMode => 'طريقة الطلب';
+
+  @override
+  String get adMediaType => 'نوع المحتوى';
+
+  @override
+  String get adContentSource => 'مصدر المحتوى';
+
+  @override
+  String get adSampleRequired => 'تحب تشوف نموذجاً قبل النشر؟';
+
+  @override
+  String get adDetails => 'تفاصيل الطلب';
+
+  @override
+  String get adDetailsHint =>
+      'اشرح فكرة الإعلان، الرسالة، والجمهور اللي تستهدفه...';
+
+  @override
+  String get adFormats => 'صيغ الإعلان';
+
+  @override
+  String get adPlatforms => 'المنصات';
+
+  @override
+  String get adBudget => 'الميزانية';
+
+  @override
+  String get adDeadline => 'آخر أجل للنشر';
+
+  @override
+  String get adNeedsPlatformServices => 'أحتاج خدمات المنصة (تصوير، مونتاج...)';
+
+  @override
+  String get adBriefFiles => 'ملفات توضيحية';
+
+  @override
+  String get adBriefFilesHint => 'صور أو PDF، حتى 10MB';
+
+  @override
+  String get adReadyContent => 'المحتوى الجاهز';
+
+  @override
+  String get adReadyContentHint => 'صور حتى 10MB، فيديو MP4/MOV حتى 100MB';
+
+  @override
+  String get adAddFile => 'إضافة ملف';
+
+  @override
+  String get adSend => 'إرسال الطلب';
+
+  @override
+  String get adSentTitle => 'تم إرسال الطلب';
+
+  @override
+  String get adSentBody => 'طلبك عند المنصة، تراجعه قبل ما تحوّله للمؤثر.';
+
+  @override
+  String get adDeadlineFuture => 'لازم يكون التاريخ بعد اليوم';
+
+  @override
+  String get adReadyContentMissing => 'أضف المحتوى الجاهز';
+
+  @override
+  String get adFileTooLarge => 'الملف كبير: الصور حتى 10MB والفيديو حتى 100MB';
+
+  @override
+  String get adInfluencerUnavailable => 'هذا المؤثر لم يعد متاحاً';
+
+  @override
+  String get adCheckFields => 'راجع الحقول المعلّمة';
+
+  @override
+  String adRequestTitle(String code) {
+    return 'طلب $code';
+  }
+
+  @override
+  String get adPendingModification => 'تعديل مقترح من المنصة';
+
+  @override
+  String get adProposedBudget => 'الميزانية المقترحة';
+
+  @override
+  String get adAcceptModification => 'قبول التعديل';
+
+  @override
+  String get adRefuseModification => 'رفض التعديل';
+
+  @override
+  String get adRefuseHint => 'علاش ترفض التعديل؟';
+
+  @override
+  String get adMessageOptional => 'رسالة (اختياري)';
+
+  @override
+  String get adCancelRequest => 'إلغاء الطلب';
+
+  @override
+  String get adCancelHint => 'سبب الإلغاء';
+
+  @override
+  String adRejectedBy(String party) {
+    return 'رُفض من طرف $party';
+  }
+
+  @override
+  String get adTimeline => 'سجل الطلب';
+
+  @override
+  String get adDeleteDraft => 'حذف المسودة';
+
+  @override
+  String get adDeleteDraftConfirm => 'تحذف هذي المسودة نهائياً؟';
+
+  @override
+  String get adAttachments => 'المرفقات';
+
+  @override
+  String get adWithPlatformServices => 'مع خدمات المنصة';
+
+  @override
+  String get adTravel => 'حضور ميداني';
+
+  @override
+  String get adEmpty => 'ما كاين حتى طلب في هذي الحالة';
+
+  @override
+  String get adUpdated => 'تم تحديث الطلب';
+
+  @override
+  String get oppTabRequested => 'طلبات جديدة';
+
+  @override
+  String get oppTabDiscussing => 'قيد النقاش';
+
+  @override
+  String get oppEmpty => 'ما عندك حتى طلب هنا حالياً';
+
+  @override
+  String get oppClient => 'المعلن';
+
+  @override
+  String get oppClientVerified => 'معلن موثّق';
+
+  @override
+  String oppClientDeals(int count) {
+    return 'صفقات ناجحة: $count';
+  }
+
+  @override
+  String get oppAccept => 'قبول الطلب';
+
+  @override
+  String get oppCounter => 'اقتراح عرض آخر';
+
+  @override
+  String get oppUnclear => 'طلب توضيح';
+
+  @override
+  String get oppDecline => 'اعتذار';
+
+  @override
+  String get oppCounterHint => 'اشرح اقتراحك';
+
+  @override
+  String get oppDeclineHint => 'سبب الاعتذار';
+
+  @override
+  String get oppUnclearHint => 'واش اللي ماهوش واضح؟';
+
+  @override
+  String get oppProposedBudgetOptional => 'الميزانية المقترحة (اختياري)';
+
+  @override
+  String get oppReplied => 'تم إرسال ردك';
+
+  @override
+  String get oppWaiting => 'ردّك وصل، المنصة راح تتواصل مع المعلن';
+
+  @override
+  String get oppAgreed => 'تم الاتفاق على هذا الإعلان';
 }

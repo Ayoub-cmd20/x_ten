@@ -91,6 +91,9 @@ import 'package:x_ten/features/marketplace/presentation/pages/influencer_categor
 import 'package:x_ten/features/marketplace/presentation/pages/influencer_details_screen.dart';
 import 'package:x_ten/features/campaigns/presentation/pages/client/campaign_creation_screen.dart';
 import 'package:x_ten/features/campaigns/presentation/pages/client/my_campaigns_screen.dart';
+import 'package:x_ten/features/campaigns/presentation/pages/client/ad_request_details_screen.dart';
+import 'package:x_ten/features/campaigns/presentation/ad_requests_cubit.dart';
+import 'package:x_ten/features/campaigns/presentation/influencer_requests_cubit.dart';
 
 // ============================================================
 // PROMOTION (ADVERTISER)
@@ -421,7 +424,10 @@ final GoRouter appRouter = GoRouter(
               context,
               state,
               ) {
-            return const OpportunitiesScreen();
+            return BlocProvider(
+              create: (_) => sl<InfluencerRequestsCubit>(),
+              child: const OpportunitiesScreen(),
+            );
           },
         ),
 
@@ -470,46 +476,19 @@ final GoRouter appRouter = GoRouter(
           context,
           state,
           ) {
-        final data =
-            (state.extra
-            as Map<String, dynamic>?) ??
-                {};
+        final extra = state.extra;
+        final preview = extra is AdRequest ? extra : null;
+        final requestId = switch (extra) {
+          AdRequest(:final id) => id,
+          final int id => id,
+          _ => 0,
+        };
 
-        return OpportunityDetailsScreen(
-          title:
-          data['title'] as String? ??
-              'Opportunity',
-
-          brand:
-          data['brand'] as String? ??
-              'Brand',
-
-          category:
-          data['category'] as String? ??
-              '',
-
-          budget:
-          data['budget'] as String? ??
-              '',
-
-          deadline:
-          data['deadline'] as String? ??
-              '',
-
-          description:
-          data['description']
-          as String? ??
-              '',
-
-          type:
-          data['type'] as String? ??
-              '',
-
-          platforms:
-          List<String>.from(
-            data['platforms']
-            as List? ??
-                const [],
+        return BlocProvider(
+          create: (_) => sl<InfluencerRequestsCubit>(),
+          child: OpportunityDetailsScreen(
+            requestId: requestId,
+            preview: preview,
           ),
         );
       },
@@ -636,7 +615,10 @@ final GoRouter appRouter = GoRouter(
               context,
               state,
               ) {
-            return const MyCampaignsScreen();
+            return BlocProvider(
+              create: (_) => sl<AdRequestsCubit>(),
+              child: const MyCampaignsScreen(),
+            );
           },
         ),
 
@@ -751,11 +733,13 @@ final GoRouter appRouter = GoRouter(
           context,
           state,
           ) {
-        final influencerName =
-            state.extra as String?;
+        final influencer = state.extra;
 
-        return CampaignCreationScreen(
-          preselectedInfluencer: influencerName,
+        return BlocProvider(
+          create: (_) => sl<AdRequestsCubit>(),
+          child: CampaignCreationScreen(
+            influencer: influencer is MarketInfluencer ? influencer : null,
+          ),
         );
       },
     ),
@@ -767,7 +751,35 @@ final GoRouter appRouter = GoRouter(
           context,
           state,
           ) {
-        return const MyCampaignsScreen();
+        return BlocProvider(
+          create: (_) => sl<AdRequestsCubit>(),
+          child: const MyCampaignsScreen(),
+        );
+      },
+    ),
+
+    GoRoute(
+      path: '/advertiser/campaigns/details',
+      name: 'advertiserCampaignDetails',
+      builder: (
+          context,
+          state,
+          ) {
+        final extra = state.extra;
+        final preview = extra is AdRequest ? extra : null;
+        final requestId = switch (extra) {
+          AdRequest(:final id) => id,
+          final int id => id,
+          _ => 0,
+        };
+
+        return BlocProvider(
+          create: (_) => sl<AdRequestsCubit>(),
+          child: AdRequestDetailsScreen(
+            requestId: requestId,
+            preview: preview,
+          ),
+        );
       },
     ),
 

@@ -9,6 +9,7 @@ import 'package:x_ten/core/session/session_notifier.dart';
 import 'package:x_ten/core/storage/app_preferences.dart';
 import 'package:x_ten/core/storage/token_storage.dart';
 import 'package:x_ten/features/auth/auth_injection.dart';
+import 'package:x_ten/features/campaigns/campaigns_injection.dart';
 import 'package:x_ten/features/company_profile/company_injection.dart';
 import 'package:x_ten/features/influencer_registration/registration_injection.dart';
 import 'package:x_ten/features/marketplace/marketplace_injection.dart';
@@ -39,4 +40,5 @@ Future<void> initDependencies() async {
   initRegistrationFeature();
   initCompanyFeature();
   initMarketplaceFeature();
+  initCampaignsFeature();
 }

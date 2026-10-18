@@ -1,16 +1,24 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
-import 'package:x_ten/features/advertiser/data/advertiser_demo_data.dart';
+import 'package:x_ten/core/localization/localization_extension.dart';
+import 'package:x_ten/features/campaigns/domain/campaign_usecases.dart';
+import 'package:x_ten/features/campaigns/presentation/ad_requests_cubit.dart';
+import 'package:x_ten/features/campaigns/presentation/campaign_labels.dart';
+import 'package:x_ten/features/marketplace/domain/marketplace_entities.dart';
+import 'package:x_ten/l10n/generated/app_localizations.dart';
 
-/// Create a new advertising campaign, optionally pre-linked
-/// to a specific influencer (passed via [preselectedInfluencer]).
+/// Create an ad request for the selected influencer, either from
+/// a template or as a free-text request, then send it to the platform.
 class CampaignCreationScreen extends StatefulWidget {
-  final String? preselectedInfluencer;
+  final MarketInfluencer? influencer;
 
   const CampaignCreationScreen({
     super.key,
-    this.preselectedInfluencer,
+    this.influencer,
   });
 
   @override
@@ -25,257 +33,181 @@ class _CampaignCreationScreenState
   static const Color _surface = Color(0xFF151515);
   static const Color _error = Color(0xFFFF6B6B);
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  late final TextEditingController _titleController;
-  late final TextEditingController _descriptionController;
+  late final TextEditingController _travelAddressController;
+  late final TextEditingController _presenceController;
+  late final TextEditingController _detailsController;
   late final TextEditingController _budgetController;
 
-  String? _selectedInfluencer;
-  String? _selectedPlatform;
-  String? _selectedContentType;
-  DateTime? _startDate;
-  DateTime? _endDate;
-
-  bool _isSubmitting = false;
-
-  static const List<String> _platforms = [
-    'Instagram',
-    'TikTok',
-    'YouTube',
-    'Facebook',
-  ];
-
-  static const List<String> _contentTypes = [
-    'فيديو قصير',
-    'ريلز + ستوري',
-    'صور + فيديو',
-    'فيديو طويل',
-    'منشور إعلاني',
-    'بث مباشر',
-  ];
+  bool _requiresTravel = false;
+  EntryMode? _entryMode;
+  MediaType? _mediaType;
+  ContentSource? _contentSource;
+  bool? _sampleRequired;
+  bool _needsPlatformServices = false;
+  final Set<AdFormat> _formats = {};
+  final Set<AdPlatform> _platforms = {};
+  DateTime? _deadline;
+  final List<PendingAttachment> _files = [];
 
   @override
   void initState() {
     super.initState();
-
-    _titleController = TextEditingController();
-    _descriptionController = TextEditingController();
+    _travelAddressController = TextEditingController();
+    _presenceController = TextEditingController();
+    _detailsController = TextEditingController();
     _budgetController = TextEditingController();
-
-    _selectedInfluencer = widget.preselectedInfluencer;
   }
 
   @override
   void dispose() {
-    _titleController.dispose();
-    _descriptionController.dispose();
+    _travelAddressController.dispose();
+    _presenceController.dispose();
+    _detailsController.dispose();
     _budgetController.dispose();
-
     super.dispose();
   }
 
-  // ============================================================
-  // VALIDATION
-  // ============================================================
-
-  String? _validateTitle(String? value) {
-    final text = value?.trim() ?? '';
-
-    if (text.isEmpty) {
-      return 'يرجى إدخال عنوان الحملة';
-    }
-
-    if (text.length < 4) {
-      return 'العنوان قصير جداً';
-    }
-
-    return null;
-  }
-
-  String? _validateDescription(String? value) {
-    final text = value?.trim() ?? '';
-
-    if (text.isEmpty) {
-      return 'يرجى كتابة وصف الحملة';
-    }
-
-    if (text.length < 20) {
-      return 'يرجى كتابة تفاصيل أكثر (20 حرفاً على الأقل)';
-    }
-
-    return null;
-  }
-
-  String? _validateBudget(String? value) {
-    final text = value?.trim() ?? '';
-
-    if (text.isEmpty) {
-      return 'يرجى إدخال الميزانية';
-    }
-
-    final budget = double.tryParse(text);
-
-    if (budget == null) {
-      return 'يرجى إدخال مبلغ صحيح';
-    }
-
-    if (budget <= 0) {
-      return 'يجب أن تكون الميزانية أكبر من صفر';
-    }
-
-    return null;
-  }
+  AdBrief get _brief => AdBrief(
+        requiresTravel: _requiresTravel,
+        travelAddress: _travelAddressController.text,
+        presenceRequirements: _presenceController.text,
+        entryMode: _entryMode,
+        mediaType: _mediaType,
+        contentSource: _contentSource,
+        sampleRequired: _sampleRequired,
+        details: _detailsController.text,
+        needsPlatformServices: _needsPlatformServices,
+        formats: [for (final f in AdFormat.values) if (_formats.contains(f)) f],
+        platforms: [for (final p in AdPlatform.values) if (_platforms.contains(p)) p],
+        budget: double.tryParse(_budgetController.text.trim()),
+        publishDeadline: _deadline,
+      );
 
   // ============================================================
-  // DATE PICKERS
+  // ACTIONS
   // ============================================================
 
-  Future<void> _pickStartDate() async {
-    final now = DateTime.now();
+  Future<void> _pickDeadline() async {
+    final tomorrow = DateTime.now().add(const Duration(days: 1));
 
     final picked = await showDatePicker(
       context: context,
-      initialDate: _startDate ?? now,
-      firstDate: now,
-      lastDate: now.add(const Duration(days: 365)),
+      initialDate: _deadline ?? tomorrow,
+      firstDate: tomorrow,
+      lastDate: tomorrow.add(const Duration(days: 365)),
     );
 
     if (picked == null) return;
 
-    setState(() {
-      _startDate = picked;
+    setState(() => _deadline = picked);
+  }
 
-      if (_endDate != null && _endDate!.isBefore(picked)) {
-        _endDate = null;
-      }
+  Future<void> _pickFile(AttachmentPurpose purpose) async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions:
+          UploadAdAttachmentUseCase.rulesFor(purpose).extensions.toList(),
+    );
+    final file = result?.files.singleOrNull;
+    final path = file?.path;
+    if (file == null || path == null) return;
+
+    setState(() {
+      _files.add((
+        purpose: purpose,
+        file: UploadFile(path: path, name: file.name, size: file.size),
+      ));
     });
   }
 
-  Future<void> _pickEndDate() async {
-    final base = _startDate ?? DateTime.now();
+  void _submit() {
+    FocusScope.of(context).unfocus();
+    final influencer = widget.influencer;
+    if (influencer == null) return;
 
-    final picked = await showDatePicker(
-      context: context,
-      initialDate: _endDate ?? base.add(const Duration(days: 7)),
-      firstDate: base,
-      lastDate: base.add(const Duration(days: 365)),
-    );
+    final brief = _brief;
+    final files = [
+      for (final f in _files)
+        if (f.purpose == AttachmentPurpose.brief ||
+            brief.needsReadyContent)
+          f,
+    ];
 
-    if (picked == null) return;
-
-    setState(() => _endDate = picked);
+    context.read<AdRequestsCubit>().send(
+          influencerProfileId: influencer.id,
+          brief: brief,
+          files: files,
+        );
   }
 
-  // ============================================================
-  // SUBMIT
-  // ============================================================
+  Future<void> _onState(BuildContext _, AdRequestsState state) async {
+    final failure = state.failure;
 
-  Future<void> _submit() async {
-    FocusScope.of(context).unfocus();
-
-    final valid = _formKey.currentState?.validate() ?? false;
-
-    if (_selectedInfluencer == null ||
-        _selectedPlatform == null ||
-        _selectedContentType == null ||
-        _startDate == null ||
-        _endDate == null) {
-      _showSnackBar(
-        'يرجى اختيار المؤثر، المنصة، نوع المحتوى وتاريخ الحملة',
-      );
-      return;
+    if (state.didSucceed(AdRequestsAction.send)) {
+      await _showSentDialog();
+      if (mounted) context.pop();
+    } else if (state.didFail(AdRequestsAction.send) && failure != null) {
+      _showSnackBar(campaignFailureText(context, failure));
     }
+  }
 
-    if (!valid || _isSubmitting) return;
+  Future<void> _showSentDialog() {
+    final l10n = context.l10n;
 
-    setState(() => _isSubmitting = true);
-
-    try {
-      // TODO:
-      // Replace this with your API / Firebase / Supabase call.
-      // Example payload:
-      // {
-      //   'title': _titleController.text.trim(),
-      //   'description': _descriptionController.text.trim(),
-      //   'influencer': _selectedInfluencer,
-      //   'platform': _selectedPlatform,
-      //   'contentType': _selectedContentType,
-      //   'budget': double.parse(_budgetController.text.trim()),
-      //   'startDate': _startDate!.toIso8601String(),
-      //   'endDate': _endDate!.toIso8601String(),
-      // }
-
-      await Future.delayed(const Duration(seconds: 2));
-
-      if (!mounted) return;
-
-      await showDialog<void>(
-        context: context,
-        builder: (context) {
-          return Directionality(
-            textDirection: TextDirection.rtl,
-            child: AlertDialog(
-              backgroundColor: _surface,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-                side: BorderSide(
-                  color: _gold.withValues(alpha: 0.18),
+    return showDialog<void>(
+      context: context,
+      builder: (context) {
+        return Directionality(
+          textDirection: TextDirection.rtl,
+          child: AlertDialog(
+            backgroundColor: _surface,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+              side: BorderSide(
+                color: _gold.withValues(alpha: 0.18),
+              ),
+            ),
+            title: Row(
+              children: [
+                const Icon(
+                  Icons.check_circle_outline_rounded,
+                  color: _gold,
                 ),
-              ),
-              title: const Row(
-                children: [
-                  Icon(
-                    Icons.check_circle_outline_rounded,
-                    color: _gold,
-                  ),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      'تم إنشاء الحملة',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              content: Text(
-                'تم إرسال حملة "${_titleController.text.trim()}" '
-                'إلى $_selectedInfluencer للمراجعة.',
-                style: const TextStyle(
-                  color: Colors.white70,
-                  height: 1.6,
-                ),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text(
-                    'حسناً',
-                    style: TextStyle(
-                      color: _gold,
-                      fontWeight: FontWeight.w700,
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    l10n.adSentTitle,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
                 ),
               ],
             ),
-          );
-        },
-      );
-
-      if (mounted) {
-        Navigator.of(context).pop();
-      }
-    } catch (e) {
-      _showSnackBar('حدث خطأ أثناء إنشاء الحملة');
-    } finally {
-      if (mounted) {
-        setState(() => _isSubmitting = false);
-      }
-    }
+            content: Text(
+              l10n.adSentBody,
+              style: const TextStyle(
+                color: Colors.white70,
+                height: 1.6,
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text(
+                  'حسناً',
+                  style: TextStyle(
+                    color: _gold,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   void _showSnackBar(String message) {
@@ -300,239 +232,298 @@ class _CampaignCreationScreenState
 
   @override
   Widget build(BuildContext context) {
-    final influencerNames =
-        demoInfluencers.map((i) => i.name).toList();
+    final l10n = context.l10n;
 
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: _background,
-        appBar: AppBar(
+    return BlocListener<AdRequestsCubit, AdRequestsState>(
+      listenWhen: (previous, current) =>
+          previous.status != current.status && current.action == AdRequestsAction.send,
+      listener: _onState,
+      child: Directionality(
+        textDirection: TextDirection.rtl,
+        child: Scaffold(
           backgroundColor: _background,
-          elevation: 0,
-          centerTitle: true,
-          iconTheme: const IconThemeData(color: Colors.white),
-          title: const Text(
-            'إنشاء حملة إشهارية',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w800,
+          appBar: AppBar(
+            backgroundColor: _background,
+            elevation: 0,
+            centerTitle: true,
+            iconTheme: const IconThemeData(color: Colors.white),
+            title: const Text(
+              'إنشاء حملة إشهارية',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w800,
+              ),
             ),
           ),
-        ),
-        body: SafeArea(
-          child: GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
-            behavior: HitTestBehavior.translucent,
-            child: SingleChildScrollView(
-              keyboardDismissBehavior:
-                  ScrollViewKeyboardDismissBehavior.onDrag,
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    _sectionTitle('عنوان الحملة'),
-                    const SizedBox(height: 8),
-                    TextFormField(
-                      controller: _titleController,
-                      validator: _validateTitle,
-                      cursorColor: _gold,
-                      style: const TextStyle(color: Colors.white),
-                      decoration: _inputDecoration(
-                        hint: 'مثال: إطلاق منتج جديد',
-                        prefixIcon: Icons.title_rounded,
-                      ),
-                    ),
+          body: SafeArea(
+            child: GestureDetector(
+              onTap: () => FocusScope.of(context).unfocus(),
+              behavior: HitTestBehavior.translucent,
+              child: BlocBuilder<AdRequestsCubit, AdRequestsState>(
+                buildWhen: (previous, current) =>
+                    previous.failure != current.failure ||
+                    previous.status != current.status ||
+                    previous.uploadedPaths != current.uploadedPaths,
+                builder: (context, state) {
+                  final failure = state.failure;
+                  String? error(String field) => l10n.adFieldError(failure, field);
 
-                    const SizedBox(height: 18),
-
-                    _sectionTitle('وصف الحملة'),
-                    const SizedBox(height: 8),
-                    TextFormField(
-                      controller: _descriptionController,
-                      validator: _validateDescription,
-                      minLines: 4,
-                      maxLines: 8,
-                      cursorColor: _gold,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        height: 1.6,
-                      ),
-                      decoration: _inputDecoration(
-                        hint:
-                            'اشرح أهداف الحملة، الجمهور المستهدف، '
-                            'وما تتوقعه من المؤثر...',
-                      ),
-                    ),
-
-                    const SizedBox(height: 18),
-
-                    _sectionTitle('اختيار المؤثر'),
-                    const SizedBox(height: 8),
-                    _dropdown<String>(
-                      value: _selectedInfluencer,
-                      hint: 'اختر المؤثر',
-                      icon: Icons.person_outline_rounded,
-                      items: influencerNames,
-                      onChanged: (value) {
-                        setState(() => _selectedInfluencer = value);
-                      },
-                    ),
-
-                    const SizedBox(height: 18),
-
-                    Row(
+                  return SingleChildScrollView(
+                    keyboardDismissBehavior:
+                        ScrollViewKeyboardDismissBehavior.onDrag,
+                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment:
-                                CrossAxisAlignment.stretch,
-                            children: [
-                              _sectionTitle('المنصة'),
-                              const SizedBox(height: 8),
-                              _dropdown<String>(
-                                value: _selectedPlatform,
-                                hint: 'المنصة',
-                                icon: Icons.public_rounded,
-                                items: _platforms,
-                                onChanged: (value) {
-                                  setState(
-                                    () => _selectedPlatform = value,
-                                  );
-                                },
-                              ),
-                            ],
+                        _sectionTitle(l10n.adInfluencer),
+                        const SizedBox(height: 8),
+                        _influencerTile(l10n),
+
+                        const SizedBox(height: 18),
+
+                        _switchTile(
+                          title: l10n.adRequiresTravel,
+                          subtitle: l10n.adRequiresTravelHint,
+                          value: _requiresTravel,
+                          onChanged: (value) =>
+                              setState(() => _requiresTravel = value),
+                        ),
+
+                        if (_requiresTravel) ..._travelFields(l10n, error) else ..._entryFields(l10n, error, state),
+
+                        const SizedBox(height: 18),
+
+                        _sectionTitle(l10n.adFormats),
+                        const SizedBox(height: 8),
+                        _chips<AdFormat>(
+                          values: AdFormat.values,
+                          label: l10n.adFormat,
+                          isSelected: _formats.contains,
+                          onTap: (value) => setState(() {
+                            _formats.contains(value)
+                                ? _formats.remove(value)
+                                : _formats.add(value);
+                          }),
+                        ),
+                        _errorText(error('formats')),
+
+                        const SizedBox(height: 18),
+
+                        _sectionTitle(l10n.adPlatforms),
+                        const SizedBox(height: 8),
+                        _chips<AdPlatform>(
+                          values: AdPlatform.values,
+                          label: l10n.adPlatform,
+                          isSelected: _platforms.contains,
+                          onTap: (value) => setState(() {
+                            _platforms.contains(value)
+                                ? _platforms.remove(value)
+                                : _platforms.add(value);
+                          }),
+                        ),
+                        _errorText(error('platforms')),
+
+                        const SizedBox(height: 18),
+
+                        _sectionTitle(l10n.adBudget),
+                        const SizedBox(height: 8),
+                        TextField(
+                          controller: _budgetController,
+                          keyboardType:
+                              const TextInputType.numberWithOptions(
+                            decimal: true,
+                          ),
+                          cursorColor: _gold,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                              RegExp(r'[0-9.]'),
+                            ),
+                          ],
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          decoration: _inputDecoration(
+                            hint: 'مثال: 100000',
+                            suffixText: 'دج',
+                            prefixIcon: Icons.payments_outlined,
+                            errorText: error('budgetAmount'),
                           ),
                         ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment:
-                                CrossAxisAlignment.stretch,
-                            children: [
-                              _sectionTitle('نوع المحتوى'),
-                              const SizedBox(height: 8),
-                              _dropdown<String>(
-                                value: _selectedContentType,
-                                hint: 'النوع',
-                                icon: Icons.video_library_outlined,
-                                items: _contentTypes,
-                                onChanged: (value) {
-                                  setState(
-                                    () =>
-                                        _selectedContentType = value,
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
+
+                        const SizedBox(height: 18),
+
+                        _dateTile(
+                          label: l10n.adDeadline,
+                          date: _deadline,
+                          onTap: _pickDeadline,
+                        ),
+                        _errorText(error('publishDeadline')),
+
+                        const SizedBox(height: 18),
+
+                        _switchTile(
+                          title: l10n.adNeedsPlatformServices,
+                          value: _needsPlatformServices,
+                          onChanged: (value) =>
+                              setState(() => _needsPlatformServices = value),
+                        ),
+
+                        const SizedBox(height: 18),
+
+                        _filesSection(
+                          title: l10n.adBriefFiles,
+                          hint: l10n.adBriefFilesHint,
+                          purpose: AttachmentPurpose.brief,
+                          uploaded: state.uploadedPaths,
+                          l10n: l10n,
+                        ),
+
+                        const SizedBox(height: 26),
+
+                        _submitButton(
+                          label: l10n.adSend,
+                          isSubmitting: state.isLoadingFor(AdRequestsAction.send),
+                          enabled: widget.influencer != null,
                         ),
                       ],
                     ),
-
-                    const SizedBox(height: 18),
-
-                    _sectionTitle('الميزانية'),
-                    const SizedBox(height: 8),
-                    TextFormField(
-                      controller: _budgetController,
-                      validator: _validateBudget,
-                      keyboardType:
-                          const TextInputType.numberWithOptions(
-                        decimal: true,
-                      ),
-                      cursorColor: _gold,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(
-                          RegExp(r'[0-9.]'),
-                        ),
-                      ],
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      decoration: _inputDecoration(
-                        hint: 'مثال: 100000',
-                        suffixText: 'دج',
-                        prefixIcon: Icons.payments_outlined,
-                      ),
-                    ),
-
-                    const SizedBox(height: 18),
-
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _dateTile(
-                            label: 'تاريخ البدء',
-                            date: _startDate,
-                            onTap: _pickStartDate,
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: _dateTile(
-                            label: 'تاريخ الانتهاء',
-                            date: _endDate,
-                            onTap: _pickEndDate,
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    const SizedBox(height: 26),
-
-                    SizedBox(
-                      height: 56,
-                      child: ElevatedButton.icon(
-                        onPressed: _isSubmitting ? null : _submit,
-                        icon: const Icon(Icons.send_rounded),
-                        label: AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 220),
-                          child: _isSubmitting
-                              ? const SizedBox(
-                                  key: ValueKey('loading'),
-                                  width: 22,
-                                  height: 22,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2.4,
-                                    valueColor:
-                                        AlwaysStoppedAnimation<Color>(
-                                      Colors.black,
-                                    ),
-                                  ),
-                                )
-                              : const Text(
-                                  'إرسال الحملة',
-                                  key: ValueKey('text'),
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w800,
-                                  ),
-                                ),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: _gold,
-                          foregroundColor: Colors.black,
-                          disabledBackgroundColor:
-                              _gold.withValues(alpha: 0.45),
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  );
+                },
               ),
             ),
           ),
         ),
       ),
     );
+  }
+
+  List<Widget> _travelFields(
+    AppLocalizations l10n,
+    String? Function(String field) error,
+  ) {
+    return [
+      const SizedBox(height: 18),
+      _sectionTitle(l10n.adTravelAddress),
+      const SizedBox(height: 8),
+      TextField(
+        controller: _travelAddressController,
+        cursorColor: _gold,
+        style: const TextStyle(color: Colors.white),
+        decoration: _inputDecoration(
+          hint: l10n.adTravelAddress,
+          prefixIcon: Icons.location_on_outlined,
+          errorText: error('travelAddress'),
+        ),
+      ),
+      const SizedBox(height: 18),
+      _sectionTitle(l10n.adPresenceRequirements),
+      const SizedBox(height: 8),
+      TextField(
+        controller: _presenceController,
+        minLines: 3,
+        maxLines: 6,
+        cursorColor: _gold,
+        style: const TextStyle(color: Colors.white, height: 1.6),
+        decoration: _inputDecoration(
+          hint: l10n.adPresenceHint,
+          errorText: error('presenceRequirements'),
+        ),
+      ),
+    ];
+  }
+
+  List<Widget> _entryFields(
+    AppLocalizations l10n,
+    String? Function(String field) error,
+    AdRequestsState state,
+  ) {
+    return [
+      const SizedBox(height: 18),
+      _sectionTitle(l10n.adEntryMode),
+      const SizedBox(height: 8),
+      Row(
+        children: [
+          for (final (index, mode) in EntryMode.values.indexed) ...[
+            if (index > 0) const SizedBox(width: 12),
+            Expanded(
+              child: _optionCard(
+                title: l10n.adEntryModeLabel(mode),
+                subtitle: l10n.adEntryModeDescription(mode),
+                icon: mode == EntryMode.template
+                    ? Icons.view_quilt_outlined
+                    : Icons.edit_note_rounded,
+                selected: _entryMode == mode,
+                onTap: () => setState(() => _entryMode = mode),
+              ),
+            ),
+          ],
+        ],
+      ),
+      _errorText(error('entryMode')),
+      if (_entryMode == EntryMode.template) ...[
+        const SizedBox(height: 18),
+        _sectionTitle(l10n.adMediaType),
+        const SizedBox(height: 8),
+        _chips<MediaType>(
+          values: MediaType.values,
+          label: l10n.adMediaTypeLabel,
+          isSelected: (value) => _mediaType == value,
+          onTap: (value) => setState(() => _mediaType = value),
+        ),
+        _errorText(error('mediaType')),
+        const SizedBox(height: 18),
+        _sectionTitle(l10n.adContentSource),
+        const SizedBox(height: 8),
+        _chips<ContentSource>(
+          values: ContentSource.values,
+          label: l10n.adContentSourceLabel,
+          isSelected: (value) => _contentSource == value,
+          onTap: (value) => setState(() => _contentSource = value),
+        ),
+        _errorText(error('contentSource')),
+        if (_contentSource == ContentSource.ready) ...[
+          const SizedBox(height: 18),
+          _filesSection(
+            title: l10n.adReadyContent,
+            hint: l10n.adReadyContentHint,
+            purpose: AttachmentPurpose.readyContent,
+            uploaded: state.uploadedPaths,
+            l10n: l10n,
+          ),
+          _errorText(error('attachments')),
+        ],
+        const SizedBox(height: 18),
+        _sectionTitle(l10n.adSampleRequired),
+        const SizedBox(height: 8),
+        _chips<bool>(
+          values: const [true, false],
+          label: (value) => value ? l10n.yes : l10n.no,
+          isSelected: (value) => _sampleRequired == value,
+          onTap: (value) => setState(() => _sampleRequired = value),
+        ),
+        _errorText(error('sampleRequired')),
+      ],
+      if (_entryMode == EntryMode.freeText) ...[
+        const SizedBox(height: 18),
+        _sectionTitle(l10n.adDetails),
+        const SizedBox(height: 8),
+        TextField(
+          controller: _detailsController,
+          minLines: 4,
+          maxLines: 8,
+          cursorColor: _gold,
+          style: const TextStyle(
+            color: Colors.white,
+            height: 1.6,
+          ),
+          decoration: _inputDecoration(
+            hint: l10n.adDetailsHint,
+            errorText: error('details'),
+          ),
+        ),
+      ],
+    ];
   }
 
   // ============================================================
@@ -550,15 +541,22 @@ class _CampaignCreationScreenState
     );
   }
 
-  Widget _dropdown<T>({
-    required T? value,
-    required String hint,
-    required IconData icon,
-    required List<T> items,
-    required ValueChanged<T?> onChanged,
-  }) {
+  Widget _errorText(String? text) {
+    if (text == null) return const SizedBox.shrink();
+    return Padding(
+      padding: const EdgeInsets.only(top: 6),
+      child: Text(
+        text,
+        style: const TextStyle(color: _error, fontSize: 12),
+      ),
+    );
+  }
+
+  Widget _influencerTile(AppLocalizations l10n) {
+    final influencer = widget.influencer;
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
       decoration: BoxDecoration(
         color: _surface,
         borderRadius: BorderRadius.circular(16),
@@ -566,43 +564,268 @@ class _CampaignCreationScreenState
           color: Colors.white.withValues(alpha: 0.08),
         ),
       ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<T>(
-          value: value,
-          isExpanded: true,
-          hint: Row(
+      child: Row(
+        children: [
+          const Icon(Icons.person_outline_rounded, color: _gold, size: 20),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              influencer?.name ?? l10n.adChooseInfluencer,
+              style: TextStyle(
+                color: influencer == null
+                    ? Colors.white.withValues(alpha: 0.35)
+                    : Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          if (influencer == null)
+            IconButton(
+              onPressed: () => context.go('/advertiser/explore'),
+              icon: const Icon(Icons.arrow_back_ios_new_rounded, color: _gold, size: 18),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _switchTile({
+    required String title,
+    String? subtitle,
+    required bool value,
+    required ValueChanged<bool> onChanged,
+  }) {
+    return Material(
+      color: _surface,
+      clipBehavior: Clip.antiAlias,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(
+          color: Colors.white.withValues(alpha: 0.08),
+        ),
+      ),
+      child: SwitchListTile(
+        value: value,
+        onChanged: onChanged,
+        activeTrackColor: _gold,
+        title: Text(
+          title,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            fontSize: 14,
+          ),
+        ),
+        subtitle: subtitle == null
+            ? null
+            : Text(
+                subtitle,
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.45),
+                  fontSize: 12,
+                ),
+              ),
+      ),
+    );
+  }
+
+  Widget _chips<T>({
+    required List<T> values,
+    required String Function(T value) label,
+    required bool Function(T value) isSelected,
+    required ValueChanged<T> onTap,
+  }) {
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: [
+        for (final value in values)
+          ChoiceChip(
+            selected: isSelected(value),
+            label: Text(label(value)),
+            onSelected: (_) => onTap(value),
+            selectedColor: _gold,
+            backgroundColor: _surface,
+            side: BorderSide(
+              color: isSelected(value)
+                  ? _gold
+                  : Colors.white.withValues(alpha: 0.08),
+            ),
+            labelStyle: TextStyle(
+              color: isSelected(value) ? Colors.black : Colors.white70,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+      ],
+    );
+  }
+
+  Widget _optionCard({
+    required String title,
+    required String subtitle,
+    required IconData icon,
+    required bool selected,
+    required VoidCallback onTap,
+  }) {
+    return Material(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(16),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(16),
+        child: Ink(
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            color: selected ? _gold.withValues(alpha: 0.10) : _surface,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: selected ? _gold : Colors.white.withValues(alpha: 0.08),
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(icon, color: _gold, size: 19),
-              const SizedBox(width: 10),
-              Flexible(
-                child: Text(
-                  hint,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.35),
-                  ),
+              Icon(icon, color: _gold, size: 22),
+              const SizedBox(height: 10),
+              Text(
+                title,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                subtitle,
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.45),
+                  fontSize: 12,
+                  height: 1.5,
                 ),
               ),
             ],
           ),
-          icon: const Icon(
-            Icons.keyboard_arrow_down_rounded,
-            color: _gold,
+        ),
+      ),
+    );
+  }
+
+  Widget _filesSection({
+    required String title,
+    required String hint,
+    required AttachmentPurpose purpose,
+    required Set<String> uploaded,
+    required AppLocalizations l10n,
+  }) {
+    final files = [for (final f in _files) if (f.purpose == purpose) f];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        _sectionTitle(title),
+        const SizedBox(height: 4),
+        Text(
+          hint,
+          style: TextStyle(
+            color: Colors.white.withValues(alpha: 0.40),
+            fontSize: 12,
           ),
-          dropdownColor: const Color(0xFF1B1B1B),
-          items: items
-              .map(
-                (item) => DropdownMenuItem<T>(
-                  value: item,
+        ),
+        const SizedBox(height: 8),
+        for (final item in files)
+          Container(
+            margin: const EdgeInsets.only(bottom: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            decoration: BoxDecoration(
+              color: _surface,
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(
+                color: Colors.white.withValues(alpha: 0.08),
+              ),
+            ),
+            child: Row(
+              children: [
+                const Icon(Icons.insert_drive_file_outlined, color: _gold, size: 19),
+                const SizedBox(width: 10),
+                Expanded(
                   child: Text(
-                    '$item',
+                    item.file.name,
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white70),
                   ),
                 ),
-              )
-              .toList(),
-          onChanged: onChanged,
+                if (uploaded.contains(item.file.path))
+                  const Icon(Icons.cloud_done_outlined, color: Colors.greenAccent, size: 19)
+                else
+                  IconButton(
+                    visualDensity: VisualDensity.compact,
+                    onPressed: () => setState(() => _files.remove(item)),
+                    icon: const Icon(Icons.close_rounded, color: Colors.white38, size: 19),
+                  ),
+              ],
+            ),
+          ),
+        OutlinedButton.icon(
+          onPressed: () => _pickFile(purpose),
+          icon: const Icon(Icons.attach_file_rounded, color: _gold),
+          label: Text(
+            l10n.adAddFile,
+            style: const TextStyle(color: _gold, fontWeight: FontWeight.w700),
+          ),
+          style: OutlinedButton.styleFrom(
+            side: BorderSide(color: _gold.withValues(alpha: 0.35)),
+            padding: const EdgeInsets.symmetric(vertical: 14),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _submitButton({
+    required String label,
+    required bool isSubmitting,
+    required bool enabled,
+  }) {
+    return SizedBox(
+      height: 56,
+      child: ElevatedButton.icon(
+        onPressed: isSubmitting || !enabled ? null : _submit,
+        icon: const Icon(Icons.send_rounded),
+        label: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 220),
+          child: isSubmitting
+              ? const SizedBox(
+                  key: ValueKey('loading'),
+                  width: 22,
+                  height: 22,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2.4,
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      Colors.black,
+                    ),
+                  ),
+                )
+              : Text(
+                  label,
+                  key: const ValueKey('text'),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+        ),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: _gold,
+          foregroundColor: Colors.black,
+          disabledBackgroundColor: _gold.withValues(alpha: 0.45),
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
+          ),
         ),
       ),
     );
@@ -646,9 +869,7 @@ class _CampaignCreationScreenState
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
-                      date == null
-                          ? 'اختر التاريخ'
-                          : '${date.day}/${date.month}/${date.year}',
+                      date == null ? 'اختر التاريخ' : formatDay(date),
                       style: TextStyle(
                         color: date == null
                             ? Colors.white.withValues(alpha: 0.35)
@@ -670,9 +891,11 @@ class _CampaignCreationScreenState
     required String hint,
     String? suffixText,
     IconData? prefixIcon,
+    String? errorText,
   }) {
     return InputDecoration(
       hintText: hint,
+      errorText: errorText,
       hintStyle: TextStyle(
         color: Colors.white.withValues(alpha: 0.28),
         height: 1.6,
