@@ -953,4 +953,102 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ctTutorial => 'Tutorial';
+
+  @override
+  String get companyTitle => 'Company profile';
+
+  @override
+  String get companyStepType => 'Business type';
+
+  @override
+  String get companyStepInfo => 'Business details';
+
+  @override
+  String get companyStepContact => 'Contact';
+
+  @override
+  String get businessTypeQuestion => 'What kind of business are you?';
+
+  @override
+  String get businessTypeHint =>
+      'This decides which details and documents we need.';
+
+  @override
+  String get businessRegistered => 'Registered business';
+
+  @override
+  String get businessRegisteredDesc =>
+      'You have a commercial register and a tax ID.';
+
+  @override
+  String get businessIndividual => 'Individual activity';
+
+  @override
+  String get businessIndividualDesc =>
+      'You work on your own without a commercial register.';
+
+  @override
+  String get ownerName => 'Owner name';
+
+  @override
+  String get branch => 'Branch or wilaya';
+
+  @override
+  String get address => 'Address';
+
+  @override
+  String get legalInfo => 'Legal information';
+
+  @override
+  String get establishmentDate => 'Founding date';
+
+  @override
+  String get professionalTitle => 'Professional title';
+
+  @override
+  String get activityLabel => 'Activity';
+
+  @override
+  String get nationalIdNumber => 'National ID number';
+
+  @override
+  String get declaredIndividualActivity =>
+      'I declare that I carry out this activity individually';
+
+  @override
+  String get website => 'Website';
+
+  @override
+  String get marketingLinks => 'Marketing links';
+
+  @override
+  String get marketingLinksHint => 'Your social pages, optional';
+
+  @override
+  String get docCompanyIdentity => 'Manager’s ID card';
+
+  @override
+  String get docCommercialRegister => 'Commercial register';
+
+  @override
+  String get docCompanyStamp => 'Company stamp';
+
+  @override
+  String get docCancelledCheque => 'Cancelled cheque';
+
+  @override
+  String get companyNeedsChangesBanner =>
+      'Our team asked for changes to your profile. Update it and submit again.';
+
+  @override
+  String get companySubmittedSuccess => 'Your profile was sent for review';
+
+  @override
+  String get companyRejectedTitle => 'Your company profile was rejected';
+
+  @override
+  String get companyRejectedBody => 'Please contact support to learn why.';
+
+  @override
+  String get featuredWorks => 'Featured work';
 }

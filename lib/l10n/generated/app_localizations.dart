@@ -1893,6 +1893,192 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'شرح'**
   String get ctTutorial;
+
+  /// No description provided for @companyTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'ملف الشركة'**
+  String get companyTitle;
+
+  /// No description provided for @companyStepType.
+  ///
+  /// In ar, this message translates to:
+  /// **'نوع النشاط'**
+  String get companyStepType;
+
+  /// No description provided for @companyStepInfo.
+  ///
+  /// In ar, this message translates to:
+  /// **'معلومات النشاط'**
+  String get companyStepInfo;
+
+  /// No description provided for @companyStepContact.
+  ///
+  /// In ar, this message translates to:
+  /// **'التواصل'**
+  String get companyStepContact;
+
+  /// No description provided for @businessTypeQuestion.
+  ///
+  /// In ar, this message translates to:
+  /// **'ما نوع نشاطك؟'**
+  String get businessTypeQuestion;
+
+  /// No description provided for @businessTypeHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'نحدد على أساسه المعلومات والمستندات المطلوبة.'**
+  String get businessTypeHint;
+
+  /// No description provided for @businessRegistered.
+  ///
+  /// In ar, this message translates to:
+  /// **'شركة مسجلة'**
+  String get businessRegistered;
+
+  /// No description provided for @businessRegisteredDesc.
+  ///
+  /// In ar, this message translates to:
+  /// **'لديك سجل تجاري ورقم جبائي.'**
+  String get businessRegisteredDesc;
+
+  /// No description provided for @businessIndividual.
+  ///
+  /// In ar, this message translates to:
+  /// **'نشاط فردي'**
+  String get businessIndividual;
+
+  /// No description provided for @businessIndividualDesc.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعمل لحسابك دون سجل تجاري.'**
+  String get businessIndividualDesc;
+
+  /// No description provided for @ownerName.
+  ///
+  /// In ar, this message translates to:
+  /// **'اسم صاحب النشاط'**
+  String get ownerName;
+
+  /// No description provided for @branch.
+  ///
+  /// In ar, this message translates to:
+  /// **'الفرع أو الولاية'**
+  String get branch;
+
+  /// No description provided for @address.
+  ///
+  /// In ar, this message translates to:
+  /// **'العنوان'**
+  String get address;
+
+  /// No description provided for @legalInfo.
+  ///
+  /// In ar, this message translates to:
+  /// **'المعلومات القانونية'**
+  String get legalInfo;
+
+  /// No description provided for @establishmentDate.
+  ///
+  /// In ar, this message translates to:
+  /// **'تاريخ التأسيس'**
+  String get establishmentDate;
+
+  /// No description provided for @professionalTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصفة المهنية'**
+  String get professionalTitle;
+
+  /// No description provided for @activityLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'النشاط'**
+  String get activityLabel;
+
+  /// No description provided for @nationalIdNumber.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم التعريف الوطني'**
+  String get nationalIdNumber;
+
+  /// No description provided for @declaredIndividualActivity.
+  ///
+  /// In ar, this message translates to:
+  /// **'أصرّح بأنني أمارس هذا النشاط بصفة فردية'**
+  String get declaredIndividualActivity;
+
+  /// No description provided for @website.
+  ///
+  /// In ar, this message translates to:
+  /// **'الموقع الإلكتروني'**
+  String get website;
+
+  /// No description provided for @marketingLinks.
+  ///
+  /// In ar, this message translates to:
+  /// **'روابط التسويق'**
+  String get marketingLinks;
+
+  /// No description provided for @marketingLinksHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'صفحاتك على مواقع التواصل، اختياري'**
+  String get marketingLinksHint;
+
+  /// No description provided for @docCompanyIdentity.
+  ///
+  /// In ar, this message translates to:
+  /// **'بطاقة تعريف المسير'**
+  String get docCompanyIdentity;
+
+  /// No description provided for @docCommercialRegister.
+  ///
+  /// In ar, this message translates to:
+  /// **'السجل التجاري'**
+  String get docCommercialRegister;
+
+  /// No description provided for @docCompanyStamp.
+  ///
+  /// In ar, this message translates to:
+  /// **'ختم الشركة'**
+  String get docCompanyStamp;
+
+  /// No description provided for @docCancelledCheque.
+  ///
+  /// In ar, this message translates to:
+  /// **'صك مشطوب'**
+  String get docCancelledCheque;
+
+  /// No description provided for @companyNeedsChangesBanner.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلبت الإدارة تعديلات على ملفك. عدّل المعلومات وأعد الإرسال.'**
+  String get companyNeedsChangesBanner;
+
+  /// No description provided for @companySubmittedSuccess.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم إرسال ملفك للمراجعة'**
+  String get companySubmittedSuccess;
+
+  /// No description provided for @companyRejectedTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم رفض ملف الشركة'**
+  String get companyRejectedTitle;
+
+  /// No description provided for @companyRejectedBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'تواصل مع الدعم لمعرفة السبب.'**
+  String get companyRejectedBody;
+
+  /// No description provided for @featuredWorks.
+  ///
+  /// In ar, this message translates to:
+  /// **'أعمال مميزة'**
+  String get featuredWorks;
 }
 
 class _AppLocalizationsDelegate

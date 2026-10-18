@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'package:x_ten/features/advertiser/domain/models/advertiser_models.dart';
+import 'package:x_ten/core/localization/category_labels.dart';
+import 'package:x_ten/core/localization/localization_extension.dart';
+import 'package:x_ten/core/widgets/auth_image.dart';
+import 'package:x_ten/features/marketplace/domain/marketplace_entities.dart';
 import 'package:x_ten/features/saved_items/data/saved_items_service.dart';
 import 'package:x_ten/features/saved_items/domain/models/saved_item.dart';
 
 /// Compact influencer card used in discovery lists.
 class InfluencerCard extends StatelessWidget {
-  final Influencer influencer;
+  final MarketInfluencer influencer;
   final VoidCallback onTap;
 
   const InfluencerCard({
@@ -20,6 +23,13 @@ class InfluencerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final category = context.l10n.category(influencer.category);
+    final subtitle = [
+      if (category.isNotEmpty) category,
+      if (influencer.city.isNotEmpty) influencer.city,
+    ].join(' • ');
+    final rating = influencer.rating;
+
     return Material(
       color: Colors.transparent,
       borderRadius: BorderRadius.circular(18),
@@ -46,17 +56,24 @@ class InfluencerCard extends StatelessWidget {
               Row(
                 children: [
                   // Avatar
-                  CircleAvatar(
+                  AuthImage(
+                    url: influencer.imageUrl,
+                    width: 52,
+                    height: 52,
                     radius: 26,
-                    backgroundColor: _gold.withValues(alpha: 0.12),
-                    child: Text(
-                      influencer.name.isNotEmpty
-                          ? influencer.name.characters.first
-                          : '?',
-                      style: const TextStyle(
-                        color: _gold,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w800,
+                    cacheKey: 'market-influencer-${influencer.id}',
+                    fallback: CircleAvatar(
+                      radius: 26,
+                      backgroundColor: _gold.withValues(alpha: 0.12),
+                      child: Text(
+                        influencer.name.isNotEmpty
+                            ? influencer.name.characters.first
+                            : '?',
+                        style: const TextStyle(
+                          color: _gold,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w800,
+                        ),
                       ),
                     ),
                   ),
@@ -80,19 +97,11 @@ class InfluencerCard extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            if (influencer.isPlatformAmbassador) ...[
-                              const SizedBox(width: 6),
-                              const Icon(
-                                Icons.verified_rounded,
-                                color: _gold,
-                                size: 16,
-                              ),
-                            ],
                           ],
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          '${influencer.category} • ${influencer.city}',
+                          subtitle,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -109,18 +118,18 @@ class InfluencerCard extends StatelessWidget {
                   ValueListenableBuilder<List<SavedItem>>(
                     valueListenable: SavedItemsService.instance,
                     builder: (context, savedItems, _) {
-                      final isSaved = SavedItemsService.instance.isInfluencerSaved(influencer.id) ||
+                      final isSaved = SavedItemsService.instance.isInfluencerSaved('${influencer.id}') ||
                           SavedItemsService.instance.isInfluencerSaved(influencer.name);
 
                       return InkWell(
                         onTap: () {
                           final newlySaved = SavedItemsService.instance.toggleSaveInfluencer(
-                            id: influencer.id,
+                            id: '${influencer.id}',
                             name: influencer.name,
-                            category: influencer.category,
-                            rating: influencer.rating,
+                            category: category,
+                            rating: rating ?? 0,
                             totalFollowers: influencer.totalFollowers,
-                            imageUrl: influencer.imageUrl.isNotEmpty ? influencer.imageUrl : null,
+                            imageUrl: influencer.imageUrl,
                           );
 
                           ScaffoldMessenger.of(context)
@@ -173,17 +182,19 @@ class InfluencerCard extends StatelessWidget {
 
               Row(
                 children: [
-                  _stat(
-                    icon: Icons.star_rounded,
-                    value: influencer.rating.toStringAsFixed(1),
-                  ),
-                  const SizedBox(width: 16),
+                  if (rating != null) ...[
+                    _stat(
+                      icon: Icons.star_rounded,
+                      value: rating.toStringAsFixed(1),
+                    ),
+                    const SizedBox(width: 16),
+                  ],
                   _stat(
                     icon: Icons.people_alt_outlined,
                     value: _formatCount(influencer.totalFollowers),
                   ),
                   const SizedBox(width: 16),
-                  ...influencer.followers.keys.take(3).map(
+                  ...influencer.followersByPlatform.keys.take(3).map(
                     (platform) => Padding(
                       padding:
                           const EdgeInsetsDirectional.only(end: 10),

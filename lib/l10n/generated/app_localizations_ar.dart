@@ -950,4 +950,100 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get ctTutorial => 'شرح';
+
+  @override
+  String get companyTitle => 'ملف الشركة';
+
+  @override
+  String get companyStepType => 'نوع النشاط';
+
+  @override
+  String get companyStepInfo => 'معلومات النشاط';
+
+  @override
+  String get companyStepContact => 'التواصل';
+
+  @override
+  String get businessTypeQuestion => 'ما نوع نشاطك؟';
+
+  @override
+  String get businessTypeHint =>
+      'نحدد على أساسه المعلومات والمستندات المطلوبة.';
+
+  @override
+  String get businessRegistered => 'شركة مسجلة';
+
+  @override
+  String get businessRegisteredDesc => 'لديك سجل تجاري ورقم جبائي.';
+
+  @override
+  String get businessIndividual => 'نشاط فردي';
+
+  @override
+  String get businessIndividualDesc => 'تعمل لحسابك دون سجل تجاري.';
+
+  @override
+  String get ownerName => 'اسم صاحب النشاط';
+
+  @override
+  String get branch => 'الفرع أو الولاية';
+
+  @override
+  String get address => 'العنوان';
+
+  @override
+  String get legalInfo => 'المعلومات القانونية';
+
+  @override
+  String get establishmentDate => 'تاريخ التأسيس';
+
+  @override
+  String get professionalTitle => 'الصفة المهنية';
+
+  @override
+  String get activityLabel => 'النشاط';
+
+  @override
+  String get nationalIdNumber => 'رقم التعريف الوطني';
+
+  @override
+  String get declaredIndividualActivity =>
+      'أصرّح بأنني أمارس هذا النشاط بصفة فردية';
+
+  @override
+  String get website => 'الموقع الإلكتروني';
+
+  @override
+  String get marketingLinks => 'روابط التسويق';
+
+  @override
+  String get marketingLinksHint => 'صفحاتك على مواقع التواصل، اختياري';
+
+  @override
+  String get docCompanyIdentity => 'بطاقة تعريف المسير';
+
+  @override
+  String get docCommercialRegister => 'السجل التجاري';
+
+  @override
+  String get docCompanyStamp => 'ختم الشركة';
+
+  @override
+  String get docCancelledCheque => 'صك مشطوب';
+
+  @override
+  String get companyNeedsChangesBanner =>
+      'طلبت الإدارة تعديلات على ملفك. عدّل المعلومات وأعد الإرسال.';
+
+  @override
+  String get companySubmittedSuccess => 'تم إرسال ملفك للمراجعة';
+
+  @override
+  String get companyRejectedTitle => 'تم رفض ملف الشركة';
+
+  @override
+  String get companyRejectedBody => 'تواصل مع الدعم لمعرفة السبب.';
+
+  @override
+  String get featuredWorks => 'أعمال مميزة';
 }

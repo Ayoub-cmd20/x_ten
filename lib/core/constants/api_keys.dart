@@ -93,4 +93,36 @@ abstract final class ApiKeys {
   static const context = 'context';
   static const contextId = 'contextId';
   static const scheduledAt = 'scheduledAt';
+
+  static const businessType = 'businessType';
+  static const ownerName = 'ownerName';
+  static const companyName = 'companyName';
+  static const branch = 'branch';
+  static const address = 'address';
+  static const professionalTitle = 'professionalTitle';
+  static const activity = 'activity';
+  static const nationalIdNumber = 'nationalIdNumber';
+  static const declaredIndividualActivity = 'declaredIndividualActivity';
+  static const registrationNumber = 'registrationNumber';
+  static const establishmentDate = 'establishmentDate';
+  static const ns = 'ns';
+  static const nif = 'nif';
+  static const website = 'website';
+  static const marketingLinks = 'marketingLinks';
+  static const logo = 'logo';
+
+  static const page = 'page';
+  static const search = 'search';
+  static const userId = 'userId';
+  static const name = 'name';
+  static const category = 'category';
+  static const imageUrl = 'imageUrl';
+  static const joinDate = 'joinDate';
+  static const rating = 'rating';
+  static const city = 'city';
+  static const isAvailable = 'isAvailable';
+  static const profileViews = 'profileViews';
+  static const interestedAdvertisers = 'interestedAdvertisers';
+  static const topPlatform = 'topPlatform';
+  static const featuredWorks = 'featuredWorks';
 }

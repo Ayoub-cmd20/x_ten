@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:x_ten/features/advertiser/data/advertiser_demo_data.dart';
+import 'package:x_ten/core/catalog/influencer_categories.dart';
+import 'package:x_ten/core/localization/category_labels.dart';
+import 'package:x_ten/core/localization/localization_extension.dart';
 
 /// Browse influencers by professional category.
 class InfluencerCategoriesScreen extends StatelessWidget {
@@ -10,8 +12,36 @@ class InfluencerCategoriesScreen extends StatelessWidget {
   static const Color _gold = Color(0xFFE5C158);
   static const Color _background = Color(0xFF0A0A0A);
 
+  static IconData _icon(String id) => switch (id) {
+        'technology' => Icons.devices_outlined,
+        'gaming' => Icons.sports_esports_outlined,
+        'sports' => Icons.sports_basketball_outlined,
+        'football' => Icons.sports_soccer_outlined,
+        'fitness' => Icons.fitness_center_outlined,
+        'health' => Icons.health_and_safety_outlined,
+        'beauty' => Icons.face_retouching_natural_outlined,
+        'fashion' => Icons.checkroom_outlined,
+        'lifestyle' => Icons.spa_outlined,
+        'cooking' => Icons.restaurant_outlined,
+        'travel' => Icons.flight_outlined,
+        'cars' => Icons.directions_car_outlined,
+        'education' => Icons.school_outlined,
+        'business' => Icons.business_center_outlined,
+        'finance' => Icons.account_balance_outlined,
+        'marketing' => Icons.campaign_outlined,
+        'ecommerce' => Icons.shopping_bag_outlined,
+        'art' => Icons.palette_outlined,
+        'music' => Icons.music_note_outlined,
+        'entertainment' => Icons.movie_outlined,
+        'family' => Icons.family_restroom_outlined,
+        'photography' => Icons.photo_camera_outlined,
+        _ => Icons.category_outlined,
+      };
+
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -38,9 +68,9 @@ class InfluencerCategoriesScreen extends StatelessWidget {
             crossAxisSpacing: 12,
             childAspectRatio: 1.25,
           ),
-          itemCount: demoInfluencerCategories.length,
+          itemCount: InfluencerCategories.ids.length,
           itemBuilder: (context, index) {
-            final category = demoInfluencerCategories[index];
+            final category = InfluencerCategories.ids[index];
 
             return Material(
               color: Colors.transparent,
@@ -48,7 +78,7 @@ class InfluencerCategoriesScreen extends StatelessWidget {
               child: InkWell(
                 onTap: () {
                   context.push(
-                    '/advertiser/influencers?category=${category.id}',
+                    '/advertiser/influencers?category=$category',
                   );
                 },
                 borderRadius: BorderRadius.circular(18),
@@ -79,31 +109,20 @@ class InfluencerCategoriesScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Icon(
-                          category.icon,
+                          _icon(category),
                           color: _gold,
                           size: 24,
                         ),
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            category.name,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            '${category.influencersCount} مؤثر',
-                            style: TextStyle(
-                              color: Colors.white.withValues(alpha: 0.45),
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
+                      Text(
+                        l10n.category(category),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w800,
+                        ),
                       ),
                     ],
                   ),

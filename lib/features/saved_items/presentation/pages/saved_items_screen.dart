@@ -264,7 +264,7 @@ class _SavedItemsScreenState extends State<SavedItemsScreen> {
       case SavedItemType.influencer:
         context.push(
           '/advertiser/influencer-details',
-          extra: item.id.startsWith('INF') ? item.id : 'INF-001',
+          extra: item.id,
         );
         break;
 

@@ -1,21 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:x_ten/features/advertiser/data/advertiser_demo_data.dart';
-import 'package:x_ten/features/advertiser/domain/models/advertiser_models.dart';
+import 'package:x_ten/core/errors/failure_message.dart';
+import 'package:x_ten/core/localization/category_labels.dart';
+import 'package:x_ten/core/localization/localization_extension.dart';
+import 'package:x_ten/core/widgets/auth_image.dart';
+import 'package:x_ten/core/widgets/feedback/error_view.dart';
+import 'package:x_ten/core/widgets/loading/app_loader.dart';
+import 'package:x_ten/features/marketplace/presentation/marketplace_cubit.dart';
 import 'package:x_ten/features/saved_items/data/saved_items_service.dart';
 import 'package:x_ten/features/saved_items/domain/models/saved_item.dart';
 
 /// Full influencer profile as seen by an advertiser,
 /// with a direct call-to-action to start a campaign.
-class InfluencerDetailsScreen extends StatelessWidget {
-  final String influencerId;
+class InfluencerDetailsScreen extends StatefulWidget {
+  final int influencerId;
+  final MarketInfluencer? preview;
 
   const InfluencerDetailsScreen({
     super.key,
     required this.influencerId,
+    this.preview,
   });
+
+  @override
+  State<InfluencerDetailsScreen> createState() =>
+      _InfluencerDetailsScreenState();
+}
+
+class _InfluencerDetailsScreenState extends State<InfluencerDetailsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context
+        .read<MarketplaceCubit>()
+        .openInfluencer(widget.influencerId, preview: widget.preview);
+  }
 
   static const Color _gold = Color(0xFFE5C158);
   static const Color _background = Color(0xFF0A0A0A);
@@ -24,10 +46,34 @@ class InfluencerDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final influencer = demoInfluencers.firstWhere(
-      (i) => i.id == influencerId,
-      orElse: () => demoInfluencers.first,
-    );
+    final state = context.watch<MarketplaceCubit>().state;
+    final influencer = state.details;
+    final failure = state.failure;
+
+    if (influencer == null) {
+      return Scaffold(
+        backgroundColor: _background,
+        appBar: AppBar(
+          backgroundColor: _background,
+          iconTheme: const IconThemeData(color: Colors.white),
+        ),
+        body: state.didFail(MarketplaceAction.details) && failure != null
+            ? ErrorView(
+                message: failure.localized(context),
+                retryLabel: context.l10n.retry,
+                onRetry: () => context
+                    .read<MarketplaceCubit>()
+                    .openInfluencer(widget.influencerId),
+              )
+            : const AppLoader(color: _gold),
+      );
+    }
+
+    final category = context.l10n.category(influencer.category);
+    final subtitle = [
+      if (category.isNotEmpty) category,
+      if (influencer.city.isNotEmpty) influencer.city,
+    ].join(' • ');
 
     return Directionality(
       textDirection: TextDirection.rtl,
@@ -49,7 +95,7 @@ class InfluencerDetailsScreen extends StatelessWidget {
             ValueListenableBuilder<List<SavedItem>>(
               valueListenable: SavedItemsService.instance,
               builder: (context, savedItems, _) {
-                final isSaved = SavedItemsService.instance.isInfluencerSaved(influencer.id) ||
+                final isSaved = SavedItemsService.instance.isInfluencerSaved('${influencer.id}') ||
                     SavedItemsService.instance.isInfluencerSaved(influencer.name);
 
                 return IconButton(
@@ -60,12 +106,12 @@ class InfluencerDetailsScreen extends StatelessWidget {
                   ),
                   onPressed: () {
                     final newlySaved = SavedItemsService.instance.toggleSaveInfluencer(
-                      id: influencer.id,
+                      id: '${influencer.id}',
                       name: influencer.name,
-                      category: influencer.category,
-                      rating: influencer.rating,
+                      category: category,
+                      rating: influencer.rating ?? 0,
                       totalFollowers: influencer.totalFollowers,
-                      imageUrl: influencer.imageUrl.isNotEmpty ? influencer.imageUrl : null,
+                      imageUrl: influencer.imageUrl,
                     );
 
                     ScaffoldMessenger.of(context)
@@ -109,13 +155,21 @@ class InfluencerDetailsScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              _header(influencer),
+              _header(influencer, subtitle),
               const SizedBox(height: 16),
               _statsRow(influencer),
-              const SizedBox(height: 16),
-              _bioCard(influencer),
-              const SizedBox(height: 16),
-              _platformsCard(influencer),
+              if (influencer.bio.isNotEmpty) ...[
+                const SizedBox(height: 16),
+                _bioCard(influencer),
+              ],
+              if (influencer.followersByPlatform.isNotEmpty) ...[
+                const SizedBox(height: 16),
+                _platformsCard(influencer),
+              ],
+              if (influencer.featuredWorks.isNotEmpty) ...[
+                const SizedBox(height: 16),
+                _worksCard(influencer, context.l10n.featuredWorks),
+              ],
               const SizedBox(height: 16),
               _metaCard(influencer),
             ],
@@ -168,7 +222,7 @@ class InfluencerDetailsScreen extends StatelessWidget {
   // HEADER
   // ============================================================
 
-  Widget _header(Influencer influencer) {
+  Widget _header(MarketInfluencer influencer, String subtitle) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -187,17 +241,24 @@ class InfluencerDetailsScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
-          CircleAvatar(
+          AuthImage(
+            url: influencer.imageUrl,
+            width: 80,
+            height: 80,
             radius: 40,
-            backgroundColor: _gold.withValues(alpha: 0.15),
-            child: Text(
-              influencer.name.isNotEmpty
-                  ? influencer.name.characters.first
-                  : '?',
-              style: const TextStyle(
-                color: _gold,
-                fontSize: 34,
-                fontWeight: FontWeight.w800,
+            cacheKey: 'market-influencer-${influencer.id}',
+            fallback: CircleAvatar(
+              radius: 40,
+              backgroundColor: _gold.withValues(alpha: 0.15),
+              child: Text(
+                influencer.name.isNotEmpty
+                    ? influencer.name.characters.first
+                    : '?',
+                style: const TextStyle(
+                  color: _gold,
+                  fontSize: 34,
+                  fontWeight: FontWeight.w800,
+                ),
               ),
             ),
           ),
@@ -215,19 +276,11 @@ class InfluencerDetailsScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              if (influencer.isPlatformAmbassador) ...[
-                const SizedBox(width: 6),
-                const Icon(
-                  Icons.verified_rounded,
-                  color: _gold,
-                  size: 20,
-                ),
-              ],
             ],
           ),
           const SizedBox(height: 6),
           Text(
-            '${influencer.category} • ${influencer.city}',
+            subtitle,
             style: TextStyle(
               color: Colors.white.withValues(alpha: 0.55),
               fontSize: 13.5,
@@ -266,12 +319,12 @@ class InfluencerDetailsScreen extends StatelessWidget {
   // STATS
   // ============================================================
 
-  Widget _statsRow(Influencer influencer) {
+  Widget _statsRow(MarketInfluencer influencer) {
     return Row(
       children: [
         _statTile(
           icon: Icons.star_rounded,
-          value: influencer.rating.toStringAsFixed(1),
+          value: influencer.rating?.toStringAsFixed(1) ?? '—',
           label: 'التقييم',
         ),
         const SizedBox(width: 10),
@@ -336,7 +389,7 @@ class InfluencerDetailsScreen extends StatelessWidget {
   // BIO
   // ============================================================
 
-  Widget _bioCard(Influencer influencer) {
+  Widget _bioCard(MarketInfluencer influencer) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -375,7 +428,7 @@ class InfluencerDetailsScreen extends StatelessWidget {
   // PLATFORMS
   // ============================================================
 
-  Widget _platformsCard(Influencer influencer) {
+  Widget _platformsCard(MarketInfluencer influencer) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -397,7 +450,7 @@ class InfluencerDetailsScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          ...influencer.followers.entries.map(
+          ...influencer.followersByPlatform.entries.map(
             (entry) => Padding(
               padding: const EdgeInsets.only(bottom: 10),
               child: Container(
@@ -444,10 +497,95 @@ class InfluencerDetailsScreen extends StatelessWidget {
   }
 
   // ============================================================
+  // FEATURED WORKS
+  // ============================================================
+
+  Widget _worksCard(MarketInfluencer influencer, String title) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: _surface,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.06),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 15,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+          const SizedBox(height: 12),
+          ...influencer.featuredWorks.map(
+            (work) => Container(
+              width: double.infinity,
+              margin: const EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 14,
+                vertical: 12,
+              ),
+              decoration: BoxDecoration(
+                color: _surface2,
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    work.title,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  if (work.description.isNotEmpty) ...[
+                    const SizedBox(height: 4),
+                    Text(
+                      work.description,
+                      style: const TextStyle(
+                        color: Colors.white70,
+                        fontSize: 13,
+                        height: 1.6,
+                      ),
+                    ),
+                  ],
+                  if (work.link.isNotEmpty) ...[
+                    const SizedBox(height: 6),
+                    Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: Text(
+                        work.link,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: _gold,
+                          fontSize: 12.5,
+                        ),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ============================================================
   // META
   // ============================================================
 
-  Widget _metaCard(Influencer influencer) {
+  Widget _metaCard(MarketInfluencer influencer) {
+    final joinDate = influencer.joinDate;
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -459,14 +597,11 @@ class InfluencerDetailsScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
-          _metaRow(
-            'تاريخ الانضمام',
-            '${influencer.joinDate.day}/${influencer.joinDate.month}/${influencer.joinDate.year}',
-          ),
-          _metaRow(
-            'سفير المنصة',
-            influencer.isPlatformAmbassador ? 'نعم' : 'لا',
-          ),
+          if (joinDate != null)
+            _metaRow(
+              'تاريخ الانضمام',
+              '${joinDate.day}/${joinDate.month}/${joinDate.year}',
+            ),
           _metaRow(
             'إجمالي المتابعين',
             _formatCount(influencer.totalFollowers),

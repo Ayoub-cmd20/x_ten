@@ -23,4 +23,12 @@ abstract final class ApiEndpoints {
   static String document(int id) => '/influencers/documents/$id/';
 
   static const meetings = '/verification/meetings/';
+
+  static const companyProfile = '/companies/profile/';
+  static const companySubmit = '/companies/profile/submit/';
+  static const companyDocuments = '/companies/profile/documents/';
+  static String companyDocument(int id) => '/companies/documents/$id/';
+
+  static const marketplaceInfluencers = '/marketplace/influencers/';
+  static String marketplaceInfluencer(int id) => '$marketplaceInfluencers$id/';
 }

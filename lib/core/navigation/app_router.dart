@@ -12,7 +12,10 @@ import 'package:x_ten/features/auth/presentation/pages/signup_page.dart';
 import 'package:x_ten/features/auth/presentation/pages/otp_page.dart';
 import 'package:x_ten/features/auth/presentation/pages/account_type_page.dart';
 import 'package:x_ten/features/auth/presentation/pages/forgot_password_page.dart';
-import 'package:x_ten/features/company_profile/presentation/pages/company_registration_screen.dart';
+import 'package:x_ten/features/company_profile/presentation/company_cubit.dart';
+import 'package:x_ten/features/marketplace/presentation/marketplace_cubit.dart';
+import 'package:x_ten/features/company_profile/presentation/company_pages.dart';
+import 'package:x_ten/features/company_profile/presentation/company_routes.dart';
 import 'package:x_ten/features/onboarding/presentation/pages/onboarding_screen.dart';
 import 'package:x_ten/features/settings_security/presentation/pages/language_screen.dart';
 import 'package:x_ten/features/saved_items/presentation/pages/saved_items_screen.dart';
@@ -202,10 +205,28 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) => const AccountTypePage(),
     ),
 
-    GoRoute(
-      path: '/company-registration',
-      name: 'companyRegistration',
-      builder: (context, state) => const CompanyRegistrationScreen(),
+    ShellRoute(
+      builder: (context, state, child) => BlocProvider(
+        create: (_) => sl<CompanyCubit>(),
+        child: child,
+      ),
+      routes: [
+        GoRoute(
+          path: CompanyRoutes.gate,
+          name: 'companyRegistration',
+          builder: (context, state) => const CompanyGatePage(),
+        ),
+        GoRoute(
+          path: CompanyRoutes.form,
+          name: 'companyRegistrationForm',
+          builder: (context, state) => const CompanyWizardPage(),
+        ),
+        GoRoute(
+          path: CompanyRoutes.status,
+          name: 'companyRegistrationStatus',
+          builder: (context, state) => const CompanyStatusPage(),
+        ),
+      ],
     ),
 
     // =========================================================
@@ -599,8 +620,11 @@ final GoRouter appRouter = GoRouter(
             final categoryId =
             state.uri.queryParameters['category'];
 
-            return AdvertiserExploreScreen(
-              categoryId: categoryId,
+            return BlocProvider(
+              create: (_) => sl<MarketplaceCubit>(),
+              child: AdvertiserExploreScreen(
+                categoryId: categoryId,
+              ),
             );
           },
         ),
@@ -674,8 +698,11 @@ final GoRouter appRouter = GoRouter(
         final categoryId =
         state.uri.queryParameters['category'];
 
-        return AdvertiserExploreScreen(
-          categoryId: categoryId,
+        return BlocProvider(
+          create: (_) => sl<MarketplaceCubit>(),
+          child: AdvertiserExploreScreen(
+            categoryId: categoryId,
+          ),
         );
       },
     ),
@@ -698,12 +725,21 @@ final GoRouter appRouter = GoRouter(
           context,
           state,
           ) {
-        final influencerId =
-            state.extra as String?;
+        final extra = state.extra;
+        final preview = extra is MarketInfluencer ? extra : null;
+        final influencerId = switch (extra) {
+          MarketInfluencer(:final id) => id,
+          final int id => id,
+          final String id => int.tryParse(id) ?? 0,
+          _ => 0,
+        };
 
-        return InfluencerDetailsScreen(
-          influencerId:
-          influencerId ?? 'INF-001',
+        return BlocProvider(
+          create: (_) => sl<MarketplaceCubit>(),
+          child: InfluencerDetailsScreen(
+            influencerId: influencerId,
+            preview: preview,
+          ),
         );
       },
     ),

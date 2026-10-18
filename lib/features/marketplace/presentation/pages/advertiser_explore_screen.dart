@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:x_ten/features/advertiser/data/advertiser_demo_data.dart';
-import 'package:x_ten/features/advertiser/domain/models/advertiser_models.dart';
+import 'package:x_ten/core/catalog/influencer_categories.dart';
+import 'package:x_ten/core/errors/failure_message.dart';
+import 'package:x_ten/core/localization/category_labels.dart';
+import 'package:x_ten/core/localization/localization_extension.dart';
+import 'package:x_ten/core/widgets/feedback/error_view.dart';
+import 'package:x_ten/core/widgets/loading/app_loader.dart';
+import 'package:x_ten/core/widgets/loading/skeleton_list.dart';
+import 'package:x_ten/features/marketplace/presentation/marketplace_cubit.dart';
 import 'package:x_ten/features/marketplace/presentation/widgets/influencer_card.dart';
 
-/// Discover influencers: search by name / category / city,
-/// filter by availability, sort by newest / rating / followers.
+/// Discover influencers: search by name / bio, filter by category
+/// and availability, sort by newest / rating / followers.
 class AdvertiserExploreScreen extends StatefulWidget {
   final String? categoryId;
 
@@ -29,7 +36,6 @@ class _AdvertiserExploreScreenState
   late final TextEditingController _searchController;
 
   String _query = '';
-  String? _selectedCategoryId;
   bool _availableOnly = false;
   _SortOption _sortOption = _SortOption.newest;
 
@@ -37,7 +43,7 @@ class _AdvertiserExploreScreenState
   void initState() {
     super.initState();
     _searchController = TextEditingController();
-    _selectedCategoryId = widget.categoryId;
+    context.read<MarketplaceCubit>().start(category: widget.categoryId);
   }
 
   @override
@@ -46,38 +52,20 @@ class _AdvertiserExploreScreenState
     super.dispose();
   }
 
-  List<Influencer> get _results {
-    final query = _query.trim();
-
-    Iterable<Influencer> list = demoInfluencers;
-
-    if (_selectedCategoryId != null) {
-      list = list.where(
-        (i) => i.categoryId == _selectedCategoryId,
-      );
-    }
+  List<MarketInfluencer> _results(List<MarketInfluencer> items) {
+    Iterable<MarketInfluencer> list = items;
 
     if (_availableOnly) {
       list = list.where((i) => i.isAvailable);
-    }
-
-    if (query.isNotEmpty) {
-      list = list.where(
-        (i) =>
-            i.name.contains(query) ||
-            i.category.contains(query) ||
-            i.city.contains(query),
-      );
     }
 
     final sorted = list.toList();
 
     switch (_sortOption) {
       case _SortOption.newest:
-        sorted.sort((a, b) => b.joinDate.compareTo(a.joinDate));
         break;
       case _SortOption.highestRated:
-        sorted.sort((a, b) => b.rating.compareTo(a.rating));
+        sorted.sort((a, b) => (b.rating ?? 0).compareTo(a.rating ?? 0));
         break;
       case _SortOption.mostFollowed:
         sorted.sort(
@@ -89,9 +77,23 @@ class _AdvertiserExploreScreenState
     return sorted;
   }
 
+  void _onSearchChanged(String value) {
+    setState(() => _query = value);
+    context.read<MarketplaceCubit>().searchChanged(value);
+  }
+
+  bool _onScroll(ScrollNotification notification) {
+    if (notification.metrics.extentAfter < 300) {
+      context.read<MarketplaceCubit>().loadMore();
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final results = _results;
+    final l10n = context.l10n;
+    final selectedCategoryId =
+        context.select((MarketplaceCubit c) => c.state.category);
 
     return Directionality(
       textDirection: TextDirection.rtl,
@@ -103,14 +105,9 @@ class _AdvertiserExploreScreenState
           centerTitle: true,
           iconTheme: const IconThemeData(color: Colors.white),
           title: Text(
-            _selectedCategoryId == null
+            selectedCategoryId == null
                 ? 'اكتشاف المؤثرين'
-                : demoInfluencerCategories
-                    .firstWhere(
-                      (c) => c.id == _selectedCategoryId,
-                      orElse: () => demoInfluencerCategories.first,
-                    )
-                    .name,
+                : l10n.category(selectedCategoryId),
             style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.w800,
@@ -126,13 +123,11 @@ class _AdvertiserExploreScreenState
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
               child: TextField(
                 controller: _searchController,
-                onChanged: (value) {
-                  setState(() => _query = value);
-                },
+                onChanged: _onSearchChanged,
                 cursorColor: _gold,
                 style: const TextStyle(color: Colors.white),
                 decoration: InputDecoration(
-                  hintText: 'ابحث بالاسم، المجال أو المدينة...',
+                  hintText: 'ابحث بالاسم أو النبذة...',
                   hintStyle: TextStyle(
                     color: Colors.white.withValues(alpha: 0.28),
                     fontSize: 14,
@@ -150,7 +145,7 @@ class _AdvertiserExploreScreenState
                           ),
                           onPressed: () {
                             _searchController.clear();
-                            setState(() => _query = '');
+                            _onSearchChanged('');
                           },
                         ),
                   filled: true,
@@ -192,20 +187,18 @@ class _AdvertiserExploreScreenState
                 children: [
                   _chip(
                     label: 'الكل',
-                    selected: _selectedCategoryId == null,
-                    onTap: () {
-                      setState(() => _selectedCategoryId = null);
-                    },
+                    selected: selectedCategoryId == null,
+                    onTap: () => context
+                        .read<MarketplaceCubit>()
+                        .selectCategory(null),
                   ),
-                  ...demoInfluencerCategories.map(
-                    (category) => _chip(
-                      label: category.name,
-                      selected: _selectedCategoryId == category.id,
-                      onTap: () {
-                        setState(() {
-                          _selectedCategoryId = category.id;
-                        });
-                      },
+                  ...InfluencerCategories.ids.map(
+                    (id) => _chip(
+                      label: l10n.category(id),
+                      selected: selectedCategoryId == id,
+                      onTap: () => context
+                          .read<MarketplaceCubit>()
+                          .selectCategory(id),
                     ),
                   ),
                 ],
@@ -289,32 +282,79 @@ class _AdvertiserExploreScreenState
             // LIST
             // --------------------------------------------------
             Expanded(
-              child: results.isEmpty
-                  ? const Center(
-                      child: Text(
-                        'لا توجد نتائج مطابقة',
-                        style: TextStyle(color: Colors.white54),
-                      ),
-                    )
-                  : ListView.separated(
-                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
-                      itemCount: results.length,
-                      separatorBuilder: (_, _) =>
-                          const SizedBox(height: 12),
-                      itemBuilder: (context, index) {
-                        final influencer = results[index];
+              child: BlocBuilder<MarketplaceCubit, MarketplaceState>(
+                builder: (context, state) {
+                  final cubit = context.read<MarketplaceCubit>();
+                  final failure = state.failure;
 
-                        return InfluencerCard(
-                          influencer: influencer,
-                          onTap: () {
-                            context.push(
-                              '/advertiser/influencer-details',
-                              extra: influencer.id,
-                            );
-                          },
-                        );
-                      },
-                    ),
+                  if (state.isLoadingFor(MarketplaceAction.search) &&
+                      state.influencers.items.isEmpty) {
+                    return const SkeletonList();
+                  }
+
+                  if (state.didFail(MarketplaceAction.search) &&
+                      failure != null) {
+                    return ErrorView(
+                      message: failure.localized(context),
+                      retryLabel: l10n.retry,
+                      onRetry: cubit.refresh,
+                    );
+                  }
+
+                  final results = _results(state.influencers.items);
+                  final loadingMore =
+                      state.isLoadingFor(MarketplaceAction.loadMore);
+
+                  return RefreshIndicator(
+                    color: _gold,
+                    onRefresh: cubit.refresh,
+                    child: results.isEmpty
+                        ? ListView(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            children: const [
+                              SizedBox(height: 120),
+                              Center(
+                                child: Text(
+                                  'لا توجد نتائج مطابقة',
+                                  style: TextStyle(color: Colors.white54),
+                                ),
+                              ),
+                            ],
+                          )
+                        : NotificationListener<ScrollNotification>(
+                            onNotification: _onScroll,
+                            child: ListView.separated(
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              padding:
+                                  const EdgeInsets.fromLTRB(16, 8, 16, 24),
+                              itemCount: results.length + (loadingMore ? 1 : 0),
+                              separatorBuilder: (_, _) =>
+                                  const SizedBox(height: 12),
+                              itemBuilder: (context, index) {
+                                if (index == results.length) {
+                                  return const Padding(
+                                    padding: EdgeInsets.all(12),
+                                    child: AppLoader(color: _gold),
+                                  );
+                                }
+
+                                final influencer = results[index];
+
+                                return InfluencerCard(
+                                  influencer: influencer,
+                                  onTap: () {
+                                    context.push(
+                                      '/advertiser/influencer-details',
+                                      extra: influencer,
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                  );
+                },
+              ),
             ),
           ],
         ),

@@ -1,0 +1,26 @@
+abstract final class InfluencerCategories {
+  static const ids = [
+    'technology',
+    'gaming',
+    'sports',
+    'football',
+    'fitness',
+    'health',
+    'beauty',
+    'fashion',
+    'lifestyle',
+    'cooking',
+    'travel',
+    'cars',
+    'education',
+    'business',
+    'finance',
+    'marketing',
+    'ecommerce',
+    'art',
+    'music',
+    'entertainment',
+    'family',
+    'photography',
+  ];
+}

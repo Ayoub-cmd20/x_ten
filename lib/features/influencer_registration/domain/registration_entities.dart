@@ -1,5 +1,8 @@
 import 'package:equatable/equatable.dart';
+import 'package:x_ten/core/catalog/influencer_categories.dart';
 import 'package:x_ten/core/enums/verification_status.dart';
+
+export 'package:x_ten/core/utils/upload_file.dart';
 
 T enumFromApi<T extends Enum>(List<T> values, String? value, T fallback) =>
     values.firstWhere((e) => e.name == value, orElse: () => fallback);
@@ -17,30 +20,7 @@ enum MeetingStatus { scheduled, completed, noShow, cancelled, unknown }
 abstract final class RegistrationCatalog {
   static const ageGroups = ['13-17', '18-24', '25-34', '35-44', '45+'];
 
-  static const categories = [
-    'technology',
-    'gaming',
-    'sports',
-    'football',
-    'fitness',
-    'health',
-    'beauty',
-    'fashion',
-    'lifestyle',
-    'cooking',
-    'travel',
-    'cars',
-    'education',
-    'business',
-    'finance',
-    'marketing',
-    'ecommerce',
-    'art',
-    'music',
-    'entertainment',
-    'family',
-    'photography',
-  ];
+  static const categories = InfluencerCategories.ids;
 
   static const contentTypes = ['post', 'reel', 'story', 'video', 'live', 'podcast', 'review', 'tutorial'];
 
@@ -374,17 +354,6 @@ class VerificationMeeting extends Equatable {
 
   @override
   List<Object?> get props => [id, contextId, scheduledAt, status];
-}
-
-class UploadFile extends Equatable {
-  const UploadFile({required this.path, required this.name, required this.size});
-
-  final String path;
-  final String name;
-  final int size;
-
-  @override
-  List<Object?> get props => [path, name, size];
 }
 
 class RegistrationBundle extends Equatable {

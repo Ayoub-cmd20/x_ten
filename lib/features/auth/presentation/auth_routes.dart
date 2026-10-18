@@ -13,7 +13,7 @@ abstract final class AuthRoutes {
 
   static String homeFor(Role role) => switch (role) {
         Role.contentCreator => influencerRegistration,
-        Role.brand => '/advertiser/home',
+        Role.brand => companyRegistration,
         Role.management || Role.unknown => login,
       };
 

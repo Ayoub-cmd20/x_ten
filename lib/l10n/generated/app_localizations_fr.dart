@@ -963,4 +963,104 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get ctTutorial => 'Tutoriel';
+
+  @override
+  String get companyTitle => 'Profil entreprise';
+
+  @override
+  String get companyStepType => 'Type d’activité';
+
+  @override
+  String get companyStepInfo => 'Informations de l’activité';
+
+  @override
+  String get companyStepContact => 'Contact';
+
+  @override
+  String get businessTypeQuestion => 'Quel est votre type d’activité ?';
+
+  @override
+  String get businessTypeHint =>
+      'Cela détermine les informations et documents demandés.';
+
+  @override
+  String get businessRegistered => 'Entreprise enregistrée';
+
+  @override
+  String get businessRegisteredDesc =>
+      'Vous avez un registre de commerce et un NIF.';
+
+  @override
+  String get businessIndividual => 'Activité individuelle';
+
+  @override
+  String get businessIndividualDesc =>
+      'Vous travaillez à votre compte sans registre de commerce.';
+
+  @override
+  String get ownerName => 'Nom du responsable';
+
+  @override
+  String get branch => 'Agence ou wilaya';
+
+  @override
+  String get address => 'Adresse';
+
+  @override
+  String get legalInfo => 'Informations légales';
+
+  @override
+  String get establishmentDate => 'Date de création';
+
+  @override
+  String get professionalTitle => 'Titre professionnel';
+
+  @override
+  String get activityLabel => 'Activité';
+
+  @override
+  String get nationalIdNumber => 'Numéro d’identification nationale';
+
+  @override
+  String get declaredIndividualActivity =>
+      'Je déclare exercer cette activité à titre individuel';
+
+  @override
+  String get website => 'Site web';
+
+  @override
+  String get marketingLinks => 'Liens marketing';
+
+  @override
+  String get marketingLinksHint => 'Vos pages sociales, facultatif';
+
+  @override
+  String get docCompanyIdentity => 'Pièce d’identité du gérant';
+
+  @override
+  String get docCommercialRegister => 'Registre de commerce';
+
+  @override
+  String get docCompanyStamp => 'Cachet de l’entreprise';
+
+  @override
+  String get docCancelledCheque => 'Chèque barré';
+
+  @override
+  String get companyNeedsChangesBanner =>
+      'Notre équipe a demandé des modifications. Mettez à jour votre profil puis renvoyez-le.';
+
+  @override
+  String get companySubmittedSuccess =>
+      'Votre profil a été envoyé pour vérification';
+
+  @override
+  String get companyRejectedTitle => 'Votre profil entreprise a été refusé';
+
+  @override
+  String get companyRejectedBody =>
+      'Contactez le support pour en connaître la raison.';
+
+  @override
+  String get featuredWorks => 'Travaux à la une';
 }

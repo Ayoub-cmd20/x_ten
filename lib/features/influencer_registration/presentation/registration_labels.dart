@@ -2,6 +2,8 @@ import 'package:x_ten/features/influencer_registration/domain/registration_entit
 import 'package:x_ten/features/influencer_registration/presentation/registration_cubit.dart';
 import 'package:x_ten/l10n/generated/app_localizations.dart';
 
+export 'package:x_ten/core/localization/category_labels.dart';
+
 extension RegistrationLabels on AppLocalizations {
   String stepTitle(RegistrationStep step) => switch (step) {
         RegistrationStep.basicInfo => stepBasicInfo,
@@ -10,32 +12,6 @@ extension RegistrationLabels on AppLocalizations {
         RegistrationStep.photo => stepPhoto,
         RegistrationStep.financial => stepFinancial,
         RegistrationStep.review => stepReview,
-      };
-
-  String category(String id) => switch (id) {
-        'technology' => catTechnology,
-        'gaming' => catGaming,
-        'sports' => catSports,
-        'football' => catFootball,
-        'fitness' => catFitness,
-        'health' => catHealth,
-        'beauty' => catBeauty,
-        'fashion' => catFashion,
-        'lifestyle' => catLifestyle,
-        'cooking' => catCooking,
-        'travel' => catTravel,
-        'cars' => catCars,
-        'education' => catEducation,
-        'business' => catBusiness,
-        'finance' => catFinance,
-        'marketing' => catMarketing,
-        'ecommerce' => catEcommerce,
-        'art' => catArt,
-        'music' => catMusic,
-        'entertainment' => catEntertainment,
-        'family' => catFamily,
-        'photography' => catPhotography,
-        _ => id,
       };
 
   String contentType(String id) => switch (id) {
