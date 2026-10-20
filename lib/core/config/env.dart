@@ -1,6 +1,6 @@
 abstract final class Env {
   static const baseUrl = String.fromEnvironment(
     'BASE_URL',
-    defaultValue: 'https://pubdz-api.onrender.com/api',
+    defaultValue: 'https://x10-3ujl.onrender.com/api',
   );
 }

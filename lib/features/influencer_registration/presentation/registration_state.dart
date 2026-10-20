@@ -80,15 +80,9 @@ final class RegistrationState extends Equatable {
 
   // ---------- قيم أولية من الحساب ----------
 
-  PersonalInfo get personalSeed {
-    if (registration case final registration?) return registration.personal;
-    final parts = (account?.fullName ?? '').trim().split(RegExp(r'\s+'));
-    return PersonalInfo(
-      firstName: parts.isEmpty ? '' : parts.first,
-      lastName: parts.length > 1 ? parts.sublist(1).join(' ') : '',
-      birthPlace: '',
-    );
-  }
+  /// الاسم واللقب يكتبهم من الوثيقة: اسم المستخدم (التسجيل الأول) ماشي هو الاسم الحقيقي
+  PersonalInfo get personalSeed =>
+      registration?.personal ?? const PersonalInfo(firstName: '', lastName: '', birthPlace: '');
 
   // ---------- الوثائق ----------
 
@@ -108,7 +102,8 @@ final class RegistrationState extends Equatable {
   List<FinancialAccount> get accountsMissingDocument =>
       [for (final account in financialAccounts) if (documentForAccount(account) == null) account];
 
-  bool get financialComplete => financialAccounts.isNotEmpty && accountsMissingDocument.isEmpty;
+  /// اسم المؤسسة + رقم الحساب يكفيو (الوثيقة تتعرض في الاجتماع)
+  bool get financialComplete => financialAccounts.isNotEmpty;
 
   RegistrationState copyWith({
     RegistrationAction? action,

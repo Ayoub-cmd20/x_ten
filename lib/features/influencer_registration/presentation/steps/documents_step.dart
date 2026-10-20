@@ -338,8 +338,6 @@ class _DocumentsStepState extends State<DocumentsStep> {
             showErrors: _showErrors,
             onKindChanged: (kind) => setState(() => _identity = kind),
           ),
-          const SizedBox(height: AppSpacing.sm),
-          EmptyHint(icon: Icons.receipt_long_outlined, text: l10n.regChequesHint),
           const SizedBox(height: AppSpacing.lg),
         ],
       ),

@@ -43,7 +43,9 @@ class _ProfileStepState extends State<ProfileStep> with ServerFieldErrors {
     super.initState();
     final state = context.read<RegistrationCubit>().state;
     final profile = state.registration?.profile;
-    _displayName = TextEditingController(text: profile?.displayName ?? state.account?.fullName ?? '');
+    // اسم الشهرة = اسم المستخدم اللي دخلو أول مرة (لو مازال ما بدّلوش)
+    final displayName = profile?.displayName ?? '';
+    _displayName = TextEditingController(text: displayName.isNotEmpty ? displayName : state.account?.fullName ?? '');
     _bio = TextEditingController(text: profile?.bio);
     _primary = [...?profile?.primaryCategories];
     _secondary = [...?profile?.secondaryCategories];

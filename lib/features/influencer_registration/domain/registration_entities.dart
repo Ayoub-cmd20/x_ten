@@ -267,7 +267,14 @@ class Audience extends Equatable {
       );
 
   /// عدد الأقسام اللي فيها قيم
-  int get filledGroups => [countries, regions, gender, ages, languages, contentEngagement].where((g) => g.isNotEmpty).length;
+  int get filledGroups => [
+        countries.isNotEmpty,
+        regions.isNotEmpty,
+        gender.isNotEmpty,
+        ages.isNotEmpty,
+        languages.isNotEmpty,
+        contentEngagement.isNotEmpty,
+      ].where((filled) => filled).length;
 
   /// الأقسام اللي مجموعها ماشي 100
   List<String> get unbalanced => [
