@@ -1717,7 +1717,7 @@ abstract class AppLocalizations {
   /// No description provided for @catTechnology.
   ///
   /// In ar, this message translates to:
-  /// **'التكنولوجيا'**
+  /// **'التقنية و التكنولوجيا'**
   String get catTechnology;
 
   /// No description provided for @catGaming.
@@ -1729,7 +1729,7 @@ abstract class AppLocalizations {
   /// No description provided for @catSports.
   ///
   /// In ar, this message translates to:
-  /// **'الرياضة'**
+  /// **'رياضة'**
   String get catSports;
 
   /// No description provided for @catFootball.
@@ -1747,13 +1747,13 @@ abstract class AppLocalizations {
   /// No description provided for @catHealth.
   ///
   /// In ar, this message translates to:
-  /// **'الصحة'**
+  /// **'صحة'**
   String get catHealth;
 
   /// No description provided for @catBeauty.
   ///
   /// In ar, this message translates to:
-  /// **'الجمال'**
+  /// **'جمال'**
   String get catBeauty;
 
   /// No description provided for @catFashion.
@@ -1771,31 +1771,31 @@ abstract class AppLocalizations {
   /// No description provided for @catCooking.
   ///
   /// In ar, this message translates to:
-  /// **'الطبخ'**
+  /// **'طبخ و تغذية'**
   String get catCooking;
 
   /// No description provided for @catTravel.
   ///
   /// In ar, this message translates to:
-  /// **'السفر والسياحة'**
+  /// **'السياحة و الأسفار'**
   String get catTravel;
 
   /// No description provided for @catCars.
   ///
   /// In ar, this message translates to:
-  /// **'السيارات'**
+  /// **'سيارات و ماكينات'**
   String get catCars;
 
   /// No description provided for @catEducation.
   ///
   /// In ar, this message translates to:
-  /// **'التعليم'**
+  /// **'تعليم و تطوير'**
   String get catEducation;
 
   /// No description provided for @catBusiness.
   ///
   /// In ar, this message translates to:
-  /// **'الأعمال'**
+  /// **'المال و الأعمال'**
   String get catBusiness;
 
   /// No description provided for @catFinance.
@@ -1813,7 +1813,7 @@ abstract class AppLocalizations {
   /// No description provided for @catEcommerce.
   ///
   /// In ar, this message translates to:
-  /// **'التجارة الإلكترونية'**
+  /// **'تجارة إلكترونية'**
   String get catEcommerce;
 
   /// No description provided for @catArt.
@@ -1825,7 +1825,7 @@ abstract class AppLocalizations {
   /// No description provided for @catMusic.
   ///
   /// In ar, this message translates to:
-  /// **'الموسيقى'**
+  /// **'الموسيقى و الطرب'**
   String get catMusic;
 
   /// No description provided for @catEntertainment.
@@ -2703,6 +2703,1068 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'تم الاتفاق على هذا الإعلان'**
   String get oppAgreed;
+
+  /// No description provided for @catActing.
+  ///
+  /// In ar, this message translates to:
+  /// **'تمثيل و دراما'**
+  String get catActing;
+
+  /// No description provided for @catPublicFigures.
+  ///
+  /// In ar, this message translates to:
+  /// **'شخصيات عامة'**
+  String get catPublicFigures;
+
+  /// No description provided for @catAgriculture.
+  ///
+  /// In ar, this message translates to:
+  /// **'الفلاحة'**
+  String get catAgriculture;
+
+  /// No description provided for @catIndustry.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصناعة'**
+  String get catIndustry;
+
+  /// No description provided for @catComedy.
+  ///
+  /// In ar, this message translates to:
+  /// **'كوميديا'**
+  String get catComedy;
+
+  /// No description provided for @catRealEstate.
+  ///
+  /// In ar, this message translates to:
+  /// **'العقار و البناء'**
+  String get catRealEstate;
+
+  /// No description provided for @regStepPersonal.
+  ///
+  /// In ar, this message translates to:
+  /// **'المعلومات الشخصية'**
+  String get regStepPersonal;
+
+  /// No description provided for @regStepProfile.
+  ///
+  /// In ar, this message translates to:
+  /// **'معلومات البروفايل'**
+  String get regStepProfile;
+
+  /// No description provided for @regStepContact.
+  ///
+  /// In ar, this message translates to:
+  /// **'معلومات الإتصال'**
+  String get regStepContact;
+
+  /// No description provided for @regStepSocial.
+  ///
+  /// In ar, this message translates to:
+  /// **'حسابات التواصل الإجتماعي'**
+  String get regStepSocial;
+
+  /// No description provided for @regStepOptional.
+  ///
+  /// In ar, this message translates to:
+  /// **'الجمهور والمهارات ومعرض الأعمال'**
+  String get regStepOptional;
+
+  /// No description provided for @regStepFinancial.
+  ///
+  /// In ar, this message translates to:
+  /// **'المعلومات المالية'**
+  String get regStepFinancial;
+
+  /// No description provided for @regStepSecurity.
+  ///
+  /// In ar, this message translates to:
+  /// **'الموافقات ومعلومات الأمان'**
+  String get regStepSecurity;
+
+  /// No description provided for @regStepPhoto.
+  ///
+  /// In ar, this message translates to:
+  /// **'صورة البروفيل'**
+  String get regStepPhoto;
+
+  /// No description provided for @regStepDocuments.
+  ///
+  /// In ar, this message translates to:
+  /// **'الوثائق المطلوبة'**
+  String get regStepDocuments;
+
+  /// No description provided for @regFullName.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإسم واللقب'**
+  String get regFullName;
+
+  /// No description provided for @regEntityQuestion.
+  ///
+  /// In ar, this message translates to:
+  /// **'هل تعتبر نفسك شخصية طبيعية ( محتوى شخصي ) أو شخصية معنوية ( صفحة إلكترونية )'**
+  String get regEntityQuestion;
+
+  /// No description provided for @regEntityNatural.
+  ///
+  /// In ar, this message translates to:
+  /// **'شخصية طبيعية ( محتوى شخصي )'**
+  String get regEntityNatural;
+
+  /// No description provided for @regEntityLegal.
+  ///
+  /// In ar, this message translates to:
+  /// **'شخصية معنوية ( صفحة إلكترونية )'**
+  String get regEntityLegal;
+
+  /// No description provided for @regDisplayName.
+  ///
+  /// In ar, this message translates to:
+  /// **'إسم الشهرة ( إسم البروفايل )'**
+  String get regDisplayName;
+
+  /// No description provided for @regPrimaryCategories.
+  ///
+  /// In ar, this message translates to:
+  /// **'المجالات الرئيسية'**
+  String get regPrimaryCategories;
+
+  /// No description provided for @regSecondaryCategories.
+  ///
+  /// In ar, this message translates to:
+  /// **'المجالات الثانوية'**
+  String get regSecondaryCategories;
+
+  /// No description provided for @regBio.
+  ///
+  /// In ar, this message translates to:
+  /// **'نبذة عن المؤثر'**
+  String get regBio;
+
+  /// No description provided for @regContentLanguages.
+  ///
+  /// In ar, this message translates to:
+  /// **'اللغات التي يمكنك تقديم محتوى إعلاني بها'**
+  String get regContentLanguages;
+
+  /// No description provided for @regOtherLanguageName.
+  ///
+  /// In ar, this message translates to:
+  /// **'أخرى ( تحديد )'**
+  String get regOtherLanguageName;
+
+  /// No description provided for @regAddressLanguages.
+  ///
+  /// In ar, this message translates to:
+  /// **'ترتيبات اللغة المفضلة التي تفضل أن يخاطبك بها المعلنون'**
+  String get regAddressLanguages;
+
+  /// No description provided for @regAddressLanguagesHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'حتى {count}. لغة الخطاب تستعمل كتنبيه للمعلن عند إدخال إعلانه للتواصل معك'**
+  String regAddressLanguagesHint(int count);
+
+  /// No description provided for @langArabic.
+  ///
+  /// In ar, this message translates to:
+  /// **'العربية'**
+  String get langArabic;
+
+  /// No description provided for @langDarija.
+  ///
+  /// In ar, this message translates to:
+  /// **'الدارجة الجزائرية'**
+  String get langDarija;
+
+  /// No description provided for @langAmazigh.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأمازيغية'**
+  String get langAmazigh;
+
+  /// No description provided for @langEnglish.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإنجليزية'**
+  String get langEnglish;
+
+  /// No description provided for @langFrench.
+  ///
+  /// In ar, this message translates to:
+  /// **'الفرنسية'**
+  String get langFrench;
+
+  /// No description provided for @langOther.
+  ///
+  /// In ar, this message translates to:
+  /// **'أخرى'**
+  String get langOther;
+
+  /// No description provided for @levelBasic.
+  ///
+  /// In ar, this message translates to:
+  /// **'أساسي'**
+  String get levelBasic;
+
+  /// No description provided for @levelGood.
+  ///
+  /// In ar, this message translates to:
+  /// **'جيد'**
+  String get levelGood;
+
+  /// No description provided for @levelAdvanced.
+  ///
+  /// In ar, this message translates to:
+  /// **'متقدم'**
+  String get levelAdvanced;
+
+  /// No description provided for @moveUp.
+  ///
+  /// In ar, this message translates to:
+  /// **'للأعلى'**
+  String get moveUp;
+
+  /// No description provided for @moveDown.
+  ///
+  /// In ar, this message translates to:
+  /// **'للأسفل'**
+  String get moveDown;
+
+  /// No description provided for @regContactTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'معلومات الإتصال'**
+  String get regContactTitle;
+
+  /// No description provided for @regSocialTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'معلومات حسابات التواصل الإجتماعي'**
+  String get regSocialTitle;
+
+  /// No description provided for @regSocialUrlLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'أدخل العنوان الالكتروني للمنصة'**
+  String get regSocialUrlLabel;
+
+  /// No description provided for @regSocialSubmit.
+  ///
+  /// In ar, this message translates to:
+  /// **'تقديم'**
+  String get regSocialSubmit;
+
+  /// No description provided for @regSocialAutoHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'المنصة والصورة والاسم وعدد المتابعين تتعمر تلقائياً وتتجدد بتغيرها'**
+  String get regSocialAutoHint;
+
+  /// No description provided for @regSocialAuto.
+  ///
+  /// In ar, this message translates to:
+  /// **'يتحدّث تلقائياً'**
+  String get regSocialAuto;
+
+  /// No description provided for @regSocialManual.
+  ///
+  /// In ar, this message translates to:
+  /// **'مدخل يدوياً'**
+  String get regSocialManual;
+
+  /// No description provided for @regSocialCompleteManually.
+  ///
+  /// In ar, this message translates to:
+  /// **'أكمل الاسم وعدد المتابعين'**
+  String get regSocialCompleteManually;
+
+  /// No description provided for @regSocialNeedsDetails.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم نستطع جلب معلومات هذه المنصة تلقائياً، أدخل الاسم وعدد المتابعين'**
+  String get regSocialNeedsDetails;
+
+  /// No description provided for @regSocialDuplicate.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا الحساب مضاف من قبل'**
+  String get regSocialDuplicate;
+
+  /// No description provided for @regRefresh.
+  ///
+  /// In ar, this message translates to:
+  /// **'تحديث'**
+  String get regRefresh;
+
+  /// No description provided for @regOptionalHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذه المرحلة غير إلزامية: يمكنك إكمالها الآن أو حتى بعد توثيق حسابك'**
+  String get regOptionalHint;
+
+  /// No description provided for @regCompleteOptional.
+  ///
+  /// In ar, this message translates to:
+  /// **'الجمهور والمهارات ومعرض الأعمال'**
+  String get regCompleteOptional;
+
+  /// No description provided for @regAudienceTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'مرحلة حصر الجمهور'**
+  String get regAudienceTitle;
+
+  /// No description provided for @regSkillsTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'مهاراتك ( إختر ما يناسبك )'**
+  String get regSkillsTitle;
+
+  /// No description provided for @regSkillsHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'من {min} إلى {max} مهارات'**
+  String regSkillsHint(int min, int max);
+
+  /// No description provided for @regContentTypesTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'أنواع المحتوى الإعلاني التي يمكنك تقديمها مرتبة حسب الأولوية'**
+  String get regContentTypesTitle;
+
+  /// No description provided for @regPortfolioTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'رفع أمثلة لمعرض أعمالك ( مهم جدا جدا )'**
+  String get regPortfolioTitle;
+
+  /// No description provided for @regPortfolioFile.
+  ///
+  /// In ar, this message translates to:
+  /// **'رفع ملف (صورة، فيديو، PDF)'**
+  String get regPortfolioFile;
+
+  /// No description provided for @regPortfolioLinkOrFile.
+  ///
+  /// In ar, this message translates to:
+  /// **'أضف رابطاً أو ارفع ملفاً'**
+  String get regPortfolioLinkOrFile;
+
+  /// No description provided for @regSaved.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم الحفظ'**
+  String get regSaved;
+
+  /// No description provided for @audCountries.
+  ///
+  /// In ar, this message translates to:
+  /// **'الموقع الجغرافي للجمهور: الدول الأكثر متابعة'**
+  String get audCountries;
+
+  /// No description provided for @audCountryName.
+  ///
+  /// In ar, this message translates to:
+  /// **'الدولة'**
+  String get audCountryName;
+
+  /// No description provided for @audAddCountry.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة دولة'**
+  String get audAddCountry;
+
+  /// No description provided for @audRegions.
+  ///
+  /// In ar, this message translates to:
+  /// **'المناطق داخل الدولة'**
+  String get audRegions;
+
+  /// No description provided for @audRegionsHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا تحدد كل المناطق، اكتفِ بما يساعد فقط'**
+  String get audRegionsHint;
+
+  /// No description provided for @audRegionsUnspecified.
+  ///
+  /// In ar, this message translates to:
+  /// **'تفضيل عدم التحديد'**
+  String get audRegionsUnspecified;
+
+  /// No description provided for @regionNorth.
+  ///
+  /// In ar, this message translates to:
+  /// **'شمال'**
+  String get regionNorth;
+
+  /// No description provided for @regionNorthEast.
+  ///
+  /// In ar, this message translates to:
+  /// **'شمال شرقي'**
+  String get regionNorthEast;
+
+  /// No description provided for @regionNorthWest.
+  ///
+  /// In ar, this message translates to:
+  /// **'شمال غربي'**
+  String get regionNorthWest;
+
+  /// No description provided for @regionCenter.
+  ///
+  /// In ar, this message translates to:
+  /// **'وسط'**
+  String get regionCenter;
+
+  /// No description provided for @regionCenterEast.
+  ///
+  /// In ar, this message translates to:
+  /// **'وسط شرقي'**
+  String get regionCenterEast;
+
+  /// No description provided for @regionCenterWest.
+  ///
+  /// In ar, this message translates to:
+  /// **'وسط غربي'**
+  String get regionCenterWest;
+
+  /// No description provided for @regionSouth.
+  ///
+  /// In ar, this message translates to:
+  /// **'جنوب'**
+  String get regionSouth;
+
+  /// No description provided for @regionSouthEast.
+  ///
+  /// In ar, this message translates to:
+  /// **'جنوب شرقي'**
+  String get regionSouthEast;
+
+  /// No description provided for @regionSouthWest.
+  ///
+  /// In ar, this message translates to:
+  /// **'جنوب غربي'**
+  String get regionSouthWest;
+
+  /// No description provided for @audGender.
+  ///
+  /// In ar, this message translates to:
+  /// **'الجنس'**
+  String get audGender;
+
+  /// No description provided for @audMale.
+  ///
+  /// In ar, this message translates to:
+  /// **'ذكور'**
+  String get audMale;
+
+  /// No description provided for @audFemale.
+  ///
+  /// In ar, this message translates to:
+  /// **'إناث'**
+  String get audFemale;
+
+  /// No description provided for @audUnspecified.
+  ///
+  /// In ar, this message translates to:
+  /// **'غير محدد'**
+  String get audUnspecified;
+
+  /// No description provided for @audAges.
+  ///
+  /// In ar, this message translates to:
+  /// **'الفئة العمرية'**
+  String get audAges;
+
+  /// No description provided for @audAgeUnder18.
+  ///
+  /// In ar, this message translates to:
+  /// **'أقل من 18'**
+  String get audAgeUnder18;
+
+  /// No description provided for @audLanguages.
+  ///
+  /// In ar, this message translates to:
+  /// **'اللغة / اللهجة'**
+  String get audLanguages;
+
+  /// No description provided for @audLangArabic.
+  ///
+  /// In ar, this message translates to:
+  /// **'العربية (دارجة / فصحى)'**
+  String get audLangArabic;
+
+  /// No description provided for @audLangAmazigh.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأمازيغية'**
+  String get audLangAmazigh;
+
+  /// No description provided for @audLangEnglish.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإنجليزية'**
+  String get audLangEnglish;
+
+  /// No description provided for @audLangFrench.
+  ///
+  /// In ar, this message translates to:
+  /// **'الفرنسية'**
+  String get audLangFrench;
+
+  /// No description provided for @audLangMixed.
+  ///
+  /// In ar, this message translates to:
+  /// **'مزيج لغوي'**
+  String get audLangMixed;
+
+  /// No description provided for @audTopPlatforms.
+  ///
+  /// In ar, this message translates to:
+  /// **'المنصة الأساسية'**
+  String get audTopPlatforms;
+
+  /// No description provided for @audTopPlatformsHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'رتب 3 منصات: يستعمل هذا لإبرازها في الأول عند العرض للعميل'**
+  String get audTopPlatformsHint;
+
+  /// No description provided for @audActivity.
+  ///
+  /// In ar, this message translates to:
+  /// **'توقيت النشاط ( غير إلزامي )'**
+  String get audActivity;
+
+  /// No description provided for @audPeakDays.
+  ///
+  /// In ar, this message translates to:
+  /// **'أيام الذروة'**
+  String get audPeakDays;
+
+  /// No description provided for @audPeakHours.
+  ///
+  /// In ar, this message translates to:
+  /// **'ساعات الذروة'**
+  String get audPeakHours;
+
+  /// No description provided for @audFrom.
+  ///
+  /// In ar, this message translates to:
+  /// **'من'**
+  String get audFrom;
+
+  /// No description provided for @audTo.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلى'**
+  String get audTo;
+
+  /// No description provided for @daySat.
+  ///
+  /// In ar, this message translates to:
+  /// **'السبت'**
+  String get daySat;
+
+  /// No description provided for @daySun.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأحد'**
+  String get daySun;
+
+  /// No description provided for @dayMon.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإثنين'**
+  String get dayMon;
+
+  /// No description provided for @dayTue.
+  ///
+  /// In ar, this message translates to:
+  /// **'الثلاثاء'**
+  String get dayTue;
+
+  /// No description provided for @dayWed.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأربعاء'**
+  String get dayWed;
+
+  /// No description provided for @dayThu.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخميس'**
+  String get dayThu;
+
+  /// No description provided for @dayFri.
+  ///
+  /// In ar, this message translates to:
+  /// **'الجمعة'**
+  String get dayFri;
+
+  /// No description provided for @audContent.
+  ///
+  /// In ar, this message translates to:
+  /// **'نوع المحتوى الأكثر تفاعلاً'**
+  String get audContent;
+
+  /// No description provided for @audVideo.
+  ///
+  /// In ar, this message translates to:
+  /// **'فيديو'**
+  String get audVideo;
+
+  /// No description provided for @audPhoto.
+  ///
+  /// In ar, this message translates to:
+  /// **'صور'**
+  String get audPhoto;
+
+  /// No description provided for @audPurchasing.
+  ///
+  /// In ar, this message translates to:
+  /// **'القدرة الشرائية التقريبية'**
+  String get audPurchasing;
+
+  /// No description provided for @audLow.
+  ///
+  /// In ar, this message translates to:
+  /// **'منخفضة'**
+  String get audLow;
+
+  /// No description provided for @audMedium.
+  ///
+  /// In ar, this message translates to:
+  /// **'متوسطة'**
+  String get audMedium;
+
+  /// No description provided for @audHigh.
+  ///
+  /// In ar, this message translates to:
+  /// **'مرتفعة'**
+  String get audHigh;
+
+  /// No description provided for @skillGroupCore.
+  ///
+  /// In ar, this message translates to:
+  /// **'مهارات إنشاء المحتوى'**
+  String get skillGroupCore;
+
+  /// No description provided for @skillGroupProduction.
+  ///
+  /// In ar, this message translates to:
+  /// **'مهارات الإنتاج والتقنية'**
+  String get skillGroupProduction;
+
+  /// No description provided for @skillGroupMarketing.
+  ///
+  /// In ar, this message translates to:
+  /// **'مهارات متعلقة بالإعلان والتسويق'**
+  String get skillGroupMarketing;
+
+  /// No description provided for @skillGroupAdvanced.
+  ///
+  /// In ar, this message translates to:
+  /// **'مهارات متقدمة'**
+  String get skillGroupAdvanced;
+
+  /// No description provided for @skillCopywriting.
+  ///
+  /// In ar, this message translates to:
+  /// **'كتابة محتوى إعلاني (Copywriting)'**
+  String get skillCopywriting;
+
+  /// No description provided for @skillStorytelling.
+  ///
+  /// In ar, this message translates to:
+  /// **'سرد قصصي (Storytelling)'**
+  String get skillStorytelling;
+
+  /// No description provided for @skillOnCamera.
+  ///
+  /// In ar, this message translates to:
+  /// **'تقديم أمام الكاميرا'**
+  String get skillOnCamera;
+
+  /// No description provided for @skillActing.
+  ///
+  /// In ar, this message translates to:
+  /// **'تمثيل / أداء'**
+  String get skillActing;
+
+  /// No description provided for @skillVoiceOver.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعليق صوتي (Voice Over)'**
+  String get skillVoiceOver;
+
+  /// No description provided for @skillProductReviews.
+  ///
+  /// In ar, this message translates to:
+  /// **'مراجعة منتجات (Reviews)'**
+  String get skillProductReviews;
+
+  /// No description provided for @skillEducational.
+  ///
+  /// In ar, this message translates to:
+  /// **'شرح وتعليم (Educational Content)'**
+  String get skillEducational;
+
+  /// No description provided for @skillMotivational.
+  ///
+  /// In ar, this message translates to:
+  /// **'محتوى تحفيزي / إلهامي'**
+  String get skillMotivational;
+
+  /// No description provided for @skillComedy.
+  ///
+  /// In ar, this message translates to:
+  /// **'محتوى كوميدي'**
+  String get skillComedy;
+
+  /// No description provided for @skillDailyLife.
+  ///
+  /// In ar, this message translates to:
+  /// **'محتوى واقعي / يوميات'**
+  String get skillDailyLife;
+
+  /// No description provided for @skillVideoShooting.
+  ///
+  /// In ar, this message translates to:
+  /// **'تصوير فيديو'**
+  String get skillVideoShooting;
+
+  /// No description provided for @skillPhotography.
+  ///
+  /// In ar, this message translates to:
+  /// **'تصوير فوتوغرافي'**
+  String get skillPhotography;
+
+  /// No description provided for @skillVideoEditing.
+  ///
+  /// In ar, this message translates to:
+  /// **'مونتاج فيديو'**
+  String get skillVideoEditing;
+
+  /// No description provided for @skillPhotoEditing.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل صور'**
+  String get skillPhotoEditing;
+
+  /// No description provided for @skillDirecting.
+  ///
+  /// In ar, this message translates to:
+  /// **'إخراج بسيط'**
+  String get skillDirecting;
+
+  /// No description provided for @skillLighting.
+  ///
+  /// In ar, this message translates to:
+  /// **'إعداد إضاءة'**
+  String get skillLighting;
+
+  /// No description provided for @skillAudioSetup.
+  ///
+  /// In ar, this message translates to:
+  /// **'إعداد صوت'**
+  String get skillAudioSetup;
+
+  /// No description provided for @skillAdIntegration.
+  ///
+  /// In ar, this message translates to:
+  /// **'إدماج الإعلان بسلاسة'**
+  String get skillAdIntegration;
+
+  /// No description provided for @skillIndirectPromotion.
+  ///
+  /// In ar, this message translates to:
+  /// **'الترويج غير المباشر'**
+  String get skillIndirectPromotion;
+
+  /// No description provided for @skillEffectiveCta.
+  ///
+  /// In ar, this message translates to:
+  /// **'بناء CTA فعال'**
+  String get skillEffectiveCta;
+
+  /// No description provided for @skillBrandIdentity.
+  ///
+  /// In ar, this message translates to:
+  /// **'الالتزام بالهوية الإعلانية'**
+  String get skillBrandIdentity;
+
+  /// No description provided for @skillBriefCompliance.
+  ///
+  /// In ar, this message translates to:
+  /// **'الالتزام بسيناريو / Brief'**
+  String get skillBriefCompliance;
+
+  /// No description provided for @skillCampaignManagement.
+  ///
+  /// In ar, this message translates to:
+  /// **'إدارة حملة كاملة'**
+  String get skillCampaignManagement;
+
+  /// No description provided for @skillAdScripting.
+  ///
+  /// In ar, this message translates to:
+  /// **'إنشاء سكريبت إعلاني'**
+  String get skillAdScripting;
+
+  /// No description provided for @skillPerformanceAnalysis.
+  ///
+  /// In ar, this message translates to:
+  /// **'تحليل أداء المحتوى'**
+  String get skillPerformanceAnalysis;
+
+  /// No description provided for @skillContentRepurposing.
+  ///
+  /// In ar, this message translates to:
+  /// **'إعادة توظيف المحتوى'**
+  String get skillContentRepurposing;
+
+  /// No description provided for @skillMultilingual.
+  ///
+  /// In ar, this message translates to:
+  /// **'العمل بعدة لغات'**
+  String get skillMultilingual;
+
+  /// No description provided for @adctReview.
+  ///
+  /// In ar, this message translates to:
+  /// **'مراجعة منتج (Review)'**
+  String get adctReview;
+
+  /// No description provided for @adctTestTry.
+  ///
+  /// In ar, this message translates to:
+  /// **'تجربة منتج (Test & Try)'**
+  String get adctTestTry;
+
+  /// No description provided for @adctUnboxing.
+  ///
+  /// In ar, this message translates to:
+  /// **'فتح صندوق (Unboxing)'**
+  String get adctUnboxing;
+
+  /// No description provided for @adctTutorial.
+  ///
+  /// In ar, this message translates to:
+  /// **'شرح / Tutorial'**
+  String get adctTutorial;
+
+  /// No description provided for @adctRecommendation.
+  ///
+  /// In ar, this message translates to:
+  /// **'توصية شخصية'**
+  String get adctRecommendation;
+
+  /// No description provided for @adctDirectCta.
+  ///
+  /// In ar, this message translates to:
+  /// **'إعلان مباشر (Call to Action)'**
+  String get adctDirectCta;
+
+  /// No description provided for @adctStorytelling.
+  ///
+  /// In ar, this message translates to:
+  /// **'Storytelling'**
+  String get adctStorytelling;
+
+  /// No description provided for @adctProductPlacement.
+  ///
+  /// In ar, this message translates to:
+  /// **'محتوى مدمج (Product Placement)'**
+  String get adctProductPlacement;
+
+  /// No description provided for @regFinancialTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'المؤسسات المالية التي تتعامل معها + أرقام حساباتك المالية في كل واحد منها'**
+  String get regFinancialTitle;
+
+  /// No description provided for @regAddInstitution.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة مؤسسة مالية'**
+  String get regAddInstitution;
+
+  /// No description provided for @finCcp.
+  ///
+  /// In ar, this message translates to:
+  /// **'بريد الجزائر (CCP)'**
+  String get finCcp;
+
+  /// No description provided for @finBank.
+  ///
+  /// In ar, this message translates to:
+  /// **'بنك'**
+  String get finBank;
+
+  /// No description provided for @finInstitution.
+  ///
+  /// In ar, this message translates to:
+  /// **'اسم البنك'**
+  String get finInstitution;
+
+  /// No description provided for @finCcpNumber.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم الحساب'**
+  String get finCcpNumber;
+
+  /// No description provided for @finCcpNumberInvalid.
+  ///
+  /// In ar, this message translates to:
+  /// **'أرقام فقط (حتى 12)'**
+  String get finCcpNumberInvalid;
+
+  /// No description provided for @finRib.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم RIB (20 رقم)'**
+  String get finRib;
+
+  /// No description provided for @finEmpty.
+  ///
+  /// In ar, this message translates to:
+  /// **'أضف مؤسسة مالية واحدة على الأقل'**
+  String get finEmpty;
+
+  /// No description provided for @finMissingDoc.
+  ///
+  /// In ar, this message translates to:
+  /// **'ارفع الصك أو الشيك لكل حساب'**
+  String get finMissingDoc;
+
+  /// No description provided for @regConsentPrivacy.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإمتثال للتشريعات الخاصة بحماية البيانات الشخصية'**
+  String get regConsentPrivacy;
+
+  /// No description provided for @regConsentTerms.
+  ///
+  /// In ar, this message translates to:
+  /// **'الموافقة على الشروط و الأحكام ( إجباري )'**
+  String get regConsentTerms;
+
+  /// No description provided for @regSecurityTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'معلومات الأمان'**
+  String get regSecurityTitle;
+
+  /// No description provided for @regLoginWith.
+  ///
+  /// In ar, this message translates to:
+  /// **'تسجيل الدخول'**
+  String get regLoginWith;
+
+  /// No description provided for @regLoginInfo.
+  ///
+  /// In ar, this message translates to:
+  /// **'{email} + كلمة السر التي اخترتها عند إنشاء الحساب'**
+  String regLoginInfo(String email);
+
+  /// No description provided for @regRecoveryTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'طريقة إسترداد الحساب'**
+  String get regRecoveryTitle;
+
+  /// No description provided for @regRecoveryHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'تحديد وسيلة إسترجاع كلمة السر'**
+  String get regRecoveryHint;
+
+  /// No description provided for @recPhone.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم الهاتف: {phone}'**
+  String recPhone(String phone);
+
+  /// No description provided for @recWhatsapp.
+  ///
+  /// In ar, this message translates to:
+  /// **'واتساب: {phone}'**
+  String recWhatsapp(String phone);
+
+  /// No description provided for @recEmail.
+  ///
+  /// In ar, this message translates to:
+  /// **'البريد الإلكتروني: {email}'**
+  String recEmail(String email);
+
+  /// No description provided for @recOther.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم آخر مسؤول عن إسترجاع كلمة السر'**
+  String get recOther;
+
+  /// No description provided for @recOtherPhone.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم الإسترجاع'**
+  String get recOtherPhone;
+
+  /// No description provided for @regPhotoTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'صورة البروفيل'**
+  String get regPhotoTitle;
+
+  /// No description provided for @regPhotoSubtitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تظهر في بروفايلك للمعلنين'**
+  String get regPhotoSubtitle;
+
+  /// No description provided for @regDocumentsTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الوثائق المطلوبة للرفع: بطاقة التعريف أو جواز السفر'**
+  String get regDocumentsTitle;
+
+  /// No description provided for @regIdCard.
+  ///
+  /// In ar, this message translates to:
+  /// **'بطاقة التعريف'**
+  String get regIdCard;
+
+  /// No description provided for @docPassport.
+  ///
+  /// In ar, this message translates to:
+  /// **'جواز السفر'**
+  String get docPassport;
+
+  /// No description provided for @regFromFiles.
+  ///
+  /// In ar, this message translates to:
+  /// **'ملف (PDF أو صورة)'**
+  String get regFromFiles;
+
+  /// No description provided for @regChequesHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصكوك والشيكات ترفع مع كل حساب في المعلومات المالية'**
+  String get regChequesHint;
+
+  /// No description provided for @regNeedsReview.
+  ///
+  /// In ar, this message translates to:
+  /// **'ستتم مراجعتها في الاجتماع'**
+  String get regNeedsReview;
+
+  /// No description provided for @regSubmittedMessage.
+  ///
+  /// In ar, this message translates to:
+  /// **'لقد تم تسجيل طلبك سيتم مراجعة ملفك لإستكماله في حالة النقصان أو عدم وضوح بعض الوثائق\nو سيتم برمجة اجتماع لك مع إدارة المنصة عن طريق مكالمة فيديوا للتأكد من صحة المعلومات المقدمة\nيجب تحضير الوثائق التالية أثناء تاريخ الاجتماع بطاقة التعريف الأصلية أو جواز السفر + وثيقة تحمل أرقام معلوماتك المالية المدخلة ( صك بريدي / شيك بنكي ) + إثباتات الوصول للمنصات المدخلة ( الوصول للمنصات أثناء مكالمة الفيديوا )'**
+  String get regSubmittedMessage;
 }
 
 class _AppLocalizationsDelegate

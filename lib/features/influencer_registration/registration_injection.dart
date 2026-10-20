@@ -10,35 +10,37 @@ void initRegistrationFeature() {
     ..registerLazySingleton<RegistrationRemoteDataSource>(() => RegistrationRemoteDataSourceImpl(sl()))
     ..registerLazySingleton<RegistrationRepository>(() => RegistrationRepositoryImpl(sl()))
     ..registerLazySingleton(() => LoadCurrentRegistrationUseCase(sl()))
-    ..registerLazySingleton(() => CreateRegistrationUseCase(sl()))
+    ..registerLazySingleton(() => SaveSectionUseCase(sl()))
     ..registerLazySingleton(() => StartNewAttemptUseCase(sl()))
-    ..registerLazySingleton(() => UpdateBasicInfoUseCase(sl()))
-    ..registerLazySingleton(() => UpdateProfileUseCase(sl()))
-    ..registerLazySingleton(() => UpdateFinancialUseCase(sl()))
     ..registerLazySingleton(() => SubmitRegistrationUseCase(sl()))
     ..registerLazySingleton(() => UploadProfileImageUseCase(sl()))
     ..registerLazySingleton(() => DeleteProfileImageUseCase(sl()))
     ..registerLazySingleton(() => AddSocialAccountUseCase(sl()))
+    ..registerLazySingleton(() => UpdateSocialAccountUseCase(sl()))
+    ..registerLazySingleton(() => RefreshSocialAccountUseCase(sl()))
     ..registerLazySingleton(() => DeleteSocialAccountUseCase(sl()))
     ..registerLazySingleton(() => AddPortfolioItemUseCase(sl()))
     ..registerLazySingleton(() => DeletePortfolioItemUseCase(sl()))
+    ..registerLazySingleton(() => AddFinancialAccountUseCase(sl()))
+    ..registerLazySingleton(() => DeleteFinancialAccountUseCase(sl()))
     ..registerLazySingleton(() => UploadDocumentUseCase(sl()))
     ..registerLazySingleton(() => DeleteDocumentUseCase(sl()))
     ..registerFactory(
       () => RegistrationCubit(
         loadCurrent: sl(),
-        create: sl(),
+        saveSection: sl(),
         startNewAttempt: sl(),
-        updateBasic: sl(),
-        updateProfile: sl(),
-        updateFinancial: sl(),
         submit: sl(),
         uploadPhoto: sl(),
         deletePhoto: sl(),
         addSocial: sl(),
+        updateSocial: sl(),
+        refreshSocial: sl(),
         deleteSocial: sl(),
         addPortfolio: sl(),
         deletePortfolio: sl(),
+        addFinancial: sl(),
+        deleteFinancial: sl(),
         uploadDocument: sl(),
         deleteDocument: sl(),
         getCurrentUser: sl(),

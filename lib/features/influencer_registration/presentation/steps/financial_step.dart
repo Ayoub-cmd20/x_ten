@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:x_ten/core/errors/failures.dart';
 import 'package:x_ten/core/localization/localization_extension.dart';
 import 'package:x_ten/core/theme/app_colors.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
 import 'package:x_ten/core/theme/theme_context.dart';
 import 'package:x_ten/core/widgets/loading/app_loader.dart';
-import 'package:x_ten/features/auth/presentation/auth_widgets.dart';
 import 'package:x_ten/features/influencer_registration/domain/registration_entities.dart';
 import 'package:x_ten/features/influencer_registration/presentation/registration_cubit.dart';
 import 'package:x_ten/features/influencer_registration/presentation/registration_labels.dart';
 import 'package:x_ten/features/influencer_registration/presentation/registration_widgets.dart';
+import 'package:x_ten/features/influencer_registration/presentation/steps/documents_step.dart';
 
+/// المؤسسات المالية التي تتعامل معها + أرقام حساباتك في كل واحدة (عدة مؤسسات).
 class FinancialStep extends StatefulWidget {
   const FinancialStep({super.key});
 
@@ -19,249 +21,301 @@ class FinancialStep extends StatefulWidget {
   State<FinancialStep> createState() => _FinancialStepState();
 }
 
-class _FinancialStepState extends State<FinancialStep> with ServerFieldErrors {
-  static const _fields = ['ccpAccount', 'ccpKey', 'bankName', 'bankAccount', 'rib', 'accountType'];
+class _FinancialStepState extends State<FinancialStep> {
+  bool _showErrors = false;
 
-  final _formKey = GlobalKey<FormState>();
-  late FinancialAccountType _type;
-  late final TextEditingController _ccpAccount;
-  late final TextEditingController _ccpKey;
-  late final TextEditingController _bankName;
-  late final TextEditingController _bankAccount;
-  late final TextEditingController _rib;
-  bool _showMissing = false;
-
-  @override
-  void initState() {
-    super.initState();
-    final financial = context.read<RegistrationCubit>().state.registration?.financial;
-    _type = financial?.accountType ?? FinancialAccountType.ccp;
-    _ccpAccount = TextEditingController(text: financial?.ccpAccount);
-    _ccpKey = TextEditingController(text: financial?.ccpKey);
-    _bankName = TextEditingController(text: financial?.bankName);
-    _bankAccount = TextEditingController(text: financial?.bankAccount);
-    _rib = TextEditingController(text: financial?.rib);
-  }
-
-  @override
-  void dispose() {
-    for (final c in [_ccpAccount, _ccpKey, _bankName, _bankAccount, _rib]) {
-      c.dispose();
-    }
-    super.dispose();
-  }
-
-  bool get _usesCcp => _type != FinancialAccountType.bank;
-
-  bool get _usesBank => _type != FinancialAccountType.ccp;
-
-  void _submit() {
-    FocusScope.of(context).unfocus();
+  void _next() {
     final cubit = context.read<RegistrationCubit>();
-    final valid = _formKey.currentState?.validate() ?? false;
-    final missing = cubit.state.missingDocuments(_type);
-    if (!valid || missing.isNotEmpty) {
-      setState(() => _showMissing = missing.isNotEmpty);
+    if (!cubit.state.financialComplete) {
+      setState(() => _showErrors = true);
       return;
     }
-    cubit.saveFinancial(FinancialInfo(
-      accountType: _type,
-      ccpAccount: _ccpAccount.text,
-      ccpKey: _ccpKey.text,
-      bankName: _bankName.text,
-      bankAccount: _bankAccount.text,
-      rib: _rib.text,
-    ));
+    cubit.next();
   }
 
-  Future<void> _upload(DocumentType type) async {
-    final cubit = context.read<RegistrationCubit>();
-    final file = await pickDocumentFile();
-    if (file != null) await cubit.uploadDocument(type, file);
+  void _listener(BuildContext context, RegistrationState state) {
+    const actions = {
+      RegistrationAction.deleteFinancial,
+      RegistrationAction.uploadDocument,
+      RegistrationAction.deleteDocument,
+    };
+    if (state.status == OperationStatus.failure && actions.contains(state.action)) {
+      showRegistrationFailure(context, state.failure!);
+    }
   }
-
-  Widget _numberField(
-    TextEditingController controller,
-    String field,
-    String label, {
-    required int maxLength,
-    required String? Function(String digits) check,
-  }) =>
-      TextFormField(
-        controller: controller,
-        keyboardType: TextInputType.number,
-        textDirection: TextDirection.ltr,
-        inputFormatters: [digitsOnly, LengthLimitingTextInputFormatter(maxLength)],
-        forceErrorText: serverError(field),
-        onChanged: (_) => clearServerError(field),
-        decoration: InputDecoration(labelText: label),
-        validator: (value) {
-          final digits = value?.trim() ?? '';
-          if (digits.isEmpty) return context.l10n.fieldRequired;
-          return check(digits);
-        },
-      );
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final state = context.watch<RegistrationCubit>().state;
     final cubit = context.read<RegistrationCubit>();
-    final missing = state.missingDocuments(_type);
-    const gap = SizedBox(height: AppSpacing.md);
+    final errorStyle = context.textTheme.bodySmall?.copyWith(color: AppColors.error);
 
     return BlocListener<RegistrationCubit, RegistrationState>(
-      listenWhen: (previous, current) =>
-          current.action == RegistrationAction.saveFinancial && current.status == OperationStatus.failure,
-      listener: (context, state) => handleFailure(state.failure!, _fields),
-      child: Form(
-        key: _formKey,
-        child: StepBody(
-          actions: StepActions(
-            isLoading: state.isLoadingFor(RegistrationAction.saveFinancial),
-            onBack: cubit.back,
-            onNext: _submit,
-          ),
-          children: [
-            SectionTitle(l10n.payoutMethod),
-            SegmentedButton<FinancialAccountType>(
-              segments: [
-                for (final type in FinancialAccountType.values)
-                  ButtonSegment(value: type, label: Text(l10n.accountTypeLabel(type))),
-              ],
-              selected: {_type},
-              onSelectionChanged: (value) => setState(() => _type = value.first),
+      listenWhen: (previous, current) => previous.status != current.status || previous.action != current.action,
+      listener: _listener,
+      child: StepBody(
+        actions: StepActions(onBack: cubit.back, onNext: _next, nextLabel: l10n.next),
+        children: [
+          SectionTitle(l10n.regFinancialTitle, subtitle: l10n.documentsSubtitle),
+          if (state.financialAccounts.isEmpty) EmptyHint(icon: Icons.account_balance_outlined, text: l10n.finEmpty),
+          for (final account in state.financialAccounts)
+            Padding(
+              padding: const EdgeInsets.only(bottom: AppSpacing.md),
+              child: _AccountCard(
+                account: account,
+                document: state.documentForAccount(account),
+                busy: state.isLoadingFor(RegistrationAction.deleteFinancial, account.id) ||
+                    state.isLoadingFor(RegistrationAction.uploadDocument, account.id) ||
+                    state.isLoadingFor(RegistrationAction.deleteDocument, account.id),
+                enabled: !state.isLoading,
+                highlightMissing: _showErrors && state.documentForAccount(account) == null,
+              ),
             ),
-            if (_usesCcp) ...[
-              gap,
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: _numberField(
-                      _ccpAccount,
-                      'ccpAccount',
-                      l10n.ccpAccount,
-                      maxLength: 12,
-                      check: (_) => null,
-                    ),
-                  ),
-                  const SizedBox(width: AppSpacing.sm),
-                  Expanded(
-                    child: _numberField(
-                      _ccpKey,
-                      'ccpKey',
-                      l10n.ccpKey,
-                      maxLength: 2,
-                      check: (digits) => digits.length == 2 ? null : l10n.ccpKeyInvalid,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-            if (_usesBank) ...[
-              gap,
-              TextFormField(
-                controller: _bankName,
-                forceErrorText: serverError('bankName'),
-                onChanged: (_) => clearServerError('bankName'),
-                decoration: InputDecoration(labelText: l10n.bankName),
-                validator: (v) => requiredText(context, v),
-              ),
-              gap,
-              TextFormField(
-                controller: _bankAccount,
-                keyboardType: TextInputType.number,
-                textDirection: TextDirection.ltr,
-                forceErrorText: serverError('bankAccount'),
-                onChanged: (_) => clearServerError('bankAccount'),
-                decoration: InputDecoration(labelText: l10n.bankAccount),
-                validator: (v) => requiredText(context, v),
-              ),
-              gap,
-              _numberField(
-                _rib,
-                'rib',
-                l10n.bankRib,
-                maxLength: 20,
-                check: (digits) => digits.length == 20 ? null : l10n.ribInvalid,
-              ),
-            ],
-            SectionTitle(l10n.documentsTitle, subtitle: l10n.documentsSubtitle),
-            for (final type in RegistrationCatalog.requiredDocuments(_type))
-              Padding(
-                padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-                child: _DocumentTile(
-                  type: type,
-                  document: state.documentOf(type),
-                  busy: state.isLoadingFor(RegistrationAction.uploadDocument, type) ||
-                      state.isLoadingFor(RegistrationAction.deleteDocument, type),
-                  enabled: !state.isLoading,
-                  highlightMissing: _showMissing,
-                  onUpload: () => _upload(type),
-                  onDelete: cubit.deleteDocument,
-                ),
-              ),
-            if (_showMissing && missing.isNotEmpty)
-              Text(
-                l10n.missingDocumentsWarning(l10n.documentList(missing)),
-                style: context.textTheme.bodySmall?.copyWith(color: AppColors.error),
-              ),
-          ],
-        ),
+          Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: TextButton.icon(
+              onPressed: state.isLoading
+                  ? null
+                  : () => showFormSheet<void>(context, BlocProvider.value(value: cubit, child: const _AccountForm())),
+              icon: const Icon(Icons.add_rounded),
+              label: Text(l10n.regAddInstitution),
+            ),
+          ),
+          if (_showErrors && state.financialAccounts.isEmpty) Text(l10n.finEmpty, style: errorStyle),
+          if (_showErrors && state.accountsMissingDocument.isNotEmpty) Text(l10n.finMissingDoc, style: errorStyle),
+        ],
       ),
     );
   }
 }
 
-class _DocumentTile extends StatelessWidget {
-  const _DocumentTile({
-    required this.type,
+class _AccountCard extends StatelessWidget {
+  const _AccountCard({
+    required this.account,
     required this.document,
     required this.busy,
     required this.enabled,
     required this.highlightMissing,
-    required this.onUpload,
-    required this.onDelete,
   });
 
-  final DocumentType type;
+  final FinancialAccount account;
   final RegistrationDocument? document;
   final bool busy;
   final bool enabled;
   final bool highlightMissing;
-  final VoidCallback onUpload;
-  final ValueChanged<RegistrationDocument> onDelete;
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final document = this.document;
-    final uploaded = document != null;
+    final cubit = context.read<RegistrationCubit>();
+    final colors = context.colors;
+    final number = account.kind == FinancialKind.ccp
+        ? '${account.accountNumber} / ${account.accountKey}'
+        : account.accountNumber;
 
-    return ItemCard(
-      icon: uploaded ? Icons.task_alt_rounded : Icons.upload_file_rounded,
-      highlight: uploaded ? AppColors.success : (highlightMissing ? AppColors.error : null),
-      title: l10n.documentLabel(type),
-      subtitle: switch (document) {
-        RegistrationDocument(verified: true) => l10n.documentVerified,
-        final RegistrationDocument d => d.fileName.isEmpty ? l10n.documentUploaded : d.fileName,
-        null => l10n.documentsSubtitle,
-      },
-      onTap: enabled && !busy ? onUpload : null,
-      trailing: busy
-          ? const Padding(padding: EdgeInsets.all(AppSpacing.sm), child: AppLoader.small())
-          : document != null
-              ? IconButton(
-                  tooltip: l10n.delete,
-                  icon: const Icon(Icons.delete_outline_rounded),
-                  onPressed: enabled ? () => onDelete(document) : null,
-                )
-              : Padding(
-                  padding: const EdgeInsetsDirectional.only(end: AppSpacing.sm),
-                  child: Text(l10n.upload, style: context.textTheme.labelMedium?.copyWith(color: context.colors.primary)),
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.md),
+      decoration: BoxDecoration(
+        color: colors.surfaceContainer,
+        borderRadius: AppRadius.lgAll,
+        border: Border.all(color: highlightMissing ? AppColors.error : colors.outlineVariant),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              Icon(
+                account.kind == FinancialKind.ccp ? Icons.local_post_office_outlined : Icons.account_balance_outlined,
+                color: AppColors.gold,
+              ),
+              const SizedBox(width: AppSpacing.sm),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(account.institutionName, style: context.textTheme.titleSmall),
+                    Text(ltr(number), style: context.textTheme.bodySmall),
+                  ],
                 ),
+              ),
+              if (busy)
+                const Padding(padding: EdgeInsets.all(AppSpacing.sm), child: AppLoader.small())
+              else
+                IconButton(
+                  tooltip: l10n.delete,
+                  onPressed: enabled ? () => cubit.deleteFinancialAccount(account.id) : null,
+                  icon: const Icon(Icons.delete_outline_rounded),
+                ),
+            ],
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          DocumentTile(
+            type: account.documentType,
+            document: document,
+            busy: false,
+            enabled: enabled && !busy,
+            highlightMissing: highlightMissing,
+            onUpload: (file, check) =>
+                cubit.uploadDocument(account.documentType, file, financialAccountId: account.id, check: check),
+            onDelete: cubit.deleteDocument,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _AccountForm extends StatefulWidget {
+  const _AccountForm();
+
+  @override
+  State<_AccountForm> createState() => _AccountFormState();
+}
+
+class _AccountFormState extends State<_AccountForm> with ServerFieldErrors {
+  static const _fields = ['kind', 'institutionName', 'accountNumber', 'accountKey'];
+
+  final _formKey = GlobalKey<FormState>();
+  final _institution = TextEditingController();
+  final _number = TextEditingController();
+  final _key = TextEditingController();
+  FinancialKind _kind = FinancialKind.ccp;
+
+  @override
+  void dispose() {
+    _institution.dispose();
+    _number.dispose();
+    _key.dispose();
+    super.dispose();
+  }
+
+  void _save() {
+    FocusScope.of(context).unfocus();
+    if (!(_formKey.currentState?.validate() ?? false)) return;
+    context.read<RegistrationCubit>().addFinancialAccount(FinancialAccount(
+          kind: _kind,
+          institutionName: _institution.text,
+          accountNumber: _number.text,
+          accountKey: _key.text,
+        ));
+  }
+
+  void _onChanged(BuildContext context, RegistrationState state) {
+    if (state.status == OperationStatus.success) {
+      Navigator.of(context).pop();
+    } else if (state.status == OperationStatus.failure) {
+      final failure = state.failure!;
+      if (failure is ValidationFailure) {
+        final l10n = context.l10n;
+        final translated = ValidationFailure(details: {
+          for (final field in _fields)
+            if (failure.fieldError(field) case final error?)
+              field: switch (error) {
+                'ccp' => l10n.finCcpNumberInvalid,
+                'ccpKey' => l10n.ccpKeyInvalid,
+                'rib' => l10n.ribInvalid,
+                'required' => l10n.fieldRequired,
+                _ => error,
+              },
+        });
+        handleFailure(translated.details.isEmpty ? failure : translated, _fields);
+        return;
+      }
+      handleFailure(failure, _fields);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final isSaving = context.select((RegistrationCubit c) => c.state.isLoadingFor(RegistrationAction.addFinancial));
+    final isCcp = _kind == FinancialKind.ccp;
+    const gap = SizedBox(height: AppSpacing.md);
+
+    return BlocListener<RegistrationCubit, RegistrationState>(
+      listenWhen: (previous, current) =>
+          current.action == RegistrationAction.addFinancial && previous.status != current.status,
+      listener: _onChanged,
+      child: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(l10n.regAddInstitution, style: context.textTheme.titleMedium),
+            gap,
+            SegmentedButton<FinancialKind>(
+              showSelectedIcon: false,
+              segments: [
+                for (final kind in FinancialKind.values)
+                  ButtonSegment(value: kind, label: Text(l10n.financialKindLabel(kind))),
+              ],
+              selected: {_kind},
+              onSelectionChanged: (value) => setState(() {
+                _kind = value.first;
+                clearServerErrors();
+              }),
+            ),
+            if (!isCcp) ...[
+              gap,
+              TextFormField(
+                controller: _institution,
+                forceErrorText: serverError('institutionName'),
+                onChanged: (_) => clearServerError('institutionName'),
+                decoration: InputDecoration(labelText: l10n.finInstitution),
+                validator: (v) => requiredText(context, v),
+              ),
+            ],
+            gap,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: TextFormField(
+                    key: ValueKey(_kind),
+                    controller: _number,
+                    keyboardType: TextInputType.number,
+                    textDirection: TextDirection.ltr,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(isCcp ? 12 : 20),
+                    ],
+                    forceErrorText: serverError('accountNumber'),
+                    onChanged: (_) => clearServerError('accountNumber'),
+                    decoration: InputDecoration(labelText: isCcp ? l10n.finCcpNumber : l10n.finRib),
+                    validator: (v) {
+                      final digits = v?.trim() ?? '';
+                      if (digits.isEmpty) return l10n.fieldRequired;
+                      if (!isCcp && digits.length != 20) return l10n.ribInvalid;
+                      return null;
+                    },
+                  ),
+                ),
+                if (isCcp) ...[
+                  const SizedBox(width: AppSpacing.sm),
+                  Expanded(
+                    child: TextFormField(
+                      controller: _key,
+                      keyboardType: TextInputType.number,
+                      textDirection: TextDirection.ltr,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(2)],
+                      forceErrorText: serverError('accountKey'),
+                      onChanged: (_) => clearServerError('accountKey'),
+                      decoration: InputDecoration(labelText: l10n.ccpKey),
+                      validator: (v) => (v?.trim().length ?? 0) == 2 ? null : l10n.ccpKeyInvalid,
+                    ),
+                  ),
+                ],
+              ],
+            ),
+            const SizedBox(height: AppSpacing.xl),
+            PrimaryButton(label: l10n.save, isLoading: isSaving, onPressed: _save),
+          ],
+        ),
+      ),
     );
   }
 }

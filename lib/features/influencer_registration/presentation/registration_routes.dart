@@ -5,6 +5,9 @@ abstract final class RegistrationRoutes {
   static const gate = '/influencer-registration';
   static const form = '/influencer-registration/form';
   static const status = '/influencer-registration/status';
+
+  /// الجمهور والمهارات وأنواع المحتوى ومعرض الأعمال: تتكمّل حتى بعد التوثيق
+  static const optional = '/influencer-registration/optional';
   static const creatorHome = '/creator/home';
 
   static String destinationFor(Registration? registration) => switch (registration?.status) {

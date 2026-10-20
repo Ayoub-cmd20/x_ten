@@ -8,7 +8,6 @@ import 'package:x_ten/core/theme/app_colors.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
 import 'package:x_ten/core/theme/theme_context.dart';
 import 'package:x_ten/core/widgets/loading/app_loader.dart';
-import 'package:x_ten/features/auth/presentation/auth_widgets.dart';
 import 'package:x_ten/features/influencer_registration/presentation/pages/registration_wizard_page.dart';
 import 'package:x_ten/features/influencer_registration/presentation/registration_cubit.dart';
 import 'package:x_ten/features/influencer_registration/presentation/registration_routes.dart';
@@ -25,7 +24,7 @@ class RegistrationStatusPage extends StatelessWidget {
             icon: Icons.manage_search_rounded,
             color: AppColors.info,
             title: l10n.statusUnderReviewTitle,
-            body: l10n.statusSubmittedBody,
+            body: l10n.regSubmittedMessage,
           ),
         VerificationStatus.meetingRequired => (
             icon: Icons.support_agent_rounded,
@@ -55,7 +54,7 @@ class RegistrationStatusPage extends StatelessWidget {
             icon: Icons.mark_email_read_outlined,
             color: AppColors.success,
             title: l10n.statusSubmittedTitle,
-            body: l10n.statusSubmittedBody,
+            body: l10n.regSubmittedMessage,
           ),
       };
 
@@ -142,6 +141,14 @@ class RegistrationStatusPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: AppSpacing.xxl),
+              if (registration.canEditOptional) ...[
+                OutlinedButton.icon(
+                  onPressed: () => context.push(RegistrationRoutes.optional),
+                  icon: const Icon(Icons.insights_outlined, color: AppColors.accentPurple),
+                  label: Text(l10n.regCompleteOptional),
+                ),
+                const SizedBox(height: AppSpacing.sm),
+              ],
               if (registration.canStartNewAttempt) ...[
                 PrimaryButton(
                   label: l10n.startNewAttempt,

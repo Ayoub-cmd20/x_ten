@@ -13,19 +13,19 @@ import 'package:x_ten/features/influencer_registration/presentation/registration
 import 'package:x_ten/features/influencer_registration/presentation/registration_routes.dart';
 import 'package:x_ten/features/influencer_registration/presentation/registration_widgets.dart';
 import 'package:x_ten/features/influencer_registration/presentation/steps/accounts_step.dart';
-import 'package:x_ten/features/influencer_registration/presentation/steps/audience_step.dart';
-import 'package:x_ten/features/influencer_registration/presentation/steps/basic_info_step.dart';
+import 'package:x_ten/features/influencer_registration/presentation/steps/contact_step.dart';
+import 'package:x_ten/features/influencer_registration/presentation/steps/documents_step.dart';
 import 'package:x_ten/features/influencer_registration/presentation/steps/financial_step.dart';
+import 'package:x_ten/features/influencer_registration/presentation/steps/optional_step.dart';
+import 'package:x_ten/features/influencer_registration/presentation/steps/personal_step.dart';
 import 'package:x_ten/features/influencer_registration/presentation/steps/photo_step.dart';
-import 'package:x_ten/features/influencer_registration/presentation/steps/review_step.dart';
+import 'package:x_ten/features/influencer_registration/presentation/steps/profile_step.dart';
+import 'package:x_ten/features/influencer_registration/presentation/steps/security_step.dart';
 
 const _snackbarActions = {
-  RegistrationAction.deleteSocial,
   RegistrationAction.deletePortfolio,
   RegistrationAction.uploadPhoto,
   RegistrationAction.deletePhoto,
-  RegistrationAction.uploadDocument,
-  RegistrationAction.deleteDocument,
 };
 
 Future<void> logoutFromRegistration(BuildContext context) async {
@@ -79,12 +79,15 @@ class RegistrationWizardPage extends StatelessWidget {
           child: KeyedSubtree(
             key: ValueKey(step),
             child: switch (step) {
-              RegistrationStep.basicInfo => const BasicInfoStep(),
-              RegistrationStep.audience => const AudienceStep(),
+              RegistrationStep.personal => const PersonalStep(),
+              RegistrationStep.profile => const ProfileStep(),
+              RegistrationStep.contact => const ContactStep(),
               RegistrationStep.accounts => const AccountsStep(),
-              RegistrationStep.photo => const PhotoStep(),
+              RegistrationStep.optional => const OptionalStep(),
               RegistrationStep.financial => const FinancialStep(),
-              RegistrationStep.review => const ReviewStep(),
+              RegistrationStep.security => const SecurityStep(),
+              RegistrationStep.photo => const PhotoStep(),
+              RegistrationStep.documents => const DocumentsStep(),
             },
           ),
         ),
@@ -145,7 +148,7 @@ class _StepHeader extends StatelessWidget {
                         decoration: BoxDecoration(
                           borderRadius: AppRadius.pillAll,
                           color: step.index <= current
-                              ? AppColors.gold
+                              ? (step == RegistrationStep.optional ? AppColors.accentPurple : AppColors.gold)
                               : step.index <= state.furthestAllowed.index
                                   ? AppColors.gold.withValues(alpha: 0.3)
                                   : context.colors.surfaceContainerHighest,

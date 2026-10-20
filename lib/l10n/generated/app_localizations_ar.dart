@@ -862,13 +862,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get facebookPage => 'صفحة';
 
   @override
-  String get catTechnology => 'التكنولوجيا';
+  String get catTechnology => 'التقنية و التكنولوجيا';
 
   @override
   String get catGaming => 'الألعاب';
 
   @override
-  String get catSports => 'الرياضة';
+  String get catSports => 'رياضة';
 
   @override
   String get catFootball => 'كرة القدم';
@@ -877,10 +877,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get catFitness => 'اللياقة البدنية';
 
   @override
-  String get catHealth => 'الصحة';
+  String get catHealth => 'صحة';
 
   @override
-  String get catBeauty => 'الجمال';
+  String get catBeauty => 'جمال';
 
   @override
   String get catFashion => 'الموضة';
@@ -889,19 +889,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get catLifestyle => 'نمط الحياة';
 
   @override
-  String get catCooking => 'الطبخ';
+  String get catCooking => 'طبخ و تغذية';
 
   @override
-  String get catTravel => 'السفر والسياحة';
+  String get catTravel => 'السياحة و الأسفار';
 
   @override
-  String get catCars => 'السيارات';
+  String get catCars => 'سيارات و ماكينات';
 
   @override
-  String get catEducation => 'التعليم';
+  String get catEducation => 'تعليم و تطوير';
 
   @override
-  String get catBusiness => 'الأعمال';
+  String get catBusiness => 'المال و الأعمال';
 
   @override
   String get catFinance => 'المال';
@@ -910,13 +910,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get catMarketing => 'التسويق';
 
   @override
-  String get catEcommerce => 'التجارة الإلكترونية';
+  String get catEcommerce => 'تجارة إلكترونية';
 
   @override
   String get catArt => 'الفن';
 
   @override
-  String get catMusic => 'الموسيقى';
+  String get catMusic => 'الموسيقى و الطرب';
 
   @override
   String get catEntertainment => 'الترفيه';
@@ -1366,4 +1366,559 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get oppAgreed => 'تم الاتفاق على هذا الإعلان';
+
+  @override
+  String get catActing => 'تمثيل و دراما';
+
+  @override
+  String get catPublicFigures => 'شخصيات عامة';
+
+  @override
+  String get catAgriculture => 'الفلاحة';
+
+  @override
+  String get catIndustry => 'الصناعة';
+
+  @override
+  String get catComedy => 'كوميديا';
+
+  @override
+  String get catRealEstate => 'العقار و البناء';
+
+  @override
+  String get regStepPersonal => 'المعلومات الشخصية';
+
+  @override
+  String get regStepProfile => 'معلومات البروفايل';
+
+  @override
+  String get regStepContact => 'معلومات الإتصال';
+
+  @override
+  String get regStepSocial => 'حسابات التواصل الإجتماعي';
+
+  @override
+  String get regStepOptional => 'الجمهور والمهارات ومعرض الأعمال';
+
+  @override
+  String get regStepFinancial => 'المعلومات المالية';
+
+  @override
+  String get regStepSecurity => 'الموافقات ومعلومات الأمان';
+
+  @override
+  String get regStepPhoto => 'صورة البروفيل';
+
+  @override
+  String get regStepDocuments => 'الوثائق المطلوبة';
+
+  @override
+  String get regFullName => 'الإسم واللقب';
+
+  @override
+  String get regEntityQuestion =>
+      'هل تعتبر نفسك شخصية طبيعية ( محتوى شخصي ) أو شخصية معنوية ( صفحة إلكترونية )';
+
+  @override
+  String get regEntityNatural => 'شخصية طبيعية ( محتوى شخصي )';
+
+  @override
+  String get regEntityLegal => 'شخصية معنوية ( صفحة إلكترونية )';
+
+  @override
+  String get regDisplayName => 'إسم الشهرة ( إسم البروفايل )';
+
+  @override
+  String get regPrimaryCategories => 'المجالات الرئيسية';
+
+  @override
+  String get regSecondaryCategories => 'المجالات الثانوية';
+
+  @override
+  String get regBio => 'نبذة عن المؤثر';
+
+  @override
+  String get regContentLanguages => 'اللغات التي يمكنك تقديم محتوى إعلاني بها';
+
+  @override
+  String get regOtherLanguageName => 'أخرى ( تحديد )';
+
+  @override
+  String get regAddressLanguages =>
+      'ترتيبات اللغة المفضلة التي تفضل أن يخاطبك بها المعلنون';
+
+  @override
+  String regAddressLanguagesHint(int count) {
+    return 'حتى $count. لغة الخطاب تستعمل كتنبيه للمعلن عند إدخال إعلانه للتواصل معك';
+  }
+
+  @override
+  String get langArabic => 'العربية';
+
+  @override
+  String get langDarija => 'الدارجة الجزائرية';
+
+  @override
+  String get langAmazigh => 'الأمازيغية';
+
+  @override
+  String get langEnglish => 'الإنجليزية';
+
+  @override
+  String get langFrench => 'الفرنسية';
+
+  @override
+  String get langOther => 'أخرى';
+
+  @override
+  String get levelBasic => 'أساسي';
+
+  @override
+  String get levelGood => 'جيد';
+
+  @override
+  String get levelAdvanced => 'متقدم';
+
+  @override
+  String get moveUp => 'للأعلى';
+
+  @override
+  String get moveDown => 'للأسفل';
+
+  @override
+  String get regContactTitle => 'معلومات الإتصال';
+
+  @override
+  String get regSocialTitle => 'معلومات حسابات التواصل الإجتماعي';
+
+  @override
+  String get regSocialUrlLabel => 'أدخل العنوان الالكتروني للمنصة';
+
+  @override
+  String get regSocialSubmit => 'تقديم';
+
+  @override
+  String get regSocialAutoHint =>
+      'المنصة والصورة والاسم وعدد المتابعين تتعمر تلقائياً وتتجدد بتغيرها';
+
+  @override
+  String get regSocialAuto => 'يتحدّث تلقائياً';
+
+  @override
+  String get regSocialManual => 'مدخل يدوياً';
+
+  @override
+  String get regSocialCompleteManually => 'أكمل الاسم وعدد المتابعين';
+
+  @override
+  String get regSocialNeedsDetails =>
+      'لم نستطع جلب معلومات هذه المنصة تلقائياً، أدخل الاسم وعدد المتابعين';
+
+  @override
+  String get regSocialDuplicate => 'هذا الحساب مضاف من قبل';
+
+  @override
+  String get regRefresh => 'تحديث';
+
+  @override
+  String get regOptionalHint =>
+      'هذه المرحلة غير إلزامية: يمكنك إكمالها الآن أو حتى بعد توثيق حسابك';
+
+  @override
+  String get regCompleteOptional => 'الجمهور والمهارات ومعرض الأعمال';
+
+  @override
+  String get regAudienceTitle => 'مرحلة حصر الجمهور';
+
+  @override
+  String get regSkillsTitle => 'مهاراتك ( إختر ما يناسبك )';
+
+  @override
+  String regSkillsHint(int min, int max) {
+    return 'من $min إلى $max مهارات';
+  }
+
+  @override
+  String get regContentTypesTitle =>
+      'أنواع المحتوى الإعلاني التي يمكنك تقديمها مرتبة حسب الأولوية';
+
+  @override
+  String get regPortfolioTitle => 'رفع أمثلة لمعرض أعمالك ( مهم جدا جدا )';
+
+  @override
+  String get regPortfolioFile => 'رفع ملف (صورة، فيديو، PDF)';
+
+  @override
+  String get regPortfolioLinkOrFile => 'أضف رابطاً أو ارفع ملفاً';
+
+  @override
+  String get regSaved => 'تم الحفظ';
+
+  @override
+  String get audCountries => 'الموقع الجغرافي للجمهور: الدول الأكثر متابعة';
+
+  @override
+  String get audCountryName => 'الدولة';
+
+  @override
+  String get audAddCountry => 'إضافة دولة';
+
+  @override
+  String get audRegions => 'المناطق داخل الدولة';
+
+  @override
+  String get audRegionsHint => 'لا تحدد كل المناطق، اكتفِ بما يساعد فقط';
+
+  @override
+  String get audRegionsUnspecified => 'تفضيل عدم التحديد';
+
+  @override
+  String get regionNorth => 'شمال';
+
+  @override
+  String get regionNorthEast => 'شمال شرقي';
+
+  @override
+  String get regionNorthWest => 'شمال غربي';
+
+  @override
+  String get regionCenter => 'وسط';
+
+  @override
+  String get regionCenterEast => 'وسط شرقي';
+
+  @override
+  String get regionCenterWest => 'وسط غربي';
+
+  @override
+  String get regionSouth => 'جنوب';
+
+  @override
+  String get regionSouthEast => 'جنوب شرقي';
+
+  @override
+  String get regionSouthWest => 'جنوب غربي';
+
+  @override
+  String get audGender => 'الجنس';
+
+  @override
+  String get audMale => 'ذكور';
+
+  @override
+  String get audFemale => 'إناث';
+
+  @override
+  String get audUnspecified => 'غير محدد';
+
+  @override
+  String get audAges => 'الفئة العمرية';
+
+  @override
+  String get audAgeUnder18 => 'أقل من 18';
+
+  @override
+  String get audLanguages => 'اللغة / اللهجة';
+
+  @override
+  String get audLangArabic => 'العربية (دارجة / فصحى)';
+
+  @override
+  String get audLangAmazigh => 'الأمازيغية';
+
+  @override
+  String get audLangEnglish => 'الإنجليزية';
+
+  @override
+  String get audLangFrench => 'الفرنسية';
+
+  @override
+  String get audLangMixed => 'مزيج لغوي';
+
+  @override
+  String get audTopPlatforms => 'المنصة الأساسية';
+
+  @override
+  String get audTopPlatformsHint =>
+      'رتب 3 منصات: يستعمل هذا لإبرازها في الأول عند العرض للعميل';
+
+  @override
+  String get audActivity => 'توقيت النشاط ( غير إلزامي )';
+
+  @override
+  String get audPeakDays => 'أيام الذروة';
+
+  @override
+  String get audPeakHours => 'ساعات الذروة';
+
+  @override
+  String get audFrom => 'من';
+
+  @override
+  String get audTo => 'إلى';
+
+  @override
+  String get daySat => 'السبت';
+
+  @override
+  String get daySun => 'الأحد';
+
+  @override
+  String get dayMon => 'الإثنين';
+
+  @override
+  String get dayTue => 'الثلاثاء';
+
+  @override
+  String get dayWed => 'الأربعاء';
+
+  @override
+  String get dayThu => 'الخميس';
+
+  @override
+  String get dayFri => 'الجمعة';
+
+  @override
+  String get audContent => 'نوع المحتوى الأكثر تفاعلاً';
+
+  @override
+  String get audVideo => 'فيديو';
+
+  @override
+  String get audPhoto => 'صور';
+
+  @override
+  String get audPurchasing => 'القدرة الشرائية التقريبية';
+
+  @override
+  String get audLow => 'منخفضة';
+
+  @override
+  String get audMedium => 'متوسطة';
+
+  @override
+  String get audHigh => 'مرتفعة';
+
+  @override
+  String get skillGroupCore => 'مهارات إنشاء المحتوى';
+
+  @override
+  String get skillGroupProduction => 'مهارات الإنتاج والتقنية';
+
+  @override
+  String get skillGroupMarketing => 'مهارات متعلقة بالإعلان والتسويق';
+
+  @override
+  String get skillGroupAdvanced => 'مهارات متقدمة';
+
+  @override
+  String get skillCopywriting => 'كتابة محتوى إعلاني (Copywriting)';
+
+  @override
+  String get skillStorytelling => 'سرد قصصي (Storytelling)';
+
+  @override
+  String get skillOnCamera => 'تقديم أمام الكاميرا';
+
+  @override
+  String get skillActing => 'تمثيل / أداء';
+
+  @override
+  String get skillVoiceOver => 'تعليق صوتي (Voice Over)';
+
+  @override
+  String get skillProductReviews => 'مراجعة منتجات (Reviews)';
+
+  @override
+  String get skillEducational => 'شرح وتعليم (Educational Content)';
+
+  @override
+  String get skillMotivational => 'محتوى تحفيزي / إلهامي';
+
+  @override
+  String get skillComedy => 'محتوى كوميدي';
+
+  @override
+  String get skillDailyLife => 'محتوى واقعي / يوميات';
+
+  @override
+  String get skillVideoShooting => 'تصوير فيديو';
+
+  @override
+  String get skillPhotography => 'تصوير فوتوغرافي';
+
+  @override
+  String get skillVideoEditing => 'مونتاج فيديو';
+
+  @override
+  String get skillPhotoEditing => 'تعديل صور';
+
+  @override
+  String get skillDirecting => 'إخراج بسيط';
+
+  @override
+  String get skillLighting => 'إعداد إضاءة';
+
+  @override
+  String get skillAudioSetup => 'إعداد صوت';
+
+  @override
+  String get skillAdIntegration => 'إدماج الإعلان بسلاسة';
+
+  @override
+  String get skillIndirectPromotion => 'الترويج غير المباشر';
+
+  @override
+  String get skillEffectiveCta => 'بناء CTA فعال';
+
+  @override
+  String get skillBrandIdentity => 'الالتزام بالهوية الإعلانية';
+
+  @override
+  String get skillBriefCompliance => 'الالتزام بسيناريو / Brief';
+
+  @override
+  String get skillCampaignManagement => 'إدارة حملة كاملة';
+
+  @override
+  String get skillAdScripting => 'إنشاء سكريبت إعلاني';
+
+  @override
+  String get skillPerformanceAnalysis => 'تحليل أداء المحتوى';
+
+  @override
+  String get skillContentRepurposing => 'إعادة توظيف المحتوى';
+
+  @override
+  String get skillMultilingual => 'العمل بعدة لغات';
+
+  @override
+  String get adctReview => 'مراجعة منتج (Review)';
+
+  @override
+  String get adctTestTry => 'تجربة منتج (Test & Try)';
+
+  @override
+  String get adctUnboxing => 'فتح صندوق (Unboxing)';
+
+  @override
+  String get adctTutorial => 'شرح / Tutorial';
+
+  @override
+  String get adctRecommendation => 'توصية شخصية';
+
+  @override
+  String get adctDirectCta => 'إعلان مباشر (Call to Action)';
+
+  @override
+  String get adctStorytelling => 'Storytelling';
+
+  @override
+  String get adctProductPlacement => 'محتوى مدمج (Product Placement)';
+
+  @override
+  String get regFinancialTitle =>
+      'المؤسسات المالية التي تتعامل معها + أرقام حساباتك المالية في كل واحد منها';
+
+  @override
+  String get regAddInstitution => 'إضافة مؤسسة مالية';
+
+  @override
+  String get finCcp => 'بريد الجزائر (CCP)';
+
+  @override
+  String get finBank => 'بنك';
+
+  @override
+  String get finInstitution => 'اسم البنك';
+
+  @override
+  String get finCcpNumber => 'رقم الحساب';
+
+  @override
+  String get finCcpNumberInvalid => 'أرقام فقط (حتى 12)';
+
+  @override
+  String get finRib => 'رقم RIB (20 رقم)';
+
+  @override
+  String get finEmpty => 'أضف مؤسسة مالية واحدة على الأقل';
+
+  @override
+  String get finMissingDoc => 'ارفع الصك أو الشيك لكل حساب';
+
+  @override
+  String get regConsentPrivacy =>
+      'الإمتثال للتشريعات الخاصة بحماية البيانات الشخصية';
+
+  @override
+  String get regConsentTerms => 'الموافقة على الشروط و الأحكام ( إجباري )';
+
+  @override
+  String get regSecurityTitle => 'معلومات الأمان';
+
+  @override
+  String get regLoginWith => 'تسجيل الدخول';
+
+  @override
+  String regLoginInfo(String email) {
+    return '$email + كلمة السر التي اخترتها عند إنشاء الحساب';
+  }
+
+  @override
+  String get regRecoveryTitle => 'طريقة إسترداد الحساب';
+
+  @override
+  String get regRecoveryHint => 'تحديد وسيلة إسترجاع كلمة السر';
+
+  @override
+  String recPhone(String phone) {
+    return 'رقم الهاتف: $phone';
+  }
+
+  @override
+  String recWhatsapp(String phone) {
+    return 'واتساب: $phone';
+  }
+
+  @override
+  String recEmail(String email) {
+    return 'البريد الإلكتروني: $email';
+  }
+
+  @override
+  String get recOther => 'رقم آخر مسؤول عن إسترجاع كلمة السر';
+
+  @override
+  String get recOtherPhone => 'رقم الإسترجاع';
+
+  @override
+  String get regPhotoTitle => 'صورة البروفيل';
+
+  @override
+  String get regPhotoSubtitle => 'تظهر في بروفايلك للمعلنين';
+
+  @override
+  String get regDocumentsTitle =>
+      'الوثائق المطلوبة للرفع: بطاقة التعريف أو جواز السفر';
+
+  @override
+  String get regIdCard => 'بطاقة التعريف';
+
+  @override
+  String get docPassport => 'جواز السفر';
+
+  @override
+  String get regFromFiles => 'ملف (PDF أو صورة)';
+
+  @override
+  String get regChequesHint =>
+      'الصكوك والشيكات ترفع مع كل حساب في المعلومات المالية';
+
+  @override
+  String get regNeedsReview => 'ستتم مراجعتها في الاجتماع';
+
+  @override
+  String get regSubmittedMessage =>
+      'لقد تم تسجيل طلبك سيتم مراجعة ملفك لإستكماله في حالة النقصان أو عدم وضوح بعض الوثائق\nو سيتم برمجة اجتماع لك مع إدارة المنصة عن طريق مكالمة فيديوا للتأكد من صحة المعلومات المقدمة\nيجب تحضير الوثائق التالية أثناء تاريخ الاجتماع بطاقة التعريف الأصلية أو جواز السفر + وثيقة تحمل أرقام معلوماتك المالية المدخلة ( صك بريدي / شيك بنكي ) + إثباتات الوصول للمنصات المدخلة ( الوصول للمنصات أثناء مكالمة الفيديوا )';
 }

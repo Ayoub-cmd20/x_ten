@@ -13,52 +13,55 @@ part 'registration_state.dart';
 class RegistrationCubit extends Cubit<RegistrationState> {
   RegistrationCubit({
     required LoadCurrentRegistrationUseCase loadCurrent,
-    required CreateRegistrationUseCase create,
+    required SaveSectionUseCase saveSection,
     required StartNewAttemptUseCase startNewAttempt,
-    required UpdateBasicInfoUseCase updateBasic,
-    required UpdateProfileUseCase updateProfile,
-    required UpdateFinancialUseCase updateFinancial,
     required SubmitRegistrationUseCase submit,
     required UploadProfileImageUseCase uploadPhoto,
     required DeleteProfileImageUseCase deletePhoto,
     required AddSocialAccountUseCase addSocial,
+    required UpdateSocialAccountUseCase updateSocial,
+    required RefreshSocialAccountUseCase refreshSocial,
     required DeleteSocialAccountUseCase deleteSocial,
     required AddPortfolioItemUseCase addPortfolio,
     required DeletePortfolioItemUseCase deletePortfolio,
+    required AddFinancialAccountUseCase addFinancial,
+    required DeleteFinancialAccountUseCase deleteFinancial,
     required UploadDocumentUseCase uploadDocument,
     required DeleteDocumentUseCase deleteDocument,
     required GetCurrentUserUseCase getCurrentUser,
   })  : _loadCurrent = loadCurrent,
-        _create = create,
+        _saveSection = saveSection,
         _startNewAttempt = startNewAttempt,
-        _updateBasic = updateBasic,
-        _updateProfile = updateProfile,
-        _updateFinancial = updateFinancial,
         _submit = submit,
         _uploadPhoto = uploadPhoto,
         _deletePhoto = deletePhoto,
         _addSocial = addSocial,
+        _updateSocial = updateSocial,
+        _refreshSocial = refreshSocial,
         _deleteSocial = deleteSocial,
         _addPortfolio = addPortfolio,
         _deletePortfolio = deletePortfolio,
+        _addFinancial = addFinancial,
+        _deleteFinancial = deleteFinancial,
         _uploadDocument = uploadDocument,
         _deleteDocument = deleteDocument,
         _getCurrentUser = getCurrentUser,
         super(const RegistrationState());
 
   final LoadCurrentRegistrationUseCase _loadCurrent;
-  final CreateRegistrationUseCase _create;
+  final SaveSectionUseCase _saveSection;
   final StartNewAttemptUseCase _startNewAttempt;
-  final UpdateBasicInfoUseCase _updateBasic;
-  final UpdateProfileUseCase _updateProfile;
-  final UpdateFinancialUseCase _updateFinancial;
   final SubmitRegistrationUseCase _submit;
   final UploadProfileImageUseCase _uploadPhoto;
   final DeleteProfileImageUseCase _deletePhoto;
   final AddSocialAccountUseCase _addSocial;
+  final UpdateSocialAccountUseCase _updateSocial;
+  final RefreshSocialAccountUseCase _refreshSocial;
   final DeleteSocialAccountUseCase _deleteSocial;
   final AddPortfolioItemUseCase _addPortfolio;
   final DeletePortfolioItemUseCase _deletePortfolio;
+  final AddFinancialAccountUseCase _addFinancial;
+  final DeleteFinancialAccountUseCase _deleteFinancial;
   final UploadDocumentUseCase _uploadDocument;
   final DeleteDocumentUseCase _deleteDocument;
   final GetCurrentUserUseCase _getCurrentUser;
@@ -76,7 +79,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
       case Ok(:final value):
         final registration = value.registration;
         User? account = state.account;
-        if (registration == null && account == null) {
+        if (account == null) {
           if (await _getCurrentUser(const NoParams()) case Ok(value: final user)) account = user;
           if (isClosed) return;
         }
@@ -86,6 +89,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
           account: account,
           socialAccounts: value.socialAccounts,
           portfolio: value.portfolio,
+          financialAccounts: value.financialAccounts,
           documents: value.documents,
           meeting: value.meeting,
         );
@@ -95,7 +99,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
           step: _resumeStep(next),
         ));
       case Err(:final failure):
-        emit(state.copyWith(status: OperationStatus.failure, failure: failure));
+        emit(state.copyWith(action: RegistrationAction.load, status: OperationStatus.failure, failure: failure));
     }
   }
 
@@ -114,58 +118,23 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     if (index >= 0) goTo(RegistrationStep.values[index]);
   }
 
-  void setNotifications(NotificationPreferences notifications) => emit(state.copyWith(notifications: notifications));
+  /// يحفظ القسم ويروح للخطوة اللي بعدو (لو [advance]).
+  Future<void> saveSection(RegistrationSection section, {bool advance = true}) => _save(
+        RegistrationAction.saveSection,
+        () => _saveSection((id: _id, section: section)),
+        (current, registration) {
+          final index = current.step.index + 1;
+          final next = advance && index < RegistrationStep.values.length ? RegistrationStep.values[index] : current.step;
+          return current.copyWith(registration: registration, step: next);
+        },
+      );
 
-  Future<void> saveBasic(BasicInfo basic) async {
-    final id = _id;
-    if (id == null) {
-      emit(state.copyWith(
-        pendingBasic: basic,
-        step: RegistrationStep.audience,
-        action: RegistrationAction.saveBasic,
-        status: OperationStatus.success,
-        failure: null,
-      ));
-      return;
-    }
-    await _save(
-      RegistrationAction.saveBasic,
-      () => _updateBasic((id: id, basic: basic)),
-      (current, registration) => current.copyWith(registration: registration, step: RegistrationStep.audience),
-    );
-  }
-
-  Future<void> saveProfile(ProfileInfo profile) async {
-    final id = _id;
-    final pending = state.pendingBasic;
-    if (id == null && pending == null) return;
-    await _save(
-      RegistrationAction.saveProfile,
-      () => id == null ? _create((basic: pending!, profile: profile)) : _updateProfile((id: id, profile: profile)),
-      (current, registration) => current.copyWith(
-        registration: registration,
-        pendingBasic: null,
-        step: RegistrationStep.accounts,
-      ),
-    );
-  }
-
-  Future<void> saveFinancial(FinancialInfo financial) async {
-    final id = _id;
-    if (id == null) return;
-    await _save(
-      RegistrationAction.saveFinancial,
-      () => _updateFinancial((id: id, financial: financial)),
-      (current, registration) => current.copyWith(registration: registration, step: RegistrationStep.review),
-    );
-  }
-
-  Future<void> submit(Consents consents) async {
+  Future<void> submit() async {
     final id = _id;
     if (id == null) return;
     await _save(
       RegistrationAction.submit,
-      () => _submit((id: id, consents: consents, notifications: state.notifications)),
+      () => _submit(id),
       (current, registration) => current.copyWith(registration: registration),
     );
   }
@@ -180,12 +149,15 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         registration: registration,
         socialAccounts: const [],
         portfolio: const [],
+        financialAccounts: const [],
         documents: const [],
         meeting: null,
         step: RegistrationStep.accounts,
       ),
     );
   }
+
+  // ---------- الصورة ----------
 
   Future<void> uploadPhoto(UploadFile image) async {
     final id = _id;
@@ -204,19 +176,37 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     await _save<void>(
       RegistrationAction.deletePhoto,
       () => _deletePhoto(id),
-      (current, _) => current.copyWith(registration: _withoutPhoto(registration)),
+      (current, _) => current.copyWith(
+        registration: registration.copyWith(profileImageUrl: null, updatedAt: DateTime.now()),
+      ),
     );
   }
 
-  Future<void> addSocialAccount(SocialAccount account) async {
+  // ---------- حسابات التواصل ----------
+
+  Future<void> addSocialAccount(String url) async {
     final id = _id;
     if (id == null) return;
     await _save(
       RegistrationAction.addSocial,
-      () => _addSocial((registrationId: id, account: account)),
+      () => _addSocial((registrationId: id, url: url)),
       (current, added) => current.copyWith(socialAccounts: [...current.socialAccounts, added]),
     );
   }
+
+  Future<void> updateSocialAccount(int accountId, {required String accountName, required int followers}) => _save(
+        RegistrationAction.updateSocial,
+        () => _updateSocial((id: accountId, accountName: accountName, followers: followers)),
+        (current, updated) => current.copyWith(socialAccounts: _replace(current.socialAccounts, updated)),
+        target: accountId,
+      );
+
+  Future<void> refreshSocialAccount(int accountId) => _save(
+        RegistrationAction.refreshSocial,
+        () => _refreshSocial(accountId),
+        (current, updated) => current.copyWith(socialAccounts: _replace(current.socialAccounts, updated)),
+        target: accountId,
+      );
 
   Future<void> deleteSocialAccount(int accountId) => _save<void>(
         RegistrationAction.deleteSocial,
@@ -227,12 +217,14 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         target: accountId,
       );
 
-  Future<void> addPortfolioItem(PortfolioItem item) async {
+  // ---------- معرض الأعمال ----------
+
+  Future<void> addPortfolioItem(PortfolioItem item, UploadFile? file) async {
     final id = _id;
     if (id == null) return;
     await _save(
       RegistrationAction.addPortfolio,
-      () => _addPortfolio((registrationId: id, item: item)),
+      () => _addPortfolio((registrationId: id, item: item, file: file)),
       (current, added) => current.copyWith(portfolio: [...current.portfolio, added]),
     );
   }
@@ -244,18 +236,54 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         target: itemId,
       );
 
-  Future<void> uploadDocument(DocumentType type, UploadFile file) async {
+  // ---------- المالية ----------
+
+  Future<void> addFinancialAccount(FinancialAccount account) async {
+    final id = _id;
+    if (id == null) return;
+    await _save(
+      RegistrationAction.addFinancial,
+      () => _addFinancial((registrationId: id, account: account)),
+      (current, added) => current.copyWith(financialAccounts: [...current.financialAccounts, added]),
+    );
+  }
+
+  Future<void> deleteFinancialAccount(int accountId) => _save<void>(
+        RegistrationAction.deleteFinancial,
+        () => _deleteFinancial(accountId),
+        (current, _) => current.copyWith(
+          financialAccounts: [for (final a in current.financialAccounts) if (a.id != accountId) a],
+          documents: [for (final d in current.documents) if (d.financialAccountId != accountId) d],
+        ),
+        target: accountId,
+      );
+
+  // ---------- الوثائق ----------
+
+  /// [target] يميّز الخانة اللي راهي تترفع (النوع، أو الحساب المالي).
+  Future<void> uploadDocument(
+    DocumentType type,
+    UploadFile file, {
+    int? financialAccountId,
+    DocumentCheck check = DocumentCheck.notChecked,
+  }) async {
     final id = _id;
     if (id == null) return;
     await _save(
       RegistrationAction.uploadDocument,
-      () => _uploadDocument((registrationId: id, type: type, file: file)),
+      () => _uploadDocument((
+        registrationId: id,
+        type: type,
+        file: file,
+        financialAccountId: financialAccountId,
+        check: check,
+      )),
       (current, document) => current.copyWith(documents: [
         for (final d in current.documents)
-          if (type == DocumentType.other || d.type != type) d,
+          if (type == DocumentType.other || d.type != type || d.financialAccountId != financialAccountId) d,
         document,
       ]),
-      target: type,
+      target: financialAccountId ?? type,
     );
   }
 
@@ -263,8 +291,10 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         RegistrationAction.deleteDocument,
         () => _deleteDocument(document.id),
         (current, _) => current.copyWith(documents: [for (final d in current.documents) if (d.id != document.id) d]),
-        target: document.type,
+        target: document.financialAccountId ?? document.type,
       );
+
+  // ---------- داخلي ----------
 
   Future<void> _save<T>(
     RegistrationAction action,
@@ -286,33 +316,19 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     }
   }
 
+  static List<SocialAccount> _replace(List<SocialAccount> accounts, SocialAccount updated) =>
+      [for (final a in accounts) a.id == updated.id ? updated : a];
+
+  /// نرجعو للخطوة الأولى الناقصة (الأقسام الاختيارية ما توقفش).
   static RegistrationStep _resumeStep(RegistrationState state) {
     final registration = state.registration;
-    if (registration == null || registration.basic.birthPlace.isEmpty) return RegistrationStep.basicInfo;
-    if (registration.audience == null) return RegistrationStep.audience;
+    if (registration == null || !registration.personal.isComplete) return RegistrationStep.personal;
+    if (!registration.profile.isComplete) return RegistrationStep.profile;
+    if (!registration.contact.isComplete) return RegistrationStep.contact;
     if (state.socialAccounts.isEmpty) return RegistrationStep.accounts;
-    final financial = registration.financial;
-    if (financial == null || state.missingDocuments(financial.accountType).isNotEmpty) {
-      return RegistrationStep.financial;
-    }
-    return RegistrationStep.review;
+    if (!state.financialComplete) return RegistrationStep.financial;
+    if (!registration.security.isComplete) return RegistrationStep.security;
+    if (registration.profileImageUrl == null) return RegistrationStep.photo;
+    return RegistrationStep.documents;
   }
-
-  static Registration _withoutPhoto(Registration r) => Registration(
-        id: r.id,
-        attemptNumber: r.attemptNumber,
-        isCurrent: r.isCurrent,
-        basic: r.basic,
-        email: r.email,
-        phone: r.phone,
-        primaryCategories: r.primaryCategories,
-        secondaryCategories: r.secondaryCategories,
-        contentTypes: r.contentTypes,
-        consents: r.consents,
-        status: r.status,
-        audience: r.audience,
-        financial: r.financial,
-        submittedAt: r.submittedAt,
-        updatedAt: DateTime.now(),
-      );
 }

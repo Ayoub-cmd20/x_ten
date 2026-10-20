@@ -865,7 +865,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get facebookPage => 'Page';
 
   @override
-  String get catTechnology => 'Technology';
+  String get catTechnology => 'Tech & technology';
 
   @override
   String get catGaming => 'Gaming';
@@ -892,19 +892,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get catLifestyle => 'Lifestyle';
 
   @override
-  String get catCooking => 'Cooking';
+  String get catCooking => 'Cooking & nutrition';
 
   @override
-  String get catTravel => 'Travel';
+  String get catTravel => 'Tourism & travel';
 
   @override
-  String get catCars => 'Cars';
+  String get catCars => 'Cars & machinery';
 
   @override
-  String get catEducation => 'Education';
+  String get catEducation => 'Education & development';
 
   @override
-  String get catBusiness => 'Business';
+  String get catBusiness => 'Money & business';
 
   @override
   String get catFinance => 'Finance';
@@ -919,7 +919,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get catArt => 'Art';
 
   @override
-  String get catMusic => 'Music';
+  String get catMusic => 'Music & singing';
 
   @override
   String get catEntertainment => 'Entertainment';
@@ -1378,4 +1378,560 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get oppAgreed => 'This ad has been agreed';
+
+  @override
+  String get catActing => 'Acting & drama';
+
+  @override
+  String get catPublicFigures => 'Public figures';
+
+  @override
+  String get catAgriculture => 'Agriculture';
+
+  @override
+  String get catIndustry => 'Industry';
+
+  @override
+  String get catComedy => 'Comedy';
+
+  @override
+  String get catRealEstate => 'Real estate & construction';
+
+  @override
+  String get regStepPersonal => 'Personal information';
+
+  @override
+  String get regStepProfile => 'Profile information';
+
+  @override
+  String get regStepContact => 'Contact information';
+
+  @override
+  String get regStepSocial => 'Social media accounts';
+
+  @override
+  String get regStepOptional => 'Audience, skills & portfolio';
+
+  @override
+  String get regStepFinancial => 'Financial information';
+
+  @override
+  String get regStepSecurity => 'Consents & security';
+
+  @override
+  String get regStepPhoto => 'Profile photo';
+
+  @override
+  String get regStepDocuments => 'Required documents';
+
+  @override
+  String get regFullName => 'First and last name';
+
+  @override
+  String get regEntityQuestion =>
+      'Do you consider yourself a natural person (personal content) or a legal entity (online page)?';
+
+  @override
+  String get regEntityNatural => 'Natural person (personal content)';
+
+  @override
+  String get regEntityLegal => 'Legal entity (online page)';
+
+  @override
+  String get regDisplayName => 'Public name (profile name)';
+
+  @override
+  String get regPrimaryCategories => 'Main fields';
+
+  @override
+  String get regSecondaryCategories => 'Secondary fields';
+
+  @override
+  String get regBio => 'About the influencer';
+
+  @override
+  String get regContentLanguages => 'Languages you can deliver ad content in';
+
+  @override
+  String get regOtherLanguageName => 'Other (specify)';
+
+  @override
+  String get regAddressLanguages =>
+      'Preferred languages for advertisers to address you, in order';
+
+  @override
+  String regAddressLanguagesHint(int count) {
+    return 'Up to $count. Shown to advertisers as a reminder when they send you an ad';
+  }
+
+  @override
+  String get langArabic => 'Arabic';
+
+  @override
+  String get langDarija => 'Algerian Darija';
+
+  @override
+  String get langAmazigh => 'Amazigh';
+
+  @override
+  String get langEnglish => 'English';
+
+  @override
+  String get langFrench => 'French';
+
+  @override
+  String get langOther => 'Other';
+
+  @override
+  String get levelBasic => 'Basic';
+
+  @override
+  String get levelGood => 'Good';
+
+  @override
+  String get levelAdvanced => 'Advanced';
+
+  @override
+  String get moveUp => 'Move up';
+
+  @override
+  String get moveDown => 'Move down';
+
+  @override
+  String get regContactTitle => 'Contact information';
+
+  @override
+  String get regSocialTitle => 'Social media accounts';
+
+  @override
+  String get regSocialUrlLabel => 'Enter the account link';
+
+  @override
+  String get regSocialSubmit => 'Submit';
+
+  @override
+  String get regSocialAutoHint =>
+      'Platform, photo, name and followers are filled in automatically and stay up to date';
+
+  @override
+  String get regSocialAuto => 'Auto-updated';
+
+  @override
+  String get regSocialManual => 'Entered manually';
+
+  @override
+  String get regSocialCompleteManually => 'Add name and followers';
+
+  @override
+  String get regSocialNeedsDetails =>
+      'We couldn\'t fetch this platform automatically. Enter the name and followers';
+
+  @override
+  String get regSocialDuplicate => 'This account is already added';
+
+  @override
+  String get regRefresh => 'Refresh';
+
+  @override
+  String get regOptionalHint =>
+      'This stage is optional: complete it now or after your account is verified';
+
+  @override
+  String get regCompleteOptional => 'Audience, skills & portfolio';
+
+  @override
+  String get regAudienceTitle => 'Audience details';
+
+  @override
+  String get regSkillsTitle => 'Your skills (choose what fits)';
+
+  @override
+  String regSkillsHint(int min, int max) {
+    return '$min to $max skills';
+  }
+
+  @override
+  String get regContentTypesTitle =>
+      'Ad content types you can deliver, by priority';
+
+  @override
+  String get regPortfolioTitle =>
+      'Upload examples to your portfolio (very important)';
+
+  @override
+  String get regPortfolioFile => 'Upload a file (image, video, PDF)';
+
+  @override
+  String get regPortfolioLinkOrFile => 'Add a link or upload a file';
+
+  @override
+  String get regSaved => 'Saved';
+
+  @override
+  String get audCountries => 'Audience location: top countries';
+
+  @override
+  String get audCountryName => 'Country';
+
+  @override
+  String get audAddCountry => 'Add country';
+
+  @override
+  String get audRegions => 'Regions within the country';
+
+  @override
+  String get audRegionsHint => 'Don\'t fill every region, only what helps';
+
+  @override
+  String get audRegionsUnspecified => 'Prefer not to specify';
+
+  @override
+  String get regionNorth => 'North';
+
+  @override
+  String get regionNorthEast => 'North-east';
+
+  @override
+  String get regionNorthWest => 'North-west';
+
+  @override
+  String get regionCenter => 'Center';
+
+  @override
+  String get regionCenterEast => 'Center-east';
+
+  @override
+  String get regionCenterWest => 'Center-west';
+
+  @override
+  String get regionSouth => 'South';
+
+  @override
+  String get regionSouthEast => 'South-east';
+
+  @override
+  String get regionSouthWest => 'South-west';
+
+  @override
+  String get audGender => 'Gender';
+
+  @override
+  String get audMale => 'Male';
+
+  @override
+  String get audFemale => 'Female';
+
+  @override
+  String get audUnspecified => 'Unspecified';
+
+  @override
+  String get audAges => 'Age groups';
+
+  @override
+  String get audAgeUnder18 => 'Under 18';
+
+  @override
+  String get audLanguages => 'Language / dialect';
+
+  @override
+  String get audLangArabic => 'Arabic (Darija / Fusha)';
+
+  @override
+  String get audLangAmazigh => 'Amazigh';
+
+  @override
+  String get audLangEnglish => 'English';
+
+  @override
+  String get audLangFrench => 'French';
+
+  @override
+  String get audLangMixed => 'Mixed';
+
+  @override
+  String get audTopPlatforms => 'Main platforms';
+
+  @override
+  String get audTopPlatformsHint =>
+      'Rank 3 platforms: they are shown first to clients';
+
+  @override
+  String get audActivity => 'Activity times (optional)';
+
+  @override
+  String get audPeakDays => 'Peak days';
+
+  @override
+  String get audPeakHours => 'Peak hours';
+
+  @override
+  String get audFrom => 'From';
+
+  @override
+  String get audTo => 'To';
+
+  @override
+  String get daySat => 'Sat';
+
+  @override
+  String get daySun => 'Sun';
+
+  @override
+  String get dayMon => 'Mon';
+
+  @override
+  String get dayTue => 'Tue';
+
+  @override
+  String get dayWed => 'Wed';
+
+  @override
+  String get dayThu => 'Thu';
+
+  @override
+  String get dayFri => 'Fri';
+
+  @override
+  String get audContent => 'Most engaging content type';
+
+  @override
+  String get audVideo => 'Video';
+
+  @override
+  String get audPhoto => 'Photos';
+
+  @override
+  String get audPurchasing => 'Approximate purchasing power';
+
+  @override
+  String get audLow => 'Low';
+
+  @override
+  String get audMedium => 'Medium';
+
+  @override
+  String get audHigh => 'High';
+
+  @override
+  String get skillGroupCore => 'Content creation skills';
+
+  @override
+  String get skillGroupProduction => 'Production & technical skills';
+
+  @override
+  String get skillGroupMarketing => 'Advertising & marketing skills';
+
+  @override
+  String get skillGroupAdvanced => 'Advanced skills';
+
+  @override
+  String get skillCopywriting => 'Copywriting';
+
+  @override
+  String get skillStorytelling => 'Storytelling';
+
+  @override
+  String get skillOnCamera => 'On-camera presenting';
+
+  @override
+  String get skillActing => 'Acting / performance';
+
+  @override
+  String get skillVoiceOver => 'Voice over';
+
+  @override
+  String get skillProductReviews => 'Product reviews';
+
+  @override
+  String get skillEducational => 'Educational content';
+
+  @override
+  String get skillMotivational => 'Motivational content';
+
+  @override
+  String get skillComedy => 'Comedy content';
+
+  @override
+  String get skillDailyLife => 'Real life / vlogs';
+
+  @override
+  String get skillVideoShooting => 'Video shooting';
+
+  @override
+  String get skillPhotography => 'Photography';
+
+  @override
+  String get skillVideoEditing => 'Video editing';
+
+  @override
+  String get skillPhotoEditing => 'Photo editing';
+
+  @override
+  String get skillDirecting => 'Basic directing';
+
+  @override
+  String get skillLighting => 'Lighting setup';
+
+  @override
+  String get skillAudioSetup => 'Audio setup';
+
+  @override
+  String get skillAdIntegration => 'Smooth ad integration';
+
+  @override
+  String get skillIndirectPromotion => 'Indirect promotion';
+
+  @override
+  String get skillEffectiveCta => 'Effective CTA';
+
+  @override
+  String get skillBrandIdentity => 'Respecting brand identity';
+
+  @override
+  String get skillBriefCompliance => 'Following a script / brief';
+
+  @override
+  String get skillCampaignManagement => 'Full campaign management';
+
+  @override
+  String get skillAdScripting => 'Ad scriptwriting';
+
+  @override
+  String get skillPerformanceAnalysis => 'Content performance analysis';
+
+  @override
+  String get skillContentRepurposing => 'Content repurposing';
+
+  @override
+  String get skillMultilingual => 'Working in several languages';
+
+  @override
+  String get adctReview => 'Product review';
+
+  @override
+  String get adctTestTry => 'Test & try';
+
+  @override
+  String get adctUnboxing => 'Unboxing';
+
+  @override
+  String get adctTutorial => 'Tutorial';
+
+  @override
+  String get adctRecommendation => 'Personal recommendation';
+
+  @override
+  String get adctDirectCta => 'Direct ad (call to action)';
+
+  @override
+  String get adctStorytelling => 'Storytelling';
+
+  @override
+  String get adctProductPlacement => 'Product placement';
+
+  @override
+  String get regFinancialTitle =>
+      'Financial institutions you work with + your account numbers in each';
+
+  @override
+  String get regAddInstitution => 'Add a financial institution';
+
+  @override
+  String get finCcp => 'Algérie Poste (CCP)';
+
+  @override
+  String get finBank => 'Bank';
+
+  @override
+  String get finInstitution => 'Bank name';
+
+  @override
+  String get finCcpNumber => 'Account number';
+
+  @override
+  String get finCcpNumberInvalid => 'Digits only (up to 12)';
+
+  @override
+  String get finRib => 'RIB number (20 digits)';
+
+  @override
+  String get finEmpty => 'Add at least one financial institution';
+
+  @override
+  String get finMissingDoc => 'Upload the cheque for each account';
+
+  @override
+  String get regConsentPrivacy =>
+      'Compliance with personal data protection legislation';
+
+  @override
+  String get regConsentTerms =>
+      'Acceptance of the terms and conditions (required)';
+
+  @override
+  String get regSecurityTitle => 'Security information';
+
+  @override
+  String get regLoginWith => 'Sign-in';
+
+  @override
+  String regLoginInfo(String email) {
+    return '$email + the password you chose when signing up';
+  }
+
+  @override
+  String get regRecoveryTitle => 'Account recovery method';
+
+  @override
+  String get regRecoveryHint => 'Choose how to recover your password';
+
+  @override
+  String recPhone(String phone) {
+    return 'Phone: $phone';
+  }
+
+  @override
+  String recWhatsapp(String phone) {
+    return 'WhatsApp: $phone';
+  }
+
+  @override
+  String recEmail(String email) {
+    return 'Email: $email';
+  }
+
+  @override
+  String get recOther => 'Another number for password recovery';
+
+  @override
+  String get recOtherPhone => 'Recovery number';
+
+  @override
+  String get regPhotoTitle => 'Profile photo';
+
+  @override
+  String get regPhotoSubtitle => 'Shown to advertisers on your profile';
+
+  @override
+  String get regDocumentsTitle => 'Documents to upload: ID card or passport';
+
+  @override
+  String get regIdCard => 'ID card';
+
+  @override
+  String get docPassport => 'Passport';
+
+  @override
+  String get regFromFiles => 'File (PDF or image)';
+
+  @override
+  String get regChequesHint =>
+      'Cheques are uploaded with each account in the financial step';
+
+  @override
+  String get regNeedsReview => 'Will be checked during the meeting';
+
+  @override
+  String get regSubmittedMessage =>
+      'Your request has been registered. Your file will be reviewed and completed if anything is missing or some documents are unclear.\nA video call meeting with the platform management will be scheduled to confirm the information you provided.\nPlease prepare for the meeting: your original ID card or passport + a document showing the financial numbers you entered (postal cheque / bank cheque) + proof of access to the platforms you entered (access to the platforms during the video call).';
 }

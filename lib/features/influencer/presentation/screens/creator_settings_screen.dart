@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:x_ten/core/localization/localization_extension.dart';
+import 'package:x_ten/features/influencer_registration/presentation/registration_routes.dart';
 
 class CreatorSettingsScreen extends StatefulWidget {
   const CreatorSettingsScreen({
@@ -54,6 +56,12 @@ class _CreatorSettingsScreenState
                 _item(
                   icon: Icons.account_balance_outlined,
                   title: 'المعلومات المالية',
+                ),
+
+                _item(
+                  icon: Icons.insights_outlined,
+                  title: context.l10n.regCompleteOptional,
+                  onTap: () => context.push(RegistrationRoutes.optional),
                 ),
 
                 _item(
@@ -219,6 +227,7 @@ class _CreatorSettingsScreenState
   Widget _item({
     required IconData icon,
     required String title,
+    VoidCallback? onTap,
   }) {
     return ListTile(
       leading: Icon(
@@ -236,7 +245,7 @@ class _CreatorSettingsScreenState
         color: Colors.white24,
         size: 14,
       ),
-      onTap: () {},
+      onTap: onTap ?? () {},
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:x_ten/core/constants/api_keys.dart';
 import 'package:x_ten/core/enums/verification_status.dart';
 import 'package:x_ten/core/utils/result.dart';
 import 'package:x_ten/features/influencer_registration/data/registration_models.dart';
@@ -16,17 +17,19 @@ class RegistrationRepositoryImpl implements RegistrationRepository {
         final current = registrations.where((r) => r.isCurrent).firstOrNull;
         if (current == null) return const RegistrationBundle();
 
+        // معرض الأعمال اختياري ويتعدّل حتى بعد التوثيق: نجيبوه دايماً
+        final portfolio = await _remote.getPortfolio(current.id);
+
         if (current.isDraft) {
-          final results = await Future.wait<List<Object>>([
-            _remote.getSocialAccounts(current.id),
-            _remote.getPortfolio(current.id),
-            _remote.getDocuments(current.id),
-          ], eagerError: true);
+          final socialAccounts = await _remote.getSocialAccounts(current.id);
+          final financialAccounts = await _remote.getFinancialAccounts(current.id);
+          final documents = await _remote.getDocuments(current.id);
           return RegistrationBundle(
             registration: current,
-            socialAccounts: results[0].cast<SocialAccount>(),
-            portfolio: results[1].cast<PortfolioItem>(),
-            documents: results[2].cast<RegistrationDocument>(),
+            socialAccounts: socialAccounts,
+            portfolio: portfolio,
+            financialAccounts: financialAccounts,
+            documents: documents,
           );
         }
 
@@ -40,33 +43,16 @@ class RegistrationRepositoryImpl implements RegistrationRepository {
                 (latest, m) => latest == null || m.scheduledAt.isAfter(latest.scheduledAt) ? m : latest,
               );
         }
-        return RegistrationBundle(registration: current, meeting: meeting);
+        return RegistrationBundle(registration: current, portfolio: portfolio, meeting: meeting);
       });
 
   @override
-  Future<Result<Registration>> create({required BasicInfo basic, required ProfileInfo profile}) => guard(
-        () => _remote.createRegistration({...RegistrationJson.basic(basic), ...RegistrationJson.profile(profile)}),
-      );
+  Future<Result<Registration>> create(PersonalInfo personal) =>
+      guard(() => _remote.createRegistration(RegistrationJson.section(personal)));
 
   @override
-  Future<Result<Registration>> updateBasic(int id, BasicInfo basic) =>
-      guard(() => _remote.updateRegistration(id, RegistrationJson.basic(basic)));
-
-  @override
-  Future<Result<Registration>> updateProfile(int id, ProfileInfo profile) =>
-      guard(() => _remote.updateRegistration(id, RegistrationJson.profile(profile)));
-
-  @override
-  Future<Result<Registration>> updateFinancial(int id, FinancialInfo financial) =>
-      guard(() => _remote.updateRegistration(id, RegistrationJson.financial(financial)));
-
-  @override
-  Future<Result<Registration>> updateConsents(
-    int id, {
-    required Consents consents,
-    required NotificationPreferences notifications,
-  }) =>
-      guard(() => _remote.updateRegistration(id, RegistrationJson.consents(consents, notifications)));
+  Future<Result<Registration>> saveSection(int id, RegistrationSection section) =>
+      guard(() => _remote.updateRegistration(id, RegistrationJson.section(section)));
 
   @override
   Future<Result<Registration>> submit(int id) => guard(() => _remote.submit(id));
@@ -79,22 +65,50 @@ class RegistrationRepositoryImpl implements RegistrationRepository {
   Future<Result<void>> deleteProfileImage(int id) => guard(() => _remote.deleteProfileImage(id));
 
   @override
-  Future<Result<SocialAccount>> addSocialAccount(int registrationId, SocialAccount account) =>
-      guard(() => _remote.addSocialAccount(registrationId, RegistrationJson.socialAccount(account)));
+  Future<Result<SocialAccount>> addSocialAccount(int registrationId, String url) =>
+      guard(() => _remote.addSocialAccount(registrationId, {ApiKeys.url: url}));
+
+  @override
+  Future<Result<SocialAccount>> updateSocialAccount(int id, {required String accountName, required int followers}) =>
+      guard(() => _remote.updateSocialAccount(id, {ApiKeys.accountName: accountName, ApiKeys.followers: followers}));
+
+  @override
+  Future<Result<SocialAccount>> refreshSocialAccount(int id) => guard(() => _remote.refreshSocialAccount(id));
 
   @override
   Future<Result<void>> deleteSocialAccount(int id) => guard(() => _remote.deleteSocialAccount(id));
 
   @override
-  Future<Result<PortfolioItem>> addPortfolioItem(int registrationId, PortfolioItem item) =>
-      guard(() => _remote.addPortfolioItem(registrationId, RegistrationJson.portfolioItem(item)));
+  Future<Result<PortfolioItem>> addPortfolioItem(int registrationId, PortfolioItem item, UploadFile? file) =>
+      guard(() => _remote.addPortfolioItem(registrationId, RegistrationJson.portfolioItem(item), file));
 
   @override
   Future<Result<void>> deletePortfolioItem(int id) => guard(() => _remote.deletePortfolioItem(id));
 
   @override
-  Future<Result<RegistrationDocument>> uploadDocument(int registrationId, DocumentType type, UploadFile file) =>
-      guard(() => _remote.uploadDocument(registrationId, type, file));
+  Future<Result<FinancialAccount>> addFinancialAccount(int registrationId, FinancialAccount account) =>
+      guard(() => _remote.addFinancialAccount(registrationId, RegistrationJson.financialAccount(account)));
+
+  @override
+  Future<Result<void>> deleteFinancialAccount(int id) => guard(() => _remote.deleteFinancialAccount(id));
+
+  @override
+  Future<Result<RegistrationDocument>> uploadDocument(
+    int registrationId,
+    DocumentType type,
+    UploadFile file, {
+    int? financialAccountId,
+    DocumentCheck check = DocumentCheck.notChecked,
+  }) =>
+      guard(() => _remote.uploadDocument(
+            registrationId,
+            {
+              ApiKeys.type: type.name,
+              ApiKeys.financialAccountId: ?financialAccountId,
+              ApiKeys.checkStatus: check.name,
+            },
+            file,
+          ));
 
   @override
   Future<Result<void>> deleteDocument(int id) => guard(() => _remote.deleteDocument(id));

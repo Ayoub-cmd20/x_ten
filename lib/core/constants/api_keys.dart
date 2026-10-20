@@ -160,4 +160,39 @@ abstract final class ApiKeys {
   static const tab = 'tab';
   static const requested = 'requested';
   static const discussing = 'discussing';
+
+  // تسجيل المؤثر (حسب وثيقة صاحب المشروع)
+  static const key = 'key';
+  static const percent = 'percent';
+  static const entityType = 'entityType';
+  static const contentLanguages = 'contentLanguages';
+  static const addressLanguages = 'addressLanguages';
+  static const level = 'level';
+  static const countries = 'countries';
+  static const country = 'country';
+  static const regions = 'regions';
+  static const regionsUnspecified = 'regionsUnspecified';
+  static const gender = 'gender';
+  static const ages = 'ages';
+  static const languages = 'languages';
+  static const topPlatforms = 'topPlatforms';
+  static const days = 'days';
+  static const fromHour = 'fromHour';
+  static const toHour = 'toHour';
+  static const contentEngagement = 'contentEngagement';
+  static const purchasingPower = 'purchasingPower';
+  static const recoveryMethod = 'recoveryMethod';
+  static const recoveryPhone = 'recoveryPhone';
+  static const kind = 'kind';
+  static const institutionName = 'institutionName';
+  static const accountNumber = 'accountNumber';
+  static const accountKey = 'accountKey';
+  static const keyValid = 'keyValid';
+  static const source = 'source';
+  static const lastSyncedAt = 'lastSyncedAt';
+  static const fileUrl = 'fileUrl';
+  static const financialAccountId = 'financialAccountId';
+  static const checkStatus = 'checkStatus';
+  static const checkNotes = 'checkNotes';
+  static const financialAccounts = 'financialAccounts';
 }

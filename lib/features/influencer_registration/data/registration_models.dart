@@ -8,10 +8,6 @@ String _string(Object? value) => value as String? ?? '';
 
 List<String> _strings(Object? value) => [for (final item in value as List? ?? const []) '$item'];
 
-Map<String, double> _percentages(Object? value) => {
-      for (final entry in (value as Map? ?? const {}).entries) '${entry.key}': (entry.value as num).toDouble(),
-    };
-
 DateTime? _date(Object? value) => value is String ? DateTime.tryParse(value) : null;
 
 String _formatDate(DateTime date) =>
@@ -19,125 +15,132 @@ String _formatDate(DateTime date) =>
 
 num _compact(double value) => value == value.roundToDouble() ? value.toInt() : value;
 
+/// [{key, percent}] ⇄ Map
+List<Json> _sharesToJson(Map<String, double> shares) => [
+      for (final entry in shares.entries) {ApiKeys.key: entry.key, ApiKeys.percent: _compact(entry.value)},
+    ];
+
+Map<String, double> _sharesFromJson(Object? value) => {
+      for (final item in (value as List? ?? const []).whereType<Json>())
+        '${item[ApiKeys.key]}': (item[ApiKeys.percent] as num? ?? 0).toDouble(),
+    };
+
 abstract final class RegistrationJson {
-  static Json basic(BasicInfo basic) => {
-        ApiKeys.firstName: basic.firstName,
-        ApiKeys.lastName: basic.lastName,
-        ApiKeys.displayName: basic.displayName,
-        ApiKeys.birthDate: switch (basic.birthDate) {
-          final date? => _formatDate(date),
-          null => null,
-        },
-        ApiKeys.birthPlace: basic.birthPlace,
-        ApiKeys.bio: basic.bio,
-        ApiKeys.skills: basic.skills,
-        if (basic.whatsapp.isNotEmpty) ApiKeys.whatsapp: basic.whatsapp,
+  static Json section(RegistrationSection section) => switch (section) {
+        final PersonalInfo personal => {
+            ApiKeys.firstName: personal.firstName,
+            ApiKeys.lastName: personal.lastName,
+            ApiKeys.birthDate: switch (personal.birthDate) {
+              final date? => _formatDate(date),
+              null => null,
+            },
+            ApiKeys.birthPlace: personal.birthPlace,
+            ApiKeys.entityType: personal.entityType?.name ?? '',
+          },
+        final ProfileInfo profile => {
+            ApiKeys.displayName: profile.displayName,
+            ApiKeys.primaryCategories: profile.primaryCategories,
+            ApiKeys.secondaryCategories: profile.secondaryCategories,
+            ApiKeys.bio: profile.bio,
+            ApiKeys.contentLanguages: [
+              for (final language in profile.contentLanguages)
+                {
+                  ApiKeys.code: language.code,
+                  ApiKeys.level: language.level.name,
+                  if (language.name.isNotEmpty) ApiKeys.name: language.name,
+                },
+            ],
+            ApiKeys.addressLanguages: profile.addressLanguages,
+          },
+        final ContactInfo contact => {
+            ApiKeys.phone: contact.phone,
+            ApiKeys.whatsapp: contact.whatsapp,
+            ApiKeys.email: contact.email,
+          },
+        final OptionalInfo optional => {
+            ApiKeys.audience: audience(optional.audience),
+            ApiKeys.skills: optional.skills,
+            ApiKeys.contentTypes: optional.contentTypes,
+          },
+        final SecurityInfo security => {
+            ApiKeys.acceptedPrivacy: security.acceptedPrivacy,
+            ApiKeys.acceptedTerms: security.acceptedTerms,
+            ApiKeys.recoveryMethod: security.recoveryMethod?.name ?? '',
+            ApiKeys.recoveryPhone: security.recoveryPhone,
+          },
       };
 
   static Json audience(Audience audience) => {
-        ApiKeys.ageDistribution: {
-          for (final entry in audience.ageDistribution.entries)
-            if (entry.value > 0) entry.key: _compact(entry.value),
+        ApiKeys.countries: [
+          for (final c in audience.countries) {ApiKeys.country: c.country, ApiKeys.percent: _compact(c.percent)},
+        ],
+        ApiKeys.regions: _sharesToJson(audience.regions),
+        ApiKeys.regionsUnspecified: audience.regionsUnspecified,
+        ApiKeys.gender: _sharesToJson(audience.gender),
+        ApiKeys.ages: _sharesToJson(audience.ages),
+        ApiKeys.languages: _sharesToJson(audience.languages),
+        ApiKeys.topPlatforms: audience.topPlatforms,
+        ApiKeys.activity: {
+          ApiKeys.days: audience.activityDays,
+          ApiKeys.fromHour: audience.fromHour,
+          ApiKeys.toHour: audience.toHour,
         },
-        ApiKeys.malePercentage: _compact(audience.malePercentage),
-        ApiKeys.femalePercentage: _compact(audience.femalePercentage),
-        ApiKeys.locations: {
-          for (final entry in audience.locations.entries) entry.key: _compact(entry.value),
-        },
-        ApiKeys.interests: audience.interests,
-      };
-
-  static Json profile(ProfileInfo profile) => {
-        ApiKeys.primaryCategories: profile.primaryCategories,
-        ApiKeys.secondaryCategories: profile.secondaryCategories,
-        ApiKeys.contentTypes: profile.contentTypes,
-        ApiKeys.audience: audience(profile.audience),
-      };
-
-  static Json financial(FinancialInfo financial) => {
-        ApiKeys.financialInformation: {
-          ApiKeys.accountType: financial.accountType.name,
-          ApiKeys.ccpAccount: financial.ccpAccount,
-          ApiKeys.ccpKey: financial.ccpKey,
-          ApiKeys.bankName: financial.bankName,
-          ApiKeys.bankAccount: financial.bankAccount,
-          ApiKeys.rib: financial.rib,
-        },
-      };
-
-  static Json consents(Consents consents, NotificationPreferences notifications) => {
-        ApiKeys.confirmInformation: consents.confirmInformation,
-        ApiKeys.acceptedTerms: consents.acceptedTerms,
-        ApiKeys.acceptedPrivacy: consents.acceptedPrivacy,
-        ApiKeys.acceptedVerification: consents.acceptedVerification,
-        ApiKeys.acceptedContact: consents.acceptedContact,
-        ApiKeys.notificationPreferences: {
-          ApiKeys.inApp: notifications.inApp,
-          ApiKeys.sms: notifications.sms,
-          ApiKeys.phoneCall: notifications.phoneCall,
-          ApiKeys.email: notifications.email,
-          ApiKeys.whatsapp: notifications.whatsapp,
-        },
-      };
-
-  static Json socialAccount(SocialAccount account) => {
-        ApiKeys.platform: account.platform.name,
-        if (account.facebookAccountType case final type?) ApiKeys.facebookAccountType: type.name,
-        ApiKeys.url: account.url,
-        ApiKeys.accountName: account.accountName,
-        ApiKeys.username: account.username,
-        ApiKeys.description: account.description,
-        ApiKeys.followers: account.followers,
+        ApiKeys.contentEngagement: _sharesToJson(audience.contentEngagement),
+        ApiKeys.purchasingPower: audience.purchasingPower,
       };
 
   static Json portfolioItem(PortfolioItem item) => {
         ApiKeys.title: item.title,
         ApiKeys.description: item.description,
-        ApiKeys.link: item.link,
-        ApiKeys.mediaUrls: item.mediaUrls,
+        if (item.link.isNotEmpty) ApiKeys.link: item.link,
+      };
+
+  static Json financialAccount(FinancialAccount account) => {
+        ApiKeys.kind: account.kind.name,
+        ApiKeys.institutionName: account.institutionName,
+        ApiKeys.accountNumber: account.accountNumber,
+        ApiKeys.accountKey: account.accountKey,
       };
 }
 
 class AudienceModel extends Audience {
   const AudienceModel({
-    required super.ageDistribution,
-    required super.malePercentage,
-    required super.femalePercentage,
-    required super.locations,
-    required super.interests,
+    super.countries,
+    super.regions,
+    super.regionsUnspecified,
+    super.gender,
+    super.ages,
+    super.languages,
+    super.topPlatforms,
+    super.activityDays,
+    super.fromHour,
+    super.toHour,
+    super.contentEngagement,
+    super.purchasingPower,
   });
 
-  static AudienceModel? maybeFromJson(Object? json) {
-    if (json is! Json || json.isEmpty) return null;
+  factory AudienceModel.fromJson(Object? value) {
+    if (value is! Json) return const AudienceModel();
+    final activity = value[ApiKeys.activity] as Json? ?? const {};
     return AudienceModel(
-      ageDistribution: _percentages(json[ApiKeys.ageDistribution]),
-      malePercentage: (json[ApiKeys.malePercentage] as num? ?? 0).toDouble(),
-      femalePercentage: (json[ApiKeys.femalePercentage] as num? ?? 0).toDouble(),
-      locations: _percentages(json[ApiKeys.locations]),
-      interests: _strings(json[ApiKeys.interests]),
-    );
-  }
-}
-
-class FinancialInfoModel extends FinancialInfo {
-  const FinancialInfoModel({
-    required super.accountType,
-    super.ccpAccount,
-    super.ccpKey,
-    super.bankName,
-    super.bankAccount,
-    super.rib,
-  });
-
-  static FinancialInfoModel? maybeFromJson(Object? json) {
-    if (json is! Json) return null;
-    return FinancialInfoModel(
-      accountType: enumFromApi(FinancialAccountType.values, json[ApiKeys.accountType] as String?, FinancialAccountType.ccp),
-      ccpAccount: _string(json[ApiKeys.ccpAccount]),
-      ccpKey: _string(json[ApiKeys.ccpKey]),
-      bankName: _string(json[ApiKeys.bankName]),
-      bankAccount: _string(json[ApiKeys.bankAccount]),
-      rib: _string(json[ApiKeys.rib]),
+      countries: [
+        for (final item in (value[ApiKeys.countries] as List? ?? const []).whereType<Json>())
+          CountryShare(
+            country: _string(item[ApiKeys.country]),
+            percent: (item[ApiKeys.percent] as num? ?? 0).toDouble(),
+          ),
+      ],
+      regions: _sharesFromJson(value[ApiKeys.regions]),
+      regionsUnspecified: value[ApiKeys.regionsUnspecified] as bool? ?? false,
+      gender: _sharesFromJson(value[ApiKeys.gender]),
+      ages: _sharesFromJson(value[ApiKeys.ages]),
+      languages: _sharesFromJson(value[ApiKeys.languages]),
+      topPlatforms: _strings(value[ApiKeys.topPlatforms]),
+      activityDays: _strings(activity[ApiKeys.days]),
+      fromHour: _string(activity[ApiKeys.fromHour]),
+      toHour: _string(activity[ApiKeys.toHour]),
+      contentEngagement: _sharesFromJson(value[ApiKeys.contentEngagement]),
+      purchasingPower: _string(value[ApiKeys.purchasingPower]),
     );
   }
 }
@@ -147,17 +150,13 @@ class RegistrationModel extends Registration {
     required super.id,
     required super.attemptNumber,
     required super.isCurrent,
-    required super.basic,
-    required super.email,
-    required super.phone,
-    required super.primaryCategories,
-    required super.secondaryCategories,
-    required super.contentTypes,
-    required super.consents,
+    required super.personal,
+    required super.profile,
+    required super.contact,
+    required super.optional,
+    required super.security,
     required super.status,
     super.profileImageUrl,
-    super.audience,
-    super.financial,
     super.submittedAt,
     super.updatedAt,
   });
@@ -166,31 +165,45 @@ class RegistrationModel extends Registration {
         id: json[ApiKeys.id] as int,
         attemptNumber: json[ApiKeys.attemptNumber] as int? ?? 1,
         isCurrent: json[ApiKeys.isCurrent] as bool? ?? false,
-        basic: BasicInfo(
+        personal: PersonalInfo(
           firstName: _string(json[ApiKeys.firstName]),
           lastName: _string(json[ApiKeys.lastName]),
-          displayName: _string(json[ApiKeys.displayName]),
           birthDate: _date(json[ApiKeys.birthDate]),
           birthPlace: _string(json[ApiKeys.birthPlace]),
+          entityType: maybeEnum(EntityType.values, json[ApiKeys.entityType] as String?),
+        ),
+        profile: ProfileInfo(
+          displayName: _string(json[ApiKeys.displayName]),
+          primaryCategories: _strings(json[ApiKeys.primaryCategories]),
+          secondaryCategories: _strings(json[ApiKeys.secondaryCategories]),
           bio: _string(json[ApiKeys.bio]),
-          skills: _string(json[ApiKeys.skills]),
+          contentLanguages: [
+            for (final item in (json[ApiKeys.contentLanguages] as List? ?? const []).whereType<Json>())
+              ContentLanguage(
+                code: _string(item[ApiKeys.code]),
+                level: enumFromApi(LanguageLevel.values, item[ApiKeys.level] as String?, LanguageLevel.good),
+                name: _string(item[ApiKeys.name]),
+              ),
+          ],
+          addressLanguages: _strings(json[ApiKeys.addressLanguages]),
+        ),
+        contact: ContactInfo(
+          phone: _string(json[ApiKeys.phone]),
           whatsapp: _string(json[ApiKeys.whatsapp]),
+          email: _string(json[ApiKeys.email]),
         ),
-        email: _string(json[ApiKeys.email]),
-        phone: _string(json[ApiKeys.phone]),
-        profileImageUrl: json[ApiKeys.profileImageUrl] as String?,
-        primaryCategories: _strings(json[ApiKeys.primaryCategories]),
-        secondaryCategories: _strings(json[ApiKeys.secondaryCategories]),
-        contentTypes: _strings(json[ApiKeys.contentTypes]),
-        audience: AudienceModel.maybeFromJson(json[ApiKeys.audience]),
-        financial: FinancialInfoModel.maybeFromJson(json[ApiKeys.financialInformation]),
-        consents: Consents(
-          confirmInformation: json[ApiKeys.confirmInformation] as bool? ?? false,
-          acceptedTerms: json[ApiKeys.acceptedTerms] as bool? ?? false,
+        optional: OptionalInfo(
+          audience: AudienceModel.fromJson(json[ApiKeys.audience]),
+          skills: _strings(json[ApiKeys.skills]),
+          contentTypes: _strings(json[ApiKeys.contentTypes]),
+        ),
+        security: SecurityInfo(
           acceptedPrivacy: json[ApiKeys.acceptedPrivacy] as bool? ?? false,
-          acceptedVerification: json[ApiKeys.acceptedVerification] as bool? ?? false,
-          acceptedContact: json[ApiKeys.acceptedContact] as bool? ?? false,
+          acceptedTerms: json[ApiKeys.acceptedTerms] as bool? ?? false,
+          recoveryMethod: maybeEnum(RecoveryMethod.values, json[ApiKeys.recoveryMethod] as String?),
+          recoveryPhone: _string(json[ApiKeys.recoveryPhone]),
         ),
+        profileImageUrl: json[ApiKeys.profileImageUrl] as String?,
         status: VerificationStatus.fromApi(json[ApiKeys.verificationStatus] as String?),
         submittedAt: _date(json[ApiKeys.submittedAt]),
         updatedAt: _date(json[ApiKeys.updatedAt]),
@@ -202,28 +215,27 @@ class SocialAccountModel extends SocialAccount {
     required super.id,
     required super.platform,
     required super.url,
-    required super.accountName,
-    required super.username,
+    super.accountName,
+    super.username,
     super.facebookAccountType,
-    super.description,
     super.followers,
     super.avatarUrl,
+    super.source,
+    super.lastSyncedAt,
     super.verified,
   });
 
   factory SocialAccountModel.fromJson(Json json) => SocialAccountModel(
         id: json[ApiKeys.id] as int,
         platform: enumFromApi(SocialPlatform.values, json[ApiKeys.platform] as String?, SocialPlatform.other),
-        facebookAccountType: switch (json[ApiKeys.facebookAccountType]) {
-          final String type when type.isNotEmpty => enumFromApi(FacebookAccountType.values, type, FacebookAccountType.profile),
-          _ => null,
-        },
+        facebookAccountType: maybeEnum(FacebookAccountType.values, json[ApiKeys.facebookAccountType] as String?),
         url: _string(json[ApiKeys.url]),
         accountName: _string(json[ApiKeys.accountName]),
         username: _string(json[ApiKeys.username]),
-        description: _string(json[ApiKeys.description]),
         followers: (json[ApiKeys.followers] as num? ?? 0).toInt(),
         avatarUrl: _string(json[ApiKeys.avatarUrl]),
+        source: enumFromApi(SocialSource.values, json[ApiKeys.source] as String?, SocialSource.manual),
+        lastSyncedAt: _date(json[ApiKeys.lastSyncedAt]),
         verified: json[ApiKeys.verified] as bool? ?? false,
       );
 }
@@ -232,9 +244,10 @@ class PortfolioItemModel extends PortfolioItem {
   const PortfolioItemModel({
     required super.id,
     required super.title,
-    required super.description,
-    required super.link,
-    super.mediaUrls,
+    super.description,
+    super.link,
+    super.fileName,
+    super.fileUrl,
   });
 
   factory PortfolioItemModel.fromJson(Json json) => PortfolioItemModel(
@@ -242,7 +255,28 @@ class PortfolioItemModel extends PortfolioItem {
         title: _string(json[ApiKeys.title]),
         description: _string(json[ApiKeys.description]),
         link: _string(json[ApiKeys.link]),
-        mediaUrls: _strings(json[ApiKeys.mediaUrls]),
+        fileName: _string(json[ApiKeys.fileName]),
+        fileUrl: json[ApiKeys.fileUrl] as String?,
+      );
+}
+
+class FinancialAccountModel extends FinancialAccount {
+  const FinancialAccountModel({
+    required super.id,
+    required super.kind,
+    required super.accountNumber,
+    super.institutionName,
+    super.accountKey,
+    super.keyValid,
+  });
+
+  factory FinancialAccountModel.fromJson(Json json) => FinancialAccountModel(
+        id: json[ApiKeys.id] as int,
+        kind: enumFromApi(FinancialKind.values, json[ApiKeys.kind] as String?, FinancialKind.ccp),
+        institutionName: _string(json[ApiKeys.institutionName]),
+        accountNumber: _string(json[ApiKeys.accountNumber]),
+        accountKey: _string(json[ApiKeys.accountKey]),
+        keyValid: json[ApiKeys.keyValid] as bool?,
       );
 }
 
@@ -253,14 +287,18 @@ class RegistrationDocumentModel extends RegistrationDocument {
     required super.fileName,
     required super.verified,
     required super.downloadUrl,
+    super.financialAccountId,
+    super.check,
     super.createdAt,
   });
 
   factory RegistrationDocumentModel.fromJson(Json json) => RegistrationDocumentModel(
         id: json[ApiKeys.id] as int,
         type: enumFromApi(DocumentType.values, json[ApiKeys.type] as String?, DocumentType.other),
+        financialAccountId: json[ApiKeys.financialAccountId] as int?,
         fileName: _string(json[ApiKeys.fileName]),
         verified: json[ApiKeys.verified] as bool? ?? false,
+        check: enumFromApi(DocumentCheck.values, json[ApiKeys.checkStatus] as String?, DocumentCheck.notChecked),
         downloadUrl: _string(json[ApiKeys.downloadUrl]),
         createdAt: _date(json[ApiKeys.createdAt]),
       );

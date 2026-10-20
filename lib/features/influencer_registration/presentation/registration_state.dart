@@ -3,15 +3,17 @@ part of 'registration_cubit.dart';
 enum RegistrationAction {
   none,
   load,
-  saveBasic,
-  saveProfile,
+  saveSection,
   addSocial,
+  updateSocial,
+  refreshSocial,
   deleteSocial,
   addPortfolio,
   deletePortfolio,
   uploadPhoto,
   deletePhoto,
-  saveFinancial,
+  addFinancial,
+  deleteFinancial,
   uploadDocument,
   deleteDocument,
   submit,
@@ -20,7 +22,8 @@ enum RegistrationAction {
 
 enum OperationStatus { idle, loading, success, failure }
 
-enum RegistrationStep { basicInfo, audience, accounts, photo, financial, review }
+/// نفس ترتيب وثيقة صاحب المشروع.
+enum RegistrationStep { personal, profile, contact, accounts, optional, financial, security, photo, documents }
 
 final class RegistrationState extends Equatable {
   const RegistrationState({
@@ -30,14 +33,13 @@ final class RegistrationState extends Equatable {
     this.target,
     this.loaded = false,
     this.registration,
-    this.pendingBasic,
     this.account,
     this.socialAccounts = const [],
     this.portfolio = const [],
+    this.financialAccounts = const [],
     this.documents = const [],
     this.meeting,
-    this.step = RegistrationStep.basicInfo,
-    this.notifications = const NotificationPreferences(),
+    this.step = RegistrationStep.personal,
   });
 
   static const _keep = Object();
@@ -48,14 +50,13 @@ final class RegistrationState extends Equatable {
   final Object? target;
   final bool loaded;
   final Registration? registration;
-  final BasicInfo? pendingBasic;
   final User? account;
   final List<SocialAccount> socialAccounts;
   final List<PortfolioItem> portfolio;
+  final List<FinancialAccount> financialAccounts;
   final List<RegistrationDocument> documents;
   final VerificationMeeting? meeting;
   final RegistrationStep step;
-  final NotificationPreferences notifications;
 
   bool get isLoading => status == OperationStatus.loading;
 
@@ -68,33 +69,38 @@ final class RegistrationState extends Equatable {
 
   bool get hasRegistration => registration != null;
 
-  RegistrationStep get furthestAllowed => hasRegistration
-      ? RegistrationStep.review
-      : pendingBasic != null
-          ? RegistrationStep.audience
-          : RegistrationStep.basicInfo;
+  RegistrationStep get furthestAllowed => hasRegistration ? RegistrationStep.documents : RegistrationStep.personal;
 
-  BasicInfo get basicSeed {
-    if (registration case final registration?) return registration.basic;
-    if (pendingBasic case final basic?) return basic;
+  // ---------- قيم أولية من الحساب ----------
+
+  PersonalInfo get personalSeed {
+    if (registration case final registration?) return registration.personal;
     final parts = (account?.fullName ?? '').trim().split(RegExp(r'\s+'));
-    return BasicInfo(
+    return PersonalInfo(
       firstName: parts.isEmpty ? '' : parts.first,
       lastName: parts.length > 1 ? parts.sublist(1).join(' ') : '',
-      displayName: account?.fullName ?? '',
       birthPlace: '',
-      bio: '',
-      skills: '',
-      whatsapp: account?.phone ?? '',
     );
   }
 
-  RegistrationDocument? documentOf(DocumentType type) => documents.where((d) => d.type == type).firstOrNull;
+  // ---------- الوثائق ----------
 
-  List<DocumentType> missingDocuments(FinancialAccountType? type) => [
-        for (final required in RegistrationCatalog.requiredDocuments(type))
-          if (documentOf(required) == null) required,
-      ];
+  RegistrationDocument? documentOf(DocumentType type, {int? financialAccountId}) => documents
+      .where((d) => d.type == type && d.financialAccountId == financialAccountId)
+      .firstOrNull;
+
+  RegistrationDocument? documentForAccount(FinancialAccount account) =>
+      documentOf(account.documentType, financialAccountId: account.id);
+
+  bool get hasIdCard =>
+      documentOf(DocumentType.identityFront) != null && documentOf(DocumentType.identityBack) != null;
+
+  bool get hasIdentity => hasIdCard || documentOf(DocumentType.passport) != null;
+
+  List<FinancialAccount> get accountsMissingDocument =>
+      [for (final account in financialAccounts) if (documentForAccount(account) == null) account];
+
+  bool get financialComplete => financialAccounts.isNotEmpty && accountsMissingDocument.isEmpty;
 
   RegistrationState copyWith({
     RegistrationAction? action,
@@ -103,14 +109,13 @@ final class RegistrationState extends Equatable {
     Object? target = _keep,
     bool? loaded,
     Object? registration = _keep,
-    Object? pendingBasic = _keep,
     Object? account = _keep,
     List<SocialAccount>? socialAccounts,
     List<PortfolioItem>? portfolio,
+    List<FinancialAccount>? financialAccounts,
     List<RegistrationDocument>? documents,
     Object? meeting = _keep,
     RegistrationStep? step,
-    NotificationPreferences? notifications,
   }) =>
       RegistrationState(
         action: action ?? this.action,
@@ -119,14 +124,13 @@ final class RegistrationState extends Equatable {
         target: identical(target, _keep) ? this.target : target,
         loaded: loaded ?? this.loaded,
         registration: identical(registration, _keep) ? this.registration : registration as Registration?,
-        pendingBasic: identical(pendingBasic, _keep) ? this.pendingBasic : pendingBasic as BasicInfo?,
         account: identical(account, _keep) ? this.account : account as User?,
         socialAccounts: socialAccounts ?? this.socialAccounts,
         portfolio: portfolio ?? this.portfolio,
+        financialAccounts: financialAccounts ?? this.financialAccounts,
         documents: documents ?? this.documents,
         meeting: identical(meeting, _keep) ? this.meeting : meeting as VerificationMeeting?,
         step: step ?? this.step,
-        notifications: notifications ?? this.notifications,
       );
 
   @override
@@ -137,13 +141,12 @@ final class RegistrationState extends Equatable {
         target,
         loaded,
         registration,
-        pendingBasic,
         account,
         socialAccounts,
         portfolio,
+        financialAccounts,
         documents,
         meeting,
         step,
-        notifications,
       ];
 }

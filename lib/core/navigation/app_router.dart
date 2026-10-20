@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:x_ten/core/di/injection_container.dart';
 import 'package:x_ten/features/influencer_registration/presentation/pages/registration_gate_page.dart';
+import 'package:x_ten/features/influencer_registration/presentation/pages/registration_optional_page.dart';
 import 'package:x_ten/features/influencer_registration/presentation/pages/registration_status_page.dart';
 import 'package:x_ten/features/influencer_registration/presentation/pages/registration_wizard_page.dart';
 import 'package:x_ten/features/influencer_registration/presentation/registration_cubit.dart';
@@ -256,6 +257,11 @@ final GoRouter appRouter = GoRouter(
           path: RegistrationRoutes.status,
           name: 'influencerRegistrationStatus',
           builder: (context, state) => const RegistrationStatusPage(),
+        ),
+        GoRoute(
+          path: RegistrationRoutes.optional,
+          name: 'influencerRegistrationOptional',
+          builder: (context, state) => const RegistrationOptionalPage(),
         ),
       ],
     ),

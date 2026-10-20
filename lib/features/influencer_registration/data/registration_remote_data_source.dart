@@ -24,17 +24,27 @@ abstract interface class RegistrationRemoteDataSource {
 
   Future<SocialAccountModel> addSocialAccount(int registrationId, Json body);
 
+  Future<SocialAccountModel> updateSocialAccount(int id, Json body);
+
+  Future<SocialAccountModel> refreshSocialAccount(int id);
+
   Future<void> deleteSocialAccount(int id);
 
   Future<List<PortfolioItemModel>> getPortfolio(int registrationId);
 
-  Future<PortfolioItemModel> addPortfolioItem(int registrationId, Json body);
+  Future<PortfolioItemModel> addPortfolioItem(int registrationId, Json body, UploadFile? file);
 
   Future<void> deletePortfolioItem(int id);
 
+  Future<List<FinancialAccountModel>> getFinancialAccounts(int registrationId);
+
+  Future<FinancialAccountModel> addFinancialAccount(int registrationId, Json body);
+
+  Future<void> deleteFinancialAccount(int id);
+
   Future<List<RegistrationDocumentModel>> getDocuments(int registrationId);
 
-  Future<RegistrationDocumentModel> uploadDocument(int registrationId, DocumentType type, UploadFile file);
+  Future<RegistrationDocumentModel> uploadDocument(int registrationId, Json fields, UploadFile file);
 
   Future<void> deleteDocument(int id);
 
@@ -92,6 +102,14 @@ class RegistrationRemoteDataSourceImpl implements RegistrationRemoteDataSource {
       SocialAccountModel.fromJson(await _api.post(ApiEndpoints.socialAccounts(registrationId), data: body) as Json);
 
   @override
+  Future<SocialAccountModel> updateSocialAccount(int id, Json body) async =>
+      SocialAccountModel.fromJson(await _api.patch(ApiEndpoints.socialAccount(id), data: body) as Json);
+
+  @override
+  Future<SocialAccountModel> refreshSocialAccount(int id) async =>
+      SocialAccountModel.fromJson(await _api.post(ApiEndpoints.refreshSocialAccount(id)) as Json);
+
+  @override
   Future<void> deleteSocialAccount(int id) => _api.delete(ApiEndpoints.socialAccount(id));
 
   @override
@@ -99,19 +117,33 @@ class RegistrationRemoteDataSourceImpl implements RegistrationRemoteDataSource {
       _list(await _api.get(ApiEndpoints.portfolio(registrationId)), PortfolioItemModel.fromJson);
 
   @override
-  Future<PortfolioItemModel> addPortfolioItem(int registrationId, Json body) async =>
-      PortfolioItemModel.fromJson(await _api.post(ApiEndpoints.portfolio(registrationId), data: body) as Json);
+  Future<PortfolioItemModel> addPortfolioItem(int registrationId, Json body, UploadFile? file) async {
+    final data = file == null ? body : FormData.fromMap({...body, ApiKeys.file: await _multipart(file)});
+    return PortfolioItemModel.fromJson(await _api.post(ApiEndpoints.portfolio(registrationId), data: data) as Json);
+  }
 
   @override
   Future<void> deletePortfolioItem(int id) => _api.delete(ApiEndpoints.portfolioItem(id));
+
+  @override
+  Future<List<FinancialAccountModel>> getFinancialAccounts(int registrationId) async =>
+      _list(await _api.get(ApiEndpoints.financialAccounts(registrationId)), FinancialAccountModel.fromJson);
+
+  @override
+  Future<FinancialAccountModel> addFinancialAccount(int registrationId, Json body) async => FinancialAccountModel.fromJson(
+        await _api.post(ApiEndpoints.financialAccounts(registrationId), data: body) as Json,
+      );
+
+  @override
+  Future<void> deleteFinancialAccount(int id) => _api.delete(ApiEndpoints.financialAccount(id));
 
   @override
   Future<List<RegistrationDocumentModel>> getDocuments(int registrationId) async =>
       _list(await _api.get(ApiEndpoints.documents(registrationId)), RegistrationDocumentModel.fromJson);
 
   @override
-  Future<RegistrationDocumentModel> uploadDocument(int registrationId, DocumentType type, UploadFile file) async {
-    final form = FormData.fromMap({ApiKeys.type: type.name, ApiKeys.file: await _multipart(file)});
+  Future<RegistrationDocumentModel> uploadDocument(int registrationId, Json fields, UploadFile file) async {
+    final form = FormData.fromMap({...fields, ApiKeys.file: await _multipart(file)});
     return RegistrationDocumentModel.fromJson(await _api.post(ApiEndpoints.documents(registrationId), data: form) as Json);
   }
 

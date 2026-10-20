@@ -51,12 +51,16 @@ class PhotoStep extends StatelessWidget {
     final busy = state.isLoadingFor(RegistrationAction.uploadPhoto) || state.isLoadingFor(RegistrationAction.deletePhoto);
 
     return StepBody(
-      actions: StepActions(onBack: cubit.back, onNext: state.isLoading ? null : cubit.next, nextLabel: l10n.next),
+      actions: StepActions(
+        onBack: cubit.back,
+        onNext: state.isLoading || url == null ? null : cubit.next,
+        nextLabel: l10n.next,
+      ),
       children: [
         const SizedBox(height: AppSpacing.lg),
-        Text(l10n.photoTitle, textAlign: TextAlign.center, style: context.textTheme.titleLarge),
+        Text(l10n.regPhotoTitle, textAlign: TextAlign.center, style: context.textTheme.titleLarge),
         const SizedBox(height: AppSpacing.xs),
-        Text(l10n.photoSubtitle, textAlign: TextAlign.center, style: context.textTheme.bodySmall),
+        Text(l10n.regPhotoSubtitle, textAlign: TextAlign.center, style: context.textTheme.bodySmall),
         const SizedBox(height: AppSpacing.xxl),
         Center(
           child: GestureDetector(
