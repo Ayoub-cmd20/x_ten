@@ -25,6 +25,10 @@ void initRegistrationFeature() {
     ..registerLazySingleton(() => DeleteFinancialAccountUseCase(sl()))
     ..registerLazySingleton(() => UploadDocumentUseCase(sl()))
     ..registerLazySingleton(() => DeleteDocumentUseCase(sl()))
+    ..registerLazySingleton(() => CreateDraftRegistrationUseCase(sl()))
+    ..registerLazySingleton(() => ScanFinancialDocumentUseCase(sl()))
+    ..registerLazySingleton(() => ApplySocialScreenshotUseCase(sl()))
+    ..registerLazySingleton(() => ScanAudienceUseCase(sl()))
     ..registerFactory(
       () => RegistrationCubit(
         loadCurrent: sl(),
@@ -43,6 +47,10 @@ void initRegistrationFeature() {
         deleteFinancial: sl(),
         uploadDocument: sl(),
         deleteDocument: sl(),
+        createDraft: sl(),
+        scanFinancial: sl(),
+        socialScreenshot: sl(),
+        scanAudience: sl(),
         getCurrentUser: sl(),
       ),
     );

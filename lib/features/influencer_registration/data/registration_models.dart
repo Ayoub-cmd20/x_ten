@@ -96,7 +96,6 @@ abstract final class RegistrationJson {
       };
 
   static Json financialAccount(FinancialAccount account) => {
-        ApiKeys.kind: account.kind.name,
         ApiKeys.institutionName: account.institutionName,
         ApiKeys.accountNumber: account.accountNumber,
         ApiKeys.accountKey: account.accountKey,
@@ -223,6 +222,7 @@ class SocialAccountModel extends SocialAccount {
     super.source,
     super.lastSyncedAt,
     super.verified,
+    super.hasScreenshot,
   });
 
   factory SocialAccountModel.fromJson(Json json) => SocialAccountModel(
@@ -237,6 +237,7 @@ class SocialAccountModel extends SocialAccount {
         source: enumFromApi(SocialSource.values, json[ApiKeys.source] as String?, SocialSource.manual),
         lastSyncedAt: _date(json[ApiKeys.lastSyncedAt]),
         verified: json[ApiKeys.verified] as bool? ?? false,
+        hasScreenshot: json[ApiKeys.hasScreenshot] as bool? ?? false,
       );
 }
 
@@ -263,8 +264,8 @@ class PortfolioItemModel extends PortfolioItem {
 class FinancialAccountModel extends FinancialAccount {
   const FinancialAccountModel({
     required super.id,
-    required super.kind,
     required super.accountNumber,
+    super.kind,
     super.institutionName,
     super.accountKey,
     super.keyValid,
@@ -272,7 +273,7 @@ class FinancialAccountModel extends FinancialAccount {
 
   factory FinancialAccountModel.fromJson(Json json) => FinancialAccountModel(
         id: json[ApiKeys.id] as int,
-        kind: enumFromApi(FinancialKind.values, json[ApiKeys.kind] as String?, FinancialKind.ccp),
+        kind: enumFromApi(FinancialKind.values, json[ApiKeys.kind] as String?, FinancialKind.other),
         institutionName: _string(json[ApiKeys.institutionName]),
         accountNumber: _string(json[ApiKeys.accountNumber]),
         accountKey: _string(json[ApiKeys.accountKey]),
@@ -289,6 +290,7 @@ class RegistrationDocumentModel extends RegistrationDocument {
     required super.downloadUrl,
     super.financialAccountId,
     super.check,
+    super.scanned,
     super.createdAt,
   });
 
@@ -299,8 +301,44 @@ class RegistrationDocumentModel extends RegistrationDocument {
         fileName: _string(json[ApiKeys.fileName]),
         verified: json[ApiKeys.verified] as bool? ?? false,
         check: enumFromApi(DocumentCheck.values, json[ApiKeys.checkStatus] as String?, DocumentCheck.notChecked),
+        scanned: ScannedFieldsModel.fromJson(json[ApiKeys.extracted]),
         downloadUrl: _string(json[ApiKeys.downloadUrl]),
         createdAt: _date(json[ApiKeys.createdAt]),
+      );
+}
+
+class ScannedFieldsModel extends ScannedFields {
+  const ScannedFieldsModel({
+    super.firstName,
+    super.lastName,
+    super.birthDate,
+    super.birthPlace,
+    super.institutionName,
+    super.accountNumber,
+    super.accountKey,
+  });
+
+  factory ScannedFieldsModel.fromJson(Object? value) {
+    if (value is! Json) return const ScannedFieldsModel();
+    String text(Object? v) => v == null ? '' : '$v';
+    return ScannedFieldsModel(
+      firstName: text(value[ApiKeys.firstName]),
+      lastName: text(value[ApiKeys.lastName]),
+      birthDate: _date(value[ApiKeys.birthDate]),
+      birthPlace: text(value[ApiKeys.birthPlace]),
+      institutionName: text(value[ApiKeys.institutionName]),
+      accountNumber: text(value[ApiKeys.accountNumber]),
+      accountKey: text(value[ApiKeys.accountKey]),
+    );
+  }
+}
+
+class FinancialScanModel extends FinancialScan {
+  const FinancialScanModel({required super.account, required super.document});
+
+  factory FinancialScanModel.fromJson(Json json) => FinancialScanModel(
+        account: FinancialAccountModel.fromJson(json[ApiKeys.account] as Json),
+        document: RegistrationDocumentModel.fromJson(json[ApiKeys.document] as Json),
       );
 }
 

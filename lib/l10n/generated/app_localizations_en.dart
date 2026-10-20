@@ -1934,4 +1934,142 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get regSubmittedMessage =>
       'Your request has been registered. Your file will be reviewed and completed if anything is missing or some documents are unclear.\nA video call meeting with the platform management will be scheduled to confirm the information you provided.\nPlease prepare for the meeting: your original ID card or passport + a document showing the financial numbers you entered (postal cheque / bank cheque) + proof of access to the platforms you entered (access to the platforms during the video call).';
+
+  @override
+  String get docUnrecognized =>
+      'We couldn\'t recognize the document. Capture all of it in good light and try again';
+
+  @override
+  String get screenshotUnrecognized =>
+      'We couldn\'t find the numbers in the screenshot. Capture the whole page';
+
+  @override
+  String get ocrUnavailable =>
+      'Automatic reading is unavailable right now, enter the details manually';
+
+  @override
+  String get docAcceptUnreadableTitle => 'We couldn\'t read it';
+
+  @override
+  String get docAcceptUnreadableBody =>
+      'After 3 tries, we can send the document as it is to be checked manually in the verification meeting.';
+
+  @override
+  String get docSendForReview => 'Send for review';
+
+  @override
+  String get regDocChecked => 'Checked automatically';
+
+  @override
+  String get docFinancialProof => 'Account proof (cheque or RIB)';
+
+  @override
+  String get finOther => 'Financial institution';
+
+  @override
+  String get finScanHint =>
+      'Photograph the cheque and we fill in the institution and account number. Any financial institution is accepted';
+
+  @override
+  String get finScanCheque => 'Scan the cheque';
+
+  @override
+  String get finManualEntry => 'Enter manually';
+
+  @override
+  String get finCompleteScanned =>
+      'We read part of the details, complete the rest';
+
+  @override
+  String get finScanManualAfterTries =>
+      'Enter the account manually, the image will be checked in the meeting';
+
+  @override
+  String get finKeyMismatch =>
+      'The key doesn\'t match the number, it will be checked in the meeting';
+
+  @override
+  String get finInstitutionName => 'Financial institution name';
+
+  @override
+  String get finInstitutionHint =>
+      'Pick from the list or type any other institution';
+
+  @override
+  String get finAccountNumber => 'Account number';
+
+  @override
+  String get finAccountNumberHint => 'CCP, RIB, IBAN or any other number';
+
+  @override
+  String get finAccountKey => 'Key (optional)';
+
+  @override
+  String get finNumberInvalid => 'Digits and Latin letters only (4 to 40)';
+
+  @override
+  String get finKeyInvalid => 'The key is 2 digits';
+
+  @override
+  String get scanFilled =>
+      'Details filled from the document, review them before continuing';
+
+  @override
+  String get scanFromIdTitle => 'Fill in from your ID';
+
+  @override
+  String get scanFromIdHint =>
+      'Photograph your ID card or passport and we fill in your name, date and place of birth';
+
+  @override
+  String get screenshotManualAfterTries =>
+      'Enter the name and followers manually, they will be checked in the meeting';
+
+  @override
+  String get screenshotApplied => 'Followers updated from the screenshot';
+
+  @override
+  String get socialScreenshotHint =>
+      'This platform doesn\'t share the numbers directly. Take a screenshot of your profile page showing your followers';
+
+  @override
+  String get socialScreenshotButton => 'Upload a profile screenshot';
+
+  @override
+  String get regSocialFromScreenshot => 'From a screenshot';
+
+  @override
+  String get audScanPlatform => 'Which platform are these screenshots from?';
+
+  @override
+  String get audScanHint =>
+      'Upload your Insights screenshots (gender, ages, cities, countries...) and we fill in the percentages, then review and save';
+
+  @override
+  String get audScanTitle => 'Fill from Insights screenshots';
+
+  @override
+  String docUnrecognizedRetry(int attempt, int max) {
+    return 'We couldn\'t recognize the document. Capture all of it in good light (try $attempt of $max)';
+  }
+
+  @override
+  String screenshotUnrecognizedRetry(int attempt, int max) {
+    return 'We couldn\'t find the followers in the screenshot. Capture the whole profile page (try $attempt of $max)';
+  }
+
+  @override
+  String finAdded(String name) {
+    return 'Account added: $name';
+  }
+
+  @override
+  String finProofAttached(String name) {
+    return 'Attached image: $name';
+  }
+
+  @override
+  String audScanDone(int count) {
+    return 'Filled $count sections from the screenshots, review and save';
+  }
 }

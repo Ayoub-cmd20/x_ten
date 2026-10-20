@@ -168,6 +168,7 @@ extension RegistrationLabels on AppLocalizations {
   String financialKindLabel(FinancialKind kind) => switch (kind) {
         FinancialKind.ccp => finCcp,
         FinancialKind.bank => finBank,
+        FinancialKind.other => finOther,
       };
 
   String documentLabel(DocumentType type) => switch (type) {
@@ -176,6 +177,7 @@ extension RegistrationLabels on AppLocalizations {
         DocumentType.passport => docPassport,
         DocumentType.ccpCheque => docCcpCheque,
         DocumentType.bankRib => docBankRib,
+        DocumentType.financialProof => docFinancialProof,
         DocumentType.other => docOther,
       };
 

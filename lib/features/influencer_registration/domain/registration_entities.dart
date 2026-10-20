@@ -15,15 +15,15 @@ enum LanguageLevel { basic, good, advanced }
 
 enum RecoveryMethod { phone, whatsapp, email, otherPhone }
 
-enum FinancialKind { ccp, bank }
+enum FinancialKind { ccp, bank, other }
 
 enum SocialPlatform { facebook, instagram, tiktok, youtube, snapchat, x, linkedin, telegram, website, blog, other }
 
-enum SocialSource { auto, manual }
+enum SocialSource { auto, manual, screenshot }
 
 enum FacebookAccountType { profile, page }
 
-enum DocumentType { identityFront, identityBack, passport, ccpCheque, bankRib, other }
+enum DocumentType { identityFront, identityBack, passport, ccpCheque, bankRib, financialProof, other }
 
 enum DocumentCheck { notChecked, passed, needsManualReview }
 
@@ -78,10 +78,42 @@ abstract final class RegistrationCatalog {
   static const weekDays = ['sat', 'sun', 'mon', 'tue', 'wed', 'thu', 'fri'];
   static const purchasingPower = ['low', 'medium', 'high'];
 
-  static DocumentType documentFor(FinancialKind kind) => switch (kind) {
-        FinancialKind.ccp => DocumentType.ccpCheque,
-        FinancialKind.bank => DocumentType.bankRib,
-      };
+  /// اقتراحات فقط: المؤثر يقدر يكتب أي مؤسسة مالية أخرى.
+  static const financialInstitutions = [
+    'Algérie Poste (CCP)',
+    "Banque Nationale d'Algérie (BNA)",
+    "Banque Extérieure d'Algérie (BEA)",
+    "Banque de l'Agriculture et du Développement Rural (BADR)",
+    "Crédit Populaire d'Algérie (CPA)",
+    'Banque de Développement Local (BDL)',
+    "Banque Al Baraka d'Algérie",
+    'Caisse Nationale de Mutualité Agricole (CNMA)',
+    'CNEP-Banque',
+    'Citibank Algeria',
+    'Arab Banking Corporation Algeria (ABC)',
+    'Natixis Algérie',
+    'Société Générale Algérie',
+    'Arab Bank Algeria',
+    'BNP Paribas El Djazair',
+    'Trust Bank Algeria',
+    'The Housing Bank Algeria',
+    'Gulf Bank Algérie (AGB)',
+    'Fransabank El Djazair',
+    'Crédit Agricole CIB Algérie',
+    'HSBC Algeria',
+    'Al Salam Bank Algeria',
+  ];
+
+  /// أي وثيقة من هذو تثبت الحساب المالي
+  static const financialDocuments = {DocumentType.ccpCheque, DocumentType.bankRib, DocumentType.financialProof};
+
+  static const identityDocuments = {DocumentType.identityFront, DocumentType.identityBack, DocumentType.passport};
+
+  /// اللقطات المقبولة لـ Insights
+  static const insightsPlatforms = ['instagram', 'facebook', 'tiktok', 'youtube'];
+
+  /// بعدها تتقبل الوثيقة وتتراجع يدوياً في الاجتماع
+  static const maxScanAttempts = 3;
 }
 
 bool totals100(Map<String, double> shares) {
@@ -217,6 +249,25 @@ class Audience extends Equatable {
   final String purchasingPower;
 
   Map<String, double> get countryShares => {for (final c in countries) c.country: c.percent};
+
+  /// نتيجة القراءة الآلية فوق القيم الحالية: كل قسم تعمّر من اللقطة يعوّض القديم.
+  Audience overlay(Audience scan) => Audience(
+        countries: scan.countries.isNotEmpty ? scan.countries : countries,
+        regions: scan.regions.isNotEmpty ? scan.regions : regions,
+        regionsUnspecified: scan.regions.isNotEmpty ? false : regionsUnspecified,
+        gender: scan.gender.isNotEmpty ? scan.gender : gender,
+        ages: scan.ages.isNotEmpty ? scan.ages : ages,
+        languages: scan.languages.isNotEmpty ? scan.languages : languages,
+        topPlatforms: topPlatforms,
+        activityDays: activityDays,
+        fromHour: fromHour,
+        toHour: toHour,
+        contentEngagement: scan.contentEngagement.isNotEmpty ? scan.contentEngagement : contentEngagement,
+        purchasingPower: purchasingPower,
+      );
+
+  /// عدد الأقسام اللي فيها قيم
+  int get filledGroups => [countries, regions, gender, ages, languages, contentEngagement].where((g) => g.isNotEmpty).length;
 
   /// الأقسام اللي مجموعها ماشي 100
   List<String> get unbalanced => [
@@ -379,6 +430,7 @@ class SocialAccount extends Equatable {
     this.source = SocialSource.manual,
     this.lastSyncedAt,
     this.verified = false,
+    this.hasScreenshot = false,
   });
 
   final int id;
@@ -395,14 +447,32 @@ class SocialAccount extends Equatable {
   final DateTime? lastSyncedAt;
   final bool verified;
 
+  /// المتابعين مقروين من لقطة شاشة للبروفايل (تتراجع في الاجتماع)
+  final bool hasScreenshot;
+
   bool get isAuto => source == SocialSource.auto;
+
+  bool get fromScreenshot => source == SocialSource.screenshot;
 
   /// حساب يدوي ناقص: لازم يكمّل الاسم وعدد المتابعين
   bool get needsDetails => !isAuto && (accountName.isEmpty || followers == 0);
 
   @override
   List<Object?> get props =>
-      [id, platform, facebookAccountType, url, accountName, username, followers, avatarUrl, source, lastSyncedAt, verified];
+      [
+        id,
+        platform,
+        facebookAccountType,
+        url,
+        accountName,
+        username,
+        followers,
+        avatarUrl,
+        source,
+        lastSyncedAt,
+        verified,
+        hasScreenshot,
+      ];
 }
 
 class PortfolioItem extends Equatable {
@@ -428,8 +498,8 @@ class PortfolioItem extends Equatable {
 
 class FinancialAccount extends Equatable {
   const FinancialAccount({
-    required this.kind,
     required this.accountNumber,
+    this.kind = FinancialKind.other,
     this.id = 0,
     this.institutionName = '',
     this.accountKey = '',
@@ -437,6 +507,8 @@ class FinancialAccount extends Equatable {
   });
 
   final int id;
+
+  /// يستنتجو السيرفر من الرقم واسم المؤسسة (للعرض فقط)
   final FinancialKind kind;
   final String institutionName;
   final String accountNumber;
@@ -445,10 +517,34 @@ class FinancialAccount extends Equatable {
   /// RIB: المفتاح صحيح حسابياً؟ (ملاحظة فقط)
   final bool? keyValid;
 
-  DocumentType get documentType => RegistrationCatalog.documentFor(kind);
-
   @override
   List<Object?> get props => [id, kind, institutionName, accountNumber, accountKey, keyValid];
+}
+
+/// الحقول اللي قراها السيرفر من الوثيقة (تعمّر الاستمارة، والمؤثر يراجع).
+class ScannedFields extends Equatable {
+  const ScannedFields({
+    this.firstName = '',
+    this.lastName = '',
+    this.birthDate,
+    this.birthPlace = '',
+    this.institutionName = '',
+    this.accountNumber = '',
+    this.accountKey = '',
+  });
+
+  final String firstName;
+  final String lastName;
+  final DateTime? birthDate;
+  final String birthPlace;
+  final String institutionName;
+  final String accountNumber;
+  final String accountKey;
+
+  bool get hasIdentity => firstName.isNotEmpty || lastName.isNotEmpty || birthDate != null || birthPlace.isNotEmpty;
+
+  @override
+  List<Object?> get props => [firstName, lastName, birthDate, birthPlace, institutionName, accountNumber, accountKey];
 }
 
 class RegistrationDocument extends Equatable {
@@ -460,6 +556,7 @@ class RegistrationDocument extends Equatable {
     required this.downloadUrl,
     this.financialAccountId,
     this.check = DocumentCheck.notChecked,
+    this.scanned = const ScannedFields(),
     this.createdAt,
   });
 
@@ -469,11 +566,24 @@ class RegistrationDocument extends Equatable {
   final String fileName;
   final bool verified;
   final DocumentCheck check;
+  final ScannedFields scanned;
   final String downloadUrl;
   final DateTime? createdAt;
 
   @override
-  List<Object?> get props => [id, type, financialAccountId, fileName, verified, check, downloadUrl, createdAt];
+  List<Object?> get props =>
+      [id, type, financialAccountId, fileName, verified, check, scanned, downloadUrl, createdAt];
+}
+
+/// صورة الصك/الشيك -> حساب + وثيقته في خطوة وحدة.
+class FinancialScan extends Equatable {
+  const FinancialScan({required this.account, required this.document});
+
+  final FinancialAccount account;
+  final RegistrationDocument document;
+
+  @override
+  List<Object?> get props => [account, document];
 }
 
 class VerificationMeeting extends Equatable {

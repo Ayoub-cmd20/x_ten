@@ -1951,4 +1951,143 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get regSubmittedMessage =>
       'Votre demande a été enregistrée. Votre dossier sera examiné et complété en cas de manque ou de documents peu lisibles.\nUne réunion par appel vidéo avec l’administration de la plateforme sera programmée pour vérifier les informations fournies.\nPréparez pour la réunion : votre carte d’identité originale ou passeport + un document portant vos numéros financiers saisis (chèque postal / chèque bancaire) + la preuve d’accès aux plateformes saisies (accès aux plateformes pendant l’appel vidéo).';
+
+  @override
+  String get docUnrecognized =>
+      'Document non reconnu. Prenez-le en entier avec un bon éclairage et réessayez';
+
+  @override
+  String get screenshotUnrecognized =>
+      'Aucun chiffre trouvé sur la capture. Prenez la page entière';
+
+  @override
+  String get ocrUnavailable =>
+      'La lecture automatique est indisponible pour le moment, saisissez les informations manuellement';
+
+  @override
+  String get docAcceptUnreadableTitle => 'Lecture impossible';
+
+  @override
+  String get docAcceptUnreadableBody =>
+      'Après 3 essais, nous pouvons envoyer le document tel quel pour une vérification manuelle lors de la réunion.';
+
+  @override
+  String get docSendForReview => 'Envoyer pour vérification';
+
+  @override
+  String get regDocChecked => 'Vérifié automatiquement';
+
+  @override
+  String get docFinancialProof => 'Justificatif du compte (chèque ou RIB)';
+
+  @override
+  String get finOther => 'Établissement financier';
+
+  @override
+  String get finScanHint =>
+      'Photographiez le chèque, nous remplissons l\'établissement et le numéro de compte. Tous les établissements sont acceptés';
+
+  @override
+  String get finScanCheque => 'Photographier le chèque';
+
+  @override
+  String get finManualEntry => 'Saisir manuellement';
+
+  @override
+  String get finCompleteScanned =>
+      'Une partie des informations a été lue, complétez le reste';
+
+  @override
+  String get finScanManualAfterTries =>
+      'Saisissez le compte manuellement, l\'image sera vérifiée lors de la réunion';
+
+  @override
+  String get finKeyMismatch =>
+      'La clé ne correspond pas au numéro, elle sera vérifiée lors de la réunion';
+
+  @override
+  String get finInstitutionName => 'Nom de l\'établissement financier';
+
+  @override
+  String get finInstitutionHint =>
+      'Choisissez dans la liste ou saisissez un autre établissement';
+
+  @override
+  String get finAccountNumber => 'Numéro de compte';
+
+  @override
+  String get finAccountNumberHint => 'CCP, RIB, IBAN ou tout autre numéro';
+
+  @override
+  String get finAccountKey => 'Clé (facultatif)';
+
+  @override
+  String get finNumberInvalid =>
+      'Chiffres et lettres latines uniquement (4 à 40)';
+
+  @override
+  String get finKeyInvalid => 'La clé comporte 2 chiffres';
+
+  @override
+  String get scanFilled =>
+      'Informations remplies depuis le document, vérifiez-les avant de continuer';
+
+  @override
+  String get scanFromIdTitle => 'Remplir depuis votre pièce d\'identité';
+
+  @override
+  String get scanFromIdHint =>
+      'Photographiez la carte d\'identité ou le passeport, nous remplissons nom, prénom, date et lieu de naissance';
+
+  @override
+  String get screenshotManualAfterTries =>
+      'Saisissez le nom et les abonnés manuellement, ils seront vérifiés lors de la réunion';
+
+  @override
+  String get screenshotApplied => 'Abonnés mis à jour depuis la capture';
+
+  @override
+  String get socialScreenshotHint =>
+      'Cette plateforme ne fournit pas les chiffres directement. Faites une capture de votre profil montrant les abonnés';
+
+  @override
+  String get socialScreenshotButton => 'Importer une capture du profil';
+
+  @override
+  String get regSocialFromScreenshot => 'Depuis une capture';
+
+  @override
+  String get audScanPlatform => 'De quelle plateforme viennent les captures ?';
+
+  @override
+  String get audScanHint =>
+      'Importez vos captures de statistiques (Insights) : sexe, âges, villes, pays... nous remplissons les pourcentages, vérifiez puis enregistrez';
+
+  @override
+  String get audScanTitle => 'Remplir depuis les captures Insights';
+
+  @override
+  String docUnrecognizedRetry(int attempt, int max) {
+    return 'Document non reconnu. Prenez-le en entier avec un bon éclairage (essai $attempt sur $max)';
+  }
+
+  @override
+  String screenshotUnrecognizedRetry(int attempt, int max) {
+    return 'Abonnés introuvables sur la capture. Prenez la page de profil entière (essai $attempt sur $max)';
+  }
+
+  @override
+  String finAdded(String name) {
+    return 'Compte ajouté : $name';
+  }
+
+  @override
+  String finProofAttached(String name) {
+    return 'Image jointe : $name';
+  }
+
+  @override
+  String audScanDone(int count) {
+    return '$count sections remplies depuis les captures, vérifiez puis enregistrez';
+  }
 }

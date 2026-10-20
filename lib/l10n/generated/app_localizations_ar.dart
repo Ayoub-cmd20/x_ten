@@ -1921,4 +1921,139 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get regSubmittedMessage =>
       'لقد تم تسجيل طلبك سيتم مراجعة ملفك لإستكماله في حالة النقصان أو عدم وضوح بعض الوثائق\nو سيتم برمجة اجتماع لك مع إدارة المنصة عن طريق مكالمة فيديوا للتأكد من صحة المعلومات المقدمة\nيجب تحضير الوثائق التالية أثناء تاريخ الاجتماع بطاقة التعريف الأصلية أو جواز السفر + وثيقة تحمل أرقام معلوماتك المالية المدخلة ( صك بريدي / شيك بنكي ) + إثباتات الوصول للمنصات المدخلة ( الوصول للمنصات أثناء مكالمة الفيديوا )';
+
+  @override
+  String get docUnrecognized =>
+      'لم نتعرف على الوثيقة. صوّرها كاملة بإضاءة جيدة وأعد المحاولة';
+
+  @override
+  String get screenshotUnrecognized =>
+      'لم نجد الأرقام في اللقطة. خذ لقطة للصفحة كاملة';
+
+  @override
+  String get ocrUnavailable =>
+      'القراءة الآلية غير متاحة حالياً، أدخل المعلومات يدوياً';
+
+  @override
+  String get docAcceptUnreadableTitle => 'تعذّرت قراءة الوثيقة';
+
+  @override
+  String get docAcceptUnreadableBody =>
+      'بعد 3 محاولات، يمكننا إرسال الوثيقة كما هي لتُراجع يدوياً في اجتماع التوثيق.';
+
+  @override
+  String get docSendForReview => 'أرسلها للمراجعة';
+
+  @override
+  String get regDocChecked => 'تم التحقق منها آلياً';
+
+  @override
+  String get docFinancialProof => 'إثبات الحساب (صك، شيك أو RIB)';
+
+  @override
+  String get finOther => 'مؤسسة مالية';
+
+  @override
+  String get finScanHint =>
+      'صوّر الصك أو الشيك ونملأ اسم المؤسسة ورقم الحساب تلقائياً. كل المؤسسات المالية مقبولة';
+
+  @override
+  String get finScanCheque => 'صوّر الصك أو الشيك';
+
+  @override
+  String get finManualEntry => 'أدخل يدوياً';
+
+  @override
+  String get finCompleteScanned => 'قرأنا جزءاً من المعلومات، أكمل الباقي';
+
+  @override
+  String get finScanManualAfterTries =>
+      'أدخل معلومات الحساب يدوياً، وستُراجع الصورة في الاجتماع';
+
+  @override
+  String get finKeyMismatch =>
+      'المفتاح لا يطابق الرقم، سيتم التحقق منه في الاجتماع';
+
+  @override
+  String get finInstitutionName => 'اسم المؤسسة المالية';
+
+  @override
+  String get finInstitutionHint => 'اختر من القائمة أو اكتب اسم أي مؤسسة أخرى';
+
+  @override
+  String get finAccountNumber => 'رقم الحساب';
+
+  @override
+  String get finAccountNumberHint => 'CCP أو RIB أو IBAN أو أي رقم آخر';
+
+  @override
+  String get finAccountKey => 'المفتاح (اختياري)';
+
+  @override
+  String get finNumberInvalid => 'أرقام وحروف لاتينية فقط (من 4 إلى 40)';
+
+  @override
+  String get finKeyInvalid => 'المفتاح رقمان';
+
+  @override
+  String get scanFilled => 'ملأنا المعلومات من الوثيقة، راجعها قبل المتابعة';
+
+  @override
+  String get scanFromIdTitle => 'املأ معلوماتك من الوثيقة';
+
+  @override
+  String get scanFromIdHint =>
+      'صوّر بطاقة التعريف أو جواز السفر ونملأ الاسم واللقب وتاريخ ومكان الميلاد تلقائياً';
+
+  @override
+  String get screenshotManualAfterTries =>
+      'أدخل الاسم وعدد المتابعين يدوياً، وسيتم التحقق منهما في الاجتماع';
+
+  @override
+  String get screenshotApplied => 'تم تحديث عدد المتابعين من اللقطة';
+
+  @override
+  String get socialScreenshotHint =>
+      'هذه المنصة لا تعطي الأرقام مباشرة. خذ لقطة شاشة لصفحة بروفايلك يظهر فيها عدد المتابعين';
+
+  @override
+  String get socialScreenshotButton => 'ارفع لقطة شاشة لبروفايلك';
+
+  @override
+  String get regSocialFromScreenshot => 'من لقطة شاشة';
+
+  @override
+  String get audScanPlatform => 'من أي منصة هذه اللقطات؟';
+
+  @override
+  String get audScanHint =>
+      'ارفع لقطات الإحصائيات (Insights): الجنس، الأعمار، المدن، الدول... ونملأ النسب تلقائياً، ثم راجعها واحفظ';
+
+  @override
+  String get audScanTitle => 'املأ من لقطات Insights';
+
+  @override
+  String docUnrecognizedRetry(int attempt, int max) {
+    return 'لم نتعرف على الوثيقة. صوّرها كاملة بإضاءة جيدة (المحاولة $attempt من $max)';
+  }
+
+  @override
+  String screenshotUnrecognizedRetry(int attempt, int max) {
+    return 'لم نجد عدد المتابعين في اللقطة. خذ لقطة لصفحة البروفايل كاملة (المحاولة $attempt من $max)';
+  }
+
+  @override
+  String finAdded(String name) {
+    return 'تمت إضافة الحساب: $name';
+  }
+
+  @override
+  String finProofAttached(String name) {
+    return 'الصورة المرفقة: $name';
+  }
+
+  @override
+  String audScanDone(int count) {
+    return 'ملأنا $count أقسام من اللقطات، راجع النسب ثم احفظ';
+  }
 }

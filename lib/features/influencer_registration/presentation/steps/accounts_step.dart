@@ -7,6 +7,7 @@ import 'package:x_ten/core/localization/localization_extension.dart';
 import 'package:x_ten/core/theme/app_colors.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
 import 'package:x_ten/core/theme/theme_context.dart';
+import 'package:x_ten/core/widgets/feedback/app_snackbar.dart';
 import 'package:x_ten/core/widgets/loading/app_loader.dart';
 import 'package:x_ten/features/influencer_registration/domain/registration_entities.dart';
 import 'package:x_ten/features/influencer_registration/presentation/registration_cubit.dart';
@@ -39,6 +40,7 @@ class _AccountsStepState extends State<AccountsStep> {
   final _url = TextEditingController();
   String? _urlError;
   bool _showErrors = false;
+  final Map<int, int> _screenshotAttempts = {};
 
   @override
   void dispose() {
@@ -66,12 +68,54 @@ class _AccountsStepState extends State<AccountsStep> {
     cubit.next();
   }
 
+  Future<void> _uploadScreenshot(SocialAccount account) async {
+    final file = await pickScreenshot();
+    if (file == null || !mounted) return;
+    await context.read<RegistrationCubit>().applySocialScreenshot(account.id, file);
+  }
+
+  void _onScreenshotFailed(BuildContext context, RegistrationState state) {
+    final failure = state.failure!;
+    final accountId = state.target;
+    final account = state.socialAccounts.where((a) => a.id == accountId).firstOrNull;
+    final l10n = context.l10n;
+    if (account != null && isOcrUnavailable(failure)) {
+      showErrorSnackBar(context, l10n.ocrUnavailable);
+      _openDetails(account);
+      return;
+    }
+    if (account != null && isUnrecognized(failure)) {
+      final attempts = (_screenshotAttempts[account.id] ?? 0) + 1;
+      _screenshotAttempts[account.id] = attempts;
+      const max = RegistrationCatalog.maxScanAttempts;
+      if (attempts < max) {
+        showErrorSnackBar(context, l10n.screenshotUnrecognizedRetry(attempts, max));
+      } else {
+        // بعد 3 محاولات: يدخل الأرقام يدوياً (تتراجع في الاجتماع)
+        _screenshotAttempts.remove(account.id);
+        showErrorSnackBar(context, l10n.screenshotManualAfterTries);
+        _openDetails(account);
+      }
+      return;
+    }
+    showRegistrationFailure(context, failure);
+  }
+
   void _listener(BuildContext context, RegistrationState state) {
+    if (state.didSucceed(RegistrationAction.socialScreenshot)) {
+      if (state.target case final int id) _screenshotAttempts.remove(id);
+      showSuccessSnackBar(context, context.l10n.screenshotApplied);
+      return;
+    }
+    if (state.didFail(RegistrationAction.socialScreenshot)) {
+      _onScreenshotFailed(context, state);
+      return;
+    }
     if (state.didSucceed(RegistrationAction.addSocial)) {
       _url.clear();
       setState(() => _urlError = null);
       final added = state.socialAccounts.lastOrNull;
-      if (added != null && added.needsDetails) _openDetails(added);
+      if (added != null && added.needsDetails) _askScreenshot(added);
     } else if (state.didFail(RegistrationAction.addSocial)) {
       final failure = state.failure!;
       final field = failure is ValidationFailure ? failure.fieldError('url') : null;
@@ -82,6 +126,42 @@ class _AccountsStepState extends State<AccountsStep> {
       }
     } else if (state.didFail(RegistrationAction.refreshSocial) || state.didFail(RegistrationAction.deleteSocial)) {
       showRegistrationFailure(context, state.failure!);
+    }
+  }
+
+  /// المنصة ما تعطيش الأرقام مجاناً: لقطة شاشة للبروفايل (أو إدخال يدوي).
+  Future<void> _askScreenshot(SocialAccount account) async {
+    final l10n = context.l10n;
+    final choice = await showModalBottomSheet<bool>(
+      context: context,
+      builder: (sheetContext) => SafeArea(
+        child: Padding(
+          padding: AppSpacing.screen,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(l10n.platform(account.platform), style: sheetContext.textTheme.titleMedium),
+              const SizedBox(height: AppSpacing.xs),
+              Text(l10n.socialScreenshotHint, style: sheetContext.textTheme.bodySmall),
+              const SizedBox(height: AppSpacing.lg),
+              PrimaryButton(
+                label: l10n.socialScreenshotButton,
+                icon: Icons.screenshot_outlined,
+                onPressed: () => Navigator.pop(sheetContext, true),
+              ),
+              const SizedBox(height: AppSpacing.xs),
+              TextButton(onPressed: () => Navigator.pop(sheetContext, false), child: Text(l10n.finManualEntry)),
+            ],
+          ),
+        ),
+      ),
+    );
+    if (!mounted || choice == null) return;
+    if (choice) {
+      await _uploadScreenshot(account);
+    } else {
+      _openDetails(account);
     }
   }
 
@@ -128,6 +208,11 @@ class _AccountsStepState extends State<AccountsStep> {
               SizedBox(
                 height: 56,
                 child: ElevatedButton(
+                  // الثيم يعطي الأزرار عرض لا نهائي: داخل Row لازم عرض محدد
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(0, 56),
+                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                  ),
                   onPressed: adding || state.isLoading ? null : _add,
                   child: adding ? const AppLoader.small(color: AppColors.background) : Text(l10n.regSocialSubmit),
                 ),
@@ -145,10 +230,12 @@ class _AccountsStepState extends State<AccountsStep> {
                   account: account,
                   followersText: account.followers > 0 ? l10n.followersCount(ltr(compact.format(account.followers))) : '',
                   busy: state.isLoadingFor(RegistrationAction.deleteSocial, account.id) ||
-                      state.isLoadingFor(RegistrationAction.refreshSocial, account.id),
+                      state.isLoadingFor(RegistrationAction.refreshSocial, account.id) ||
+                      state.isLoadingFor(RegistrationAction.socialScreenshot, account.id),
                   enabled: !state.isLoading,
                   highlightMissing: _showErrors && account.needsDetails,
                   onDetails: () => _openDetails(account),
+                  onScreenshot: () => _uploadScreenshot(account),
                   onRefresh: () => cubit.refreshSocialAccount(account.id),
                   onDelete: () => cubit.deleteSocialAccount(account.id),
                 ),
@@ -171,6 +258,7 @@ class _AccountCard extends StatelessWidget {
     required this.enabled,
     required this.highlightMissing,
     required this.onDetails,
+    required this.onScreenshot,
     required this.onRefresh,
     required this.onDelete,
   });
@@ -181,6 +269,7 @@ class _AccountCard extends StatelessWidget {
   final bool enabled;
   final bool highlightMissing;
   final VoidCallback onDetails;
+  final VoidCallback onScreenshot;
   final VoidCallback onRefresh;
   final VoidCallback onDelete;
 
@@ -189,7 +278,11 @@ class _AccountCard extends StatelessWidget {
     final l10n = context.l10n;
     final colors = context.colors;
     final name = account.accountName.isNotEmpty ? account.accountName : account.username;
-    final badgeColor = account.isAuto ? AppColors.success : AppColors.warning;
+    final badgeColor = switch (account.source) {
+      SocialSource.auto => AppColors.success,
+      SocialSource.screenshot => AppColors.gold,
+      SocialSource.manual => AppColors.warning,
+    };
 
     return Material(
       color: colors.surfaceContainer,
@@ -229,9 +322,12 @@ class _AccountCard extends StatelessWidget {
                         borderRadius: AppRadius.pillAll,
                       ),
                       child: Text(
-                        account.isAuto
-                            ? l10n.regSocialAuto
-                            : (account.needsDetails ? l10n.regSocialCompleteManually : l10n.regSocialManual),
+                        switch (account.source) {
+                          SocialSource.auto => l10n.regSocialAuto,
+                          SocialSource.screenshot => l10n.regSocialFromScreenshot,
+                          SocialSource.manual =>
+                            account.needsDetails ? l10n.regSocialCompleteManually : l10n.regSocialManual,
+                        },
                         style: context.textTheme.labelSmall?.copyWith(color: badgeColor),
                       ),
                     ),
@@ -247,12 +343,18 @@ class _AccountCard extends StatelessWidget {
                     onPressed: enabled ? onRefresh : null,
                     icon: const Icon(Icons.refresh_rounded),
                   )
-                else
+                else ...[
+                  IconButton(
+                    tooltip: l10n.socialScreenshotButton,
+                    onPressed: enabled ? onScreenshot : null,
+                    icon: const Icon(Icons.screenshot_outlined),
+                  ),
                   IconButton(
                     tooltip: l10n.edit,
                     onPressed: enabled ? onDetails : null,
                     icon: const Icon(Icons.edit_outlined),
                   ),
+                ],
                 IconButton(
                   tooltip: l10n.delete,
                   onPressed: enabled ? onDelete : null,

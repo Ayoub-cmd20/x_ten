@@ -51,6 +51,9 @@ class RegistrationRepositoryImpl implements RegistrationRepository {
       guard(() => _remote.createRegistration(RegistrationJson.section(personal)));
 
   @override
+  Future<Result<Registration>> createDraft() => guard(() => _remote.createRegistration(const {}));
+
+  @override
   Future<Result<Registration>> saveSection(int id, RegistrationSection section) =>
       guard(() => _remote.updateRegistration(id, RegistrationJson.section(section)));
 
@@ -79,6 +82,23 @@ class RegistrationRepositoryImpl implements RegistrationRepository {
   Future<Result<void>> deleteSocialAccount(int id) => guard(() => _remote.deleteSocialAccount(id));
 
   @override
+  Future<Result<SocialAccount>> applySocialScreenshot(int id, UploadFile image) =>
+      guard(() => _remote.uploadSocialScreenshot(id, image));
+
+  @override
+  Future<Result<Audience>> scanAudience(
+    int registrationId,
+    UploadFile image, {
+    required String platform,
+    required String language,
+  }) =>
+      guard(() => _remote.scanAudience(
+            registrationId,
+            {ApiKeys.platform: platform, ApiKeys.language: language},
+            image,
+          ));
+
+  @override
   Future<Result<PortfolioItem>> addPortfolioItem(int registrationId, PortfolioItem item, UploadFile? file) =>
       guard(() => _remote.addPortfolioItem(registrationId, RegistrationJson.portfolioItem(item), file));
 
@@ -93,19 +113,23 @@ class RegistrationRepositoryImpl implements RegistrationRepository {
   Future<Result<void>> deleteFinancialAccount(int id) => guard(() => _remote.deleteFinancialAccount(id));
 
   @override
+  Future<Result<FinancialScan>> scanFinancialDocument(int registrationId, UploadFile file) =>
+      guard(() => _remote.scanFinancialDocument(registrationId, file));
+
+  @override
   Future<Result<RegistrationDocument>> uploadDocument(
     int registrationId,
     DocumentType type,
     UploadFile file, {
     int? financialAccountId,
-    DocumentCheck check = DocumentCheck.notChecked,
+    bool acceptUnreadable = false,
   }) =>
       guard(() => _remote.uploadDocument(
             registrationId,
             {
               ApiKeys.type: type.name,
               ApiKeys.financialAccountId: ?financialAccountId,
-              ApiKeys.checkStatus: check.name,
+              if (acceptUnreadable) ApiKeys.acceptUnreadable: true,
             },
             file,
           ));

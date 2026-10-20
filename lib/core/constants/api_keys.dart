@@ -195,4 +195,11 @@ abstract final class ApiKeys {
   static const checkStatus = 'checkStatus';
   static const checkNotes = 'checkNotes';
   static const financialAccounts = 'financialAccounts';
+  static const acceptUnreadable = 'acceptUnreadable';
+  static const extracted = 'extracted';
+  static const hasScreenshot = 'hasScreenshot';
+  static const account = 'account';
+  static const document = 'document';
+  static const language = 'language';
+  static const fields = 'fields';
 }

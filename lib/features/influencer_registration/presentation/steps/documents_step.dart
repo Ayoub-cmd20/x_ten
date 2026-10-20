@@ -7,6 +7,7 @@ import 'package:x_ten/core/localization/localization_extension.dart';
 import 'package:x_ten/core/theme/app_colors.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
 import 'package:x_ten/core/theme/theme_context.dart';
+import 'package:x_ten/core/widgets/feedback/app_snackbar.dart';
 import 'package:x_ten/core/widgets/loading/app_loader.dart';
 import 'package:x_ten/features/influencer_registration/domain/registration_entities.dart';
 import 'package:x_ten/features/influencer_registration/presentation/registration_cubit.dart';
@@ -54,10 +55,12 @@ Future<UploadFile?> pickDocument(BuildContext context) async {
 }
 
 /// خانة وثيقة واحدة (بطاقة التعريف، جواز السفر، الصك...).
-class DocumentTile extends StatelessWidget {
+/// السيرفر يقرا الوثيقة: صورة ماشي وثيقة تترفض، وبعد 3 محاولات تتقبل وتتراجع في الاجتماع.
+class DocumentTile extends StatefulWidget {
   const DocumentTile({
     super.key,
     required this.type,
+    required this.slot,
     required this.document,
     required this.busy,
     required this.enabled,
@@ -67,51 +70,166 @@ class DocumentTile extends StatelessWidget {
   });
 
   final DocumentType type;
+
+  /// نفس target تاع الكيوبت (النوع، أو الحساب المالي)
+  final Object slot;
   final RegistrationDocument? document;
   final bool busy;
   final bool enabled;
   final bool highlightMissing;
-  final void Function(UploadFile file, DocumentCheck check) onUpload;
+  final void Function(UploadFile file, bool acceptUnreadable) onUpload;
   final ValueChanged<RegistrationDocument> onDelete;
+
+  @override
+  State<DocumentTile> createState() => _DocumentTileState();
+}
+
+class _DocumentTileState extends State<DocumentTile> {
+  int _attempts = 0;
+  UploadFile? _lastFile;
 
   Future<void> _upload(BuildContext context) async {
     final file = await pickDocument(context);
-    // المرحلة 2: قراءة الوثيقة في التلفون (MRZ / RIB) قبل الرفع
-    if (file != null) onUpload(file, DocumentCheck.notChecked);
+    if (file == null) return;
+    _lastFile = file;
+    widget.onUpload(file, false);
+  }
+
+  Future<void> _listener(BuildContext context, RegistrationState state) async {
+    if (state.status == OperationStatus.success) {
+      _attempts = 0;
+      return;
+    }
+    final failure = state.failure;
+    if (failure == null || !isUnrecognized(failure)) return;
+    _attempts++;
+    const max = RegistrationCatalog.maxScanAttempts;
+    if (_attempts < max) {
+      showErrorSnackBar(context, context.l10n.docUnrecognizedRetry(_attempts, max));
+      return;
+    }
+    final file = _lastFile;
+    if (file == null) return;
+    if (await confirmManualReview(context) && mounted) {
+      _attempts = 0;
+      widget.onUpload(file, true);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final document = this.document;
+    final document = widget.document;
     final uploaded = document != null;
+    final busy = widget.busy;
+    final enabled = widget.enabled;
 
-    return ItemCard(
-      icon: uploaded ? Icons.task_alt_rounded : Icons.upload_file_rounded,
-      highlight: uploaded ? AppColors.success : (highlightMissing ? AppColors.error : null),
-      title: l10n.documentLabel(type),
-      subtitle: switch (document) {
-        RegistrationDocument(verified: true) => l10n.documentVerified,
-        RegistrationDocument(check: DocumentCheck.needsManualReview) => l10n.regNeedsReview,
-        final RegistrationDocument d => d.fileName.isEmpty ? l10n.documentUploaded : d.fileName,
-        null => l10n.documentsSubtitle,
-      },
-      onTap: enabled && !busy ? () => _upload(context) : null,
-      trailing: busy
-          ? const Padding(padding: EdgeInsets.all(AppSpacing.sm), child: AppLoader.small())
-          : document != null
-              ? IconButton(
-                  tooltip: l10n.delete,
-                  icon: const Icon(Icons.delete_outline_rounded),
-                  onPressed: enabled ? () => onDelete(document) : null,
-                )
-              : Padding(
-                  padding: const EdgeInsetsDirectional.only(end: AppSpacing.sm),
-                  child: Text(l10n.upload, style: context.textTheme.labelMedium?.copyWith(color: context.colors.primary)),
-                ),
+    return BlocListener<RegistrationCubit, RegistrationState>(
+      listenWhen: (previous, current) =>
+          current.action == RegistrationAction.uploadDocument &&
+          current.target == widget.slot &&
+          previous.status != current.status &&
+          current.status != OperationStatus.loading,
+      listener: _listener,
+      child: ItemCard(
+        icon: uploaded ? Icons.task_alt_rounded : Icons.upload_file_rounded,
+        highlight: uploaded ? AppColors.success : (widget.highlightMissing ? AppColors.error : null),
+        title: l10n.documentLabel(widget.type),
+        subtitle: switch (document) {
+          RegistrationDocument(verified: true) => l10n.documentVerified,
+          RegistrationDocument(check: DocumentCheck.needsManualReview) => l10n.regNeedsReview,
+          RegistrationDocument(check: DocumentCheck.passed) => l10n.regDocChecked,
+          final RegistrationDocument d => d.fileName.isEmpty ? l10n.documentUploaded : d.fileName,
+          null => l10n.documentsSubtitle,
+        },
+        onTap: enabled && !busy ? () => _upload(context) : null,
+        trailing: busy
+            ? const Padding(padding: EdgeInsets.all(AppSpacing.sm), child: AppLoader.small())
+            : document != null
+                ? IconButton(
+                    tooltip: l10n.delete,
+                    icon: const Icon(Icons.delete_outline_rounded),
+                    onPressed: enabled ? () => widget.onDelete(document) : null,
+                  )
+                : Padding(
+                    padding: const EdgeInsetsDirectional.only(end: AppSpacing.sm),
+                    child: Text(
+                      l10n.upload,
+                      style: context.textTheme.labelMedium?.copyWith(color: context.colors.primary),
+                    ),
+                  ),
+      ),
     );
   }
 }
+
+/// اختيار وثيقة الهوية + خاناتها (تُستعمل في المعلومات الشخصية وفي الوثائق).
+class IdentityDocuments extends StatelessWidget {
+  const IdentityDocuments({
+    super.key,
+    required this.kind,
+    required this.onKindChanged,
+    this.showErrors = false,
+  });
+
+  final IdentityKind kind;
+  final ValueChanged<IdentityKind> onKindChanged;
+  final bool showErrors;
+
+  static List<DocumentType> typesFor(IdentityKind kind) => switch (kind) {
+        IdentityKind.idCard => const [DocumentType.identityFront, DocumentType.identityBack],
+        IdentityKind.passport => const [DocumentType.passport],
+      };
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final state = context.watch<RegistrationCubit>().state;
+    final cubit = context.read<RegistrationCubit>();
+    final types = typesFor(kind);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        SegmentedButton<IdentityKind>(
+          showSelectedIcon: false,
+          segments: [
+            ButtonSegment(value: IdentityKind.idCard, label: Text(l10n.regIdCard)),
+            ButtonSegment(value: IdentityKind.passport, label: Text(l10n.docPassport)),
+          ],
+          selected: {kind},
+          onSelectionChanged: (value) => onKindChanged(value.first),
+        ),
+        const SizedBox(height: AppSpacing.md),
+        for (final type in types)
+          Padding(
+            padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+            child: DocumentTile(
+              type: type,
+              slot: type,
+              document: state.documentOf(type),
+              busy: state.isLoadingFor(RegistrationAction.uploadDocument, type) ||
+                  state.isLoadingFor(RegistrationAction.deleteDocument, type),
+              enabled: !state.isLoading,
+              highlightMissing: showErrors && state.documentOf(type) == null,
+              onUpload: (file, acceptUnreadable) =>
+                  cubit.uploadDocument(type, file, acceptUnreadable: acceptUnreadable),
+              onDelete: cubit.deleteDocument,
+            ),
+          ),
+        if (showErrors && !state.hasIdentity)
+          Text(
+            l10n.missingDocumentsWarning(l10n.documentList(types)),
+            style: context.textTheme.bodySmall?.copyWith(color: AppColors.error),
+          ),
+      ],
+    );
+  }
+}
+
+/// نوع الهوية اللي رفعها من قبل
+IdentityKind initialIdentityKind(RegistrationState state) =>
+    state.documentOf(DocumentType.passport) != null && !state.hasIdCard ? IdentityKind.passport : IdentityKind.idCard;
 
 /// الوثائق المطلوبة للرفع + الإرسال النهائي.
 class DocumentsStep extends StatefulWidget {
@@ -129,15 +247,8 @@ class _DocumentsStepState extends State<DocumentsStep> {
   @override
   void initState() {
     super.initState();
-    final state = context.read<RegistrationCubit>().state;
-    final hasPassport = state.documentOf(DocumentType.passport) != null;
-    _identity = hasPassport && !state.hasIdCard ? IdentityKind.passport : IdentityKind.idCard;
+    _identity = initialIdentityKind(context.read<RegistrationCubit>().state);
   }
-
-  List<DocumentType> get _identityTypes => switch (_identity) {
-        IdentityKind.idCard => const [DocumentType.identityFront, DocumentType.identityBack],
-        IdentityKind.passport => const [DocumentType.passport],
-      };
 
   void _submit() {
     final cubit = context.read<RegistrationCubit>();
@@ -197,6 +308,8 @@ class _DocumentsStepState extends State<DocumentsStep> {
         return;
       }
     }
+    // الوثيقة اللي ما تقراتش: الخانة تتكفّل بيها (المحاولات)
+    if (state.action == RegistrationAction.uploadDocument && isUnrecognized(failure)) return;
     const actions = {RegistrationAction.submit, RegistrationAction.uploadDocument, RegistrationAction.deleteDocument};
     if (actions.contains(state.action)) showRegistrationFailure(context, failure);
   }
@@ -220,35 +333,11 @@ class _DocumentsStepState extends State<DocumentsStep> {
         children: [
           if (_missing.isNotEmpty) _MissingBox(items: _missing, onFix: cubit.goTo),
           SectionTitle(l10n.regDocumentsTitle),
-          SegmentedButton<IdentityKind>(
-            showSelectedIcon: false,
-            segments: [
-              ButtonSegment(value: IdentityKind.idCard, label: Text(l10n.regIdCard)),
-              ButtonSegment(value: IdentityKind.passport, label: Text(l10n.docPassport)),
-            ],
-            selected: {_identity},
-            onSelectionChanged: (value) => setState(() => _identity = value.first),
+          IdentityDocuments(
+            kind: _identity,
+            showErrors: _showErrors,
+            onKindChanged: (kind) => setState(() => _identity = kind),
           ),
-          const SizedBox(height: AppSpacing.md),
-          for (final type in _identityTypes)
-            Padding(
-              padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-              child: DocumentTile(
-                type: type,
-                document: state.documentOf(type),
-                busy: state.isLoadingFor(RegistrationAction.uploadDocument, type) ||
-                    state.isLoadingFor(RegistrationAction.deleteDocument, type),
-                enabled: !state.isLoading,
-                highlightMissing: _showErrors && state.documentOf(type) == null,
-                onUpload: (file, check) => cubit.uploadDocument(type, file, check: check),
-                onDelete: cubit.deleteDocument,
-              ),
-            ),
-          if (_showErrors && !state.hasIdentity)
-            Text(
-              l10n.missingDocumentsWarning(l10n.documentList(_identityTypes)),
-              style: context.textTheme.bodySmall?.copyWith(color: AppColors.error),
-            ),
           const SizedBox(height: AppSpacing.sm),
           EmptyHint(icon: Icons.receipt_long_outlined, text: l10n.regChequesHint),
           const SizedBox(height: AppSpacing.lg),

@@ -7,6 +7,9 @@ abstract interface class RegistrationRepository {
   /// المعلومات الشخصية تنشئ الملف، والأقسام الأخرى تتحفظ عليه.
   Future<Result<Registration>> create(PersonalInfo personal);
 
+  /// ملف فارغ: باش نقدرو نرفعو الوثيقة ونعمّرو المعلومات الشخصية منها.
+  Future<Result<Registration>> createDraft();
+
   Future<Result<Registration>> saveSection(int id, RegistrationSection section);
 
   Future<Result<Registration>> submit(int id);
@@ -24,6 +27,17 @@ abstract interface class RegistrationRepository {
 
   Future<Result<void>> deleteSocialAccount(int id);
 
+  /// لقطة شاشة للبروفايل -> عدد المتابعين (والاسم لو كان ناقص).
+  Future<Result<SocialAccount>> applySocialScreenshot(int id, UploadFile image);
+
+  /// لقطة Insights -> نسب الجمهور (ما تتحفظش: المؤثر يراجع ويحفظ).
+  Future<Result<Audience>> scanAudience(
+    int registrationId,
+    UploadFile image, {
+    required String platform,
+    required String language,
+  });
+
   Future<Result<PortfolioItem>> addPortfolioItem(int registrationId, PortfolioItem item, UploadFile? file);
 
   Future<Result<void>> deletePortfolioItem(int id);
@@ -32,12 +46,15 @@ abstract interface class RegistrationRepository {
 
   Future<Result<void>> deleteFinancialAccount(int id);
 
+  /// صورة الصك/الشيك -> حساب + وثيقة.
+  Future<Result<FinancialScan>> scanFinancialDocument(int registrationId, UploadFile file);
+
   Future<Result<RegistrationDocument>> uploadDocument(
     int registrationId,
     DocumentType type,
     UploadFile file, {
     int? financialAccountId,
-    DocumentCheck check = DocumentCheck.notChecked,
+    bool acceptUnreadable = false,
   });
 
   Future<Result<void>> deleteDocument(int id);

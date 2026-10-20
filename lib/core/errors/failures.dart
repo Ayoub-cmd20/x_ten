@@ -68,5 +68,10 @@ final class ThrottledFailure extends Failure {
 }
 
 final class ServerFailure extends Failure {
-  const ServerFailure({super.code, super.message});
+  const ServerFailure({super.code, super.message, this.details = const {}});
+
+  final Map<String, dynamic> details;
+
+  @override
+  List<Object?> get props => [...super.props, details];
 }

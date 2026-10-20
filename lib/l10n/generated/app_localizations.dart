@@ -3765,6 +3765,234 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'لقد تم تسجيل طلبك سيتم مراجعة ملفك لإستكماله في حالة النقصان أو عدم وضوح بعض الوثائق\nو سيتم برمجة اجتماع لك مع إدارة المنصة عن طريق مكالمة فيديوا للتأكد من صحة المعلومات المقدمة\nيجب تحضير الوثائق التالية أثناء تاريخ الاجتماع بطاقة التعريف الأصلية أو جواز السفر + وثيقة تحمل أرقام معلوماتك المالية المدخلة ( صك بريدي / شيك بنكي ) + إثباتات الوصول للمنصات المدخلة ( الوصول للمنصات أثناء مكالمة الفيديوا )'**
   String get regSubmittedMessage;
+
+  /// No description provided for @docUnrecognized.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم نتعرف على الوثيقة. صوّرها كاملة بإضاءة جيدة وأعد المحاولة'**
+  String get docUnrecognized;
+
+  /// No description provided for @screenshotUnrecognized.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم نجد الأرقام في اللقطة. خذ لقطة للصفحة كاملة'**
+  String get screenshotUnrecognized;
+
+  /// No description provided for @ocrUnavailable.
+  ///
+  /// In ar, this message translates to:
+  /// **'القراءة الآلية غير متاحة حالياً، أدخل المعلومات يدوياً'**
+  String get ocrUnavailable;
+
+  /// No description provided for @docAcceptUnreadableTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعذّرت قراءة الوثيقة'**
+  String get docAcceptUnreadableTitle;
+
+  /// No description provided for @docAcceptUnreadableBody.
+  ///
+  /// In ar, this message translates to:
+  /// **'بعد 3 محاولات، يمكننا إرسال الوثيقة كما هي لتُراجع يدوياً في اجتماع التوثيق.'**
+  String get docAcceptUnreadableBody;
+
+  /// No description provided for @docSendForReview.
+  ///
+  /// In ar, this message translates to:
+  /// **'أرسلها للمراجعة'**
+  String get docSendForReview;
+
+  /// No description provided for @regDocChecked.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم التحقق منها آلياً'**
+  String get regDocChecked;
+
+  /// No description provided for @docFinancialProof.
+  ///
+  /// In ar, this message translates to:
+  /// **'إثبات الحساب (صك، شيك أو RIB)'**
+  String get docFinancialProof;
+
+  /// No description provided for @finOther.
+  ///
+  /// In ar, this message translates to:
+  /// **'مؤسسة مالية'**
+  String get finOther;
+
+  /// No description provided for @finScanHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'صوّر الصك أو الشيك ونملأ اسم المؤسسة ورقم الحساب تلقائياً. كل المؤسسات المالية مقبولة'**
+  String get finScanHint;
+
+  /// No description provided for @finScanCheque.
+  ///
+  /// In ar, this message translates to:
+  /// **'صوّر الصك أو الشيك'**
+  String get finScanCheque;
+
+  /// No description provided for @finManualEntry.
+  ///
+  /// In ar, this message translates to:
+  /// **'أدخل يدوياً'**
+  String get finManualEntry;
+
+  /// No description provided for @finCompleteScanned.
+  ///
+  /// In ar, this message translates to:
+  /// **'قرأنا جزءاً من المعلومات، أكمل الباقي'**
+  String get finCompleteScanned;
+
+  /// No description provided for @finScanManualAfterTries.
+  ///
+  /// In ar, this message translates to:
+  /// **'أدخل معلومات الحساب يدوياً، وستُراجع الصورة في الاجتماع'**
+  String get finScanManualAfterTries;
+
+  /// No description provided for @finKeyMismatch.
+  ///
+  /// In ar, this message translates to:
+  /// **'المفتاح لا يطابق الرقم، سيتم التحقق منه في الاجتماع'**
+  String get finKeyMismatch;
+
+  /// No description provided for @finInstitutionName.
+  ///
+  /// In ar, this message translates to:
+  /// **'اسم المؤسسة المالية'**
+  String get finInstitutionName;
+
+  /// No description provided for @finInstitutionHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر من القائمة أو اكتب اسم أي مؤسسة أخرى'**
+  String get finInstitutionHint;
+
+  /// No description provided for @finAccountNumber.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم الحساب'**
+  String get finAccountNumber;
+
+  /// No description provided for @finAccountNumberHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'CCP أو RIB أو IBAN أو أي رقم آخر'**
+  String get finAccountNumberHint;
+
+  /// No description provided for @finAccountKey.
+  ///
+  /// In ar, this message translates to:
+  /// **'المفتاح (اختياري)'**
+  String get finAccountKey;
+
+  /// No description provided for @finNumberInvalid.
+  ///
+  /// In ar, this message translates to:
+  /// **'أرقام وحروف لاتينية فقط (من 4 إلى 40)'**
+  String get finNumberInvalid;
+
+  /// No description provided for @finKeyInvalid.
+  ///
+  /// In ar, this message translates to:
+  /// **'المفتاح رقمان'**
+  String get finKeyInvalid;
+
+  /// No description provided for @scanFilled.
+  ///
+  /// In ar, this message translates to:
+  /// **'ملأنا المعلومات من الوثيقة، راجعها قبل المتابعة'**
+  String get scanFilled;
+
+  /// No description provided for @scanFromIdTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'املأ معلوماتك من الوثيقة'**
+  String get scanFromIdTitle;
+
+  /// No description provided for @scanFromIdHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'صوّر بطاقة التعريف أو جواز السفر ونملأ الاسم واللقب وتاريخ ومكان الميلاد تلقائياً'**
+  String get scanFromIdHint;
+
+  /// No description provided for @screenshotManualAfterTries.
+  ///
+  /// In ar, this message translates to:
+  /// **'أدخل الاسم وعدد المتابعين يدوياً، وسيتم التحقق منهما في الاجتماع'**
+  String get screenshotManualAfterTries;
+
+  /// No description provided for @screenshotApplied.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم تحديث عدد المتابعين من اللقطة'**
+  String get screenshotApplied;
+
+  /// No description provided for @socialScreenshotHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذه المنصة لا تعطي الأرقام مباشرة. خذ لقطة شاشة لصفحة بروفايلك يظهر فيها عدد المتابعين'**
+  String get socialScreenshotHint;
+
+  /// No description provided for @socialScreenshotButton.
+  ///
+  /// In ar, this message translates to:
+  /// **'ارفع لقطة شاشة لبروفايلك'**
+  String get socialScreenshotButton;
+
+  /// No description provided for @regSocialFromScreenshot.
+  ///
+  /// In ar, this message translates to:
+  /// **'من لقطة شاشة'**
+  String get regSocialFromScreenshot;
+
+  /// No description provided for @audScanPlatform.
+  ///
+  /// In ar, this message translates to:
+  /// **'من أي منصة هذه اللقطات؟'**
+  String get audScanPlatform;
+
+  /// No description provided for @audScanHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'ارفع لقطات الإحصائيات (Insights): الجنس، الأعمار، المدن، الدول... ونملأ النسب تلقائياً، ثم راجعها واحفظ'**
+  String get audScanHint;
+
+  /// No description provided for @audScanTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'املأ من لقطات Insights'**
+  String get audScanTitle;
+
+  /// No description provided for @docUnrecognizedRetry.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم نتعرف على الوثيقة. صوّرها كاملة بإضاءة جيدة (المحاولة {attempt} من {max})'**
+  String docUnrecognizedRetry(int attempt, int max);
+
+  /// No description provided for @screenshotUnrecognizedRetry.
+  ///
+  /// In ar, this message translates to:
+  /// **'لم نجد عدد المتابعين في اللقطة. خذ لقطة لصفحة البروفايل كاملة (المحاولة {attempt} من {max})'**
+  String screenshotUnrecognizedRetry(int attempt, int max);
+
+  /// No description provided for @finAdded.
+  ///
+  /// In ar, this message translates to:
+  /// **'تمت إضافة الحساب: {name}'**
+  String finAdded(String name);
+
+  /// No description provided for @finProofAttached.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصورة المرفقة: {name}'**
+  String finProofAttached(String name);
+
+  /// No description provided for @audScanDone.
+  ///
+  /// In ar, this message translates to:
+  /// **'ملأنا {count} أقسام من اللقطات، راجع النسب ثم احفظ'**
+  String audScanDone(int count);
 }
 
 class _AppLocalizationsDelegate

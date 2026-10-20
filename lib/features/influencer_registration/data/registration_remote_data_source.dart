@@ -30,6 +30,10 @@ abstract interface class RegistrationRemoteDataSource {
 
   Future<void> deleteSocialAccount(int id);
 
+  Future<SocialAccountModel> uploadSocialScreenshot(int id, UploadFile image);
+
+  Future<AudienceModel> scanAudience(int registrationId, Json fields, UploadFile image);
+
   Future<List<PortfolioItemModel>> getPortfolio(int registrationId);
 
   Future<PortfolioItemModel> addPortfolioItem(int registrationId, Json body, UploadFile? file);
@@ -41,6 +45,8 @@ abstract interface class RegistrationRemoteDataSource {
   Future<FinancialAccountModel> addFinancialAccount(int registrationId, Json body);
 
   Future<void> deleteFinancialAccount(int id);
+
+  Future<FinancialScanModel> scanFinancialDocument(int registrationId, UploadFile file);
 
   Future<List<RegistrationDocumentModel>> getDocuments(int registrationId);
 
@@ -113,6 +119,19 @@ class RegistrationRemoteDataSourceImpl implements RegistrationRemoteDataSource {
   Future<void> deleteSocialAccount(int id) => _api.delete(ApiEndpoints.socialAccount(id));
 
   @override
+  Future<SocialAccountModel> uploadSocialScreenshot(int id, UploadFile image) async {
+    final form = FormData.fromMap({ApiKeys.file: await _multipart(image)});
+    return SocialAccountModel.fromJson(await _api.post(ApiEndpoints.socialScreenshot(id), data: form) as Json);
+  }
+
+  @override
+  Future<AudienceModel> scanAudience(int registrationId, Json fields, UploadFile image) async {
+    final form = FormData.fromMap({...fields, ApiKeys.file: await _multipart(image)});
+    final data = await _api.post(ApiEndpoints.audienceScreenshots(registrationId), data: form) as Json;
+    return AudienceModel.fromJson(data[ApiKeys.audience]);
+  }
+
+  @override
   Future<List<PortfolioItemModel>> getPortfolio(int registrationId) async =>
       _list(await _api.get(ApiEndpoints.portfolio(registrationId)), PortfolioItemModel.fromJson);
 
@@ -136,6 +155,12 @@ class RegistrationRemoteDataSourceImpl implements RegistrationRemoteDataSource {
 
   @override
   Future<void> deleteFinancialAccount(int id) => _api.delete(ApiEndpoints.financialAccount(id));
+
+  @override
+  Future<FinancialScanModel> scanFinancialDocument(int registrationId, UploadFile file) async {
+    final form = FormData.fromMap({ApiKeys.file: await _multipart(file)});
+    return FinancialScanModel.fromJson(await _api.post(ApiEndpoints.financialScan(registrationId), data: form) as Json);
+  }
 
   @override
   Future<List<RegistrationDocumentModel>> getDocuments(int registrationId) async =>

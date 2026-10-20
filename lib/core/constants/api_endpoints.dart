@@ -18,8 +18,11 @@ abstract final class ApiEndpoints {
   static String socialAccounts(int registrationId) => '${registration(registrationId)}social-accounts/';
   static String socialAccount(int id) => '/influencers/social-accounts/$id/';
   static String refreshSocialAccount(int id) => '${socialAccount(id)}refresh/';
+  static String socialScreenshot(int id) => '${socialAccount(id)}screenshot/';
+  static String audienceScreenshots(int registrationId) => '${registration(registrationId)}audience-screenshots/';
   static String financialAccounts(int registrationId) => '${registration(registrationId)}financial-accounts/';
   static String financialAccount(int id) => '/influencers/financial-accounts/$id/';
+  static String financialScan(int registrationId) => '${financialAccounts(registrationId)}scan/';
   static String portfolio(int registrationId) => '${registration(registrationId)}portfolio/';
   static String portfolioItem(int id) => '/influencers/portfolio/$id/';
   static String documents(int registrationId) => '${registration(registrationId)}documents/';

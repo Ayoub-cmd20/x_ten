@@ -16,8 +16,10 @@ typedef DocumentParams = ({
   DocumentType type,
   UploadFile file,
   int? financialAccountId,
-  DocumentCheck check,
+  bool acceptUnreadable,
 });
+typedef ScanFileParams = ({int id, UploadFile file});
+typedef AudienceScanParams = ({int registrationId, List<UploadFile> images, String platform, String language});
 
 /// ملفات معرض الأعمال: صور وفيديو وPDF حتى 50MB
 const portfolioFileRules = FileRules(
@@ -247,6 +249,62 @@ class DeleteSocialAccountUseCase implements UseCase<void, int> {
   Future<Result<void>> call(int id) => _repository.deleteSocialAccount(id);
 }
 
+class ApplySocialScreenshotUseCase implements UseCase<SocialAccount, ScanFileParams> {
+  const ApplySocialScreenshotUseCase(this._repository);
+
+  final RegistrationRepository _repository;
+
+  @override
+  Future<Result<SocialAccount>> call(ScanFileParams params) async {
+    if (checkFile(params.file, FileRules.images) case final failure?) return Err<SocialAccount>(failure);
+    return _repository.applySocialScreenshot(params.id, params.file);
+  }
+}
+
+/// عدة لقطات Insights: كل لقطة تعمّر الأقسام اللي فيها. يكفي وحدة تنجح.
+class ScanAudienceUseCase implements UseCase<Audience, AudienceScanParams> {
+  const ScanAudienceUseCase(this._repository);
+
+  final RegistrationRepository _repository;
+
+  @override
+  Future<Result<Audience>> call(AudienceScanParams params) async {
+    Audience? merged;
+    Failure? lastFailure;
+    for (final image in params.images) {
+      if (checkFile(image, FileRules.images) case final failure?) {
+        lastFailure = failure;
+        continue;
+      }
+      final result = await _repository.scanAudience(
+        params.registrationId,
+        image,
+        platform: params.platform,
+        language: params.language,
+      );
+      switch (result) {
+        case Ok(:final value):
+          merged = (merged ?? const Audience()).overlay(value);
+        case Err(:final failure):
+          lastFailure = failure;
+          // السيرفر ما فيهش القراءة الآلية: ما فايدة نكمّلو
+          if (failure.code == 'ocr_unavailable') return Err(failure);
+      }
+    }
+    if (merged != null) return Ok(merged);
+    return Err(lastFailure ?? _invalid('file', 'required'));
+  }
+}
+
+class CreateDraftRegistrationUseCase implements UseCase<Registration, NoParams> {
+  const CreateDraftRegistrationUseCase(this._repository);
+
+  final RegistrationRepository _repository;
+
+  @override
+  Future<Result<Registration>> call(NoParams params) => _repository.createDraft();
+}
+
 class AddPortfolioItemUseCase implements UseCase<PortfolioItem, PortfolioParams> {
   const AddPortfolioItemUseCase(this._repository);
 
@@ -278,33 +336,43 @@ class DeletePortfolioItemUseCase implements UseCase<void, int> {
   Future<Result<void>> call(int id) => _repository.deletePortfolioItem(id);
 }
 
+/// أي مؤسسة مالية: الاسم حر ورقم الحساب حر (CCP، RIB، IBAN، محفظة إلكترونية...).
+/// لو الرقم RIB/RIP (20 رقم) السيرفر يعرف المؤسسة من رمز البنك.
 class AddFinancialAccountUseCase implements UseCase<FinancialAccount, FinancialAccountParams> {
   const AddFinancialAccountUseCase(this._repository);
 
   final RegistrationRepository _repository;
 
+  static final _number = RegExp(r'^[A-Z0-9]{4,40}$');
+
   @override
   Future<Result<FinancialAccount>> call(FinancialAccountParams params) async {
     final account = params.account;
-    final number = _digits(account.accountNumber);
+    final number = cleanAccountNumber(account.accountNumber);
     final key = _digits(account.accountKey);
-    switch (account.kind) {
-      case FinancialKind.ccp:
-        if (number.isEmpty || number.length > 12) return Err(_invalid('accountNumber', 'ccp'));
-        if (key.length != 2) return Err(_invalid('accountKey', 'ccpKey'));
-      case FinancialKind.bank:
-        if (number.length != 20) return Err(_invalid('accountNumber', 'rib'));
-        if (account.institutionName.trim().isEmpty) return Err(_invalid('institutionName', 'required'));
-    }
+    final institution = account.institutionName.trim();
+    if (!_number.hasMatch(number)) return Err(_invalid('accountNumber', 'invalid'));
+    if (key.isNotEmpty && key.length != 2) return Err(_invalid('accountKey', 'invalid'));
+    final isRib = RegExp(r'^\d{20}$').hasMatch(number);
+    if (institution.isEmpty && !isRib) return Err(_invalid('institutionName', 'required'));
     return _repository.addFinancialAccount(
       params.registrationId,
-      FinancialAccount(
-        kind: account.kind,
-        institutionName: account.institutionName.trim(),
-        accountNumber: number,
-        accountKey: account.kind == FinancialKind.ccp ? key : '',
-      ),
+      FinancialAccount(institutionName: institution, accountNumber: number, accountKey: key),
     );
+  }
+}
+
+String cleanAccountNumber(String value) => value.replaceAll(RegExp(r'[\s\-.]'), '').toUpperCase();
+
+class ScanFinancialDocumentUseCase implements UseCase<FinancialScan, ScanFileParams> {
+  const ScanFinancialDocumentUseCase(this._repository);
+
+  final RegistrationRepository _repository;
+
+  @override
+  Future<Result<FinancialScan>> call(ScanFileParams params) async {
+    if (checkFile(params.file, FileRules.documents) case final failure?) return Err<FinancialScan>(failure);
+    return _repository.scanFinancialDocument(params.id, params.file);
   }
 }
 
@@ -330,7 +398,7 @@ class UploadDocumentUseCase implements UseCase<RegistrationDocument, DocumentPar
       params.type,
       params.file,
       financialAccountId: params.financialAccountId,
-      check: params.check,
+      acceptUnreadable: params.acceptUnreadable,
     );
   }
 }

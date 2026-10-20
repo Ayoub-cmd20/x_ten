@@ -6,12 +6,14 @@ import 'package:x_ten/core/localization/localization_extension.dart';
 import 'package:x_ten/core/theme/app_colors.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
 import 'package:x_ten/core/theme/theme_context.dart';
+import 'package:x_ten/core/widgets/feedback/app_snackbar.dart';
 import 'package:x_ten/core/widgets/loading/app_loader.dart';
 import 'package:x_ten/features/influencer_registration/domain/registration_entities.dart';
 import 'package:x_ten/features/influencer_registration/domain/registration_usecases.dart';
 import 'package:x_ten/features/influencer_registration/presentation/registration_cubit.dart';
 import 'package:x_ten/features/influencer_registration/presentation/registration_labels.dart';
 import 'package:x_ten/features/influencer_registration/presentation/registration_widgets.dart';
+import 'package:x_ten/features/influencer_registration/presentation/steps/accounts_step.dart' show platformIcon;
 
 class _CountryRow {
   _CountryRow(String country, double percent)
@@ -126,8 +128,81 @@ class _OptionalStepState extends State<OptionalStep> {
         );
   }
 
+  /// لقطات Insights: نختارو المنصة، ثم الصور، والسيرفر يقرا النسب.
+  Future<void> _scanInsights() async {
+    final l10n = context.l10n;
+    final platform = await showModalBottomSheet<String>(
+      context: context,
+      builder: (sheetContext) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(title: Text(l10n.audScanPlatform, style: sheetContext.textTheme.titleMedium)),
+            for (final id in RegistrationCatalog.insightsPlatforms)
+              ListTile(
+                leading: Icon(platformIcon(SocialPlatform.values.byName(id))),
+                title: Text(l10n.platformId(id)),
+                onTap: () => Navigator.pop(sheetContext, id),
+              ),
+          ],
+        ),
+      ),
+    );
+    if (platform == null || !mounted) return;
+    final images = await pickScreenshots();
+    if (images.isEmpty || !mounted) return;
+    await context.read<RegistrationCubit>().scanAudience(
+          images,
+          platform: platform,
+          language: Localizations.localeOf(context).languageCode,
+        );
+  }
+
+  void _setGroup(Map<String, TextEditingController> controllers, Map<String, double> values) {
+    if (values.isEmpty) return;
+    for (final MapEntry(:key, value: controller) in controllers.entries) {
+      final value = values[key] ?? 0.0;
+      controller.text = value > 0 ? percentText(value) : '';
+    }
+  }
+
+  /// النتيجة تعمّر الاستمارة: الأقسام اللي قريناها تعوّض القيم القديمة، والمؤثر يراجع ويحفظ.
+  void _applyScan(Audience scan) {
+    setState(() {
+      if (scan.countries.isNotEmpty) {
+        final old = [..._countries];
+        _countries
+          ..clear()
+          ..addAll([for (final c in scan.countries) _CountryRow(c.country, c.percent)]);
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          for (final row in old) {
+            row.dispose();
+          }
+        });
+      }
+      if (scan.regions.isNotEmpty) _regionsUnspecified = false;
+      _setGroup(_regions, scan.regions);
+      _setGroup(_gender, scan.gender);
+      _setGroup(_ages, scan.ages);
+      _setGroup(_languages, scan.languages);
+      _setGroup(_content, scan.contentEngagement);
+    });
+  }
+
   void _listener(BuildContext context, RegistrationState state) {
     final failure = state.failure;
+    if (state.didSucceed(RegistrationAction.scanAudience)) {
+      final scan = state.scannedAudience;
+      if (scan != null) {
+        _applyScan(scan);
+        showSuccessSnackBar(context, context.l10n.audScanDone(scan.filledGroups));
+      }
+      return;
+    }
+    if (state.didFail(RegistrationAction.scanAudience) && failure != null) {
+      showRegistrationFailure(context, failure);
+      return;
+    }
     if (state.didFail(RegistrationAction.saveSection) && failure != null) {
       if (failure is ValidationFailure && (failure.details['audience'] != null || failure.details['skills'] != null)) {
         setState(() => _showErrors = true);
@@ -180,6 +255,16 @@ class _OptionalStepState extends State<OptionalStep> {
 
           // ---------------- حصر الجمهور ----------------
           _Header(title: l10n.regAudienceTitle),
+          const SizedBox(height: AppSpacing.sm),
+          Text(l10n.audScanHint, style: context.textTheme.bodySmall),
+          const SizedBox(height: AppSpacing.xs),
+          OutlinedButton.icon(
+            onPressed: context.select((RegistrationCubit c) => c.state.isLoading) ? null : _scanInsights,
+            icon: context.select((RegistrationCubit c) => c.state.isLoadingFor(RegistrationAction.scanAudience))
+                ? const AppLoader.small()
+                : const Icon(Icons.insights_outlined),
+            label: Text(l10n.audScanTitle),
+          ),
           SectionTitle(l10n.audCountries, trailing: TotalBadge(total: _countriesTotal)),
           for (final row in _countries)
             Padding(

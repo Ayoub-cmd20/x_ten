@@ -29,6 +29,14 @@ String registrationFailureText(BuildContext context, Failure failure) {
     if (failure.details['audience'] != null) return l10n.audienceMustTotal;
     if (failure.details['consents'] != null) return l10n.acceptAllConsents;
   }
+  switch (failure.code) {
+    case 'document_unrecognized':
+      return l10n.docUnrecognized;
+    case 'screenshot_unrecognized':
+      return l10n.screenshotUnrecognized;
+    case 'ocr_unavailable':
+      return l10n.ocrUnavailable;
+  }
   return failure.localized(context);
 }
 

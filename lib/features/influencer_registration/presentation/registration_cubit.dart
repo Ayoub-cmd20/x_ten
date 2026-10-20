@@ -28,6 +28,10 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     required DeleteFinancialAccountUseCase deleteFinancial,
     required UploadDocumentUseCase uploadDocument,
     required DeleteDocumentUseCase deleteDocument,
+    required CreateDraftRegistrationUseCase createDraft,
+    required ScanFinancialDocumentUseCase scanFinancial,
+    required ApplySocialScreenshotUseCase socialScreenshot,
+    required ScanAudienceUseCase scanAudience,
     required GetCurrentUserUseCase getCurrentUser,
   })  : _loadCurrent = loadCurrent,
         _saveSection = saveSection,
@@ -45,6 +49,10 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         _deleteFinancial = deleteFinancial,
         _uploadDocument = uploadDocument,
         _deleteDocument = deleteDocument,
+        _createDraft = createDraft,
+        _scanFinancial = scanFinancial,
+        _socialScreenshot = socialScreenshot,
+        _scanAudience = scanAudience,
         _getCurrentUser = getCurrentUser,
         super(const RegistrationState());
 
@@ -64,6 +72,10 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   final DeleteFinancialAccountUseCase _deleteFinancial;
   final UploadDocumentUseCase _uploadDocument;
   final DeleteDocumentUseCase _deleteDocument;
+  final CreateDraftRegistrationUseCase _createDraft;
+  final ScanFinancialDocumentUseCase _scanFinancial;
+  final ApplySocialScreenshotUseCase _socialScreenshot;
+  final ScanAudienceUseCase _scanAudience;
   final GetCurrentUserUseCase _getCurrentUser;
 
   int? get _id => state.registration?.id;
@@ -208,6 +220,14 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         target: accountId,
       );
 
+  /// لقطة شاشة للبروفايل -> عدد المتابعين
+  Future<void> applySocialScreenshot(int accountId, UploadFile image) => _save(
+        RegistrationAction.socialScreenshot,
+        () => _socialScreenshot((id: accountId, file: image)),
+        (current, updated) => current.copyWith(socialAccounts: _replace(current.socialAccounts, updated)),
+        target: accountId,
+      );
+
   Future<void> deleteSocialAccount(int accountId) => _save<void>(
         RegistrationAction.deleteSocial,
         () => _deleteSocial(accountId),
@@ -248,6 +268,20 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     );
   }
 
+  /// صورة الصك/الشيك -> حساب + وثيقته
+  Future<void> scanFinancialDocument(UploadFile file) async {
+    final id = _id;
+    if (id == null) return;
+    await _save(
+      RegistrationAction.scanFinancial,
+      () => _scanFinancial((id: id, file: file)),
+      (current, scan) => current.copyWith(
+        financialAccounts: [...current.financialAccounts, scan.account],
+        documents: [...current.documents, scan.document],
+      ),
+    );
+  }
+
   Future<void> deleteFinancialAccount(int accountId) => _save<void>(
         RegistrationAction.deleteFinancial,
         () => _deleteFinancial(accountId),
@@ -261,14 +295,18 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   // ---------- الوثائق ----------
 
   /// [target] يميّز الخانة اللي راهي تترفع (النوع، أو الحساب المالي).
+  /// وثيقة الهوية تقدر تترفع قبل المعلومات الشخصية (باش نعمّروهم منها): ننشئو ملف فارغ.
+  /// [acceptUnreadable]: بعد 3 محاولات ما تقراتش، تتقبل وتتراجع في الاجتماع.
   Future<void> uploadDocument(
     DocumentType type,
     UploadFile file, {
     int? financialAccountId,
-    DocumentCheck check = DocumentCheck.notChecked,
+    bool acceptUnreadable = false,
   }) async {
-    final id = _id;
+    final target = financialAccountId ?? type;
+    final id = _id ?? await _ensureRegistration(RegistrationAction.uploadDocument, target);
     if (id == null) return;
+    final financial = RegistrationCatalog.financialDocuments.contains(type);
     await _save(
       RegistrationAction.uploadDocument,
       () => _uploadDocument((
@@ -276,14 +314,17 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         type: type,
         file: file,
         financialAccountId: financialAccountId,
-        check: check,
+        acceptUnreadable: acceptUnreadable,
       )),
       (current, document) => current.copyWith(documents: [
         for (final d in current.documents)
-          if (type == DocumentType.other || d.type != type || d.financialAccountId != financialAccountId) d,
+          if (type == DocumentType.other ||
+              d.financialAccountId != financialAccountId ||
+              (financial ? !RegistrationCatalog.financialDocuments.contains(d.type) : d.type != type))
+            d,
         document,
       ]),
-      target: financialAccountId ?? type,
+      target: target,
     );
   }
 
@@ -294,7 +335,35 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         target: document.financialAccountId ?? document.type,
       );
 
+  // ---------- الجمهور من لقطات Insights ----------
+
+  /// ما يتحفظش: النتيجة تعمّر الاستمارة والمؤثر يراجع ويحفظ.
+  Future<void> scanAudience(List<UploadFile> images, {required String platform, required String language}) async {
+    final id = _id;
+    if (id == null || images.isEmpty) return;
+    await _save(
+      RegistrationAction.scanAudience,
+      () => _scanAudience((registrationId: id, images: images, platform: platform, language: language)),
+      (current, audience) => current.copyWith(scannedAudience: audience),
+    );
+  }
+
   // ---------- داخلي ----------
+
+  Future<int?> _ensureRegistration(RegistrationAction action, Object? target) async {
+    if (state.isLoading) return null;
+    emit(state.copyWith(action: action, status: OperationStatus.loading, failure: null, target: target));
+    final result = await _createDraft(const NoParams());
+    if (isClosed) return null;
+    switch (result) {
+      case Ok(:final value):
+        emit(state.copyWith(registration: value, status: OperationStatus.idle));
+        return value.id;
+      case Err(:final failure):
+        emit(state.copyWith(action: action, status: OperationStatus.failure, failure: failure));
+        return null;
+    }
+  }
 
   Future<void> _save<T>(
     RegistrationAction action,

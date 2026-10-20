@@ -41,7 +41,7 @@ Failure _fromApiError(ApiError error, int? retryAfter) => switch (error.code) {
           message: error.message,
           retryAfter: retryAfter ?? _secondsIn(error.message),
         ),
-      _ => ServerFailure(code: error.code, message: error.message),
+      _ => ServerFailure(code: error.code, message: error.message, details: error.details),
     };
 
 int? _secondsIn(String message) =>
