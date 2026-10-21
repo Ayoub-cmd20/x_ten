@@ -29,7 +29,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     required UploadDocumentUseCase uploadDocument,
     required DeleteDocumentUseCase deleteDocument,
     required CreateDraftRegistrationUseCase createDraft,
-    required ScanFinancialDocumentUseCase scanFinancial,
+    required ScanCcpChequeUseCase scanCcpCheque,
     required ApplySocialScreenshotUseCase socialScreenshot,
     required ScanAudienceUseCase scanAudience,
     required GetCurrentUserUseCase getCurrentUser,
@@ -50,7 +50,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         _uploadDocument = uploadDocument,
         _deleteDocument = deleteDocument,
         _createDraft = createDraft,
-        _scanFinancial = scanFinancial,
+        _scanCcpCheque = scanCcpCheque,
         _socialScreenshot = socialScreenshot,
         _scanAudience = scanAudience,
         _getCurrentUser = getCurrentUser,
@@ -73,7 +73,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   final UploadDocumentUseCase _uploadDocument;
   final DeleteDocumentUseCase _deleteDocument;
   final CreateDraftRegistrationUseCase _createDraft;
-  final ScanFinancialDocumentUseCase _scanFinancial;
+  final ScanCcpChequeUseCase _scanCcpCheque;
   final ApplySocialScreenshotUseCase _socialScreenshot;
   final ScanAudienceUseCase _scanAudience;
   final GetCurrentUserUseCase _getCurrentUser;
@@ -131,15 +131,32 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   }
 
   /// يحفظ القسم ويروح للخطوة اللي بعدو (لو [advance]).
-  Future<void> saveSection(RegistrationSection section, {bool advance = true}) => _save(
-        RegistrationAction.saveSection,
-        () => _saveSection((id: _id, section: section)),
-        (current, registration) {
-          final index = current.step.index + 1;
-          final next = advance && index < RegistrationStep.values.length ? RegistrationStep.values[index] : current.step;
-          return current.copyWith(registration: registration, step: next);
-        },
-      );
+  /// لو ما تبدّل والو: نروحو للخطوة اللي بعدها بلا طلب للسيرفر.
+  Future<void> saveSection(RegistrationSection section, {bool advance = true}) async {
+    final registration = state.registration;
+    if (!state.isLoading && registration != null) {
+      if (cleanSection(section) case Ok(:final value) when registration.hasSaved(value)) {
+        emit(state.copyWith(
+          action: RegistrationAction.saveSection,
+          status: OperationStatus.success,
+          failure: null,
+          step: advance ? _after(state.step) : state.step,
+        ));
+        return;
+      }
+    }
+    await _save(
+      RegistrationAction.saveSection,
+      () => _saveSection((id: _id, section: section)),
+      (current, registration) =>
+          current.copyWith(registration: registration, step: advance ? _after(current.step) : current.step),
+    );
+  }
+
+  static RegistrationStep _after(RegistrationStep step) {
+    final index = step.index + 1;
+    return index < RegistrationStep.values.length ? RegistrationStep.values[index] : step;
+  }
 
   Future<void> submit() async {
     final id = _id;
@@ -164,7 +181,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         financialAccounts: const [],
         documents: const [],
         meeting: null,
-        step: RegistrationStep.accounts,
+        step: RegistrationStep.personal,
       ),
     );
   }
@@ -268,17 +285,25 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     );
   }
 
-  /// صورة الصك/الشيك -> حساب + وثيقته
-  Future<void> scanFinancialDocument(UploadFile file) async {
+  Future<void> scanCcpCheque(UploadFile file) async {
     final id = _id;
     if (id == null) return;
     await _save(
-      RegistrationAction.scanFinancial,
-      () => _scanFinancial((id: id, file: file)),
+      RegistrationAction.scanCcpCheque,
+      () => _scanCcpCheque((id: id, file: file)),
       (current, scan) => current.copyWith(
-        financialAccounts: [...current.financialAccounts, scan.account],
-        documents: [...current.documents, scan.document],
+        financialAccounts: [
+          for (final a in current.financialAccounts)
+            if (a.id != scan.account.id) a,
+          scan.account,
+        ],
+        documents: [
+          for (final d in current.documents)
+            if (d.type != DocumentType.ccpCheque) d,
+          scan.document,
+        ],
       ),
+      target: DocumentType.ccpCheque,
     );
   }
 
@@ -294,9 +319,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
 
   // ---------- الوثائق ----------
 
-  /// [target] يميّز الخانة اللي راهي تترفع (النوع، أو الحساب المالي).
-  /// وثيقة الهوية تقدر تترفع قبل المعلومات الشخصية (باش نعمّروهم منها): ننشئو ملف فارغ.
-  /// [acceptUnreadable]: بعد 3 محاولات ما تقراتش، تتقبل وتتراجع في الاجتماع.
+  /// وثيقة الهوية تقدر تترفع قبل المعلومات الشخصية: ننشئو ملف فارغ.
   Future<void> uploadDocument(
     DocumentType type,
     UploadFile file, {
@@ -306,7 +329,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     final target = financialAccountId ?? type;
     final id = _id ?? await _ensureRegistration(RegistrationAction.uploadDocument, target);
     if (id == null) return;
-    final financial = RegistrationCatalog.financialDocuments.contains(type);
     await _save(
       RegistrationAction.uploadDocument,
       () => _uploadDocument((
@@ -318,10 +340,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
       )),
       (current, document) => current.copyWith(documents: [
         for (final d in current.documents)
-          if (type == DocumentType.other ||
-              d.financialAccountId != financialAccountId ||
-              (financial ? !RegistrationCatalog.financialDocuments.contains(d.type) : d.type != type))
-            d,
+          if (type == DocumentType.other || d.type != type) d,
         document,
       ]),
       target: target,
@@ -391,13 +410,13 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   /// نرجعو للخطوة الأولى الناقصة (الأقسام الاختيارية ما توقفش).
   static RegistrationStep _resumeStep(RegistrationState state) {
     final registration = state.registration;
-    if (registration == null || !registration.personal.isComplete) return RegistrationStep.personal;
-    if (!registration.profile.isComplete) return RegistrationStep.profile;
+    if (registration == null || !registration.personal.isComplete || !state.hasIdentity) {
+      return RegistrationStep.personal;
+    }
+    if (!registration.profile.isComplete || registration.profileImageUrl == null) return RegistrationStep.profile;
     if (!registration.contact.isComplete) return RegistrationStep.contact;
     if (state.socialAccounts.isEmpty) return RegistrationStep.accounts;
-    if (!state.financialComplete) return RegistrationStep.financial;
-    if (!registration.security.isComplete) return RegistrationStep.security;
-    if (registration.profileImageUrl == null) return RegistrationStep.photo;
-    return RegistrationStep.documents;
+    return RegistrationStep.financial;
   }
+
 }

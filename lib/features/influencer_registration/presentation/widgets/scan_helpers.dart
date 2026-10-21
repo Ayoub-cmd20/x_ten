@@ -11,7 +11,6 @@ abstract final class ScanErrors {
   static const documentUnrecognized = 'document_unrecognized';
   static const screenshotUnrecognized = 'screenshot_unrecognized';
   static const ocrUnavailable = 'ocr_unavailable';
-  static const accountIncomplete = 'account_incomplete';
 }
 
 /// الصورة ماشي الوثيقة/اللقطة المطلوبة (أو ما تقراتش)
@@ -20,15 +19,6 @@ bool isUnrecognized(Failure failure) =>
 
 /// السيرفر ما فيهش القراءة الآلية: الإدخال يدوي
 bool isOcrUnavailable(Failure failure) => failure.code == ScanErrors.ocrUnavailable;
-
-/// الحقول اللي قراها السيرفر لما القراءة ناقصة (مثلاً الصك بلا اسم المؤسسة)
-Map<String, dynamic> partialFields(Failure failure) => switch (failure) {
-      ServerFailure(code: ScanErrors.accountIncomplete, :final details) => switch (details['fields']) {
-          final Map<String, dynamic> fields => fields,
-          _ => const {},
-        },
-      _ => const {},
-    };
 
 /// بعد 3 محاولات: نبعثو الوثيقة كيما هي وتتراجع يدوياً في الاجتماع؟
 Future<bool> confirmManualReview(BuildContext context) async {

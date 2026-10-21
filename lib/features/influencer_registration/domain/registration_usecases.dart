@@ -40,7 +40,7 @@ String _digits(String value) => value.replaceAll(RegExp(r'[^0-9]'), '');
 String _phone(String value) => value.trim().replaceAll(RegExp(r'[\s\-().]'), '');
 
 /// تنظيف + قواعد الوثائق قبل ما نبعثو للسيرفر.
-Result<RegistrationSection> _cleanSection(RegistrationSection section) => switch (section) {
+Result<RegistrationSection> cleanSection(RegistrationSection section) => switch (section) {
       final PersonalInfo personal => Ok(PersonalInfo(
           firstName: personal.firstName.trim(),
           lastName: personal.lastName.trim(),
@@ -55,7 +55,6 @@ Result<RegistrationSection> _cleanSection(RegistrationSection section) => switch
           email: contact.email.trim().toLowerCase(),
         )),
       final OptionalInfo optional => _cleanOptional(optional),
-      final SecurityInfo security => _cleanSecurity(security),
     };
 
 Result<RegistrationSection> _cleanProfile(ProfileInfo profile) {
@@ -122,15 +121,6 @@ Result<RegistrationSection> _cleanOptional(OptionalInfo info) {
   ));
 }
 
-Result<RegistrationSection> _cleanSecurity(SecurityInfo info) {
-  if (!info.acceptedPrivacy || !info.acceptedTerms) return Err(_invalid('consents', 'required'));
-  final method = info.recoveryMethod;
-  if (method == null) return Err(_invalid('recoveryMethod', 'required'));
-  final phone = method == RecoveryMethod.otherPhone ? _phone(info.recoveryPhone) : '';
-  if (method == RecoveryMethod.otherPhone && phone.isEmpty) return Err(_invalid('recoveryPhone', 'required'));
-  return Ok(SecurityInfo(acceptedPrivacy: true, acceptedTerms: true, recoveryMethod: method, recoveryPhone: phone));
-}
-
 class LoadCurrentRegistrationUseCase implements UseCase<RegistrationBundle, NoParams> {
   const LoadCurrentRegistrationUseCase(this._repository);
 
@@ -148,7 +138,7 @@ class SaveSectionUseCase implements UseCase<Registration, SaveSectionParams> {
 
   @override
   Future<Result<Registration>> call(SaveSectionParams params) async {
-    final cleaned = _cleanSection(params.section);
+    final cleaned = cleanSection(params.section);
     if (cleaned case Err(:final failure)) return Err(failure);
     final section = (cleaned as Ok<RegistrationSection>).value;
     final id = params.id;
@@ -364,15 +354,15 @@ class AddFinancialAccountUseCase implements UseCase<FinancialAccount, FinancialA
 
 String cleanAccountNumber(String value) => value.replaceAll(RegExp(r'[\s\-.]'), '').toUpperCase();
 
-class ScanFinancialDocumentUseCase implements UseCase<FinancialScan, ScanFileParams> {
-  const ScanFinancialDocumentUseCase(this._repository);
+class ScanCcpChequeUseCase implements UseCase<FinancialScan, ScanFileParams> {
+  const ScanCcpChequeUseCase(this._repository);
 
   final RegistrationRepository _repository;
 
   @override
   Future<Result<FinancialScan>> call(ScanFileParams params) async {
     if (checkFile(params.file, FileRules.documents) case final failure?) return Err<FinancialScan>(failure);
-    return _repository.scanFinancialDocument(params.id, params.file);
+    return _repository.scanCcpCheque(params.id, params.file);
   }
 }
 

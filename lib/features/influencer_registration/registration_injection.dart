@@ -26,7 +26,7 @@ void initRegistrationFeature() {
     ..registerLazySingleton(() => UploadDocumentUseCase(sl()))
     ..registerLazySingleton(() => DeleteDocumentUseCase(sl()))
     ..registerLazySingleton(() => CreateDraftRegistrationUseCase(sl()))
-    ..registerLazySingleton(() => ScanFinancialDocumentUseCase(sl()))
+    ..registerLazySingleton(() => ScanCcpChequeUseCase(sl()))
     ..registerLazySingleton(() => ApplySocialScreenshotUseCase(sl()))
     ..registerLazySingleton(() => ScanAudienceUseCase(sl()))
     ..registerFactory(
@@ -48,7 +48,7 @@ void initRegistrationFeature() {
         uploadDocument: sl(),
         deleteDocument: sl(),
         createDraft: sl(),
-        scanFinancial: sl(),
+        scanCcpCheque: sl(),
         socialScreenshot: sl(),
         scanAudience: sl(),
         getCurrentUser: sl(),

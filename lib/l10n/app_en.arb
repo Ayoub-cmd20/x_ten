@@ -648,5 +648,13 @@
   "screenshotUnrecognizedRetry": "We couldn't find the followers in the screenshot. Capture the whole profile page (try {attempt} of {max})",
   "finAdded": "Account added: {name}",
   "finProofAttached": "Attached image: {name}",
-  "audScanDone": "Filled {count} sections from the screenshots, review and save"
+  "audScanDone": "Filled {count} sections from the screenshots, review and save",
+  "screenshotWrongPlatform": "The screenshot isn't from this account's platform",
+  "screenshotWrongAccount": "The screenshot shows another account: the username doesn't match the link",
+  "ccpChequeTitle": "Crossed postal cheque (required)",
+  "ccpChequeHint": "Photograph the cheque and we extract the RIP automatically",
+  "ccpChequeRequired": "The crossed postal cheque is required",
+  "ccpChequeRead": "RIP read from the cheque",
+  "ccpRipLabel": "RIP or CCP number",
+  "otherInstitutionsTitle": "Other financial institutions (optional)"
 }

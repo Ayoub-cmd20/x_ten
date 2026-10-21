@@ -2056,4 +2056,29 @@ class AppLocalizationsAr extends AppLocalizations {
   String audScanDone(int count) {
     return 'ملأنا $count أقسام من اللقطات، راجع النسب ثم احفظ';
   }
+
+  @override
+  String get screenshotWrongPlatform => 'اللقطة ليست من نفس منصة الحساب';
+
+  @override
+  String get screenshotWrongAccount =>
+      'اللقطة لحساب آخر: اسم المستخدم لا يطابق الرابط';
+
+  @override
+  String get ccpChequeTitle => 'الصك البريدي المشطوب (إجباري)';
+
+  @override
+  String get ccpChequeHint => 'صوّر الصك ونستخرج رقم الـ RIP تلقائياً';
+
+  @override
+  String get ccpChequeRequired => 'الصك البريدي المشطوب إجباري';
+
+  @override
+  String get ccpChequeRead => 'قرأنا رقم الـ RIP من الصك';
+
+  @override
+  String get ccpRipLabel => 'رقم الـ RIP أو رقم الـ CCP';
+
+  @override
+  String get otherInstitutionsTitle => 'مؤسسات مالية أخرى (اختياري)';
 }

@@ -16,8 +16,8 @@ enum RegistrationAction {
   deleteFinancial,
   uploadDocument,
   deleteDocument,
-  scanFinancial,
   socialScreenshot,
+  scanCcpCheque,
   scanAudience,
   submit,
   newAttempt,
@@ -26,7 +26,7 @@ enum RegistrationAction {
 enum OperationStatus { idle, loading, success, failure }
 
 /// نفس ترتيب وثيقة صاحب المشروع.
-enum RegistrationStep { personal, profile, contact, accounts, optional, financial, security, photo, documents }
+enum RegistrationStep { personal, profile, contact, accounts, optional, financial }
 
 final class RegistrationState extends Equatable {
   const RegistrationState({
@@ -76,7 +76,7 @@ final class RegistrationState extends Equatable {
 
   bool get hasRegistration => registration != null;
 
-  RegistrationStep get furthestAllowed => hasRegistration ? RegistrationStep.documents : RegistrationStep.personal;
+  RegistrationStep get furthestAllowed => hasRegistration ? RegistrationStep.financial : RegistrationStep.personal;
 
   // ---------- قيم أولية من الحساب ----------
 
@@ -90,20 +90,14 @@ final class RegistrationState extends Equatable {
       .where((d) => d.type == type && d.financialAccountId == financialAccountId)
       .firstOrNull;
 
-  RegistrationDocument? documentForAccount(FinancialAccount account) => documents
-      .where((d) => d.financialAccountId == account.id && RegistrationCatalog.financialDocuments.contains(d.type))
-      .firstOrNull;
-
   bool get hasIdCard =>
       documentOf(DocumentType.identityFront) != null && documentOf(DocumentType.identityBack) != null;
 
   bool get hasIdentity => hasIdCard || documentOf(DocumentType.passport) != null;
 
-  List<FinancialAccount> get accountsMissingDocument =>
-      [for (final account in financialAccounts) if (documentForAccount(account) == null) account];
+  RegistrationDocument? get ccpCheque => documents.where((d) => d.type == DocumentType.ccpCheque).firstOrNull;
 
-  /// اسم المؤسسة + رقم الحساب يكفيو (الوثيقة تتعرض في الاجتماع)
-  bool get financialComplete => financialAccounts.isNotEmpty;
+  bool get financialComplete => ccpCheque != null;
 
   RegistrationState copyWith({
     RegistrationAction? action,

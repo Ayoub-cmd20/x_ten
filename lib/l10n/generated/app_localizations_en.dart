@@ -2072,4 +2072,32 @@ class AppLocalizationsEn extends AppLocalizations {
   String audScanDone(int count) {
     return 'Filled $count sections from the screenshots, review and save';
   }
+
+  @override
+  String get screenshotWrongPlatform =>
+      'The screenshot isn\'t from this account\'s platform';
+
+  @override
+  String get screenshotWrongAccount =>
+      'The screenshot shows another account: the username doesn\'t match the link';
+
+  @override
+  String get ccpChequeTitle => 'Crossed postal cheque (required)';
+
+  @override
+  String get ccpChequeHint =>
+      'Photograph the cheque and we extract the RIP automatically';
+
+  @override
+  String get ccpChequeRequired => 'The crossed postal cheque is required';
+
+  @override
+  String get ccpChequeRead => 'RIP read from the cheque';
+
+  @override
+  String get ccpRipLabel => 'RIP or CCP number';
+
+  @override
+  String get otherInstitutionsTitle =>
+      'Other financial institutions (optional)';
 }

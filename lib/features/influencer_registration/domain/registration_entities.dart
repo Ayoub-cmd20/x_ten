@@ -13,8 +13,6 @@ enum EntityType { natural, legal }
 
 enum LanguageLevel { basic, good, advanced }
 
-enum RecoveryMethod { phone, whatsapp, email, otherPhone }
-
 enum FinancialKind { ccp, bank, other }
 
 enum SocialPlatform { facebook, instagram, tiktok, youtube, snapchat, x, linkedin, telegram, website, blog, other }
@@ -77,35 +75,6 @@ abstract final class RegistrationCatalog {
   static const maxTopPlatforms = 3;
   static const weekDays = ['sat', 'sun', 'mon', 'tue', 'wed', 'thu', 'fri'];
   static const purchasingPower = ['low', 'medium', 'high'];
-
-  /// اقتراحات فقط: المؤثر يقدر يكتب أي مؤسسة مالية أخرى.
-  static const financialInstitutions = [
-    'Algérie Poste (CCP)',
-    "Banque Nationale d'Algérie (BNA)",
-    "Banque Extérieure d'Algérie (BEA)",
-    "Banque de l'Agriculture et du Développement Rural (BADR)",
-    "Crédit Populaire d'Algérie (CPA)",
-    'Banque de Développement Local (BDL)',
-    "Banque Al Baraka d'Algérie",
-    'Caisse Nationale de Mutualité Agricole (CNMA)',
-    'CNEP-Banque',
-    'Citibank Algeria',
-    'Arab Banking Corporation Algeria (ABC)',
-    'Natixis Algérie',
-    'Société Générale Algérie',
-    'Arab Bank Algeria',
-    'BNP Paribas El Djazair',
-    'Trust Bank Algeria',
-    'The Housing Bank Algeria',
-    'Gulf Bank Algérie (AGB)',
-    'Fransabank El Djazair',
-    'Crédit Agricole CIB Algérie',
-    'HSBC Algeria',
-    'Al Salam Bank Algeria',
-  ];
-
-  /// أي وثيقة من هذو تثبت الحساب المالي
-  static const financialDocuments = {DocumentType.ccpCheque, DocumentType.bankRib, DocumentType.financialProof};
 
   static const identityDocuments = {DocumentType.identityFront, DocumentType.identityBack, DocumentType.passport};
 
@@ -329,29 +298,6 @@ class OptionalInfo extends RegistrationSection {
   List<Object?> get props => [audience, skills, contentTypes];
 }
 
-class SecurityInfo extends RegistrationSection {
-  const SecurityInfo({
-    this.acceptedPrivacy = false,
-    this.acceptedTerms = false,
-    this.recoveryMethod,
-    this.recoveryPhone = '',
-  });
-
-  final bool acceptedPrivacy;
-  final bool acceptedTerms;
-  final RecoveryMethod? recoveryMethod;
-  final String recoveryPhone;
-
-  bool get isComplete =>
-      acceptedPrivacy &&
-      acceptedTerms &&
-      recoveryMethod != null &&
-      (recoveryMethod != RecoveryMethod.otherPhone || recoveryPhone.isNotEmpty);
-
-  @override
-  List<Object?> get props => [acceptedPrivacy, acceptedTerms, recoveryMethod, recoveryPhone];
-}
-
 // ---------- الملف ----------
 
 class Registration extends Equatable {
@@ -363,7 +309,6 @@ class Registration extends Equatable {
     required this.profile,
     required this.contact,
     required this.optional,
-    required this.security,
     required this.status,
     this.profileImageUrl,
     this.submittedAt,
@@ -377,13 +322,20 @@ class Registration extends Equatable {
   final ProfileInfo profile;
   final ContactInfo contact;
   final OptionalInfo optional;
-  final SecurityInfo security;
   final VerificationStatus status;
   final String? profileImageUrl;
   final DateTime? submittedAt;
   final DateTime? updatedAt;
 
   bool get isDraft => status == VerificationStatus.draft;
+
+  /// القسم محفوظ بنفس القيم: ما نبعثوش PATCH
+  bool hasSaved(RegistrationSection section) => switch (section) {
+        final PersonalInfo value => value == personal,
+        final ProfileInfo value => value == profile,
+        final ContactInfo value => value == contact,
+        final OptionalInfo value => value == optional,
+      };
 
   bool get canStartNewAttempt => status == VerificationStatus.needsChanges || status == VerificationStatus.rejected;
 
@@ -398,7 +350,6 @@ class Registration extends Equatable {
         profile: profile,
         contact: contact,
         optional: optional,
-        security: security,
         status: status,
         profileImageUrl: identical(profileImageUrl, _keep) ? this.profileImageUrl : profileImageUrl as String?,
         submittedAt: submittedAt,
@@ -416,7 +367,6 @@ class Registration extends Equatable {
         profile,
         contact,
         optional,
-        security,
         status,
         profileImageUrl,
         submittedAt,
@@ -535,23 +485,17 @@ class ScannedFields extends Equatable {
     this.lastName = '',
     this.birthDate,
     this.birthPlace = '',
-    this.institutionName = '',
-    this.accountNumber = '',
-    this.accountKey = '',
   });
 
   final String firstName;
   final String lastName;
   final DateTime? birthDate;
   final String birthPlace;
-  final String institutionName;
-  final String accountNumber;
-  final String accountKey;
 
   bool get hasIdentity => firstName.isNotEmpty || lastName.isNotEmpty || birthDate != null || birthPlace.isNotEmpty;
 
   @override
-  List<Object?> get props => [firstName, lastName, birthDate, birthPlace, institutionName, accountNumber, accountKey];
+  List<Object?> get props => [firstName, lastName, birthDate, birthPlace];
 }
 
 class RegistrationDocument extends Equatable {
@@ -582,7 +526,6 @@ class RegistrationDocument extends Equatable {
       [id, type, financialAccountId, fileName, verified, check, scanned, downloadUrl, createdAt];
 }
 
-/// صورة الصك/الشيك -> حساب + وثيقته في خطوة وحدة.
 class FinancialScan extends Equatable {
   const FinancialScan({required this.account, required this.document});
 

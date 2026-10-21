@@ -835,5 +835,13 @@
         "type": "int"
       }
     }
-  }
+  },
+  "screenshotWrongPlatform": "اللقطة ليست من نفس منصة الحساب",
+  "screenshotWrongAccount": "اللقطة لحساب آخر: اسم المستخدم لا يطابق الرابط",
+  "ccpChequeTitle": "الصك البريدي المشطوب (إجباري)",
+  "ccpChequeHint": "صوّر الصك ونستخرج رقم الـ RIP تلقائياً",
+  "ccpChequeRequired": "الصك البريدي المشطوب إجباري",
+  "ccpChequeRead": "قرأنا رقم الـ RIP من الصك",
+  "ccpRipLabel": "رقم الـ RIP أو رقم الـ CCP",
+  "otherInstitutionsTitle": "مؤسسات مالية أخرى (اختياري)"
 }

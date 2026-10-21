@@ -12,9 +12,6 @@ extension RegistrationLabels on AppLocalizations {
         RegistrationStep.accounts => regStepSocial,
         RegistrationStep.optional => regStepOptional,
         RegistrationStep.financial => regStepFinancial,
-        RegistrationStep.security => regStepSecurity,
-        RegistrationStep.photo => regStepPhoto,
-        RegistrationStep.documents => regStepDocuments,
       };
 
   String entityTypeLabel(EntityType type) => switch (type) {

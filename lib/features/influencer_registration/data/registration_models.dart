@@ -62,12 +62,6 @@ abstract final class RegistrationJson {
             ApiKeys.skills: optional.skills,
             ApiKeys.contentTypes: optional.contentTypes,
           },
-        final SecurityInfo security => {
-            ApiKeys.acceptedPrivacy: security.acceptedPrivacy,
-            ApiKeys.acceptedTerms: security.acceptedTerms,
-            ApiKeys.recoveryMethod: security.recoveryMethod?.name ?? '',
-            ApiKeys.recoveryPhone: security.recoveryPhone,
-          },
       };
 
   static Json audience(Audience audience) => {
@@ -89,39 +83,10 @@ abstract final class RegistrationJson {
         ApiKeys.purchasingPower: audience.purchasingPower,
       };
 
-  static Json portfolioItem(PortfolioItem item) => {
-        ApiKeys.title: item.title,
-        ApiKeys.description: item.description,
-        if (item.link.isNotEmpty) ApiKeys.link: item.link,
-      };
-
-  static Json financialAccount(FinancialAccount account) => {
-        ApiKeys.institutionName: account.institutionName,
-        ApiKeys.accountNumber: account.accountNumber,
-        ApiKeys.accountKey: account.accountKey,
-      };
-}
-
-class AudienceModel extends Audience {
-  const AudienceModel({
-    super.countries,
-    super.regions,
-    super.regionsUnspecified,
-    super.gender,
-    super.ages,
-    super.languages,
-    super.topPlatforms,
-    super.activityDays,
-    super.fromHour,
-    super.toHour,
-    super.contentEngagement,
-    super.purchasingPower,
-  });
-
-  factory AudienceModel.fromJson(Object? value) {
-    if (value is! Json) return const AudienceModel();
+  static Audience audienceFrom(Object? value) {
+    if (value is! Json) return const Audience();
     final activity = value[ApiKeys.activity] as Json? ?? const {};
-    return AudienceModel(
+    return Audience(
       countries: [
         for (final item in (value[ApiKeys.countries] as List? ?? const []).whereType<Json>())
           CountryShare(
@@ -142,6 +107,18 @@ class AudienceModel extends Audience {
       purchasingPower: _string(value[ApiKeys.purchasingPower]),
     );
   }
+
+  static Json portfolioItem(PortfolioItem item) => {
+        ApiKeys.title: item.title,
+        ApiKeys.description: item.description,
+        if (item.link.isNotEmpty) ApiKeys.link: item.link,
+      };
+
+  static Json financialAccount(FinancialAccount account) => {
+        ApiKeys.institutionName: account.institutionName,
+        ApiKeys.accountNumber: account.accountNumber,
+        ApiKeys.accountKey: account.accountKey,
+      };
 }
 
 class RegistrationModel extends Registration {
@@ -153,7 +130,6 @@ class RegistrationModel extends Registration {
     required super.profile,
     required super.contact,
     required super.optional,
-    required super.security,
     required super.status,
     super.profileImageUrl,
     super.submittedAt,
@@ -192,15 +168,9 @@ class RegistrationModel extends Registration {
           email: _string(json[ApiKeys.email]),
         ),
         optional: OptionalInfo(
-          audience: AudienceModel.fromJson(json[ApiKeys.audience]),
+          audience: RegistrationJson.audienceFrom(json[ApiKeys.audience]),
           skills: _strings(json[ApiKeys.skills]),
           contentTypes: _strings(json[ApiKeys.contentTypes]),
-        ),
-        security: SecurityInfo(
-          acceptedPrivacy: json[ApiKeys.acceptedPrivacy] as bool? ?? false,
-          acceptedTerms: json[ApiKeys.acceptedTerms] as bool? ?? false,
-          recoveryMethod: maybeEnum(RecoveryMethod.values, json[ApiKeys.recoveryMethod] as String?),
-          recoveryPhone: _string(json[ApiKeys.recoveryPhone]),
         ),
         profileImageUrl: json[ApiKeys.profileImageUrl] as String?,
         status: VerificationStatus.fromApi(json[ApiKeys.verificationStatus] as String?),
@@ -313,9 +283,6 @@ class ScannedFieldsModel extends ScannedFields {
     super.lastName,
     super.birthDate,
     super.birthPlace,
-    super.institutionName,
-    super.accountNumber,
-    super.accountKey,
   });
 
   factory ScannedFieldsModel.fromJson(Object? value) {
@@ -326,9 +293,6 @@ class ScannedFieldsModel extends ScannedFields {
       lastName: text(value[ApiKeys.lastName]),
       birthDate: _date(value[ApiKeys.birthDate]),
       birthPlace: text(value[ApiKeys.birthPlace]),
-      institutionName: text(value[ApiKeys.institutionName]),
-      accountNumber: text(value[ApiKeys.accountNumber]),
-      accountKey: text(value[ApiKeys.accountKey]),
     );
   }
 }

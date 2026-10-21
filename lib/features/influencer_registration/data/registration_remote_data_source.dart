@@ -32,7 +32,7 @@ abstract interface class RegistrationRemoteDataSource {
 
   Future<SocialAccountModel> uploadSocialScreenshot(int id, UploadFile image);
 
-  Future<AudienceModel> scanAudience(int registrationId, Json fields, UploadFile image);
+  Future<Audience> scanAudience(int registrationId, Json fields, UploadFile image);
 
   Future<List<PortfolioItemModel>> getPortfolio(int registrationId);
 
@@ -46,7 +46,8 @@ abstract interface class RegistrationRemoteDataSource {
 
   Future<void> deleteFinancialAccount(int id);
 
-  Future<FinancialScanModel> scanFinancialDocument(int registrationId, UploadFile file);
+  Future<FinancialScanModel> scanCcpCheque(int registrationId, UploadFile file);
+
 
   Future<List<RegistrationDocumentModel>> getDocuments(int registrationId);
 
@@ -125,10 +126,10 @@ class RegistrationRemoteDataSourceImpl implements RegistrationRemoteDataSource {
   }
 
   @override
-  Future<AudienceModel> scanAudience(int registrationId, Json fields, UploadFile image) async {
+  Future<Audience> scanAudience(int registrationId, Json fields, UploadFile image) async {
     final form = FormData.fromMap({...fields, ApiKeys.file: await _multipart(image)});
     final data = await _api.post(ApiEndpoints.audienceScreenshots(registrationId), data: form) as Json;
-    return AudienceModel.fromJson(data[ApiKeys.audience]);
+    return RegistrationJson.audienceFrom(data[ApiKeys.audience]);
   }
 
   @override
@@ -157,9 +158,9 @@ class RegistrationRemoteDataSourceImpl implements RegistrationRemoteDataSource {
   Future<void> deleteFinancialAccount(int id) => _api.delete(ApiEndpoints.financialAccount(id));
 
   @override
-  Future<FinancialScanModel> scanFinancialDocument(int registrationId, UploadFile file) async {
+  Future<FinancialScanModel> scanCcpCheque(int registrationId, UploadFile file) async {
     final form = FormData.fromMap({ApiKeys.file: await _multipart(file)});
-    return FinancialScanModel.fromJson(await _api.post(ApiEndpoints.financialScan(registrationId), data: form) as Json);
+    return FinancialScanModel.fromJson(await _api.post(ApiEndpoints.ccpCheque(registrationId), data: form) as Json);
   }
 
   @override

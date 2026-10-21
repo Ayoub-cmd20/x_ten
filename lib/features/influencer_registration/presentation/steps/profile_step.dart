@@ -9,8 +9,9 @@ import 'package:x_ten/features/influencer_registration/domain/registration_entit
 import 'package:x_ten/features/influencer_registration/presentation/registration_cubit.dart';
 import 'package:x_ten/features/influencer_registration/presentation/registration_labels.dart';
 import 'package:x_ten/features/influencer_registration/presentation/registration_widgets.dart';
+import 'package:x_ten/features/influencer_registration/presentation/widgets/profile_photo.dart';
 
-/// معلومات البروفايل: إسم الشهرة، المجالات، النبذة، اللغات.
+/// معلومات البروفايل: الصورة، إسم الشهرة، المجالات، النبذة، اللغات.
 class ProfileStep extends StatefulWidget {
   const ProfileStep({super.key});
 
@@ -43,9 +44,7 @@ class _ProfileStepState extends State<ProfileStep> with ServerFieldErrors {
     super.initState();
     final state = context.read<RegistrationCubit>().state;
     final profile = state.registration?.profile;
-    // اسم الشهرة = اسم المستخدم اللي دخلو أول مرة (لو مازال ما بدّلوش)
-    final displayName = profile?.displayName ?? '';
-    _displayName = TextEditingController(text: displayName.isNotEmpty ? displayName : state.account?.fullName ?? '');
+    _displayName = TextEditingController(text: profile?.displayName);
     _bio = TextEditingController(text: profile?.bio);
     _primary = [...?profile?.primaryCategories];
     _secondary = [...?profile?.secondaryCategories];
@@ -79,7 +78,8 @@ class _ProfileStepState extends State<ProfileStep> with ServerFieldErrors {
   void _submit() {
     FocusScope.of(context).unfocus();
     final valid = _formKey.currentState?.validate() ?? false;
-    if (!valid || _primary.isEmpty || _languages.isEmpty || _otherNameMissing || _address.isEmpty) {
+    final hasPhoto = context.read<RegistrationCubit>().state.registration?.profileImageUrl != null;
+    if (!valid || !hasPhoto || _primary.isEmpty || _languages.isEmpty || _otherNameMissing || _address.isEmpty) {
       setState(() => _showErrors = true);
       return;
     }
@@ -131,6 +131,8 @@ class _ProfileStepState extends State<ProfileStep> with ServerFieldErrors {
         child: StepBody(
           actions: StepActions(isLoading: isSaving, onBack: context.read<RegistrationCubit>().back, onNext: _submit),
           children: [
+            ProfilePhotoPicker(showError: _showErrors),
+            const SizedBox(height: AppSpacing.md),
             TextFormField(
               controller: _displayName,
               forceErrorText: serverError('displayName'),

@@ -36,6 +36,10 @@ String registrationFailureText(BuildContext context, Failure failure) {
       return l10n.screenshotUnrecognized;
     case 'ocr_unavailable':
       return l10n.ocrUnavailable;
+    case 'screenshot_wrong_platform':
+      return l10n.screenshotWrongPlatform;
+    case 'screenshot_wrong_account':
+      return l10n.screenshotWrongAccount;
   }
   return failure.localized(context);
 }

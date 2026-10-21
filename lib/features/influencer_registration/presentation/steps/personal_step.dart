@@ -10,7 +10,7 @@ import 'package:x_ten/features/influencer_registration/domain/registration_entit
 import 'package:x_ten/features/influencer_registration/presentation/registration_cubit.dart';
 import 'package:x_ten/features/influencer_registration/presentation/registration_labels.dart';
 import 'package:x_ten/features/influencer_registration/presentation/registration_widgets.dart';
-import 'package:x_ten/features/influencer_registration/presentation/steps/documents_step.dart';
+import 'package:x_ten/features/influencer_registration/presentation/widgets/document_tiles.dart';
 
 /// المعلومات الشخصية للمسجل.
 class PersonalStep extends StatefulWidget {
@@ -100,7 +100,8 @@ class _PersonalStepState extends State<PersonalStep> with ServerFieldErrors {
   void _submit() {
     FocusScope.of(context).unfocus();
     final valid = _formKey.currentState?.validate() ?? false;
-    if (!valid || _birthDate == null || _entityType == null) {
+    final hasIdentity = context.read<RegistrationCubit>().state.hasIdentity;
+    if (!valid || !hasIdentity || _birthDate == null || _entityType == null) {
       setState(() => _showErrors = true);
       return;
     }
@@ -140,7 +141,11 @@ class _PersonalStepState extends State<PersonalStep> with ServerFieldErrors {
           children: [
             _ScanBanner(title: l10n.scanFromIdTitle, text: l10n.scanFromIdHint),
             const SizedBox(height: AppSpacing.md),
-            IdentityDocuments(kind: _identity, onKindChanged: (kind) => setState(() => _identity = kind)),
+            IdentityDocuments(
+              kind: _identity,
+              showErrors: _showErrors,
+              onKindChanged: (kind) => setState(() => _identity = kind),
+            ),
             SectionTitle(l10n.regFullName),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,

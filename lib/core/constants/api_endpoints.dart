@@ -22,7 +22,7 @@ abstract final class ApiEndpoints {
   static String audienceScreenshots(int registrationId) => '${registration(registrationId)}audience-screenshots/';
   static String financialAccounts(int registrationId) => '${registration(registrationId)}financial-accounts/';
   static String financialAccount(int id) => '/influencers/financial-accounts/$id/';
-  static String financialScan(int registrationId) => '${financialAccounts(registrationId)}scan/';
+  static String ccpCheque(int registrationId) => '${financialAccounts(registrationId)}ccp-cheque/';
   static String portfolio(int registrationId) => '${registration(registrationId)}portfolio/';
   static String portfolioItem(int id) => '/influencers/portfolio/$id/';
   static String documents(int registrationId) => '${registration(registrationId)}documents/';

@@ -14,13 +14,10 @@ import 'package:x_ten/features/influencer_registration/presentation/registration
 import 'package:x_ten/features/influencer_registration/presentation/registration_widgets.dart';
 import 'package:x_ten/features/influencer_registration/presentation/steps/accounts_step.dart';
 import 'package:x_ten/features/influencer_registration/presentation/steps/contact_step.dart';
-import 'package:x_ten/features/influencer_registration/presentation/steps/documents_step.dart';
 import 'package:x_ten/features/influencer_registration/presentation/steps/financial_step.dart';
 import 'package:x_ten/features/influencer_registration/presentation/steps/optional_step.dart';
 import 'package:x_ten/features/influencer_registration/presentation/steps/personal_step.dart';
-import 'package:x_ten/features/influencer_registration/presentation/steps/photo_step.dart';
 import 'package:x_ten/features/influencer_registration/presentation/steps/profile_step.dart';
-import 'package:x_ten/features/influencer_registration/presentation/steps/security_step.dart';
 
 const _snackbarActions = {
   RegistrationAction.deletePortfolio,
@@ -85,9 +82,6 @@ class RegistrationWizardPage extends StatelessWidget {
               RegistrationStep.accounts => const AccountsStep(),
               RegistrationStep.optional => const OptionalStep(),
               RegistrationStep.financial => const FinancialStep(),
-              RegistrationStep.security => const SecurityStep(),
-              RegistrationStep.photo => const PhotoStep(),
-              RegistrationStep.documents => const DocumentsStep(),
             },
           ),
         ),

@@ -46,8 +46,7 @@ abstract interface class RegistrationRepository {
 
   Future<Result<void>> deleteFinancialAccount(int id);
 
-  /// صورة الصك/الشيك -> حساب + وثيقة.
-  Future<Result<FinancialScan>> scanFinancialDocument(int registrationId, UploadFile file);
+  Future<Result<FinancialScan>> scanCcpCheque(int registrationId, UploadFile file);
 
   Future<Result<RegistrationDocument>> uploadDocument(
     int registrationId,

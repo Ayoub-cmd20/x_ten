@@ -3993,6 +3993,54 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'ملأنا {count} أقسام من اللقطات، راجع النسب ثم احفظ'**
   String audScanDone(int count);
+
+  /// No description provided for @screenshotWrongPlatform.
+  ///
+  /// In ar, this message translates to:
+  /// **'اللقطة ليست من نفس منصة الحساب'**
+  String get screenshotWrongPlatform;
+
+  /// No description provided for @screenshotWrongAccount.
+  ///
+  /// In ar, this message translates to:
+  /// **'اللقطة لحساب آخر: اسم المستخدم لا يطابق الرابط'**
+  String get screenshotWrongAccount;
+
+  /// No description provided for @ccpChequeTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصك البريدي المشطوب (إجباري)'**
+  String get ccpChequeTitle;
+
+  /// No description provided for @ccpChequeHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'صوّر الصك ونستخرج رقم الـ RIP تلقائياً'**
+  String get ccpChequeHint;
+
+  /// No description provided for @ccpChequeRequired.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصك البريدي المشطوب إجباري'**
+  String get ccpChequeRequired;
+
+  /// No description provided for @ccpChequeRead.
+  ///
+  /// In ar, this message translates to:
+  /// **'قرأنا رقم الـ RIP من الصك'**
+  String get ccpChequeRead;
+
+  /// No description provided for @ccpRipLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم الـ RIP أو رقم الـ CCP'**
+  String get ccpRipLabel;
+
+  /// No description provided for @otherInstitutionsTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'مؤسسات مالية أخرى (اختياري)'**
+  String get otherInstitutionsTitle;
 }
 
 class _AppLocalizationsDelegate

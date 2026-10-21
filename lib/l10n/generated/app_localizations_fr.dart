@@ -2090,4 +2090,32 @@ class AppLocalizationsFr extends AppLocalizations {
   String audScanDone(int count) {
     return '$count sections remplies depuis les captures, vérifiez puis enregistrez';
   }
+
+  @override
+  String get screenshotWrongPlatform =>
+      'La capture ne vient pas de la plateforme de ce compte';
+
+  @override
+  String get screenshotWrongAccount =>
+      'La capture montre un autre compte : le nom d\'utilisateur ne correspond pas au lien';
+
+  @override
+  String get ccpChequeTitle => 'Chèque postal barré (obligatoire)';
+
+  @override
+  String get ccpChequeHint =>
+      'Photographiez le chèque, nous extrayons le RIP automatiquement';
+
+  @override
+  String get ccpChequeRequired => 'Le chèque postal barré est obligatoire';
+
+  @override
+  String get ccpChequeRead => 'RIP lu depuis le chèque';
+
+  @override
+  String get ccpRipLabel => 'RIP ou numéro CCP';
+
+  @override
+  String get otherInstitutionsTitle =>
+      'Autres établissements financiers (facultatif)';
 }
