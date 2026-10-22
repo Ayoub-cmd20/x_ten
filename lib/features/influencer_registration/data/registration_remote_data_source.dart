@@ -46,7 +46,7 @@ abstract interface class RegistrationRemoteDataSource {
 
   Future<void> deleteFinancialAccount(int id);
 
-  Future<FinancialScanModel> scanCcpCheque(int registrationId, UploadFile file);
+  Future<FinancialAccount> readFinancialDocument(int registrationId, UploadFile file);
 
 
   Future<List<RegistrationDocumentModel>> getDocuments(int registrationId);
@@ -158,9 +158,11 @@ class RegistrationRemoteDataSourceImpl implements RegistrationRemoteDataSource {
   Future<void> deleteFinancialAccount(int id) => _api.delete(ApiEndpoints.financialAccount(id));
 
   @override
-  Future<FinancialScanModel> scanCcpCheque(int registrationId, UploadFile file) async {
+  Future<FinancialAccount> readFinancialDocument(int registrationId, UploadFile file) async {
     final form = FormData.fromMap({ApiKeys.file: await _multipart(file)});
-    return FinancialScanModel.fromJson(await _api.post(ApiEndpoints.ccpCheque(registrationId), data: form) as Json);
+    return RegistrationJson.readAccount(
+      await _api.post(ApiEndpoints.financialRead(registrationId), data: form) as Json,
+    );
   }
 
   @override

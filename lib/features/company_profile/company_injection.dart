@@ -11,20 +11,28 @@ void initCompanyFeature() {
     ..registerLazySingleton<CompanyRepository>(() => CompanyRepositoryImpl(sl()))
     ..registerLazySingleton(() => LoadCompanyUseCase(sl()))
     ..registerLazySingleton(() => SaveBusinessTypeUseCase(sl()))
-    ..registerLazySingleton(() => SaveCompanyInfoUseCase(sl()))
-    ..registerLazySingleton(() => SaveCompanyContactUseCase(sl()))
-    ..registerLazySingleton(() => SubmitCompanyUseCase(sl()))
+    ..registerLazySingleton(() => SaveCompanySectionUseCase(sl()))
+    ..registerLazySingleton(() => UploadCompanyPhotoUseCase(sl()))
+    ..registerLazySingleton(() => DeleteCompanyPhotoUseCase(sl()))
     ..registerLazySingleton(() => UploadCompanyDocumentUseCase(sl()))
     ..registerLazySingleton(() => DeleteCompanyDocumentUseCase(sl()))
+    ..registerLazySingleton(() => AddCompanyFinancialAccountUseCase(sl()))
+    ..registerLazySingleton(() => DeleteCompanyFinancialAccountUseCase(sl()))
+    ..registerLazySingleton(() => ReadCompanyFinancialDocumentUseCase(sl()))
+    ..registerLazySingleton(() => SubmitCompanyUseCase(sl()))
     ..registerFactory(
       () => CompanyCubit(
         load: sl(),
         saveType: sl(),
-        saveInfo: sl(),
-        saveContact: sl(),
-        submit: sl(),
+        saveSection: sl(),
+        uploadPhoto: sl(),
+        deletePhoto: sl(),
         uploadDocument: sl(),
         deleteDocument: sl(),
+        addFinancial: sl(),
+        deleteFinancial: sl(),
+        readFinancial: sl(),
+        submit: sl(),
       ),
     );
 }

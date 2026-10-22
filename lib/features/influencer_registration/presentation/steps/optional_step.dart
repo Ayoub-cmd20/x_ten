@@ -46,14 +46,12 @@ class _OptionalStepState extends State<OptionalStep> {
   late final Map<String, TextEditingController> _gender;
   late final Map<String, TextEditingController> _ages;
   late final Map<String, TextEditingController> _languages;
-  late final Map<String, TextEditingController> _content;
   late bool _regionsUnspecified;
   late List<String> _topPlatforms;
   late List<String> _days;
   late String _fromHour;
   late String _toHour;
-  late String _purchasing;
-  late List<String> _skills;
+  late List<String> _engagement;
   late List<String> _contentTypes;
   bool _showErrors = false;
 
@@ -68,14 +66,12 @@ class _OptionalStepState extends State<OptionalStep> {
     _gender = percentControllers(RegistrationCatalog.audienceGenders, audience.gender);
     _ages = percentControllers(RegistrationCatalog.audienceAges, audience.ages);
     _languages = percentControllers(RegistrationCatalog.audienceLanguages, audience.languages);
-    _content = percentControllers(RegistrationCatalog.audienceContent, audience.contentEngagement);
     _regionsUnspecified = audience.regionsUnspecified;
     _topPlatforms = [...audience.topPlatforms];
     _days = [...audience.activityDays];
     _fromHour = audience.fromHour;
     _toHour = audience.toHour;
-    _purchasing = audience.purchasingPower;
-    _skills = [...optional.skills];
+    _engagement = [...audience.contentEngagement];
     _contentTypes = [...optional.contentTypes];
   }
 
@@ -84,7 +80,7 @@ class _OptionalStepState extends State<OptionalStep> {
     for (final row in _countries) {
       row.dispose();
     }
-    for (final group in [_regions, _gender, _ages, _languages, _content]) {
+    for (final group in [_regions, _gender, _ages, _languages]) {
       for (final c in group.values) {
         c.dispose();
       }
@@ -107,23 +103,18 @@ class _OptionalStepState extends State<OptionalStep> {
         activityDays: _days,
         fromHour: _fromHour,
         toHour: _toHour,
-        contentEngagement: percentValues(_content),
-        purchasingPower: _purchasing,
+        contentEngagement: _engagement,
       );
-
-  bool get _skillsValid =>
-      _skills.isEmpty ||
-      (_skills.length >= RegistrationCatalog.minSkills && _skills.length <= RegistrationCatalog.maxSkills);
 
   void _save() {
     FocusScope.of(context).unfocus();
     final audience = _audience;
-    if (audience.unbalanced.isNotEmpty || !_skillsValid) {
+    if (audience.unbalanced.isNotEmpty) {
       setState(() => _showErrors = true);
       return;
     }
     context.read<RegistrationCubit>().saveSection(
-          OptionalInfo(audience: audience, skills: _skills, contentTypes: _contentTypes),
+          OptionalInfo(audience: audience, contentTypes: _contentTypes),
           advance: widget.inWizard,
         );
   }
@@ -185,7 +176,9 @@ class _OptionalStepState extends State<OptionalStep> {
       _setGroup(_gender, scan.gender);
       _setGroup(_ages, scan.ages);
       _setGroup(_languages, scan.languages);
-      _setGroup(_content, scan.contentEngagement);
+      if (scan.contentEngagement.isNotEmpty) {
+        _engagement = [...scan.contentEngagement];
+      }
     });
   }
 
@@ -204,7 +197,7 @@ class _OptionalStepState extends State<OptionalStep> {
       return;
     }
     if (state.didFail(RegistrationAction.saveSection) && failure != null) {
-      if (failure is ValidationFailure && (failure.details['audience'] != null || failure.details['skills'] != null)) {
+      if (failure is ValidationFailure && failure.details['audience'] != null) {
         setState(() => _showErrors = true);
       }
       showRegistrationFailure(context, failure);
@@ -248,7 +241,13 @@ class _OptionalStepState extends State<OptionalStep> {
       listener: _listener,
       child: StepBody(
         actions: widget.inWizard
-            ? StepActions(isLoading: isSaving, onBack: cubit.back, onNext: _save)
+            ? StepActions(
+                isLoading: isSaving,
+                onBack: cubit.back,
+                onNext: _save,
+                onSkip: cubit.next,
+                skipLabel: l10n.regSkipOptional,
+              )
             : PrimaryButton(label: l10n.save, isLoading: isSaving, onPressed: _save),
         children: [
           _OptionalBanner(text: l10n.regOptionalHint),
@@ -380,54 +379,17 @@ class _OptionalStepState extends State<OptionalStep> {
               ),
             ],
           ),
-          PercentGroup(
-            title: l10n.audContent,
-            controllers: _content,
+          SectionTitle(l10n.audContent, subtitle: l10n.audContentRankHint),
+          RankedPicker(
+            options: RegistrationCatalog.audienceContent,
+            selected: _engagement,
             labelOf: l10n.audienceContentLabel,
-            columns: 2,
-            onChanged: refresh,
-            showError: _showErrors,
+            onChanged: (value) => setState(() => _engagement = value),
           ),
-          SectionTitle(l10n.audPurchasing),
-          Wrap(
-            spacing: AppSpacing.xs,
-            children: [
-              for (final id in RegistrationCatalog.purchasingPower)
-                ChoiceChip(
-                  label: Text(l10n.purchasingLabel(id)),
-                  selected: _purchasing == id,
-                  onSelected: (on) => setState(() => _purchasing = on ? id : ''),
-                ),
-            ],
-          ),
-
-          // ---------------- المهارات ----------------
-          _Header(title: l10n.regSkillsTitle),
-          Text(
-            l10n.regSkillsHint(RegistrationCatalog.minSkills, RegistrationCatalog.maxSkills),
-            style: context.textTheme.bodySmall,
-          ),
-          for (final MapEntry(key: group, value: skills) in RegistrationCatalog.skillGroups.entries) ...[
-            SectionTitle(l10n.skillGroupLabel(group)),
-            ChoiceWrap(
-              options: skills,
-              selected: _skills,
-              max: RegistrationCatalog.maxSkills,
-              labelOf: l10n.skillLabel,
-              onChanged: (value) => setState(() => _skills = value),
-            ),
-          ],
-          if (_showErrors && !_skillsValid)
-            Padding(
-              padding: const EdgeInsets.only(top: AppSpacing.xs),
-              child: Text(
-                l10n.regSkillsHint(RegistrationCatalog.minSkills, RegistrationCatalog.maxSkills),
-                style: errorStyle,
-              ),
-            ),
 
           // ---------------- أنواع المحتوى الإعلاني ----------------
           _Header(title: l10n.regContentTypesTitle),
+          SizedBox(height: AppSpacing.sm),
           RankedPicker(
             options: RegistrationCatalog.adContentTypes,
             selected: _contentTypes,

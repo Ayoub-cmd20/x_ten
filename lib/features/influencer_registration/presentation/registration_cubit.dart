@@ -29,7 +29,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     required UploadDocumentUseCase uploadDocument,
     required DeleteDocumentUseCase deleteDocument,
     required CreateDraftRegistrationUseCase createDraft,
-    required ScanCcpChequeUseCase scanCcpCheque,
+    required ReadFinancialDocumentUseCase readFinancial,
     required ApplySocialScreenshotUseCase socialScreenshot,
     required ScanAudienceUseCase scanAudience,
     required GetCurrentUserUseCase getCurrentUser,
@@ -50,7 +50,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         _uploadDocument = uploadDocument,
         _deleteDocument = deleteDocument,
         _createDraft = createDraft,
-        _scanCcpCheque = scanCcpCheque,
+        _readFinancial = readFinancial,
         _socialScreenshot = socialScreenshot,
         _scanAudience = scanAudience,
         _getCurrentUser = getCurrentUser,
@@ -73,7 +73,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   final UploadDocumentUseCase _uploadDocument;
   final DeleteDocumentUseCase _deleteDocument;
   final CreateDraftRegistrationUseCase _createDraft;
-  final ScanCcpChequeUseCase _scanCcpCheque;
+  final ReadFinancialDocumentUseCase _readFinancial;
   final ApplySocialScreenshotUseCase _socialScreenshot;
   final ScanAudienceUseCase _scanAudience;
   final GetCurrentUserUseCase _getCurrentUser;
@@ -158,13 +158,21 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     return index < RegistrationStep.values.length ? RegistrationStep.values[index] : step;
   }
 
-  Future<void> submit() async {
+  Future<void> submit(ConsentInfo consents) async {
     final id = _id;
-    if (id == null) return;
+    final registration = state.registration;
+    if (id == null || registration == null) return;
     await _save(
       RegistrationAction.submit,
-      () => _submit(id),
-      (current, registration) => current.copyWith(registration: registration),
+      () async {
+        if (!registration.hasSaved(consents)) {
+          if (await _saveSection((id: id, section: consents)) case Err(:final failure)) {
+            return Err<Registration>(failure);
+          }
+        }
+        return _submit(id);
+      },
+      (current, saved) => current.copyWith(registration: saved),
     );
   }
 
@@ -285,25 +293,13 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     );
   }
 
-  Future<void> scanCcpCheque(UploadFile file) async {
+  Future<void> readFinancialDocument(UploadFile file) async {
     final id = _id;
     if (id == null) return;
     await _save(
-      RegistrationAction.scanCcpCheque,
-      () => _scanCcpCheque((id: id, file: file)),
-      (current, scan) => current.copyWith(
-        financialAccounts: [
-          for (final a in current.financialAccounts)
-            if (a.id != scan.account.id) a,
-          scan.account,
-        ],
-        documents: [
-          for (final d in current.documents)
-            if (d.type != DocumentType.ccpCheque) d,
-          scan.document,
-        ],
-      ),
-      target: DocumentType.ccpCheque,
+      RegistrationAction.readFinancial,
+      () => _readFinancial((id: id, file: file)),
+      (current, account) => current.copyWith(readAccount: account),
     );
   }
 
@@ -340,7 +336,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
       )),
       (current, document) => current.copyWith(documents: [
         for (final d in current.documents)
-          if (type == DocumentType.other || d.type != type) d,
+          if (type == DocumentType.other || d.type != type || d.financialAccountId != financialAccountId) d,
         document,
       ]),
       target: target,

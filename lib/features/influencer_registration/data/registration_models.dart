@@ -15,7 +15,7 @@ String _formatDate(DateTime date) =>
 
 num _compact(double value) => value == value.roundToDouble() ? value.toInt() : value;
 
-/// [{key, percent}] ⇄ Map
+
 List<Json> _sharesToJson(Map<String, double> shares) => [
       for (final entry in shares.entries) {ApiKeys.key: entry.key, ApiKeys.percent: _compact(entry.value)},
     ];
@@ -35,6 +35,7 @@ abstract final class RegistrationJson {
               null => null,
             },
             ApiKeys.birthPlace: personal.birthPlace,
+            ApiKeys.idNumber: personal.idNumber,
             ApiKeys.entityType: personal.entityType?.name ?? '',
           },
         final ProfileInfo profile => {
@@ -46,7 +47,7 @@ abstract final class RegistrationJson {
               for (final language in profile.contentLanguages)
                 {
                   ApiKeys.code: language.code,
-                  ApiKeys.level: language.level.name,
+                  ApiKeys.percent: _compact(language.percent),
                   if (language.name.isNotEmpty) ApiKeys.name: language.name,
                 },
             ],
@@ -56,11 +57,16 @@ abstract final class RegistrationJson {
             ApiKeys.phone: contact.phone,
             ApiKeys.whatsapp: contact.whatsapp,
             ApiKeys.email: contact.email,
+            ApiKeys.backupPhone: contact.backupPhone,
+            ApiKeys.deliveryAddress: contact.deliveryAddress,
           },
         final OptionalInfo optional => {
             ApiKeys.audience: audience(optional.audience),
-            ApiKeys.skills: optional.skills,
             ApiKeys.contentTypes: optional.contentTypes,
+          },
+        final ConsentInfo consents => {
+            ApiKeys.acceptedTerms: consents.acceptedTerms,
+            ApiKeys.acceptedPrivacy: consents.acceptedPrivacy,
           },
       };
 
@@ -79,8 +85,7 @@ abstract final class RegistrationJson {
           ApiKeys.fromHour: audience.fromHour,
           ApiKeys.toHour: audience.toHour,
         },
-        ApiKeys.contentEngagement: _sharesToJson(audience.contentEngagement),
-        ApiKeys.purchasingPower: audience.purchasingPower,
+        ApiKeys.contentEngagement: audience.contentEngagement,
       };
 
   static Audience audienceFrom(Object? value) {
@@ -103,8 +108,10 @@ abstract final class RegistrationJson {
       activityDays: _strings(activity[ApiKeys.days]),
       fromHour: _string(activity[ApiKeys.fromHour]),
       toHour: _string(activity[ApiKeys.toHour]),
-      contentEngagement: _sharesFromJson(value[ApiKeys.contentEngagement]),
-      purchasingPower: _string(value[ApiKeys.purchasingPower]),
+      contentEngagement: [
+        for (final item in value[ApiKeys.contentEngagement] as List? ?? const [])
+          if (item is String) item,
+      ],
     );
   }
 
@@ -113,6 +120,11 @@ abstract final class RegistrationJson {
         ApiKeys.description: item.description,
         if (item.link.isNotEmpty) ApiKeys.link: item.link,
       };
+
+  static FinancialAccount readAccount(Json json) => FinancialAccount(
+        institutionName: _string(json[ApiKeys.institutionName]),
+        accountNumber: _string(json[ApiKeys.accountNumber]),
+      );
 
   static Json financialAccount(FinancialAccount account) => {
         ApiKeys.institutionName: account.institutionName,
@@ -131,6 +143,7 @@ class RegistrationModel extends Registration {
     required super.contact,
     required super.optional,
     required super.status,
+    super.consents,
     super.profileImageUrl,
     super.submittedAt,
     super.updatedAt,
@@ -145,6 +158,7 @@ class RegistrationModel extends Registration {
           lastName: _string(json[ApiKeys.lastName]),
           birthDate: _date(json[ApiKeys.birthDate]),
           birthPlace: _string(json[ApiKeys.birthPlace]),
+          idNumber: _string(json[ApiKeys.idNumber]),
           entityType: maybeEnum(EntityType.values, json[ApiKeys.entityType] as String?),
         ),
         profile: ProfileInfo(
@@ -156,7 +170,7 @@ class RegistrationModel extends Registration {
             for (final item in (json[ApiKeys.contentLanguages] as List? ?? const []).whereType<Json>())
               ContentLanguage(
                 code: _string(item[ApiKeys.code]),
-                level: enumFromApi(LanguageLevel.values, item[ApiKeys.level] as String?, LanguageLevel.good),
+                percent: (item[ApiKeys.percent] as num? ?? 0).toDouble(),
                 name: _string(item[ApiKeys.name]),
               ),
           ],
@@ -166,11 +180,16 @@ class RegistrationModel extends Registration {
           phone: _string(json[ApiKeys.phone]),
           whatsapp: _string(json[ApiKeys.whatsapp]),
           email: _string(json[ApiKeys.email]),
+          backupPhone: _string(json[ApiKeys.backupPhone]),
+          deliveryAddress: _string(json[ApiKeys.deliveryAddress]),
         ),
         optional: OptionalInfo(
           audience: RegistrationJson.audienceFrom(json[ApiKeys.audience]),
-          skills: _strings(json[ApiKeys.skills]),
           contentTypes: _strings(json[ApiKeys.contentTypes]),
+        ),
+        consents: ConsentInfo(
+          acceptedTerms: json[ApiKeys.acceptedTerms] as bool? ?? false,
+          acceptedPrivacy: json[ApiKeys.acceptedPrivacy] as bool? ?? false,
         ),
         profileImageUrl: json[ApiKeys.profileImageUrl] as String?,
         status: VerificationStatus.fromApi(json[ApiKeys.verificationStatus] as String?),
@@ -281,6 +300,7 @@ class ScannedFieldsModel extends ScannedFields {
   const ScannedFieldsModel({
     super.firstName,
     super.lastName,
+    super.idNumber,
     super.birthDate,
     super.birthPlace,
   });
@@ -291,19 +311,11 @@ class ScannedFieldsModel extends ScannedFields {
     return ScannedFieldsModel(
       firstName: text(value[ApiKeys.firstName]),
       lastName: text(value[ApiKeys.lastName]),
+      idNumber: text(value[ApiKeys.idNumber]),
       birthDate: _date(value[ApiKeys.birthDate]),
       birthPlace: text(value[ApiKeys.birthPlace]),
     );
   }
-}
-
-class FinancialScanModel extends FinancialScan {
-  const FinancialScanModel({required super.account, required super.document});
-
-  factory FinancialScanModel.fromJson(Json json) => FinancialScanModel(
-        account: FinancialAccountModel.fromJson(json[ApiKeys.account] as Json),
-        document: RegistrationDocumentModel.fromJson(json[ApiKeys.document] as Json),
-      );
 }
 
 class VerificationMeetingModel extends VerificationMeeting {

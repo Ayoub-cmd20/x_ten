@@ -4,10 +4,10 @@ import 'package:x_ten/features/influencer_registration/domain/registration_entit
 abstract interface class RegistrationRepository {
   Future<Result<RegistrationBundle>> loadCurrent();
 
-  /// المعلومات الشخصية تنشئ الملف، والأقسام الأخرى تتحفظ عليه.
+  
   Future<Result<Registration>> create(PersonalInfo personal);
 
-  /// ملف فارغ: باش نقدرو نرفعو الوثيقة ونعمّرو المعلومات الشخصية منها.
+
   Future<Result<Registration>> createDraft();
 
   Future<Result<Registration>> saveSection(int id, RegistrationSection section);
@@ -27,10 +27,10 @@ abstract interface class RegistrationRepository {
 
   Future<Result<void>> deleteSocialAccount(int id);
 
-  /// لقطة شاشة للبروفايل -> عدد المتابعين (والاسم لو كان ناقص).
+ 
   Future<Result<SocialAccount>> applySocialScreenshot(int id, UploadFile image);
 
-  /// لقطة Insights -> نسب الجمهور (ما تتحفظش: المؤثر يراجع ويحفظ).
+
   Future<Result<Audience>> scanAudience(
     int registrationId,
     UploadFile image, {
@@ -46,7 +46,7 @@ abstract interface class RegistrationRepository {
 
   Future<Result<void>> deleteFinancialAccount(int id);
 
-  Future<Result<FinancialScan>> scanCcpCheque(int registrationId, UploadFile file);
+  Future<Result<FinancialAccount>> readFinancialDocument(int registrationId, UploadFile file);
 
   Future<Result<RegistrationDocument>> uploadDocument(
     int registrationId,

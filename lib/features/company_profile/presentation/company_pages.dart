@@ -10,13 +10,17 @@ import 'package:x_ten/core/theme/theme_context.dart';
 import 'package:x_ten/core/widgets/feedback/app_snackbar.dart';
 import 'package:x_ten/core/widgets/feedback/error_view.dart';
 import 'package:x_ten/core/widgets/loading/app_loader.dart';
-import 'package:x_ten/core/widgets/step_form.dart';
 import 'package:x_ten/features/auth/presentation/auth_cubit.dart';
 import 'package:x_ten/features/auth/presentation/auth_routes.dart';
 import 'package:x_ten/features/company_profile/presentation/company_cubit.dart';
 import 'package:x_ten/features/company_profile/presentation/company_labels.dart';
 import 'package:x_ten/features/company_profile/presentation/company_routes.dart';
-import 'package:x_ten/features/company_profile/presentation/company_steps.dart';
+import 'package:x_ten/features/company_profile/presentation/steps/business_step.dart';
+import 'package:x_ten/features/company_profile/presentation/steps/contact_step.dart';
+import 'package:x_ten/features/company_profile/presentation/steps/finish_step.dart';
+import 'package:x_ten/features/company_profile/presentation/steps/personal_step.dart';
+import 'package:x_ten/features/company_profile/presentation/steps/presence_step.dart';
+import 'package:x_ten/features/company_profile/presentation/steps/type_step.dart';
 
 Future<void> _logout(BuildContext context) async {
   final router = GoRouter.of(context);
@@ -68,15 +72,10 @@ class _CompanyGatePageState extends State<CompanyGatePage> {
 class CompanyWizardPage extends StatelessWidget {
   const CompanyWizardPage({super.key});
 
-  static const _snackbarActions = {CompanyAction.uploadDocument, CompanyAction.deleteDocument};
-
   void _listener(BuildContext context, CompanyState state) {
-    final failure = state.failure;
     if (state.didSucceed(CompanyAction.submit)) {
       showSuccessSnackBar(context, context.l10n.companySubmittedSuccess);
       context.go(CompanyRoutes.advertiserHome);
-    } else if (state.status == CompanyStatus.failure && failure != null && _snackbarActions.contains(state.action)) {
-      showRegistrationFailure(context, failure);
     }
   }
 
@@ -90,7 +89,9 @@ class CompanyWizardPage extends StatelessWidget {
 
     if (!loaded) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (context.mounted) context.go(CompanyRoutes.gate);
+        if (context.mounted) {
+          context.go(CompanyRoutes.gate);
+        }
       });
       return const Scaffold(body: AppLoader());
     }
@@ -124,10 +125,11 @@ class CompanyWizardPage extends StatelessWidget {
                   key: ValueKey(step),
                   child: switch (step) {
                     CompanyStep.type => const BusinessTypeStep(),
-                    CompanyStep.info => const CompanyInfoStep(),
+                    CompanyStep.personal => const CompanyPersonalStep(),
+                    CompanyStep.business => const CompanyBusinessStep(),
+                    CompanyStep.presence => const CompanyPresenceStep(),
                     CompanyStep.contact => const CompanyContactStep(),
-                    CompanyStep.documents => const CompanyDocumentsStep(),
-                    CompanyStep.review => const CompanyReviewStep(),
+                    CompanyStep.finish => const CompanyFinishStep(),
                   },
                 ),
               ),
@@ -222,7 +224,9 @@ class CompanyStatusPage extends StatelessWidget {
 
     if (!state.loaded) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (context.mounted) context.go(CompanyRoutes.gate);
+        if (context.mounted) {
+          context.go(CompanyRoutes.gate);
+        }
       });
       return const Scaffold(body: AppLoader());
     }
@@ -231,7 +235,9 @@ class CompanyStatusPage extends StatelessWidget {
       listenWhen: (previous, current) => current.didSucceed(CompanyAction.load) && previous.status != current.status,
       listener: (context, state) {
         final destination = CompanyRoutes.destinationFor(state.profile);
-        if (destination != CompanyRoutes.status) context.go(destination);
+        if (destination != CompanyRoutes.status) {
+          context.go(destination);
+        }
       },
       child: Scaffold(
         appBar: AppBar(title: Text(l10n.companyTitle), actions: [_logoutButton(context)]),

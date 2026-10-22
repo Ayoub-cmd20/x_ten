@@ -7,7 +7,7 @@ import 'package:x_ten/core/widgets/loading/app_loader.dart';
 import 'package:x_ten/features/influencer_registration/presentation/registration_cubit.dart';
 import 'package:x_ten/features/influencer_registration/presentation/steps/optional_step.dart';
 
-/// حصر الجمهور، المهارات، أنواع المحتوى ومعرض الأعمال: تتكمّل حتى بعد الإرسال والتوثيق.
+
 class RegistrationOptionalPage extends StatefulWidget {
   const RegistrationOptionalPage({super.key});
 

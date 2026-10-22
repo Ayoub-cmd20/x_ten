@@ -11,12 +11,9 @@ import 'package:x_ten/core/widgets/loading/app_loader.dart';
 import 'package:x_ten/features/influencer_registration/domain/registration_entities.dart';
 import 'package:x_ten/features/influencer_registration/domain/registration_usecases.dart';
 import 'package:x_ten/features/influencer_registration/presentation/registration_cubit.dart';
-import 'package:x_ten/features/influencer_registration/presentation/registration_labels.dart';
 import 'package:x_ten/features/influencer_registration/presentation/registration_widgets.dart';
 import 'package:x_ten/features/influencer_registration/presentation/widgets/document_tiles.dart';
 import 'package:x_ten/features/influencer_registration/presentation/widgets/submit_missing.dart';
-
-const _postInstitution = 'Algérie Poste (CCP)';
 
 class FinancialStep extends StatefulWidget {
   const FinancialStep({super.key});
@@ -26,66 +23,34 @@ class FinancialStep extends StatefulWidget {
 }
 
 class _FinancialStepState extends State<FinancialStep> {
+  late ConsentInfo _consents;
   bool _showErrors = false;
   List<SubmitMissing> _missing = const [];
-  int _attempts = 0;
-  UploadFile? _lastCheque;
+
+  @override
+  void initState() {
+    super.initState();
+    _consents = context.read<RegistrationCubit>().state.registration?.consents ?? const ConsentInfo();
+  }
 
   void _submit() {
     final cubit = context.read<RegistrationCubit>();
-    if (!cubit.state.financialComplete) {
+    if (!cubit.state.financialComplete || !_consents.all) {
       setState(() => _showErrors = true);
       return;
     }
     setState(() => _missing = const []);
-    cubit.submit();
+    cubit.submit(_consents);
   }
 
-  Future<void> _scanCheque() async {
-    final file = await pickDocument(context);
-    if (file == null || !mounted) return;
-    _lastCheque = file;
-    await context.read<RegistrationCubit>().scanCcpCheque(file);
-  }
-
-  void _openForm({_ChequeProof? proof}) {
+  void _openForm() {
     final cubit = context.read<RegistrationCubit>();
-    showFormSheet<void>(context, BlocProvider.value(value: cubit, child: _AccountForm(proof: proof)));
-  }
-
-  void _onChequeFailed(BuildContext context, Failure failure) {
-    final l10n = context.l10n;
-    final file = _lastCheque;
-    if (isOcrUnavailable(failure) && file != null) {
-      showErrorSnackBar(context, l10n.ocrUnavailable);
-      _openForm(proof: (file: file, acceptUnreadable: false));
-      return;
-    }
-    if (!isUnrecognized(failure) || file == null) {
-      showRegistrationFailure(context, failure);
-      return;
-    }
-    _attempts++;
-    const max = RegistrationCatalog.maxScanAttempts;
-    if (_attempts < max) {
-      showErrorSnackBar(context, l10n.docUnrecognizedRetry(_attempts, max));
-      return;
-    }
-    _attempts = 0;
-    showErrorSnackBar(context, l10n.finScanManualAfterTries);
-    _openForm(proof: (file: file, acceptUnreadable: true));
+    showFormSheet<void>(context, BlocProvider.value(value: cubit, child: const _AccountForm()));
   }
 
   void _listener(BuildContext context, RegistrationState state) {
     final failure = state.failure;
-    if (state.didSucceed(RegistrationAction.scanCcpCheque)) {
-      _attempts = 0;
-      showSuccessSnackBar(context, context.l10n.ccpChequeRead);
-      return;
-    }
-    if (state.status != OperationStatus.failure || failure == null) return;
-    if (state.action == RegistrationAction.scanCcpCheque) {
-      _onChequeFailed(context, failure);
+    if (state.status != OperationStatus.failure || failure == null) {
       return;
     }
     if (state.action == RegistrationAction.submit && failure is ValidationFailure) {
@@ -100,7 +65,9 @@ class _FinancialStepState extends State<FinancialStep> {
       RegistrationAction.deleteFinancial,
       RegistrationAction.uploadDocument,
     };
-    if (actions.contains(state.action)) showRegistrationFailure(context, failure);
+    if (actions.contains(state.action)) {
+      showRegistrationFailure(context, failure);
+    }
   }
 
   @override
@@ -108,9 +75,7 @@ class _FinancialStepState extends State<FinancialStep> {
     final l10n = context.l10n;
     final state = context.watch<RegistrationCubit>().state;
     final cubit = context.read<RegistrationCubit>();
-    final cheque = state.ccpCheque;
-    final postAccount = state.financialAccounts.where((a) => a.id == cheque?.financialAccountId).firstOrNull;
-    final others = [for (final a in state.financialAccounts) if (a.id != postAccount?.id) a];
+    final errorStyle = context.textTheme.bodySmall?.copyWith(color: AppColors.error);
 
     return BlocListener<RegistrationCubit, RegistrationState>(
       listenWhen: (previous, current) => previous.status != current.status || previous.action != current.action,
@@ -124,108 +89,89 @@ class _FinancialStepState extends State<FinancialStep> {
         ),
         children: [
           if (_missing.isNotEmpty) SubmitMissingBox(items: _missing, onFix: cubit.goTo),
-          SectionTitle(l10n.ccpChequeTitle, subtitle: l10n.ccpChequeHint),
-          _ChequeCard(
-            document: cheque,
-            account: postAccount,
-            busy: state.isLoadingFor(RegistrationAction.scanCcpCheque) ||
-                state.isLoadingFor(RegistrationAction.uploadDocument, postAccount?.id) ||
-                (postAccount != null && state.isLoadingFor(RegistrationAction.deleteFinancial, postAccount.id)),
-            enabled: !state.isLoading,
-            highlightMissing: _showErrors && cheque == null,
-            onScan: _scanCheque,
-            onDelete: postAccount == null ? null : () => cubit.deleteFinancialAccount(postAccount.id),
-          ),
-          SectionTitle(l10n.otherInstitutionsTitle),
-          for (final account in others)
+          SectionTitle(l10n.regFinancialTitle, subtitle: l10n.finAddHint),
+          for (final account in state.financialAccounts)
             Padding(
               padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-              child: ItemCard(
-                icon: Icons.account_balance_outlined,
-                title: account.institutionName.isEmpty ? l10n.financialKindLabel(account.kind) : account.institutionName,
-                subtitle: ltr(account.accountNumber),
-                trailing: state.isLoadingFor(RegistrationAction.deleteFinancial, account.id)
-                    ? const Padding(padding: EdgeInsets.all(AppSpacing.sm), child: AppLoader.small())
-                    : IconButton(
-                        tooltip: l10n.delete,
-                        icon: const Icon(Icons.delete_outline_rounded),
-                        onPressed: state.isLoading ? null : () => cubit.deleteFinancialAccount(account.id),
-                      ),
+              child: FinancialAccountCard(
+                account: account,
+                hasProof: state.proofOf(account.id) != null,
+                busy: state.isLoadingFor(RegistrationAction.deleteFinancial, account.id) ||
+                    state.isLoadingFor(RegistrationAction.uploadDocument, account.id),
+                onDelete: state.isLoading ? null : () => cubit.deleteFinancialAccount(account.id),
               ),
             ),
+          if (_showErrors && !state.financialComplete) Text(l10n.finEmpty, style: errorStyle),
           Align(
             alignment: AlignmentDirectional.centerStart,
             child: TextButton.icon(
-              onPressed: state.isLoading ? null : () => _openForm(),
+              onPressed: state.isLoading ? null : _openForm,
               icon: const Icon(Icons.add_rounded),
               label: Text(l10n.regAddInstitution),
             ),
           ),
+          SectionTitle(l10n.consentsTitle),
+          CheckboxListTile(
+            contentPadding: EdgeInsets.zero,
+            controlAffinity: ListTileControlAffinity.leading,
+            value: _consents.acceptedPrivacy,
+            title: Text(l10n.regConsentPrivacy, style: context.textTheme.bodyMedium),
+            onChanged: (value) => setState(
+              () => _consents = ConsentInfo(acceptedTerms: _consents.acceptedTerms, acceptedPrivacy: value ?? false),
+            ),
+          ),
+          CheckboxListTile(
+            contentPadding: EdgeInsets.zero,
+            controlAffinity: ListTileControlAffinity.leading,
+            value: _consents.acceptedTerms,
+            title: Text(l10n.regConsentTerms, style: context.textTheme.bodyMedium),
+            onChanged: (value) => setState(
+              () => _consents = ConsentInfo(acceptedTerms: value ?? false, acceptedPrivacy: _consents.acceptedPrivacy),
+            ),
+          ),
+          if (_showErrors && !_consents.all) Text(l10n.acceptAllConsents, style: errorStyle),
+          const SizedBox(height: AppSpacing.lg),
         ],
       ),
     );
   }
 }
 
-typedef _ChequeProof = ({UploadFile file, bool acceptUnreadable});
-
-class _ChequeCard extends StatelessWidget {
-  const _ChequeCard({
-    required this.document,
+class FinancialAccountCard extends StatelessWidget {
+  const FinancialAccountCard({
+    super.key,
     required this.account,
+    required this.hasProof,
     required this.busy,
-    required this.enabled,
-    required this.highlightMissing,
-    required this.onScan,
     required this.onDelete,
   });
 
-  final RegistrationDocument? document;
-  final FinancialAccount? account;
+  final FinancialAccount account;
+  final bool hasProof;
   final bool busy;
-  final bool enabled;
-  final bool highlightMissing;
-  final VoidCallback onScan;
   final VoidCallback? onDelete;
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final document = this.document;
-    final account = this.account;
-    final onDelete = this.onDelete;
-
     return ItemCard(
-      icon: document == null ? Icons.document_scanner_outlined : Icons.task_alt_rounded,
-      highlight: document != null ? AppColors.success : (highlightMissing ? AppColors.error : null),
-      title: document == null ? l10n.docCcpCheque : ltr(account?.accountNumber ?? document.fileName),
-      subtitle: switch (document) {
-        null => highlightMissing ? l10n.ccpChequeRequired : l10n.documentsSubtitle,
-        RegistrationDocument(check: DocumentCheck.needsManualReview) => l10n.regNeedsReview,
-        RegistrationDocument(check: DocumentCheck.passed) => '${l10n.finCcp} · ${l10n.regDocChecked}',
-        _ => l10n.finCcp,
-      },
-      onTap: enabled && !busy ? onScan : null,
+      icon: hasProof ? Icons.task_alt_rounded : Icons.account_balance_outlined,
+      highlight: hasProof ? AppColors.success : null,
+      title: account.institutionName,
+      subtitle: hasProof ? '${ltr(account.accountNumber)} · ${l10n.finProofAdded}' : ltr(account.accountNumber),
       trailing: busy
           ? const Padding(padding: EdgeInsets.all(AppSpacing.sm), child: AppLoader.small())
-          : document != null && onDelete != null
-              ? IconButton(
-                  tooltip: l10n.delete,
-                  icon: const Icon(Icons.delete_outline_rounded),
-                  onPressed: enabled ? onDelete : null,
-                )
-              : Padding(
-                  padding: const EdgeInsetsDirectional.only(end: AppSpacing.sm),
-                  child: Text(l10n.upload, style: context.textTheme.labelMedium?.copyWith(color: context.colors.primary)),
-                ),
+          : IconButton(
+              tooltip: l10n.delete,
+              icon: const Icon(Icons.delete_outline_rounded),
+              onPressed: onDelete,
+            ),
     );
   }
 }
 
 class _AccountForm extends StatefulWidget {
-  const _AccountForm({this.proof});
-
-  final _ChequeProof? proof;
+  const _AccountForm();
 
   @override
   State<_AccountForm> createState() => _AccountFormState();
@@ -235,15 +181,12 @@ class _AccountFormState extends State<_AccountForm> with ServerFieldErrors {
   static const _fields = ['institutionName', 'accountNumber'];
 
   final _formKey = GlobalKey<FormState>();
-  late final TextEditingController _institution;
+  final _institution = TextEditingController();
   final _number = TextEditingController();
+  UploadFile? _proof;
+  bool _proofRead = false;
+  int _attempts = 0;
   int _accountsBefore = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    _institution = TextEditingController(text: widget.proof == null ? '' : _postInstitution);
-  }
 
   @override
   void dispose() {
@@ -252,62 +195,133 @@ class _AccountFormState extends State<_AccountForm> with ServerFieldErrors {
     super.dispose();
   }
 
-  void _save() {
-    FocusScope.of(context).unfocus();
-    if (!(_formKey.currentState?.validate() ?? false)) return;
+  Future<void> _attach() async {
     final cubit = context.read<RegistrationCubit>();
-    _accountsBefore = cubit.state.financialAccounts.length;
-    cubit.addFinancialAccount(FinancialAccount(
-      institutionName: _institution.text,
-      accountNumber: _number.text,
-    ));
+    final file = await pickDocument(context);
+    if (file == null || !mounted) {
+      return;
+    }
+    setState(() {
+      _proof = file;
+      _proofRead = false;
+    });
+    await cubit.readFinancialDocument(file);
   }
 
-  void _onChanged(BuildContext context, RegistrationState state) {
+  void _onRead(BuildContext context, RegistrationState state) {
+    final l10n = context.l10n;
+    if (state.status == OperationStatus.success) {
+      final read = state.readAccount;
+      if (read == null) {
+        return;
+      }
+      setState(() {
+        _proofRead = true;
+        _attempts = 0;
+        if (read.accountNumber.isNotEmpty) {
+          _number.text = read.accountNumber;
+        }
+        if (_institution.text.trim().isEmpty && read.institutionName.isNotEmpty) {
+          _institution.text = read.institutionName;
+        }
+      });
+      showSuccessSnackBar(context, l10n.finReadDone);
+      return;
+    }
+    final failure = state.failure;
+    if (failure == null) {
+      return;
+    }
+    if (isOcrUnavailable(failure)) {
+      showErrorSnackBar(context, l10n.ocrUnavailable);
+    } else if (isUnrecognized(failure)) {
+      _attempts++;
+      const max = RegistrationCatalog.maxScanAttempts;
+      if (_attempts < max) {
+        setState(() => _proof = null);
+        showErrorSnackBar(context, l10n.docUnrecognizedRetry(_attempts, max));
+      } else {
+        showErrorSnackBar(context, l10n.finScanManualAfterTries);
+      }
+    } else {
+      setState(() => _proof = null);
+      showRegistrationFailure(context, failure);
+    }
+  }
+
+  void _save() {
+    FocusScope.of(context).unfocus();
+    if (!(_formKey.currentState?.validate() ?? false)) {
+      return;
+    }
+    final cubit = context.read<RegistrationCubit>();
+    _accountsBefore = cubit.state.financialAccounts.length;
+    cubit.addFinancialAccount(FinancialAccount(institutionName: _institution.text, accountNumber: _number.text));
+  }
+
+  void _onSaved(BuildContext context, RegistrationState state) {
     if (state.status == OperationStatus.success) {
       final cubit = context.read<RegistrationCubit>();
-      final proof = widget.proof;
+      final proof = _proof;
       final added = state.financialAccounts.length > _accountsBefore ? state.financialAccounts.last : null;
       Navigator.of(context).pop();
       if (proof != null && added != null) {
         cubit.uploadDocument(
-          DocumentType.ccpCheque,
-          proof.file,
+          DocumentType.financialProof,
+          proof,
           financialAccountId: added.id,
-          acceptUnreadable: proof.acceptUnreadable,
+          acceptUnreadable: !_proofRead,
         );
       }
-    } else if (state.status == OperationStatus.failure) {
-      final failure = state.failure!;
-      if (failure is ValidationFailure) {
-        final l10n = context.l10n;
-        final translated = ValidationFailure(details: {
-          for (final field in _fields)
-            if (failure.fieldError(field) case final error?)
-              field: switch (error) {
-                'required' => l10n.fieldRequired,
-                'invalid' => l10n.finNumberInvalid,
-                _ => error,
-              },
-        });
-        handleFailure(translated.details.isEmpty ? failure : translated, _fields);
-        return;
-      }
-      handleFailure(failure, _fields);
+      return;
     }
+    final failure = state.failure;
+    if (failure == null) {
+      return;
+    }
+    if (failure is ValidationFailure) {
+      final l10n = context.l10n;
+      final translated = ValidationFailure(details: {
+        for (final field in _fields)
+          if (failure.fieldError(field) case final error?)
+            field: switch (error) {
+              'required' => l10n.fieldRequired,
+              'invalid' => l10n.finNumberInvalid,
+              _ => error,
+            },
+      });
+      handleFailure(translated.details.isEmpty ? failure : translated, _fields);
+      return;
+    }
+    handleFailure(failure, _fields);
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final isSaving = context.select((RegistrationCubit c) => c.state.isLoadingFor(RegistrationAction.addFinancial));
-    final proof = widget.proof;
+    final state = context.watch<RegistrationCubit>().state;
+    final saving = state.isLoadingFor(RegistrationAction.addFinancial);
+    final reading = state.isLoadingFor(RegistrationAction.readFinancial);
+    final proof = _proof;
     const gap = SizedBox(height: AppSpacing.md);
 
-    return BlocListener<RegistrationCubit, RegistrationState>(
-      listenWhen: (previous, current) =>
-          current.action == RegistrationAction.addFinancial && previous.status != current.status,
-      listener: _onChanged,
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<RegistrationCubit, RegistrationState>(
+          listenWhen: (previous, current) =>
+              current.action == RegistrationAction.readFinancial &&
+              previous.status != current.status &&
+              current.status != OperationStatus.loading,
+          listener: _onRead,
+        ),
+        BlocListener<RegistrationCubit, RegistrationState>(
+          listenWhen: (previous, current) =>
+              current.action == RegistrationAction.addFinancial &&
+              previous.status != current.status &&
+              current.status != OperationStatus.loading,
+          listener: _onSaved,
+        ),
+      ],
       child: Form(
         key: _formKey,
         child: Column(
@@ -315,19 +329,26 @@ class _AccountFormState extends State<_AccountForm> with ServerFieldErrors {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(l10n.regAddInstitution, style: context.textTheme.titleMedium),
-            if (proof != null) ...[
-              const SizedBox(height: AppSpacing.xs),
-              Text(l10n.finProofAttached(proof.file.name), style: context.textTheme.bodySmall),
-            ],
             gap,
             TextFormField(
               controller: _institution,
-              readOnly: proof != null,
               textInputAction: TextInputAction.next,
               forceErrorText: serverError('institutionName'),
               onChanged: (_) => clearServerError('institutionName'),
-              decoration: InputDecoration(labelText: l10n.finInstitutionName),
+              decoration: InputDecoration(labelText: l10n.finInstitutionName, helperText: l10n.finInstitutionHint),
               validator: (v) => requiredText(context, v),
+            ),
+            gap,
+            OutlinedButton.icon(
+              onPressed: reading || saving ? null : _attach,
+              icon: reading
+                  ? const AppLoader.small()
+                  : Icon(proof == null ? Icons.document_scanner_outlined : Icons.task_alt_rounded),
+              label: Text(proof?.name ?? l10n.finAttachDocument, overflow: TextOverflow.ellipsis),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: AppSpacing.xxs),
+              child: Text(l10n.finAttachDocumentHint, style: context.textTheme.bodySmall),
             ),
             gap,
             TextFormField(
@@ -340,16 +361,20 @@ class _AccountFormState extends State<_AccountForm> with ServerFieldErrors {
               ],
               forceErrorText: serverError('accountNumber'),
               onChanged: (_) => clearServerError('accountNumber'),
-              decoration: InputDecoration(labelText: proof != null ? l10n.ccpRipLabel : l10n.finAccountNumber),
+              decoration: InputDecoration(labelText: l10n.finAccountNumber, helperText: l10n.finAccountNumberHint),
               validator: (v) {
                 final number = cleanAccountNumber(v ?? '');
-                if (number.isEmpty) return l10n.fieldRequired;
-                if (!RegExp(r'^[A-Z0-9]{4,40}$').hasMatch(number)) return l10n.finNumberInvalid;
+                if (number.isEmpty) {
+                  return l10n.fieldRequired;
+                }
+                if (!RegExp(r'^[A-Z0-9]{4,40}$').hasMatch(number)) {
+                  return l10n.finNumberInvalid;
+                }
                 return null;
               },
             ),
             const SizedBox(height: AppSpacing.xl),
-            PrimaryButton(label: l10n.save, isLoading: isSaving, onPressed: _save),
+            PrimaryButton(label: l10n.save, isLoading: saving, onPressed: reading ? null : _save),
           ],
         ),
       ),

@@ -11,8 +11,6 @@ T? maybeEnum<T extends Enum>(List<T> values, String? value) => values.where((e) 
 
 enum EntityType { natural, legal }
 
-enum LanguageLevel { basic, good, advanced }
-
 enum FinancialKind { ccp, bank, other }
 
 enum SocialPlatform { facebook, instagram, tiktok, youtube, snapchat, x, linkedin, telegram, website, blog, other }
@@ -29,7 +27,7 @@ enum IdentityKind { idCard, passport }
 
 enum MeetingStatus { scheduled, completed, noShow, cancelled, unknown }
 
-/// القوائم الثابتة: منقولة من وثائق صاحب المشروع (نفس المعرّفات في الباك إند).
+
 abstract final class RegistrationCatalog {
   static const categories = InfluencerCategories.ids;
   static const maxPrimaryCategories = 3;
@@ -39,7 +37,7 @@ abstract final class RegistrationCatalog {
   static const otherLanguage = 'other';
   static const maxAddressLanguages = 5;
 
-  /// أنواع المحتوى الإعلاني (تترتب حسب الأولوية)
+
   static const adContentTypes = [
     'review',
     'testTry',
@@ -51,18 +49,6 @@ abstract final class RegistrationCatalog {
     'productPlacement',
   ];
 
-  /// المهارات: المجموعات 1، 2، 3، 6 من وثيقة المهارات
-  static const skillGroups = <String, List<String>>{
-    'core': [
-      'copywriting', 'storytelling', 'onCamera', 'acting', 'voiceOver',
-      'productReviews', 'educational', 'motivational', 'comedy', 'dailyLife',
-    ],
-    'production': ['videoShooting', 'photography', 'videoEditing', 'photoEditing', 'directing', 'lighting', 'audioSetup'],
-    'marketing': ['adIntegration', 'indirectPromotion', 'effectiveCta', 'brandIdentity', 'briefCompliance'],
-    'advanced': ['campaignManagement', 'adScripting', 'performanceAnalysis', 'contentRepurposing', 'multilingual'],
-  };
-  static const minSkills = 3;
-  static const maxSkills = 7;
 
   static const audienceRegions = [
     'north', 'northEast', 'northWest', 'center', 'centerEast', 'centerWest', 'south', 'southEast', 'southWest',
@@ -70,18 +56,16 @@ abstract final class RegistrationCatalog {
   static const audienceGenders = ['male', 'female', 'unspecified'];
   static const audienceAges = ['under18', '18-24', '25-34', '35-44', '45-54', '55+'];
   static const audienceLanguages = ['arabic', 'amazigh', 'english', 'french', 'mixed'];
-  static const audienceContent = ['video', 'photo', 'stories', 'live'];
+  static const audienceContent = ['video', 'photo', 'stories', 'live', 'written', 'audio', 'interactive'];
   static const audiencePlatforms = ['facebook', 'instagram', 'tiktok', 'youtube', 'snapchat', 'x', 'linkedin', 'telegram', 'other'];
   static const maxTopPlatforms = 3;
   static const weekDays = ['sat', 'sun', 'mon', 'tue', 'wed', 'thu', 'fri'];
-  static const purchasingPower = ['low', 'medium', 'high'];
 
-  static const identityDocuments = {DocumentType.identityFront, DocumentType.identityBack, DocumentType.passport};
+  static const identityDocuments = {DocumentType.identityFront, DocumentType.passport};
 
-  /// اللقطات المقبولة لـ Insights
+ 
   static const insightsPlatforms = ['instagram', 'facebook', 'tiktok', 'youtube'];
 
-  /// بعدها تتقبل الوثيقة وتتراجع يدوياً في الاجتماع
   static const maxScanAttempts = 3;
 }
 
@@ -91,9 +75,6 @@ bool totals100(Map<String, double> shares) {
   return (values.fold<double>(0, (sum, v) => sum + v) - 100).abs() <= 0.01;
 }
 
-// ---------- أقسام التسجيل ----------
-
-/// كل قسم يتحفظ وحدو (PATCH). المعلومات الشخصية تنشئ الملف أول مرة.
 sealed class RegistrationSection extends Equatable {
   const RegistrationSection();
 }
@@ -103,34 +84,39 @@ class PersonalInfo extends RegistrationSection {
     required this.firstName,
     required this.lastName,
     required this.birthPlace,
+    this.idNumber = '',
     this.birthDate,
     this.entityType,
   });
 
   final String firstName;
   final String lastName;
+  final String idNumber;
   final DateTime? birthDate;
   final String birthPlace;
   final EntityType? entityType;
 
   bool get isComplete =>
-      firstName.isNotEmpty && lastName.isNotEmpty && birthDate != null && birthPlace.isNotEmpty && entityType != null;
+      firstName.isNotEmpty &&
+      lastName.isNotEmpty &&
+      idNumber.isNotEmpty &&
+      birthDate != null &&
+      birthPlace.isNotEmpty &&
+      entityType != null;
 
   @override
-  List<Object?> get props => [firstName, lastName, birthDate, birthPlace, entityType];
+  List<Object?> get props => [firstName, lastName, idNumber, birthDate, birthPlace, entityType];
 }
 
 class ContentLanguage extends Equatable {
-  const ContentLanguage({required this.code, required this.level, this.name = ''});
+  const ContentLanguage({required this.code, required this.percent, this.name = ''});
 
   final String code;
-  final LanguageLevel level;
-
-  /// اسم اللغة لما تكون "أخرى"
+  final double percent;
   final String name;
 
   @override
-  List<Object?> get props => [code, level, name];
+  List<Object?> get props => [code, percent, name];
 }
 
 class ProfileInfo extends RegistrationSection {
@@ -149,7 +135,7 @@ class ProfileInfo extends RegistrationSection {
   final String bio;
   final List<ContentLanguage> contentLanguages;
 
-  /// ترتيب لغات الخطاب المفضلة (تنبيه للمعلن)
+
   final List<String> addressLanguages;
 
   bool get isComplete =>
@@ -165,16 +151,36 @@ class ProfileInfo extends RegistrationSection {
 }
 
 class ContactInfo extends RegistrationSection {
-  const ContactInfo({required this.phone, required this.whatsapp, required this.email});
+  const ContactInfo({
+    required this.phone,
+    required this.whatsapp,
+    required this.email,
+    this.backupPhone = '',
+    this.deliveryAddress = '',
+  });
 
   final String phone;
   final String whatsapp;
   final String email;
+  final String backupPhone;
+  final String deliveryAddress;
 
   bool get isComplete => phone.isNotEmpty && whatsapp.isNotEmpty && email.isNotEmpty;
 
   @override
-  List<Object?> get props => [phone, whatsapp, email];
+  List<Object?> get props => [phone, whatsapp, email, backupPhone, deliveryAddress];
+}
+
+class ConsentInfo extends RegistrationSection {
+  const ConsentInfo({this.acceptedTerms = false, this.acceptedPrivacy = false});
+
+  final bool acceptedTerms;
+  final bool acceptedPrivacy;
+
+  bool get all => acceptedTerms && acceptedPrivacy;
+
+  @override
+  List<Object?> get props => [acceptedTerms, acceptedPrivacy];
 }
 
 class CountryShare extends Equatable {
@@ -187,7 +193,7 @@ class CountryShare extends Equatable {
   List<Object?> get props => [country, percent];
 }
 
-/// حصر الجمهور: كل قسم اختياري، بصح لو يتعمّر مجموعه لازم 100%.
+
 class Audience extends Equatable {
   const Audience({
     this.countries = const [],
@@ -200,8 +206,7 @@ class Audience extends Equatable {
     this.activityDays = const [],
     this.fromHour = '',
     this.toHour = '',
-    this.contentEngagement = const {},
-    this.purchasingPower = '',
+    this.contentEngagement = const [],
   });
 
   final List<CountryShare> countries;
@@ -214,12 +219,11 @@ class Audience extends Equatable {
   final List<String> activityDays;
   final String fromHour;
   final String toHour;
-  final Map<String, double> contentEngagement;
-  final String purchasingPower;
+  final List<String> contentEngagement;
 
   Map<String, double> get countryShares => {for (final c in countries) c.country: c.percent};
 
-  /// نتيجة القراءة الآلية فوق القيم الحالية: كل قسم تعمّر من اللقطة يعوّض القديم.
+
   Audience overlay(Audience scan) => Audience(
         countries: scan.countries.isNotEmpty ? scan.countries : countries,
         regions: scan.regions.isNotEmpty ? scan.regions : regions,
@@ -232,10 +236,9 @@ class Audience extends Equatable {
         fromHour: fromHour,
         toHour: toHour,
         contentEngagement: scan.contentEngagement.isNotEmpty ? scan.contentEngagement : contentEngagement,
-        purchasingPower: purchasingPower,
       );
 
-  /// عدد الأقسام اللي فيها قيم
+ 
   int get filledGroups => [
         countries.isNotEmpty,
         regions.isNotEmpty,
@@ -245,14 +248,13 @@ class Audience extends Equatable {
         contentEngagement.isNotEmpty,
       ].where((filled) => filled).length;
 
-  /// الأقسام اللي مجموعها ماشي 100
+
   List<String> get unbalanced => [
         if (!totals100(countryShares)) 'countries',
         if (!regionsUnspecified && !totals100(regions)) 'regions',
         if (!totals100(gender)) 'gender',
         if (!totals100(ages)) 'ages',
         if (!totals100(languages)) 'languages',
-        if (!totals100(contentEngagement)) 'contentEngagement',
       ];
 
   bool get isEmpty =>
@@ -264,8 +266,7 @@ class Audience extends Equatable {
       languages.isEmpty &&
       topPlatforms.isEmpty &&
       activityDays.isEmpty &&
-      contentEngagement.isEmpty &&
-      purchasingPower.isEmpty;
+      contentEngagement.isEmpty;
 
   @override
   List<Object?> get props => [
@@ -280,25 +281,19 @@ class Audience extends Equatable {
         fromHour,
         toHour,
         contentEngagement,
-        purchasingPower,
       ];
 }
 
-/// الأقسام الاختيارية (تقدر تتكمّل حتى بعد التوثيق).
 class OptionalInfo extends RegistrationSection {
-  const OptionalInfo({this.audience = const Audience(), this.skills = const [], this.contentTypes = const []});
+  const OptionalInfo({this.audience = const Audience(), this.contentTypes = const []});
 
   final Audience audience;
-  final List<String> skills;
-
-  /// أنواع المحتوى الإعلاني مرتبة حسب الأولوية
   final List<String> contentTypes;
 
   @override
-  List<Object?> get props => [audience, skills, contentTypes];
+  List<Object?> get props => [audience, contentTypes];
 }
 
-// ---------- الملف ----------
 
 class Registration extends Equatable {
   const Registration({
@@ -310,6 +305,7 @@ class Registration extends Equatable {
     required this.contact,
     required this.optional,
     required this.status,
+    this.consents = const ConsentInfo(),
     this.profileImageUrl,
     this.submittedAt,
     this.updatedAt,
@@ -322,6 +318,7 @@ class Registration extends Equatable {
   final ProfileInfo profile;
   final ContactInfo contact;
   final OptionalInfo optional;
+  final ConsentInfo consents;
   final VerificationStatus status;
   final String? profileImageUrl;
   final DateTime? submittedAt;
@@ -329,17 +326,18 @@ class Registration extends Equatable {
 
   bool get isDraft => status == VerificationStatus.draft;
 
-  /// القسم محفوظ بنفس القيم: ما نبعثوش PATCH
+
   bool hasSaved(RegistrationSection section) => switch (section) {
         final PersonalInfo value => value == personal,
         final ProfileInfo value => value == profile,
         final ContactInfo value => value == contact,
         final OptionalInfo value => value == optional,
+        final ConsentInfo value => value == consents,
       };
 
   bool get canStartNewAttempt => status == VerificationStatus.needsChanges || status == VerificationStatus.rejected;
 
-  /// الأقسام الاختيارية تتعدّل حتى بعد الإرسال والتوثيق
+
   bool get canEditOptional => isCurrent && !canStartNewAttempt;
 
   Registration copyWith({Object? profileImageUrl = _keep, DateTime? updatedAt}) => Registration(
@@ -350,6 +348,7 @@ class Registration extends Equatable {
         profile: profile,
         contact: contact,
         optional: optional,
+        consents: consents,
         status: status,
         profileImageUrl: identical(profileImageUrl, _keep) ? this.profileImageUrl : profileImageUrl as String?,
         submittedAt: submittedAt,
@@ -367,6 +366,7 @@ class Registration extends Equatable {
         profile,
         contact,
         optional,
+        consents,
         status,
         profileImageUrl,
         submittedAt,
@@ -399,19 +399,19 @@ class SocialAccount extends Equatable {
   final int followers;
   final String avatarUrl;
 
-  /// auto: الاسم والصورة والمتابعين يتجددو وحدهم من المنصة
+ 
   final SocialSource source;
   final DateTime? lastSyncedAt;
   final bool verified;
 
-  /// المتابعين مقروين من لقطة شاشة للبروفايل (تتراجع في الاجتماع)
+
   final bool hasScreenshot;
 
   bool get isAuto => source == SocialSource.auto;
 
   bool get fromScreenshot => source == SocialSource.screenshot;
 
-  /// حساب يدوي ناقص: لازم يكمّل الاسم وعدد المتابعين
+
   bool get needsDetails => !isAuto && (accountName.isEmpty || followers == 0);
 
   @override
@@ -465,37 +465,40 @@ class FinancialAccount extends Equatable {
 
   final int id;
 
-  /// يستنتجو السيرفر من الرقم واسم المؤسسة (للعرض فقط)
+  
   final FinancialKind kind;
   final String institutionName;
   final String accountNumber;
   final String accountKey;
 
-  /// RIB: المفتاح صحيح حسابياً؟ (ملاحظة فقط)
+
   final bool? keyValid;
 
   @override
   List<Object?> get props => [id, kind, institutionName, accountNumber, accountKey, keyValid];
 }
 
-/// الحقول اللي قراها السيرفر من الوثيقة (تعمّر الاستمارة، والمؤثر يراجع).
+
 class ScannedFields extends Equatable {
   const ScannedFields({
     this.firstName = '',
     this.lastName = '',
+    this.idNumber = '',
     this.birthDate,
     this.birthPlace = '',
   });
 
   final String firstName;
   final String lastName;
+  final String idNumber;
   final DateTime? birthDate;
   final String birthPlace;
 
-  bool get hasIdentity => firstName.isNotEmpty || lastName.isNotEmpty || birthDate != null || birthPlace.isNotEmpty;
+  bool get hasIdentity =>
+      firstName.isNotEmpty || lastName.isNotEmpty || idNumber.isNotEmpty || birthDate != null || birthPlace.isNotEmpty;
 
   @override
-  List<Object?> get props => [firstName, lastName, birthDate, birthPlace];
+  List<Object?> get props => [firstName, lastName, idNumber, birthDate, birthPlace];
 }
 
 class RegistrationDocument extends Equatable {
@@ -524,16 +527,6 @@ class RegistrationDocument extends Equatable {
   @override
   List<Object?> get props =>
       [id, type, financialAccountId, fileName, verified, check, scanned, downloadUrl, createdAt];
-}
-
-class FinancialScan extends Equatable {
-  const FinancialScan({required this.account, required this.document});
-
-  final FinancialAccount account;
-  final RegistrationDocument document;
-
-  @override
-  List<Object?> get props => [account, document];
 }
 
 class VerificationMeeting extends Equatable {

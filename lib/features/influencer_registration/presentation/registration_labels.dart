@@ -29,51 +29,6 @@ extension RegistrationLabels on AppLocalizations {
         _ => code,
       };
 
-  String levelLabel(LanguageLevel level) => switch (level) {
-        LanguageLevel.basic => levelBasic,
-        LanguageLevel.good => levelGood,
-        LanguageLevel.advanced => levelAdvanced,
-      };
-
-  String skillGroupLabel(String group) => switch (group) {
-        'core' => skillGroupCore,
-        'production' => skillGroupProduction,
-        'marketing' => skillGroupMarketing,
-        'advanced' => skillGroupAdvanced,
-        _ => group,
-      };
-
-  String skillLabel(String id) => switch (id) {
-        'copywriting' => skillCopywriting,
-        'storytelling' => skillStorytelling,
-        'onCamera' => skillOnCamera,
-        'acting' => skillActing,
-        'voiceOver' => skillVoiceOver,
-        'productReviews' => skillProductReviews,
-        'educational' => skillEducational,
-        'motivational' => skillMotivational,
-        'comedy' => skillComedy,
-        'dailyLife' => skillDailyLife,
-        'videoShooting' => skillVideoShooting,
-        'photography' => skillPhotography,
-        'videoEditing' => skillVideoEditing,
-        'photoEditing' => skillPhotoEditing,
-        'directing' => skillDirecting,
-        'lighting' => skillLighting,
-        'audioSetup' => skillAudioSetup,
-        'adIntegration' => skillAdIntegration,
-        'indirectPromotion' => skillIndirectPromotion,
-        'effectiveCta' => skillEffectiveCta,
-        'brandIdentity' => skillBrandIdentity,
-        'briefCompliance' => skillBriefCompliance,
-        'campaignManagement' => skillCampaignManagement,
-        'adScripting' => skillAdScripting,
-        'performanceAnalysis' => skillPerformanceAnalysis,
-        'contentRepurposing' => skillContentRepurposing,
-        'multilingual' => skillMultilingual,
-        _ => id,
-      };
-
   String adContentTypeLabel(String id) => switch (id) {
         'review' => adctReview,
         'testTry' => adctTestTry,
@@ -122,6 +77,9 @@ extension RegistrationLabels on AppLocalizations {
         'photo' => audPhoto,
         'stories' => 'Stories',
         'live' => 'Live',
+        'written' => audWritten,
+        'audio' => audAudio,
+        'interactive' => audInteractive,
         _ => id,
       };
 
@@ -133,13 +91,6 @@ extension RegistrationLabels on AppLocalizations {
         'wed' => dayWed,
         'thu' => dayThu,
         'fri' => dayFri,
-        _ => id,
-      };
-
-  String purchasingLabel(String id) => switch (id) {
-        'low' => audLow,
-        'medium' => audMedium,
-        'high' => audHigh,
         _ => id,
       };
 

@@ -9,8 +9,15 @@ typedef SaveSectionParams = ({int? id, RegistrationSection section});
 typedef ProfileImageParams = ({int id, UploadFile image});
 typedef SocialUrlParams = ({int registrationId, String url});
 typedef SocialDetailsParams = ({int id, String accountName, int followers});
-typedef PortfolioParams = ({int registrationId, PortfolioItem item, UploadFile? file});
-typedef FinancialAccountParams = ({int registrationId, FinancialAccount account});
+typedef PortfolioParams = ({
+  int registrationId,
+  PortfolioItem item,
+  UploadFile? file,
+});
+typedef FinancialAccountParams = ({
+  int registrationId,
+  FinancialAccount account,
+});
 typedef DocumentParams = ({
   int registrationId,
   DocumentType type,
@@ -19,17 +26,23 @@ typedef DocumentParams = ({
   bool acceptUnreadable,
 });
 typedef ScanFileParams = ({int id, UploadFile file});
-typedef AudienceScanParams = ({int registrationId, List<UploadFile> images, String platform, String language});
+typedef AudienceScanParams = ({
+  int registrationId,
+  List<UploadFile> images,
+  String platform,
+  String language,
+});
 
-/// ملفات معرض الأعمال: صور وفيديو وPDF حتى 50MB
 const portfolioFileRules = FileRules(
   extensions: {'jpg', 'jpeg', 'png', 'webp', 'pdf', 'mp4', 'mov'},
   maxBytes: 50 * 1024 * 1024,
 );
 
-ValidationFailure _invalid(String field, String error) => ValidationFailure(details: {field: error});
+ValidationFailure _invalid(String field, String error) =>
+    ValidationFailure(details: {field: error});
 
-Failure? checkFile(UploadFile file, FileRules rules) => switch (rules.check(fileName: file.name, sizeInBytes: file.size)) {
+Failure? checkFile(UploadFile file, FileRules rules) =>
+    switch (rules.check(fileName: file.name, sizeInBytes: file.size)) {
       FileCheck.ok => null,
       FileCheck.badExtension => _invalid('file', 'badExtension'),
       FileCheck.tooLarge => _invalid('file', 'tooLarge'),
@@ -37,100 +50,131 @@ Failure? checkFile(UploadFile file, FileRules rules) => switch (rules.check(file
 
 String _digits(String value) => value.replaceAll(RegExp(r'[^0-9]'), '');
 
-String _phone(String value) => value.trim().replaceAll(RegExp(r'[\s\-().]'), '');
+String _phone(String value) =>
+    value.trim().replaceAll(RegExp(r'[\s\-().]'), '');
 
-/// تنظيف + قواعد الوثائق قبل ما نبعثو للسيرفر.
-Result<RegistrationSection> cleanSection(RegistrationSection section) => switch (section) {
-      final PersonalInfo personal => Ok(PersonalInfo(
+Result<RegistrationSection> cleanSection(RegistrationSection section) =>
+    switch (section) {
+      final PersonalInfo personal => Ok(
+        PersonalInfo(
           firstName: personal.firstName.trim(),
           lastName: personal.lastName.trim(),
+          idNumber: personal.idNumber.replaceAll(RegExp(r'[^A-Za-z0-9]'), '').toUpperCase(),
           birthDate: personal.birthDate,
           birthPlace: personal.birthPlace.trim(),
           entityType: personal.entityType,
-        )),
+        ),
+      ),
       final ProfileInfo profile => _cleanProfile(profile),
-      final ContactInfo contact => Ok(ContactInfo(
+      final ContactInfo contact => Ok(
+        ContactInfo(
           phone: _phone(contact.phone),
           whatsapp: _phone(contact.whatsapp),
           email: contact.email.trim().toLowerCase(),
-        )),
+          backupPhone: _phone(contact.backupPhone),
+          deliveryAddress: contact.deliveryAddress.trim().replaceAll(RegExp(r'\s+'), ' '),
+        ),
+      ),
       final OptionalInfo optional => _cleanOptional(optional),
+      final ConsentInfo consents => consents.all
+          ? Ok(consents)
+          : Err(_invalid('consents', 'required')),
     };
 
 Result<RegistrationSection> _cleanProfile(ProfileInfo profile) {
-  if (profile.primaryCategories.isEmpty) return Err(_invalid('primaryCategories', 'required'));
-  if (profile.contentLanguages.isEmpty) return Err(_invalid('contentLanguages', 'required'));
-  if (profile.addressLanguages.isEmpty) return Err(_invalid('addressLanguages', 'required'));
+  if (profile.primaryCategories.isEmpty) {
+    return Err(_invalid('primaryCategories', 'required'));
+  }
+  if (profile.contentLanguages.isEmpty) {
+    return Err(_invalid('contentLanguages', 'required'));
+  }
+  if (profile.addressLanguages.isEmpty) {
+    return Err(_invalid('addressLanguages', 'required'));
+  }
   final languages = [
     for (final language in profile.contentLanguages)
       ContentLanguage(
         code: language.code,
-        level: language.level,
-        name: language.code == RegistrationCatalog.otherLanguage ? language.name.trim() : '',
+        percent: language.percent,
+        name: language.code == RegistrationCatalog.otherLanguage
+            ? language.name.trim()
+            : '',
       ),
   ];
-  if (languages.any((l) => l.code == RegistrationCatalog.otherLanguage && l.name.isEmpty)) {
+  if (languages.any(
+    (l) => l.code == RegistrationCatalog.otherLanguage && l.name.isEmpty,
+  )) {
     return Err(_invalid('contentLanguages', 'otherName'));
   }
-  return Ok(ProfileInfo(
-    displayName: profile.displayName.trim(),
-    primaryCategories: profile.primaryCategories,
-    secondaryCategories: [
-      for (final c in profile.secondaryCategories)
-        if (!profile.primaryCategories.contains(c)) c,
-    ],
-    bio: profile.bio.trim(),
-    contentLanguages: languages,
-    addressLanguages: profile.addressLanguages.take(RegistrationCatalog.maxAddressLanguages).toList(),
-  ));
+  if (!totals100({for (final l in languages) l.code: l.percent}) ||
+      languages.any((l) => l.percent <= 0)) {
+    return Err(_invalid('contentLanguages', 'total'));
+  }
+  return Ok(
+    ProfileInfo(
+      displayName: profile.displayName.trim(),
+      primaryCategories: profile.primaryCategories,
+      secondaryCategories: [
+        for (final c in profile.secondaryCategories)
+          if (!profile.primaryCategories.contains(c)) c,
+      ],
+      bio: profile.bio.trim(),
+      contentLanguages: languages,
+      addressLanguages: profile.addressLanguages
+          .take(RegistrationCatalog.maxAddressLanguages)
+          .toList(),
+    ),
+  );
 }
 
 Result<RegistrationSection> _cleanOptional(OptionalInfo info) {
-  final skills = info.skills;
-  if (skills.isNotEmpty && (skills.length < RegistrationCatalog.minSkills || skills.length > RegistrationCatalog.maxSkills)) {
-    return Err(_invalid('skills', 'count'));
-  }
   if (info.audience.unbalanced case final groups when groups.isNotEmpty) {
     return Err(ValidationFailure(details: {'audience': groups}));
   }
   Map<String, double> positive(Map<String, double> shares) => {
-        for (final entry in shares.entries)
-          if (entry.value > 0) entry.key: entry.value,
-      };
+    for (final entry in shares.entries)
+      if (entry.value > 0) entry.key: entry.value,
+  };
   final audience = info.audience;
-  return Ok(OptionalInfo(
-    skills: skills,
-    contentTypes: info.contentTypes,
-    audience: Audience(
-      countries: [
-        for (final c in audience.countries)
-          if (c.country.trim().isNotEmpty && c.percent > 0) CountryShare(country: c.country.trim(), percent: c.percent),
-      ],
-      regions: audience.regionsUnspecified ? const {} : positive(audience.regions),
-      regionsUnspecified: audience.regionsUnspecified,
-      gender: positive(audience.gender),
-      ages: positive(audience.ages),
-      languages: positive(audience.languages),
-      topPlatforms: audience.topPlatforms.take(RegistrationCatalog.maxTopPlatforms).toList(),
-      activityDays: audience.activityDays,
-      fromHour: audience.fromHour,
-      toHour: audience.toHour,
-      contentEngagement: positive(audience.contentEngagement),
-      purchasingPower: audience.purchasingPower,
+  return Ok(
+    OptionalInfo(
+      contentTypes: info.contentTypes,
+      audience: Audience(
+        countries: [
+          for (final c in audience.countries)
+            if (c.country.trim().isNotEmpty && c.percent > 0)
+              CountryShare(country: c.country.trim(), percent: c.percent),
+        ],
+        regions: audience.regionsUnspecified
+            ? const {}
+            : positive(audience.regions),
+        regionsUnspecified: audience.regionsUnspecified,
+        gender: positive(audience.gender),
+        ages: positive(audience.ages),
+        languages: positive(audience.languages),
+        topPlatforms: audience.topPlatforms
+            .take(RegistrationCatalog.maxTopPlatforms)
+            .toList(),
+        activityDays: audience.activityDays,
+        fromHour: audience.fromHour,
+        toHour: audience.toHour,
+        contentEngagement: audience.contentEngagement,
+      ),
     ),
-  ));
+  );
 }
 
-class LoadCurrentRegistrationUseCase implements UseCase<RegistrationBundle, NoParams> {
+class LoadCurrentRegistrationUseCase
+    implements UseCase<RegistrationBundle, NoParams> {
   const LoadCurrentRegistrationUseCase(this._repository);
 
   final RegistrationRepository _repository;
 
   @override
-  Future<Result<RegistrationBundle>> call(NoParams params) => _repository.loadCurrent();
+  Future<Result<RegistrationBundle>> call(NoParams params) =>
+      _repository.loadCurrent();
 }
 
-/// يحفظ قسم واحد. أول قسم (المعلومات الشخصية) ينشئ الملف.
 class SaveSectionUseCase implements UseCase<Registration, SaveSectionParams> {
   const SaveSectionUseCase(this._repository);
 
@@ -139,16 +183,22 @@ class SaveSectionUseCase implements UseCase<Registration, SaveSectionParams> {
   @override
   Future<Result<Registration>> call(SaveSectionParams params) async {
     final cleaned = cleanSection(params.section);
-    if (cleaned case Err(:final failure)) return Err(failure);
+    if (cleaned case Err(:final failure)) {
+      return Err(failure);
+    }
     final section = (cleaned as Ok<RegistrationSection>).value;
     final id = params.id;
-    if (id != null) return _repository.saveSection(id, section);
-    if (section is! PersonalInfo) return Err(_invalid('registration', 'required'));
+    if (id != null) {
+      return _repository.saveSection(id, section);
+    }
+    if (section is! PersonalInfo) {
+      return Err(_invalid('registration', 'required'));
+    }
     return _repository.create(section);
   }
 }
 
-/// محاولة جديدة بعد "يحتاج تعديلات" أو "مرفوض": ننقلو المعلومات القديمة.
+
 class StartNewAttemptUseCase implements UseCase<Registration, Registration> {
   const StartNewAttemptUseCase(this._repository);
 
@@ -157,11 +207,19 @@ class StartNewAttemptUseCase implements UseCase<Registration, Registration> {
   @override
   Future<Result<Registration>> call(Registration previous) async {
     final created = await _repository.create(previous.personal);
-    if (created case Err()) return created;
+    if (created case Err()) {
+      return created;
+    }
     var registration = (created as Ok<Registration>).value;
-    for (final section in <RegistrationSection>[previous.profile, previous.contact, previous.optional]) {
+    for (final section in <RegistrationSection>[
+      previous.profile,
+      previous.contact,
+      previous.optional,
+    ]) {
       final saved = await _repository.saveSection(registration.id, section);
-      if (saved case Ok(:final value)) registration = value;
+      if (saved case Ok(:final value)) {
+        registration = value;
+      }
     }
     return Ok(registration);
   }
@@ -176,14 +234,17 @@ class SubmitRegistrationUseCase implements UseCase<Registration, int> {
   Future<Result<Registration>> call(int id) => _repository.submit(id);
 }
 
-class UploadProfileImageUseCase implements UseCase<Registration, ProfileImageParams> {
+class UploadProfileImageUseCase
+    implements UseCase<Registration, ProfileImageParams> {
   const UploadProfileImageUseCase(this._repository);
 
   final RegistrationRepository _repository;
 
   @override
   Future<Result<Registration>> call(ProfileImageParams params) async {
-    if (checkFile(params.image, FileRules.images) case final failure?) return Err<Registration>(failure);
+    if (checkFile(params.image, FileRules.images) case final failure?) {
+      return Err<Registration>(failure);
+    }
     return _repository.uploadProfileImage(params.id, params.image);
   }
 }
@@ -197,7 +258,8 @@ class DeleteProfileImageUseCase implements UseCase<void, int> {
   Future<Result<void>> call(int id) => _repository.deleteProfileImage(id);
 }
 
-class AddSocialAccountUseCase implements UseCase<SocialAccount, SocialUrlParams> {
+class AddSocialAccountUseCase
+    implements UseCase<SocialAccount, SocialUrlParams> {
   const AddSocialAccountUseCase(this._repository);
 
   final RegistrationRepository _repository;
@@ -206,19 +268,26 @@ class AddSocialAccountUseCase implements UseCase<SocialAccount, SocialUrlParams>
   Future<Result<SocialAccount>> call(SocialUrlParams params) async {
     final url = params.url.trim();
     final uri = Uri.tryParse(url.contains('://') ? url : 'https://$url');
-    if (url.isEmpty || uri == null || !uri.host.contains('.')) return Err(_invalid('url', 'invalid'));
+    if (url.isEmpty || uri == null || !uri.host.contains('.')) {
+      return Err(_invalid('url', 'invalid'));
+    }
     return _repository.addSocialAccount(params.registrationId, url);
   }
 }
 
-class UpdateSocialAccountUseCase implements UseCase<SocialAccount, SocialDetailsParams> {
+class UpdateSocialAccountUseCase
+    implements UseCase<SocialAccount, SocialDetailsParams> {
   const UpdateSocialAccountUseCase(this._repository);
 
   final RegistrationRepository _repository;
 
   @override
   Future<Result<SocialAccount>> call(SocialDetailsParams params) =>
-      _repository.updateSocialAccount(params.id, accountName: params.accountName.trim(), followers: params.followers);
+      _repository.updateSocialAccount(
+        params.id,
+        accountName: params.accountName.trim(),
+        followers: params.followers,
+      );
 }
 
 class RefreshSocialAccountUseCase implements UseCase<SocialAccount, int> {
@@ -227,7 +296,8 @@ class RefreshSocialAccountUseCase implements UseCase<SocialAccount, int> {
   final RegistrationRepository _repository;
 
   @override
-  Future<Result<SocialAccount>> call(int id) => _repository.refreshSocialAccount(id);
+  Future<Result<SocialAccount>> call(int id) =>
+      _repository.refreshSocialAccount(id);
 }
 
 class DeleteSocialAccountUseCase implements UseCase<void, int> {
@@ -239,19 +309,22 @@ class DeleteSocialAccountUseCase implements UseCase<void, int> {
   Future<Result<void>> call(int id) => _repository.deleteSocialAccount(id);
 }
 
-class ApplySocialScreenshotUseCase implements UseCase<SocialAccount, ScanFileParams> {
+class ApplySocialScreenshotUseCase
+    implements UseCase<SocialAccount, ScanFileParams> {
   const ApplySocialScreenshotUseCase(this._repository);
 
   final RegistrationRepository _repository;
 
   @override
   Future<Result<SocialAccount>> call(ScanFileParams params) async {
-    if (checkFile(params.file, FileRules.images) case final failure?) return Err<SocialAccount>(failure);
+    if (checkFile(params.file, FileRules.images) case final failure?) {
+      return Err<SocialAccount>(failure);
+    }
     return _repository.applySocialScreenshot(params.id, params.file);
   }
 }
 
-/// عدة لقطات Insights: كل لقطة تعمّر الأقسام اللي فيها. يكفي وحدة تنجح.
+
 class ScanAudienceUseCase implements UseCase<Audience, AudienceScanParams> {
   const ScanAudienceUseCase(this._repository);
 
@@ -277,25 +350,32 @@ class ScanAudienceUseCase implements UseCase<Audience, AudienceScanParams> {
           merged = (merged ?? const Audience()).overlay(value);
         case Err(:final failure):
           lastFailure = failure;
-          // السيرفر ما فيهش القراءة الآلية: ما فايدة نكمّلو
-          if (failure.code == 'ocr_unavailable') return Err(failure);
+         
+          if (failure.code == 'ocr_unavailable') {
+            return Err(failure);
+          }
       }
     }
-    if (merged != null) return Ok(merged);
+    if (merged != null) {
+      return Ok(merged);
+    }
     return Err(lastFailure ?? _invalid('file', 'required'));
   }
 }
 
-class CreateDraftRegistrationUseCase implements UseCase<Registration, NoParams> {
+class CreateDraftRegistrationUseCase
+    implements UseCase<Registration, NoParams> {
   const CreateDraftRegistrationUseCase(this._repository);
 
   final RegistrationRepository _repository;
 
   @override
-  Future<Result<Registration>> call(NoParams params) => _repository.createDraft();
+  Future<Result<Registration>> call(NoParams params) =>
+      _repository.createDraft();
 }
 
-class AddPortfolioItemUseCase implements UseCase<PortfolioItem, PortfolioParams> {
+class AddPortfolioItemUseCase
+    implements UseCase<PortfolioItem, PortfolioParams> {
   const AddPortfolioItemUseCase(this._repository);
 
   final RegistrationRepository _repository;
@@ -305,13 +385,19 @@ class AddPortfolioItemUseCase implements UseCase<PortfolioItem, PortfolioParams>
     final item = params.item;
     final file = params.file;
     if (file != null) {
-      if (checkFile(file, portfolioFileRules) case final failure?) return Err<PortfolioItem>(failure);
+      if (checkFile(file, portfolioFileRules) case final failure?) {
+        return Err<PortfolioItem>(failure);
+      }
     } else if (item.link.trim().isEmpty) {
       return Err(_invalid('link', 'required'));
     }
     return _repository.addPortfolioItem(
       params.registrationId,
-      PortfolioItem(title: item.title.trim(), description: item.description.trim(), link: item.link.trim()),
+      PortfolioItem(
+        title: item.title.trim(),
+        description: item.description.trim(),
+        link: item.link.trim(),
+      ),
       file,
     );
   }
@@ -326,9 +412,8 @@ class DeletePortfolioItemUseCase implements UseCase<void, int> {
   Future<Result<void>> call(int id) => _repository.deletePortfolioItem(id);
 }
 
-/// أي مؤسسة مالية: الاسم حر ورقم الحساب حر (CCP، RIB، IBAN، محفظة إلكترونية...).
-/// لو الرقم RIB/RIP (20 رقم) السيرفر يعرف المؤسسة من رمز البنك.
-class AddFinancialAccountUseCase implements UseCase<FinancialAccount, FinancialAccountParams> {
+class AddFinancialAccountUseCase
+    implements UseCase<FinancialAccount, FinancialAccountParams> {
   const AddFinancialAccountUseCase(this._repository);
 
   final RegistrationRepository _repository;
@@ -341,28 +426,41 @@ class AddFinancialAccountUseCase implements UseCase<FinancialAccount, FinancialA
     final number = cleanAccountNumber(account.accountNumber);
     final key = _digits(account.accountKey);
     final institution = account.institutionName.trim();
-    if (!_number.hasMatch(number)) return Err(_invalid('accountNumber', 'invalid'));
-    if (key.isNotEmpty && key.length != 2) return Err(_invalid('accountKey', 'invalid'));
+    if (!_number.hasMatch(number)) {
+      return Err(_invalid('accountNumber', 'invalid'));
+    }
+    if (key.isNotEmpty && key.length != 2) {
+      return Err(_invalid('accountKey', 'invalid'));
+    }
     final isRib = RegExp(r'^\d{20}$').hasMatch(number);
-    if (institution.isEmpty && !isRib) return Err(_invalid('institutionName', 'required'));
+    if (institution.isEmpty && !isRib) {
+      return Err(_invalid('institutionName', 'required'));
+    }
     return _repository.addFinancialAccount(
       params.registrationId,
-      FinancialAccount(institutionName: institution, accountNumber: number, accountKey: key),
+      FinancialAccount(
+        institutionName: institution,
+        accountNumber: number,
+        accountKey: key,
+      ),
     );
   }
 }
 
-String cleanAccountNumber(String value) => value.replaceAll(RegExp(r'[\s\-.]'), '').toUpperCase();
+String cleanAccountNumber(String value) =>
+    value.replaceAll(RegExp(r'[\s\-.]'), '').toUpperCase();
 
-class ScanCcpChequeUseCase implements UseCase<FinancialScan, ScanFileParams> {
-  const ScanCcpChequeUseCase(this._repository);
+class ReadFinancialDocumentUseCase implements UseCase<FinancialAccount, ScanFileParams> {
+  const ReadFinancialDocumentUseCase(this._repository);
 
   final RegistrationRepository _repository;
 
   @override
-  Future<Result<FinancialScan>> call(ScanFileParams params) async {
-    if (checkFile(params.file, FileRules.documents) case final failure?) return Err<FinancialScan>(failure);
-    return _repository.scanCcpCheque(params.id, params.file);
+  Future<Result<FinancialAccount>> call(ScanFileParams params) async {
+    if (checkFile(params.file, FileRules.documents) case final failure?) {
+      return Err<FinancialAccount>(failure);
+    }
+    return _repository.readFinancialDocument(params.id, params.file);
   }
 }
 
@@ -375,14 +473,17 @@ class DeleteFinancialAccountUseCase implements UseCase<void, int> {
   Future<Result<void>> call(int id) => _repository.deleteFinancialAccount(id);
 }
 
-class UploadDocumentUseCase implements UseCase<RegistrationDocument, DocumentParams> {
+class UploadDocumentUseCase
+    implements UseCase<RegistrationDocument, DocumentParams> {
   const UploadDocumentUseCase(this._repository);
 
   final RegistrationRepository _repository;
 
   @override
   Future<Result<RegistrationDocument>> call(DocumentParams params) async {
-    if (checkFile(params.file, FileRules.documents) case final failure?) return Err<RegistrationDocument>(failure);
+    if (checkFile(params.file, FileRules.documents) case final failure?) {
+      return Err<RegistrationDocument>(failure);
+    }
     return _repository.uploadDocument(
       params.registrationId,
       params.type,

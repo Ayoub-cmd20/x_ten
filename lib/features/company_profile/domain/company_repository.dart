@@ -1,6 +1,14 @@
 import 'package:x_ten/core/utils/result.dart';
 import 'package:x_ten/features/company_profile/domain/company_entities.dart';
 
+typedef CompanyUpload = ({
+  CompanyDocumentType type,
+  UploadFile file,
+  int? financialAccountId,
+  String description,
+  bool acceptUnreadable,
+});
+
 abstract interface class CompanyRepository {
   Future<Result<CompanyBundle>> load();
 
@@ -8,15 +16,21 @@ abstract interface class CompanyRepository {
 
   Future<Result<CompanyProfile>> updateType(BusinessType type);
 
-  Future<Result<CompanyProfile>> updateInfo(BusinessType type, CompanyInfo info);
+  Future<Result<CompanyProfile>> saveSection(CompanySection section);
 
-  Future<Result<CompanyProfile>> updateContact(CompanyContact contact);
+  Future<Result<CompanyProfile>> uploadPhoto(UploadFile image);
 
-  Future<Result<CompanyProfile>> updateConsents(CompanyConsents consents);
+  Future<Result<void>> deletePhoto();
 
-  Future<Result<CompanyProfile>> submit();
-
-  Future<Result<CompanyDocument>> uploadDocument(CompanyDocumentType type, UploadFile file);
+  Future<Result<CompanyDocument>> uploadDocument(CompanyUpload upload);
 
   Future<Result<void>> deleteDocument(int id);
+
+  Future<Result<FinancialAccount>> addFinancialAccount(FinancialAccount account);
+
+  Future<Result<void>> deleteFinancialAccount(int id);
+
+  Future<Result<FinancialAccount>> readFinancialDocument(UploadFile file);
+
+  Future<Result<CompanyProfile>> submit();
 }

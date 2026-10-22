@@ -1042,12 +1042,6 @@ abstract class AppLocalizations {
   /// **'الدفع والمستندات'**
   String get stepFinancial;
 
-  /// No description provided for @stepReview.
-  ///
-  /// In ar, this message translates to:
-  /// **'المراجعة والإرسال'**
-  String get stepReview;
-
   /// No description provided for @stepCounter.
   ///
   /// In ar, this message translates to:
@@ -1149,18 +1143,6 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'عرّف بنفسك وبالمحتوى الذي تقدمه'**
   String get bioHint;
-
-  /// No description provided for @skills.
-  ///
-  /// In ar, this message translates to:
-  /// **'المهارات'**
-  String get skills;
-
-  /// No description provided for @skillsHint.
-  ///
-  /// In ar, this message translates to:
-  /// **'مثال: تصوير، مونتاج، تقديم'**
-  String get skillsHint;
 
   /// No description provided for @whatsapp.
   ///
@@ -1420,12 +1402,6 @@ abstract class AppLocalizations {
   /// **'رقم الحساب البنكي'**
   String get bankAccount;
 
-  /// No description provided for @ribInvalid.
-  ///
-  /// In ar, this message translates to:
-  /// **'20 رقمًا بالضبط'**
-  String get ribInvalid;
-
   /// No description provided for @documentsTitle.
   ///
   /// In ar, this message translates to:
@@ -1533,24 +1509,6 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'الموافقات'**
   String get consentsTitle;
-
-  /// No description provided for @consentConfirm.
-  ///
-  /// In ar, this message translates to:
-  /// **'أؤكد أن المعلومات المقدمة صحيحة'**
-  String get consentConfirm;
-
-  /// No description provided for @consentTerms.
-  ///
-  /// In ar, this message translates to:
-  /// **'أوافق على الشروط والأحكام'**
-  String get consentTerms;
-
-  /// No description provided for @consentPrivacy.
-  ///
-  /// In ar, this message translates to:
-  /// **'أوافق على سياسة الخصوصية'**
-  String get consentPrivacy;
 
   /// No description provided for @consentVerification.
   ///
@@ -1906,12 +1864,6 @@ abstract class AppLocalizations {
   /// **'نوع النشاط'**
   String get companyStepType;
 
-  /// No description provided for @companyStepInfo.
-  ///
-  /// In ar, this message translates to:
-  /// **'معلومات النشاط'**
-  String get companyStepInfo;
-
   /// No description provided for @companyStepContact.
   ///
   /// In ar, this message translates to:
@@ -1921,19 +1873,19 @@ abstract class AppLocalizations {
   /// No description provided for @businessTypeQuestion.
   ///
   /// In ar, this message translates to:
-  /// **'ما نوع نشاطك؟'**
+  /// **'هل لديك سجل تجاري؟'**
   String get businessTypeQuestion;
 
   /// No description provided for @businessTypeHint.
   ///
   /// In ar, this message translates to:
-  /// **'نحدد على أساسه المعلومات والمستندات المطلوبة.'**
+  /// **'نحدد على أساسه المعلومات والوثائق المطلوبة.'**
   String get businessTypeHint;
 
   /// No description provided for @businessRegistered.
   ///
   /// In ar, this message translates to:
-  /// **'شركة مسجلة'**
+  /// **'نعم، مؤسسة مسجلة'**
   String get businessRegistered;
 
   /// No description provided for @businessRegisteredDesc.
@@ -1945,7 +1897,7 @@ abstract class AppLocalizations {
   /// No description provided for @businessIndividual.
   ///
   /// In ar, this message translates to:
-  /// **'نشاط فردي'**
+  /// **'لا، نشاط فردي'**
   String get businessIndividual;
 
   /// No description provided for @businessIndividualDesc.
@@ -1953,18 +1905,6 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'تعمل لحسابك دون سجل تجاري.'**
   String get businessIndividualDesc;
-
-  /// No description provided for @ownerName.
-  ///
-  /// In ar, this message translates to:
-  /// **'اسم صاحب النشاط'**
-  String get ownerName;
-
-  /// No description provided for @branch.
-  ///
-  /// In ar, this message translates to:
-  /// **'الفرع أو الولاية'**
-  String get branch;
 
   /// No description provided for @address.
   ///
@@ -1978,77 +1918,11 @@ abstract class AppLocalizations {
   /// **'المعلومات القانونية'**
   String get legalInfo;
 
-  /// No description provided for @establishmentDate.
-  ///
-  /// In ar, this message translates to:
-  /// **'تاريخ التأسيس'**
-  String get establishmentDate;
-
-  /// No description provided for @professionalTitle.
-  ///
-  /// In ar, this message translates to:
-  /// **'الصفة المهنية'**
-  String get professionalTitle;
-
-  /// No description provided for @activityLabel.
-  ///
-  /// In ar, this message translates to:
-  /// **'النشاط'**
-  String get activityLabel;
-
-  /// No description provided for @nationalIdNumber.
-  ///
-  /// In ar, this message translates to:
-  /// **'رقم التعريف الوطني'**
-  String get nationalIdNumber;
-
-  /// No description provided for @declaredIndividualActivity.
-  ///
-  /// In ar, this message translates to:
-  /// **'أصرّح بأنني أمارس هذا النشاط بصفة فردية'**
-  String get declaredIndividualActivity;
-
-  /// No description provided for @website.
-  ///
-  /// In ar, this message translates to:
-  /// **'الموقع الإلكتروني'**
-  String get website;
-
-  /// No description provided for @marketingLinks.
-  ///
-  /// In ar, this message translates to:
-  /// **'روابط التسويق'**
-  String get marketingLinks;
-
-  /// No description provided for @marketingLinksHint.
-  ///
-  /// In ar, this message translates to:
-  /// **'صفحاتك على مواقع التواصل، اختياري'**
-  String get marketingLinksHint;
-
-  /// No description provided for @docCompanyIdentity.
-  ///
-  /// In ar, this message translates to:
-  /// **'بطاقة تعريف المسير'**
-  String get docCompanyIdentity;
-
   /// No description provided for @docCommercialRegister.
   ///
   /// In ar, this message translates to:
   /// **'السجل التجاري'**
   String get docCommercialRegister;
-
-  /// No description provided for @docCompanyStamp.
-  ///
-  /// In ar, this message translates to:
-  /// **'ختم الشركة'**
-  String get docCompanyStamp;
-
-  /// No description provided for @docCancelledCheque.
-  ///
-  /// In ar, this message translates to:
-  /// **'صك مشطوب'**
-  String get docCancelledCheque;
 
   /// No description provided for @companyNeedsChangesBanner.
   ///
@@ -2827,13 +2701,13 @@ abstract class AppLocalizations {
   /// No description provided for @regPrimaryCategories.
   ///
   /// In ar, this message translates to:
-  /// **'المجالات الرئيسية'**
+  /// **'مؤثر رئيسي في هذه المجالات'**
   String get regPrimaryCategories;
 
   /// No description provided for @regSecondaryCategories.
   ///
   /// In ar, this message translates to:
-  /// **'المجالات الثانوية'**
+  /// **'مؤثر ثانوي في هذه المجالات'**
   String get regSecondaryCategories;
 
   /// No description provided for @regBio.
@@ -2901,24 +2775,6 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'أخرى'**
   String get langOther;
-
-  /// No description provided for @levelBasic.
-  ///
-  /// In ar, this message translates to:
-  /// **'أساسي'**
-  String get levelBasic;
-
-  /// No description provided for @levelGood.
-  ///
-  /// In ar, this message translates to:
-  /// **'جيد'**
-  String get levelGood;
-
-  /// No description provided for @levelAdvanced.
-  ///
-  /// In ar, this message translates to:
-  /// **'متقدم'**
-  String get levelAdvanced;
 
   /// No description provided for @moveUp.
   ///
@@ -3016,18 +2872,6 @@ abstract class AppLocalizations {
   /// **'مرحلة حصر الجمهور'**
   String get regAudienceTitle;
 
-  /// No description provided for @regSkillsTitle.
-  ///
-  /// In ar, this message translates to:
-  /// **'مهاراتك ( إختر ما يناسبك )'**
-  String get regSkillsTitle;
-
-  /// No description provided for @regSkillsHint.
-  ///
-  /// In ar, this message translates to:
-  /// **'من {min} إلى {max} مهارات'**
-  String regSkillsHint(int min, int max);
-
   /// No description provided for @regContentTypesTitle.
   ///
   /// In ar, this message translates to:
@@ -3037,7 +2881,7 @@ abstract class AppLocalizations {
   /// No description provided for @regPortfolioTitle.
   ///
   /// In ar, this message translates to:
-  /// **'رفع أمثلة لمعرض أعمالك ( مهم جدا جدا )'**
+  /// **'رفع أمثلة لمعرض أعمالك '**
   String get regPortfolioTitle;
 
   /// No description provided for @regPortfolioFile.
@@ -3321,216 +3165,6 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'صور'**
   String get audPhoto;
-
-  /// No description provided for @audPurchasing.
-  ///
-  /// In ar, this message translates to:
-  /// **'القدرة الشرائية التقريبية'**
-  String get audPurchasing;
-
-  /// No description provided for @audLow.
-  ///
-  /// In ar, this message translates to:
-  /// **'منخفضة'**
-  String get audLow;
-
-  /// No description provided for @audMedium.
-  ///
-  /// In ar, this message translates to:
-  /// **'متوسطة'**
-  String get audMedium;
-
-  /// No description provided for @audHigh.
-  ///
-  /// In ar, this message translates to:
-  /// **'مرتفعة'**
-  String get audHigh;
-
-  /// No description provided for @skillGroupCore.
-  ///
-  /// In ar, this message translates to:
-  /// **'مهارات إنشاء المحتوى'**
-  String get skillGroupCore;
-
-  /// No description provided for @skillGroupProduction.
-  ///
-  /// In ar, this message translates to:
-  /// **'مهارات الإنتاج والتقنية'**
-  String get skillGroupProduction;
-
-  /// No description provided for @skillGroupMarketing.
-  ///
-  /// In ar, this message translates to:
-  /// **'مهارات متعلقة بالإعلان والتسويق'**
-  String get skillGroupMarketing;
-
-  /// No description provided for @skillGroupAdvanced.
-  ///
-  /// In ar, this message translates to:
-  /// **'مهارات متقدمة'**
-  String get skillGroupAdvanced;
-
-  /// No description provided for @skillCopywriting.
-  ///
-  /// In ar, this message translates to:
-  /// **'كتابة محتوى إعلاني (Copywriting)'**
-  String get skillCopywriting;
-
-  /// No description provided for @skillStorytelling.
-  ///
-  /// In ar, this message translates to:
-  /// **'سرد قصصي (Storytelling)'**
-  String get skillStorytelling;
-
-  /// No description provided for @skillOnCamera.
-  ///
-  /// In ar, this message translates to:
-  /// **'تقديم أمام الكاميرا'**
-  String get skillOnCamera;
-
-  /// No description provided for @skillActing.
-  ///
-  /// In ar, this message translates to:
-  /// **'تمثيل / أداء'**
-  String get skillActing;
-
-  /// No description provided for @skillVoiceOver.
-  ///
-  /// In ar, this message translates to:
-  /// **'تعليق صوتي (Voice Over)'**
-  String get skillVoiceOver;
-
-  /// No description provided for @skillProductReviews.
-  ///
-  /// In ar, this message translates to:
-  /// **'مراجعة منتجات (Reviews)'**
-  String get skillProductReviews;
-
-  /// No description provided for @skillEducational.
-  ///
-  /// In ar, this message translates to:
-  /// **'شرح وتعليم (Educational Content)'**
-  String get skillEducational;
-
-  /// No description provided for @skillMotivational.
-  ///
-  /// In ar, this message translates to:
-  /// **'محتوى تحفيزي / إلهامي'**
-  String get skillMotivational;
-
-  /// No description provided for @skillComedy.
-  ///
-  /// In ar, this message translates to:
-  /// **'محتوى كوميدي'**
-  String get skillComedy;
-
-  /// No description provided for @skillDailyLife.
-  ///
-  /// In ar, this message translates to:
-  /// **'محتوى واقعي / يوميات'**
-  String get skillDailyLife;
-
-  /// No description provided for @skillVideoShooting.
-  ///
-  /// In ar, this message translates to:
-  /// **'تصوير فيديو'**
-  String get skillVideoShooting;
-
-  /// No description provided for @skillPhotography.
-  ///
-  /// In ar, this message translates to:
-  /// **'تصوير فوتوغرافي'**
-  String get skillPhotography;
-
-  /// No description provided for @skillVideoEditing.
-  ///
-  /// In ar, this message translates to:
-  /// **'مونتاج فيديو'**
-  String get skillVideoEditing;
-
-  /// No description provided for @skillPhotoEditing.
-  ///
-  /// In ar, this message translates to:
-  /// **'تعديل صور'**
-  String get skillPhotoEditing;
-
-  /// No description provided for @skillDirecting.
-  ///
-  /// In ar, this message translates to:
-  /// **'إخراج بسيط'**
-  String get skillDirecting;
-
-  /// No description provided for @skillLighting.
-  ///
-  /// In ar, this message translates to:
-  /// **'إعداد إضاءة'**
-  String get skillLighting;
-
-  /// No description provided for @skillAudioSetup.
-  ///
-  /// In ar, this message translates to:
-  /// **'إعداد صوت'**
-  String get skillAudioSetup;
-
-  /// No description provided for @skillAdIntegration.
-  ///
-  /// In ar, this message translates to:
-  /// **'إدماج الإعلان بسلاسة'**
-  String get skillAdIntegration;
-
-  /// No description provided for @skillIndirectPromotion.
-  ///
-  /// In ar, this message translates to:
-  /// **'الترويج غير المباشر'**
-  String get skillIndirectPromotion;
-
-  /// No description provided for @skillEffectiveCta.
-  ///
-  /// In ar, this message translates to:
-  /// **'بناء CTA فعال'**
-  String get skillEffectiveCta;
-
-  /// No description provided for @skillBrandIdentity.
-  ///
-  /// In ar, this message translates to:
-  /// **'الالتزام بالهوية الإعلانية'**
-  String get skillBrandIdentity;
-
-  /// No description provided for @skillBriefCompliance.
-  ///
-  /// In ar, this message translates to:
-  /// **'الالتزام بسيناريو / Brief'**
-  String get skillBriefCompliance;
-
-  /// No description provided for @skillCampaignManagement.
-  ///
-  /// In ar, this message translates to:
-  /// **'إدارة حملة كاملة'**
-  String get skillCampaignManagement;
-
-  /// No description provided for @skillAdScripting.
-  ///
-  /// In ar, this message translates to:
-  /// **'إنشاء سكريبت إعلاني'**
-  String get skillAdScripting;
-
-  /// No description provided for @skillPerformanceAnalysis.
-  ///
-  /// In ar, this message translates to:
-  /// **'تحليل أداء المحتوى'**
-  String get skillPerformanceAnalysis;
-
-  /// No description provided for @skillContentRepurposing.
-  ///
-  /// In ar, this message translates to:
-  /// **'إعادة توظيف المحتوى'**
-  String get skillContentRepurposing;
-
-  /// No description provided for @skillMultilingual.
-  ///
-  /// In ar, this message translates to:
-  /// **'العمل بعدة لغات'**
-  String get skillMultilingual;
 
   /// No description provided for @adctReview.
   ///
@@ -3865,7 +3499,7 @@ abstract class AppLocalizations {
   /// No description provided for @finInstitutionHint.
   ///
   /// In ar, this message translates to:
-  /// **'اختر من القائمة أو اكتب اسم أي مؤسسة أخرى'**
+  /// **'مثال: بريد الجزائر، BNA، CPA، Payoneer'**
   String get finInstitutionHint;
 
   /// No description provided for @finAccountNumber.
@@ -3982,12 +3616,6 @@ abstract class AppLocalizations {
   /// **'تمت إضافة الحساب: {name}'**
   String finAdded(String name);
 
-  /// No description provided for @finProofAttached.
-  ///
-  /// In ar, this message translates to:
-  /// **'الصورة المرفقة: {name}'**
-  String finProofAttached(String name);
-
   /// No description provided for @audScanDone.
   ///
   /// In ar, this message translates to:
@@ -4006,41 +3634,935 @@ abstract class AppLocalizations {
   /// **'اللقطة لحساب آخر: اسم المستخدم لا يطابق الرابط'**
   String get screenshotWrongAccount;
 
-  /// No description provided for @ccpChequeTitle.
+  /// No description provided for @bizSectorFoodBeverage.
   ///
   /// In ar, this message translates to:
-  /// **'الصك البريدي المشطوب (إجباري)'**
-  String get ccpChequeTitle;
+  /// **'الأغذية والمشروبات'**
+  String get bizSectorFoodBeverage;
 
-  /// No description provided for @ccpChequeHint.
+  /// No description provided for @bizSectorTrade.
   ///
   /// In ar, this message translates to:
-  /// **'صوّر الصك ونستخرج رقم الـ RIP تلقائياً'**
-  String get ccpChequeHint;
+  /// **'التجارة والبيع'**
+  String get bizSectorTrade;
 
-  /// No description provided for @ccpChequeRequired.
+  /// No description provided for @bizSectorIndustry.
   ///
   /// In ar, this message translates to:
-  /// **'الصك البريدي المشطوب إجباري'**
-  String get ccpChequeRequired;
+  /// **'الصناعة والإنتاج'**
+  String get bizSectorIndustry;
 
-  /// No description provided for @ccpChequeRead.
+  /// No description provided for @bizSectorAgriculture.
   ///
   /// In ar, this message translates to:
-  /// **'قرأنا رقم الـ RIP من الصك'**
-  String get ccpChequeRead;
+  /// **'الفلاحة والمنتجات الزراعية'**
+  String get bizSectorAgriculture;
 
-  /// No description provided for @ccpRipLabel.
+  /// No description provided for @bizSectorRealEstate.
   ///
   /// In ar, this message translates to:
-  /// **'رقم الـ RIP أو رقم الـ CCP'**
-  String get ccpRipLabel;
+  /// **'العقار والإنشاءات'**
+  String get bizSectorRealEstate;
 
-  /// No description provided for @otherInstitutionsTitle.
+  /// No description provided for @bizSectorTransport.
   ///
   /// In ar, this message translates to:
-  /// **'مؤسسات مالية أخرى (اختياري)'**
-  String get otherInstitutionsTitle;
+  /// **'النقل واللوجستيك'**
+  String get bizSectorTransport;
+
+  /// No description provided for @bizSectorHealth.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصحة والخدمات الطبية'**
+  String get bizSectorHealth;
+
+  /// No description provided for @bizSectorEducation.
+  ///
+  /// In ar, this message translates to:
+  /// **'التعليم والتكوين'**
+  String get bizSectorEducation;
+
+  /// No description provided for @bizSectorTelecomTech.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاتصالات والتكنولوجيا'**
+  String get bizSectorTelecomTech;
+
+  /// No description provided for @bizSectorTourism.
+  ///
+  /// In ar, this message translates to:
+  /// **'السياحة والترفيه'**
+  String get bizSectorTourism;
+
+  /// No description provided for @bizSectorBeauty.
+  ///
+  /// In ar, this message translates to:
+  /// **'الجمال والعناية الشخصية'**
+  String get bizSectorBeauty;
+
+  /// No description provided for @bizSectorFashion.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأزياء والموضة'**
+  String get bizSectorFashion;
+
+  /// No description provided for @bizSectorAutomotive.
+  ///
+  /// In ar, this message translates to:
+  /// **'السيارات والنقل الخاص'**
+  String get bizSectorAutomotive;
+
+  /// No description provided for @bizSectorProfessionalServices.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخدمات المهنية'**
+  String get bizSectorProfessionalServices;
+
+  /// No description provided for @bizSectorMedia.
+  ///
+  /// In ar, this message translates to:
+  /// **'الإعلام والاتصال'**
+  String get bizSectorMedia;
+
+  /// No description provided for @bizSectorHomeServices.
+  ///
+  /// In ar, this message translates to:
+  /// **'الخدمات المنزلية'**
+  String get bizSectorHomeServices;
+
+  /// No description provided for @bizSectorConglomerates.
+  ///
+  /// In ar, this message translates to:
+  /// **'مجمّعات وشركات متعددة الأنشطة'**
+  String get bizSectorConglomerates;
+
+  /// No description provided for @bizSectorGovernment.
+  ///
+  /// In ar, this message translates to:
+  /// **'الجهات الحكومية والشبه حكومية'**
+  String get bizSectorGovernment;
+
+  /// No description provided for @bizSectorIndividuals.
+  ///
+  /// In ar, this message translates to:
+  /// **'أفراد / أنشطة مستقلة'**
+  String get bizSectorIndividuals;
+
+  /// No description provided for @bizSectorOther.
+  ///
+  /// In ar, this message translates to:
+  /// **'أخرى'**
+  String get bizSectorOther;
+
+  /// No description provided for @bizActivityRestaurants.
+  ///
+  /// In ar, this message translates to:
+  /// **'مطاعم'**
+  String get bizActivityRestaurants;
+
+  /// No description provided for @bizActivityCafes.
+  ///
+  /// In ar, this message translates to:
+  /// **'مقاهي'**
+  String get bizActivityCafes;
+
+  /// No description provided for @bizActivityFoodFactories.
+  ///
+  /// In ar, this message translates to:
+  /// **'مصانع غذائية'**
+  String get bizActivityFoodFactories;
+
+  /// No description provided for @bizActivityFoodDistribution.
+  ///
+  /// In ar, this message translates to:
+  /// **'توزيع مواد غذائية'**
+  String get bizActivityFoodDistribution;
+
+  /// No description provided for @bizActivityRetail.
+  ///
+  /// In ar, this message translates to:
+  /// **'متاجر تجزئة'**
+  String get bizActivityRetail;
+
+  /// No description provided for @bizActivityWholesale.
+  ///
+  /// In ar, this message translates to:
+  /// **'تجارة جملة'**
+  String get bizActivityWholesale;
+
+  /// No description provided for @bizActivityOnlineSales.
+  ///
+  /// In ar, this message translates to:
+  /// **'بيع عبر الإنترنت'**
+  String get bizActivityOnlineSales;
+
+  /// No description provided for @bizActivityLocalMarkets.
+  ///
+  /// In ar, this message translates to:
+  /// **'أسواق محلية'**
+  String get bizActivityLocalMarkets;
+
+  /// No description provided for @bizActivityManufacturing.
+  ///
+  /// In ar, this message translates to:
+  /// **'صناعة تحويلية'**
+  String get bizActivityManufacturing;
+
+  /// No description provided for @bizActivityFactories.
+  ///
+  /// In ar, this message translates to:
+  /// **'مصانع'**
+  String get bizActivityFactories;
+
+  /// No description provided for @bizActivityMaterialsProduction.
+  ///
+  /// In ar, this message translates to:
+  /// **'إنتاج مواد'**
+  String get bizActivityMaterialsProduction;
+
+  /// No description provided for @bizActivityFarming.
+  ///
+  /// In ar, this message translates to:
+  /// **'إنتاج فلاحي'**
+  String get bizActivityFarming;
+
+  /// No description provided for @bizActivityLivestock.
+  ///
+  /// In ar, this message translates to:
+  /// **'تربية'**
+  String get bizActivityLivestock;
+
+  /// No description provided for @bizActivityAgriProcessing.
+  ///
+  /// In ar, this message translates to:
+  /// **'تحويل زراعي'**
+  String get bizActivityAgriProcessing;
+
+  /// No description provided for @bizActivityRealEstateDevelopment.
+  ///
+  /// In ar, this message translates to:
+  /// **'تطوير عقاري'**
+  String get bizActivityRealEstateDevelopment;
+
+  /// No description provided for @bizActivityContracting.
+  ///
+  /// In ar, this message translates to:
+  /// **'مقاولات'**
+  String get bizActivityContracting;
+
+  /// No description provided for @bizActivityPublicWorks.
+  ///
+  /// In ar, this message translates to:
+  /// **'أشغال عامة'**
+  String get bizActivityPublicWorks;
+
+  /// No description provided for @bizActivityFreightTransport.
+  ///
+  /// In ar, this message translates to:
+  /// **'نقل بري / بحري / جوي'**
+  String get bizActivityFreightTransport;
+
+  /// No description provided for @bizActivityWarehousing.
+  ///
+  /// In ar, this message translates to:
+  /// **'تخزين'**
+  String get bizActivityWarehousing;
+
+  /// No description provided for @bizActivityLogisticsDistribution.
+  ///
+  /// In ar, this message translates to:
+  /// **'توزيع'**
+  String get bizActivityLogisticsDistribution;
+
+  /// No description provided for @bizActivityDelivery.
+  ///
+  /// In ar, this message translates to:
+  /// **'توصيل'**
+  String get bizActivityDelivery;
+
+  /// No description provided for @bizActivityClinics.
+  ///
+  /// In ar, this message translates to:
+  /// **'عيادات'**
+  String get bizActivityClinics;
+
+  /// No description provided for @bizActivityLaboratories.
+  ///
+  /// In ar, this message translates to:
+  /// **'مخابر'**
+  String get bizActivityLaboratories;
+
+  /// No description provided for @bizActivityPharmacies.
+  ///
+  /// In ar, this message translates to:
+  /// **'صيدليات'**
+  String get bizActivityPharmacies;
+
+  /// No description provided for @bizActivityMedicalManufacturing.
+  ///
+  /// In ar, this message translates to:
+  /// **'تصنيع طبي'**
+  String get bizActivityMedicalManufacturing;
+
+  /// No description provided for @bizActivitySchools.
+  ///
+  /// In ar, this message translates to:
+  /// **'مدارس'**
+  String get bizActivitySchools;
+
+  /// No description provided for @bizActivityUniversities.
+  ///
+  /// In ar, this message translates to:
+  /// **'جامعات'**
+  String get bizActivityUniversities;
+
+  /// No description provided for @bizActivityTrainingCenters.
+  ///
+  /// In ar, this message translates to:
+  /// **'مراكز تدريب'**
+  String get bizActivityTrainingCenters;
+
+  /// No description provided for @bizActivityPrivateEducation.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعليم خاص'**
+  String get bizActivityPrivateEducation;
+
+  /// No description provided for @bizActivityTelecom.
+  ///
+  /// In ar, this message translates to:
+  /// **'اتصالات'**
+  String get bizActivityTelecom;
+
+  /// No description provided for @bizActivityTechCompanies.
+  ///
+  /// In ar, this message translates to:
+  /// **'شركات تقنية'**
+  String get bizActivityTechCompanies;
+
+  /// No description provided for @bizActivityDigitalServices.
+  ///
+  /// In ar, this message translates to:
+  /// **'خدمات رقمية'**
+  String get bizActivityDigitalServices;
+
+  /// No description provided for @bizActivityHotels.
+  ///
+  /// In ar, this message translates to:
+  /// **'فنادق'**
+  String get bizActivityHotels;
+
+  /// No description provided for @bizActivityTravelAgencies.
+  ///
+  /// In ar, this message translates to:
+  /// **'وكالات سفر'**
+  String get bizActivityTravelAgencies;
+
+  /// No description provided for @bizActivityResorts.
+  ///
+  /// In ar, this message translates to:
+  /// **'منتجعات'**
+  String get bizActivityResorts;
+
+  /// No description provided for @bizActivityLeisure.
+  ///
+  /// In ar, this message translates to:
+  /// **'نشاطات ترفيهية'**
+  String get bizActivityLeisure;
+
+  /// No description provided for @bizActivitySalons.
+  ///
+  /// In ar, this message translates to:
+  /// **'صالونات'**
+  String get bizActivitySalons;
+
+  /// No description provided for @bizActivityCosmeticClinics.
+  ///
+  /// In ar, this message translates to:
+  /// **'عيادات تجميل'**
+  String get bizActivityCosmeticClinics;
+
+  /// No description provided for @bizActivityCareProducts.
+  ///
+  /// In ar, this message translates to:
+  /// **'منتجات عناية'**
+  String get bizActivityCareProducts;
+
+  /// No description provided for @bizActivityClothingStores.
+  ///
+  /// In ar, this message translates to:
+  /// **'محلات ملابس'**
+  String get bizActivityClothingStores;
+
+  /// No description provided for @bizActivityFashionDesign.
+  ///
+  /// In ar, this message translates to:
+  /// **'تصميم أزياء'**
+  String get bizActivityFashionDesign;
+
+  /// No description provided for @bizActivityFashionDistribution.
+  ///
+  /// In ar, this message translates to:
+  /// **'توزيع'**
+  String get bizActivityFashionDistribution;
+
+  /// No description provided for @bizActivityCarSales.
+  ///
+  /// In ar, this message translates to:
+  /// **'بيع سيارات'**
+  String get bizActivityCarSales;
+
+  /// No description provided for @bizActivityCarMaintenance.
+  ///
+  /// In ar, this message translates to:
+  /// **'صيانة'**
+  String get bizActivityCarMaintenance;
+
+  /// No description provided for @bizActivityCarRental.
+  ///
+  /// In ar, this message translates to:
+  /// **'كراء'**
+  String get bizActivityCarRental;
+
+  /// No description provided for @bizActivityLaw.
+  ///
+  /// In ar, this message translates to:
+  /// **'محاماة'**
+  String get bizActivityLaw;
+
+  /// No description provided for @bizActivityAccounting.
+  ///
+  /// In ar, this message translates to:
+  /// **'محاسبة'**
+  String get bizActivityAccounting;
+
+  /// No description provided for @bizActivityConsulting.
+  ///
+  /// In ar, this message translates to:
+  /// **'استشارات'**
+  String get bizActivityConsulting;
+
+  /// No description provided for @bizActivityAdministrativeServices.
+  ///
+  /// In ar, this message translates to:
+  /// **'خدمات إدارية'**
+  String get bizActivityAdministrativeServices;
+
+  /// No description provided for @bizActivityMediaProduction.
+  ///
+  /// In ar, this message translates to:
+  /// **'إنتاج إعلامي'**
+  String get bizActivityMediaProduction;
+
+  /// No description provided for @bizActivityAdAgencies.
+  ///
+  /// In ar, this message translates to:
+  /// **'وكالات إشهار'**
+  String get bizActivityAdAgencies;
+
+  /// No description provided for @bizActivityEvents.
+  ///
+  /// In ar, this message translates to:
+  /// **'تنظيم فعاليات'**
+  String get bizActivityEvents;
+
+  /// No description provided for @bizActivityHomeMaintenance.
+  ///
+  /// In ar, this message translates to:
+  /// **'صيانة'**
+  String get bizActivityHomeMaintenance;
+
+  /// No description provided for @bizActivityCleaning.
+  ///
+  /// In ar, this message translates to:
+  /// **'تنظيف'**
+  String get bizActivityCleaning;
+
+  /// No description provided for @bizActivitySmallWorks.
+  ///
+  /// In ar, this message translates to:
+  /// **'أشغال صغيرة'**
+  String get bizActivitySmallWorks;
+
+  /// No description provided for @bizActivityHoldings.
+  ///
+  /// In ar, this message translates to:
+  /// **'شركات قابضة'**
+  String get bizActivityHoldings;
+
+  /// No description provided for @bizActivityInvestmentGroups.
+  ///
+  /// In ar, this message translates to:
+  /// **'مجموعات استثمارية'**
+  String get bizActivityInvestmentGroups;
+
+  /// No description provided for @bizActivityFinancialInstitutions.
+  ///
+  /// In ar, this message translates to:
+  /// **'مؤسسات مالية'**
+  String get bizActivityFinancialInstitutions;
+
+  /// No description provided for @bizActivityMinistries.
+  ///
+  /// In ar, this message translates to:
+  /// **'وزارات'**
+  String get bizActivityMinistries;
+
+  /// No description provided for @bizActivityNationalCompanies.
+  ///
+  /// In ar, this message translates to:
+  /// **'شركة وطنية'**
+  String get bizActivityNationalCompanies;
+
+  /// No description provided for @bizActivityNonProfits.
+  ///
+  /// In ar, this message translates to:
+  /// **'جمعيات ومنظمات غير ربحية'**
+  String get bizActivityNonProfits;
+
+  /// No description provided for @bizActivityFreelancer.
+  ///
+  /// In ar, this message translates to:
+  /// **'فريلانسر'**
+  String get bizActivityFreelancer;
+
+  /// No description provided for @bizActivitySoloActivity.
+  ///
+  /// In ar, this message translates to:
+  /// **'نشاط فردي'**
+  String get bizActivitySoloActivity;
+
+  /// No description provided for @bizActivitySmallProjects.
+  ///
+  /// In ar, this message translates to:
+  /// **'مشاريع صغيرة'**
+  String get bizActivitySmallProjects;
+
+  /// No description provided for @bizActivityOther.
+  ///
+  /// In ar, this message translates to:
+  /// **'أخرى (حدد)'**
+  String get bizActivityOther;
+
+  /// No description provided for @companyRoleOwner.
+  ///
+  /// In ar, this message translates to:
+  /// **'المالك'**
+  String get companyRoleOwner;
+
+  /// No description provided for @companyRoleMarketingOfficer.
+  ///
+  /// In ar, this message translates to:
+  /// **'المكلف بالتسويق'**
+  String get companyRoleMarketingOfficer;
+
+  /// No description provided for @companyRoleCompanyOwner.
+  ///
+  /// In ar, this message translates to:
+  /// **'مالك المؤسسة'**
+  String get companyRoleCompanyOwner;
+
+  /// No description provided for @companyRoleMarketingDirector.
+  ///
+  /// In ar, this message translates to:
+  /// **'مدير التسويق بالشركة'**
+  String get companyRoleMarketingDirector;
+
+  /// No description provided for @companyRoleRelationsOfficer.
+  ///
+  /// In ar, this message translates to:
+  /// **'المكلف بالعلاقات'**
+  String get companyRoleRelationsOfficer;
+
+  /// No description provided for @companyRoleStoreOwner.
+  ///
+  /// In ar, this message translates to:
+  /// **'مالك المتجر'**
+  String get companyRoleStoreOwner;
+
+  /// No description provided for @companyRoleProjectOwner.
+  ///
+  /// In ar, this message translates to:
+  /// **'مالك المشروع'**
+  String get companyRoleProjectOwner;
+
+  /// No description provided for @companyRoleOther.
+  ///
+  /// In ar, this message translates to:
+  /// **'أخرى (حدد)'**
+  String get companyRoleOther;
+
+  /// No description provided for @companyStepPersonal.
+  ///
+  /// In ar, this message translates to:
+  /// **'المسؤول عن الحساب'**
+  String get companyStepPersonal;
+
+  /// No description provided for @companyStepBusiness.
+  ///
+  /// In ar, this message translates to:
+  /// **'المؤسسة'**
+  String get companyStepBusiness;
+
+  /// No description provided for @companyStepPresence.
+  ///
+  /// In ar, this message translates to:
+  /// **'النشاط والظهور'**
+  String get companyStepPresence;
+
+  /// No description provided for @companyStepFinish.
+  ///
+  /// In ar, this message translates to:
+  /// **'المالية والوثائق'**
+  String get companyStepFinish;
+
+  /// No description provided for @companyRoleTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصفة'**
+  String get companyRoleTitle;
+
+  /// No description provided for @companyRoleOtherHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'حدد صفتك'**
+  String get companyRoleOtherHint;
+
+  /// No description provided for @companyAccountName.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر اسماً لحسابك'**
+  String get companyAccountName;
+
+  /// No description provided for @companyAccountNameRules.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا تنتحل اسم شخص أو علامة أخرى، ولا تستعمل ألفاظاً مسيئة، ومن {min} إلى {max} حرفاً.'**
+  String companyAccountNameRules(int min, int max);
+
+  /// No description provided for @companyAccountNameTaken.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا الاسم مستعمل من حساب آخر'**
+  String get companyAccountNameTaken;
+
+  /// No description provided for @companyAccountNameReserved.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا الاسم محجوز، اختر اسماً آخر'**
+  String get companyAccountNameReserved;
+
+  /// No description provided for @companyAccountNameInvalid.
+  ///
+  /// In ar, this message translates to:
+  /// **'حروف وأرقام ومسافات فقط، من {min} إلى {max} حرفاً'**
+  String companyAccountNameInvalid(int min, int max);
+
+  /// No description provided for @companyInstitutionName.
+  ///
+  /// In ar, this message translates to:
+  /// **'اسم المؤسسة'**
+  String get companyInstitutionName;
+
+  /// No description provided for @companyBranch.
+  ///
+  /// In ar, this message translates to:
+  /// **'الفرع (اختياري)'**
+  String get companyBranch;
+
+  /// No description provided for @companyAccountNameQuestion.
+  ///
+  /// In ar, this message translates to:
+  /// **'أيهما تريده اسماً لحسابك؟'**
+  String get companyAccountNameQuestion;
+
+  /// No description provided for @companyNameOption.
+  ///
+  /// In ar, this message translates to:
+  /// **'اسم المؤسسة'**
+  String get companyNameOption;
+
+  /// No description provided for @companyBranchOption.
+  ///
+  /// In ar, this message translates to:
+  /// **'اسم الفرع'**
+  String get companyBranchOption;
+
+  /// No description provided for @companyHqWilaya.
+  ///
+  /// In ar, this message translates to:
+  /// **'ولاية المقر'**
+  String get companyHqWilaya;
+
+  /// No description provided for @companyHqAddress.
+  ///
+  /// In ar, this message translates to:
+  /// **'عنوان مقر المؤسسة'**
+  String get companyHqAddress;
+
+  /// No description provided for @companyCapital.
+  ///
+  /// In ar, this message translates to:
+  /// **'رأس المال (تقديري، اختياري)'**
+  String get companyCapital;
+
+  /// No description provided for @companyCurrency.
+  ///
+  /// In ar, this message translates to:
+  /// **'دج'**
+  String get companyCurrency;
+
+  /// No description provided for @companyPhotoSubtitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'شعار مؤسستك أو صورتك، تظهر للمؤثرين'**
+  String get companyPhotoSubtitle;
+
+  /// No description provided for @companyBio.
+  ///
+  /// In ar, this message translates to:
+  /// **'نبذة عن نشاطك'**
+  String get companyBio;
+
+  /// No description provided for @companyBioHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'ماذا تقدم ولمن؟'**
+  String get companyBioHint;
+
+  /// No description provided for @companyActivitiesTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'مجالات النشاط'**
+  String get companyActivitiesTitle;
+
+  /// No description provided for @companyActivitiesMax.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر {max} على الأكثر'**
+  String companyActivitiesMax(int max);
+
+  /// No description provided for @companyActivityOtherHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'حدد مجال نشاطك'**
+  String get companyActivityOtherHint;
+
+  /// No description provided for @companyPagesTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'صفحات التسويق الرسمية (اختياري)'**
+  String get companyPagesTitle;
+
+  /// No description provided for @companyPagesHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصق رابط الصفحة ونتعرف على المنصة تلقائياً'**
+  String get companyPagesHint;
+
+  /// No description provided for @companyPagesLimit.
+  ///
+  /// In ar, this message translates to:
+  /// **'{max} صفحات على الأكثر'**
+  String companyPagesLimit(int max);
+
+  /// No description provided for @companyPhoneHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا تستعمل رقمك الشخصي'**
+  String get companyPhoneHint;
+
+  /// No description provided for @companyWhatsappOptional.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم مرتبط بواتساب (اختياري)'**
+  String get companyWhatsappOptional;
+
+  /// No description provided for @companyPhone2.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم هاتف ثاني (اختياري)'**
+  String get companyPhone2;
+
+  /// No description provided for @companyEmailHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'بريد حسابك، سنطلب تأكيده لاحقاً'**
+  String get companyEmailHint;
+
+  /// No description provided for @docTaxCertificate.
+  ///
+  /// In ar, this message translates to:
+  /// **'وثيقة الرقم الجبائي'**
+  String get docTaxCertificate;
+
+  /// No description provided for @docLicense.
+  ///
+  /// In ar, this message translates to:
+  /// **'ترخيص أو تصريح'**
+  String get docLicense;
+
+  /// No description provided for @companyLicensesTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'التراخيص والتصاريح (اختيارية)'**
+  String get companyLicensesTitle;
+
+  /// No description provided for @companyLicensesHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'للنشاطات التي قد تروّج لها لاحقاً'**
+  String get companyLicensesHint;
+
+  /// No description provided for @companyAddLicense.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة ترخيص'**
+  String get companyAddLicense;
+
+  /// No description provided for @companyProofOptional.
+  ///
+  /// In ar, this message translates to:
+  /// **'أضف صكاً أو شيكاً أو RIB (اختياري)'**
+  String get companyProofOptional;
+
+  /// No description provided for @docReviewPending.
+  ///
+  /// In ar, this message translates to:
+  /// **'قيد المراجعة'**
+  String get docReviewPending;
+
+  /// No description provided for @docReviewAccepted.
+  ///
+  /// In ar, this message translates to:
+  /// **'مقبولة'**
+  String get docReviewAccepted;
+
+  /// No description provided for @docReviewRejected.
+  ///
+  /// In ar, this message translates to:
+  /// **'مرفوضة: {reason}'**
+  String docReviewRejected(String reason);
+
+  /// No description provided for @companyMeetingNote.
+  ///
+  /// In ar, this message translates to:
+  /// **'بعد الإرسال نحدد معك لقاءً لمراجعة كل الإثباتات'**
+  String get companyMeetingNote;
+
+  /// No description provided for @companyScanDocsTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'املأ من وثائق المؤسسة'**
+  String get companyScanDocsTitle;
+
+  /// No description provided for @companyScanDocsHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'صوّر السجل التجاري ووثيقة الرقم الجبائي، نملأ الاسم والأرقام والعنوان ورأس المال تلقائياً، وأكمل الباقي. الوثيقتان اختياريتان.'**
+  String get companyScanDocsHint;
+
+  /// No description provided for @regIdNumber.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم بطاقة التعريف'**
+  String get regIdNumber;
+
+  /// No description provided for @regContentLanguagesHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'نسبة كل لغة في محتواك، والمجموع 100%'**
+  String get regContentLanguagesHint;
+
+  /// No description provided for @regLanguageShare.
+  ///
+  /// In ar, this message translates to:
+  /// **'النسبة'**
+  String get regLanguageShare;
+
+  /// No description provided for @regOptionalContactTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'معلومات إضافية (اختيارية)'**
+  String get regOptionalContactTitle;
+
+  /// No description provided for @regBackupPhone.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم هاتف احتياطي (اختياري)'**
+  String get regBackupPhone;
+
+  /// No description provided for @regDeliveryAddress.
+  ///
+  /// In ar, this message translates to:
+  /// **'عنوان وصول طرودك (اختياري)'**
+  String get regDeliveryAddress;
+
+  /// No description provided for @regDeliveryAddressHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'لاستلام المنتجات إذا أرسلها لك معلن'**
+  String get regDeliveryAddressHint;
+
+  /// No description provided for @audWritten.
+  ///
+  /// In ar, this message translates to:
+  /// **'محتوى كتابي'**
+  String get audWritten;
+
+  /// No description provided for @audAudio.
+  ///
+  /// In ar, this message translates to:
+  /// **'محتوى صوتي'**
+  String get audAudio;
+
+  /// No description provided for @audInteractive.
+  ///
+  /// In ar, this message translates to:
+  /// **'محتوى تفاعلي'**
+  String get audInteractive;
+
+  /// No description provided for @audContentRankHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'رتّبها من الأكثر تفاعلاً إلى الأقل'**
+  String get audContentRankHint;
+
+  /// No description provided for @regSkipOptional.
+  ///
+  /// In ar, this message translates to:
+  /// **'تخطي، سأكملها لاحقاً'**
+  String get regSkipOptional;
+
+  /// No description provided for @finAddHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'أضف مؤسسة مالية واحدة على الأقل: اسمها، وثيقة إن وُجدت، ورقم الحساب'**
+  String get finAddHint;
+
+  /// No description provided for @finProofAdded.
+  ///
+  /// In ar, this message translates to:
+  /// **'الوثيقة مرفقة'**
+  String get finProofAdded;
+
+  /// No description provided for @finReadDone.
+  ///
+  /// In ar, this message translates to:
+  /// **'قرأنا رقم الحساب من الوثيقة، راجعه'**
+  String get finReadDone;
+
+  /// No description provided for @finAttachDocument.
+  ///
+  /// In ar, this message translates to:
+  /// **'إرفاق وثيقة (صك، RIB...) اختياري'**
+  String get finAttachDocument;
+
+  /// No description provided for @finAttachDocumentHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'إذا أرفقت وثيقة نقرأ رقم الحساب تلقائياً، وإلا اكتبه بنفسك'**
+  String get finAttachDocumentHint;
 }
 
 class _AppLocalizationsDelegate

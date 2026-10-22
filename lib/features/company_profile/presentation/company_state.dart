@@ -1,10 +1,23 @@
 part of 'company_cubit.dart';
 
-enum CompanyAction { none, load, saveType, saveInfo, saveContact, uploadDocument, deleteDocument, submit }
+enum CompanyAction {
+  none,
+  load,
+  saveType,
+  saveSection,
+  uploadPhoto,
+  deletePhoto,
+  uploadDocument,
+  deleteDocument,
+  addFinancial,
+  deleteFinancial,
+  readFinancial,
+  submit,
+}
 
 enum CompanyStatus { idle, loading, success, failure }
 
-enum CompanyStep { type, info, contact, documents, review }
+enum CompanyStep { type, personal, business, presence, contact, finish }
 
 final class CompanyState extends Equatable {
   const CompanyState({
@@ -15,6 +28,8 @@ final class CompanyState extends Equatable {
     this.loaded = false,
     this.profile,
     this.documents = const [],
+    this.financialAccounts = const [],
+    this.readAccount,
     this.step = CompanyStep.type,
   });
 
@@ -27,6 +42,8 @@ final class CompanyState extends Equatable {
   final bool loaded;
   final CompanyProfile? profile;
   final List<CompanyDocument> documents;
+  final List<FinancialAccount> financialAccounts;
+  final FinancialAccount? readAccount;
   final CompanyStep step;
 
   bool get isLoading => status == CompanyStatus.loading;
@@ -40,23 +57,27 @@ final class CompanyState extends Equatable {
 
   BusinessType? get businessType => profile?.businessType;
 
-  List<CompanyStep> get steps => [
-        CompanyStep.type,
-        CompanyStep.info,
-        CompanyStep.contact,
-        if (businessType == BusinessType.registeredBusiness) CompanyStep.documents,
-        CompanyStep.review,
-      ];
+  bool get isRegistered => businessType == BusinessType.registeredBusiness;
 
-  bool canOpen(CompanyStep target) =>
-      steps.contains(target) && (target == CompanyStep.type || businessType != null);
+  List<CompanyStep> get steps => CompanyStep.values;
 
-  CompanyDocument? documentOf(CompanyDocumentType type) => documents.where((d) => d.type == type).firstOrNull;
+  bool canOpen(CompanyStep target) => target == CompanyStep.type || businessType != null;
 
-  List<CompanyDocumentType> get missingDocuments => [
-        for (final type in CompanyCatalog.requiredDocuments(businessType))
-          if (documentOf(type) == null) type,
-      ];
+  CompanyDocument? documentOf(CompanyDocumentType type, {int? financialAccountId}) => documents
+      .where((d) => d.type == type && (financialAccountId == null || d.financialAccountId == financialAccountId))
+      .firstOrNull;
+
+  List<CompanyDocument> documentsOf(CompanyDocumentType type) => [for (final d in documents) if (d.type == type) d];
+
+  bool get hasIdCard => documentOf(CompanyDocumentType.identityFront) != null;
+
+  bool get hasIdentity => hasIdCard || documentOf(CompanyDocumentType.passport) != null;
+
+  CompanyDocument? proofOf(int accountId) => documents
+      .where((d) => d.financialAccountId == accountId && d.type != CompanyDocumentType.other)
+      .firstOrNull;
+
+  bool get financialComplete => financialAccounts.isNotEmpty;
 
   CompanyState copyWith({
     CompanyAction? action,
@@ -66,6 +87,8 @@ final class CompanyState extends Equatable {
     bool? loaded,
     Object? profile = _keep,
     List<CompanyDocument>? documents,
+    List<FinancialAccount>? financialAccounts,
+    Object? readAccount = _keep,
     CompanyStep? step,
   }) =>
       CompanyState(
@@ -76,9 +99,12 @@ final class CompanyState extends Equatable {
         loaded: loaded ?? this.loaded,
         profile: identical(profile, _keep) ? this.profile : profile as CompanyProfile?,
         documents: documents ?? this.documents,
+        financialAccounts: financialAccounts ?? this.financialAccounts,
+        readAccount: identical(readAccount, _keep) ? this.readAccount : readAccount as FinancialAccount?,
         step: step ?? this.step,
       );
 
   @override
-  List<Object?> get props => [action, status, failure, target, loaded, profile, documents, step];
+  List<Object?> get props =>
+      [action, status, failure, target, loaded, profile, documents, financialAccounts, readAccount, step];
 }

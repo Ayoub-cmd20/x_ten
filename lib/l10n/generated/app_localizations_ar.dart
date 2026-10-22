@@ -509,9 +509,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get stepFinancial => 'الدفع والمستندات';
 
   @override
-  String get stepReview => 'المراجعة والإرسال';
-
-  @override
   String stepCounter(int current, int total) {
     return 'الخطوة $current من $total';
   }
@@ -563,12 +560,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get bioHint => 'عرّف بنفسك وبالمحتوى الذي تقدمه';
-
-  @override
-  String get skills => 'المهارات';
-
-  @override
-  String get skillsHint => 'مثال: تصوير، مونتاج، تقديم';
 
   @override
   String get whatsapp => 'رقم واتساب';
@@ -709,9 +700,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get bankAccount => 'رقم الحساب البنكي';
 
   @override
-  String get ribInvalid => '20 رقمًا بالضبط';
-
-  @override
   String get documentsTitle => 'المستندات';
 
   @override
@@ -766,15 +754,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get consentsTitle => 'الموافقات';
-
-  @override
-  String get consentConfirm => 'أؤكد أن المعلومات المقدمة صحيحة';
-
-  @override
-  String get consentTerms => 'أوافق على الشروط والأحكام';
-
-  @override
-  String get consentPrivacy => 'أوافق على سياسة الخصوصية';
 
   @override
   String get consentVerification => 'أوافق على إجراءات التحقق من هويتي';
@@ -958,35 +937,25 @@ class AppLocalizationsAr extends AppLocalizations {
   String get companyStepType => 'نوع النشاط';
 
   @override
-  String get companyStepInfo => 'معلومات النشاط';
-
-  @override
   String get companyStepContact => 'التواصل';
 
   @override
-  String get businessTypeQuestion => 'ما نوع نشاطك؟';
+  String get businessTypeQuestion => 'هل لديك سجل تجاري؟';
 
   @override
-  String get businessTypeHint =>
-      'نحدد على أساسه المعلومات والمستندات المطلوبة.';
+  String get businessTypeHint => 'نحدد على أساسه المعلومات والوثائق المطلوبة.';
 
   @override
-  String get businessRegistered => 'شركة مسجلة';
+  String get businessRegistered => 'نعم، مؤسسة مسجلة';
 
   @override
   String get businessRegisteredDesc => 'لديك سجل تجاري ورقم جبائي.';
 
   @override
-  String get businessIndividual => 'نشاط فردي';
+  String get businessIndividual => 'لا، نشاط فردي';
 
   @override
   String get businessIndividualDesc => 'تعمل لحسابك دون سجل تجاري.';
-
-  @override
-  String get ownerName => 'اسم صاحب النشاط';
-
-  @override
-  String get branch => 'الفرع أو الولاية';
 
   @override
   String get address => 'العنوان';
@@ -995,41 +964,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get legalInfo => 'المعلومات القانونية';
 
   @override
-  String get establishmentDate => 'تاريخ التأسيس';
-
-  @override
-  String get professionalTitle => 'الصفة المهنية';
-
-  @override
-  String get activityLabel => 'النشاط';
-
-  @override
-  String get nationalIdNumber => 'رقم التعريف الوطني';
-
-  @override
-  String get declaredIndividualActivity =>
-      'أصرّح بأنني أمارس هذا النشاط بصفة فردية';
-
-  @override
-  String get website => 'الموقع الإلكتروني';
-
-  @override
-  String get marketingLinks => 'روابط التسويق';
-
-  @override
-  String get marketingLinksHint => 'صفحاتك على مواقع التواصل، اختياري';
-
-  @override
-  String get docCompanyIdentity => 'بطاقة تعريف المسير';
-
-  @override
   String get docCommercialRegister => 'السجل التجاري';
-
-  @override
-  String get docCompanyStamp => 'ختم الشركة';
-
-  @override
-  String get docCancelledCheque => 'صك مشطوب';
 
   @override
   String get companyNeedsChangesBanner =>
@@ -1429,10 +1364,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get regDisplayName => 'إسم الشهرة ( إسم البروفايل )';
 
   @override
-  String get regPrimaryCategories => 'المجالات الرئيسية';
+  String get regPrimaryCategories => 'مؤثر رئيسي في هذه المجالات';
 
   @override
-  String get regSecondaryCategories => 'المجالات الثانوية';
+  String get regSecondaryCategories => 'مؤثر ثانوي في هذه المجالات';
 
   @override
   String get regBio => 'نبذة عن المؤثر';
@@ -1469,15 +1404,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get langOther => 'أخرى';
-
-  @override
-  String get levelBasic => 'أساسي';
-
-  @override
-  String get levelGood => 'جيد';
-
-  @override
-  String get levelAdvanced => 'متقدم';
 
   @override
   String get moveUp => 'للأعلى';
@@ -1531,19 +1457,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String get regAudienceTitle => 'مرحلة حصر الجمهور';
 
   @override
-  String get regSkillsTitle => 'مهاراتك ( إختر ما يناسبك )';
-
-  @override
-  String regSkillsHint(int min, int max) {
-    return 'من $min إلى $max مهارات';
-  }
-
-  @override
   String get regContentTypesTitle =>
       'أنواع المحتوى الإعلاني التي يمكنك تقديمها مرتبة حسب الأولوية';
 
   @override
-  String get regPortfolioTitle => 'رفع أمثلة لمعرض أعمالك ( مهم جدا جدا )';
+  String get regPortfolioTitle => 'رفع أمثلة لمعرض أعمالك ';
 
   @override
   String get regPortfolioFile => 'رفع ملف (صورة، فيديو، PDF)';
@@ -1686,111 +1604,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get audPhoto => 'صور';
-
-  @override
-  String get audPurchasing => 'القدرة الشرائية التقريبية';
-
-  @override
-  String get audLow => 'منخفضة';
-
-  @override
-  String get audMedium => 'متوسطة';
-
-  @override
-  String get audHigh => 'مرتفعة';
-
-  @override
-  String get skillGroupCore => 'مهارات إنشاء المحتوى';
-
-  @override
-  String get skillGroupProduction => 'مهارات الإنتاج والتقنية';
-
-  @override
-  String get skillGroupMarketing => 'مهارات متعلقة بالإعلان والتسويق';
-
-  @override
-  String get skillGroupAdvanced => 'مهارات متقدمة';
-
-  @override
-  String get skillCopywriting => 'كتابة محتوى إعلاني (Copywriting)';
-
-  @override
-  String get skillStorytelling => 'سرد قصصي (Storytelling)';
-
-  @override
-  String get skillOnCamera => 'تقديم أمام الكاميرا';
-
-  @override
-  String get skillActing => 'تمثيل / أداء';
-
-  @override
-  String get skillVoiceOver => 'تعليق صوتي (Voice Over)';
-
-  @override
-  String get skillProductReviews => 'مراجعة منتجات (Reviews)';
-
-  @override
-  String get skillEducational => 'شرح وتعليم (Educational Content)';
-
-  @override
-  String get skillMotivational => 'محتوى تحفيزي / إلهامي';
-
-  @override
-  String get skillComedy => 'محتوى كوميدي';
-
-  @override
-  String get skillDailyLife => 'محتوى واقعي / يوميات';
-
-  @override
-  String get skillVideoShooting => 'تصوير فيديو';
-
-  @override
-  String get skillPhotography => 'تصوير فوتوغرافي';
-
-  @override
-  String get skillVideoEditing => 'مونتاج فيديو';
-
-  @override
-  String get skillPhotoEditing => 'تعديل صور';
-
-  @override
-  String get skillDirecting => 'إخراج بسيط';
-
-  @override
-  String get skillLighting => 'إعداد إضاءة';
-
-  @override
-  String get skillAudioSetup => 'إعداد صوت';
-
-  @override
-  String get skillAdIntegration => 'إدماج الإعلان بسلاسة';
-
-  @override
-  String get skillIndirectPromotion => 'الترويج غير المباشر';
-
-  @override
-  String get skillEffectiveCta => 'بناء CTA فعال';
-
-  @override
-  String get skillBrandIdentity => 'الالتزام بالهوية الإعلانية';
-
-  @override
-  String get skillBriefCompliance => 'الالتزام بسيناريو / Brief';
-
-  @override
-  String get skillCampaignManagement => 'إدارة حملة كاملة';
-
-  @override
-  String get skillAdScripting => 'إنشاء سكريبت إعلاني';
-
-  @override
-  String get skillPerformanceAnalysis => 'تحليل أداء المحتوى';
-
-  @override
-  String get skillContentRepurposing => 'إعادة توظيف المحتوى';
-
-  @override
-  String get skillMultilingual => 'العمل بعدة لغات';
 
   @override
   String get adctReview => 'مراجعة منتج (Review)';
@@ -1978,7 +1791,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get finInstitutionName => 'اسم المؤسسة المالية';
 
   @override
-  String get finInstitutionHint => 'اختر من القائمة أو اكتب اسم أي مؤسسة أخرى';
+  String get finInstitutionHint => 'مثال: بريد الجزائر، BNA، CPA، Payoneer';
 
   @override
   String get finAccountNumber => 'رقم الحساب';
@@ -2048,11 +1861,6 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String finProofAttached(String name) {
-    return 'الصورة المرفقة: $name';
-  }
-
-  @override
   String audScanDone(int count) {
     return 'ملأنا $count أقسام من اللقطات، راجع النسب ثم احفظ';
   }
@@ -2065,20 +1873,481 @@ class AppLocalizationsAr extends AppLocalizations {
       'اللقطة لحساب آخر: اسم المستخدم لا يطابق الرابط';
 
   @override
-  String get ccpChequeTitle => 'الصك البريدي المشطوب (إجباري)';
+  String get bizSectorFoodBeverage => 'الأغذية والمشروبات';
 
   @override
-  String get ccpChequeHint => 'صوّر الصك ونستخرج رقم الـ RIP تلقائياً';
+  String get bizSectorTrade => 'التجارة والبيع';
 
   @override
-  String get ccpChequeRequired => 'الصك البريدي المشطوب إجباري';
+  String get bizSectorIndustry => 'الصناعة والإنتاج';
 
   @override
-  String get ccpChequeRead => 'قرأنا رقم الـ RIP من الصك';
+  String get bizSectorAgriculture => 'الفلاحة والمنتجات الزراعية';
 
   @override
-  String get ccpRipLabel => 'رقم الـ RIP أو رقم الـ CCP';
+  String get bizSectorRealEstate => 'العقار والإنشاءات';
 
   @override
-  String get otherInstitutionsTitle => 'مؤسسات مالية أخرى (اختياري)';
+  String get bizSectorTransport => 'النقل واللوجستيك';
+
+  @override
+  String get bizSectorHealth => 'الصحة والخدمات الطبية';
+
+  @override
+  String get bizSectorEducation => 'التعليم والتكوين';
+
+  @override
+  String get bizSectorTelecomTech => 'الاتصالات والتكنولوجيا';
+
+  @override
+  String get bizSectorTourism => 'السياحة والترفيه';
+
+  @override
+  String get bizSectorBeauty => 'الجمال والعناية الشخصية';
+
+  @override
+  String get bizSectorFashion => 'الأزياء والموضة';
+
+  @override
+  String get bizSectorAutomotive => 'السيارات والنقل الخاص';
+
+  @override
+  String get bizSectorProfessionalServices => 'الخدمات المهنية';
+
+  @override
+  String get bizSectorMedia => 'الإعلام والاتصال';
+
+  @override
+  String get bizSectorHomeServices => 'الخدمات المنزلية';
+
+  @override
+  String get bizSectorConglomerates => 'مجمّعات وشركات متعددة الأنشطة';
+
+  @override
+  String get bizSectorGovernment => 'الجهات الحكومية والشبه حكومية';
+
+  @override
+  String get bizSectorIndividuals => 'أفراد / أنشطة مستقلة';
+
+  @override
+  String get bizSectorOther => 'أخرى';
+
+  @override
+  String get bizActivityRestaurants => 'مطاعم';
+
+  @override
+  String get bizActivityCafes => 'مقاهي';
+
+  @override
+  String get bizActivityFoodFactories => 'مصانع غذائية';
+
+  @override
+  String get bizActivityFoodDistribution => 'توزيع مواد غذائية';
+
+  @override
+  String get bizActivityRetail => 'متاجر تجزئة';
+
+  @override
+  String get bizActivityWholesale => 'تجارة جملة';
+
+  @override
+  String get bizActivityOnlineSales => 'بيع عبر الإنترنت';
+
+  @override
+  String get bizActivityLocalMarkets => 'أسواق محلية';
+
+  @override
+  String get bizActivityManufacturing => 'صناعة تحويلية';
+
+  @override
+  String get bizActivityFactories => 'مصانع';
+
+  @override
+  String get bizActivityMaterialsProduction => 'إنتاج مواد';
+
+  @override
+  String get bizActivityFarming => 'إنتاج فلاحي';
+
+  @override
+  String get bizActivityLivestock => 'تربية';
+
+  @override
+  String get bizActivityAgriProcessing => 'تحويل زراعي';
+
+  @override
+  String get bizActivityRealEstateDevelopment => 'تطوير عقاري';
+
+  @override
+  String get bizActivityContracting => 'مقاولات';
+
+  @override
+  String get bizActivityPublicWorks => 'أشغال عامة';
+
+  @override
+  String get bizActivityFreightTransport => 'نقل بري / بحري / جوي';
+
+  @override
+  String get bizActivityWarehousing => 'تخزين';
+
+  @override
+  String get bizActivityLogisticsDistribution => 'توزيع';
+
+  @override
+  String get bizActivityDelivery => 'توصيل';
+
+  @override
+  String get bizActivityClinics => 'عيادات';
+
+  @override
+  String get bizActivityLaboratories => 'مخابر';
+
+  @override
+  String get bizActivityPharmacies => 'صيدليات';
+
+  @override
+  String get bizActivityMedicalManufacturing => 'تصنيع طبي';
+
+  @override
+  String get bizActivitySchools => 'مدارس';
+
+  @override
+  String get bizActivityUniversities => 'جامعات';
+
+  @override
+  String get bizActivityTrainingCenters => 'مراكز تدريب';
+
+  @override
+  String get bizActivityPrivateEducation => 'تعليم خاص';
+
+  @override
+  String get bizActivityTelecom => 'اتصالات';
+
+  @override
+  String get bizActivityTechCompanies => 'شركات تقنية';
+
+  @override
+  String get bizActivityDigitalServices => 'خدمات رقمية';
+
+  @override
+  String get bizActivityHotels => 'فنادق';
+
+  @override
+  String get bizActivityTravelAgencies => 'وكالات سفر';
+
+  @override
+  String get bizActivityResorts => 'منتجعات';
+
+  @override
+  String get bizActivityLeisure => 'نشاطات ترفيهية';
+
+  @override
+  String get bizActivitySalons => 'صالونات';
+
+  @override
+  String get bizActivityCosmeticClinics => 'عيادات تجميل';
+
+  @override
+  String get bizActivityCareProducts => 'منتجات عناية';
+
+  @override
+  String get bizActivityClothingStores => 'محلات ملابس';
+
+  @override
+  String get bizActivityFashionDesign => 'تصميم أزياء';
+
+  @override
+  String get bizActivityFashionDistribution => 'توزيع';
+
+  @override
+  String get bizActivityCarSales => 'بيع سيارات';
+
+  @override
+  String get bizActivityCarMaintenance => 'صيانة';
+
+  @override
+  String get bizActivityCarRental => 'كراء';
+
+  @override
+  String get bizActivityLaw => 'محاماة';
+
+  @override
+  String get bizActivityAccounting => 'محاسبة';
+
+  @override
+  String get bizActivityConsulting => 'استشارات';
+
+  @override
+  String get bizActivityAdministrativeServices => 'خدمات إدارية';
+
+  @override
+  String get bizActivityMediaProduction => 'إنتاج إعلامي';
+
+  @override
+  String get bizActivityAdAgencies => 'وكالات إشهار';
+
+  @override
+  String get bizActivityEvents => 'تنظيم فعاليات';
+
+  @override
+  String get bizActivityHomeMaintenance => 'صيانة';
+
+  @override
+  String get bizActivityCleaning => 'تنظيف';
+
+  @override
+  String get bizActivitySmallWorks => 'أشغال صغيرة';
+
+  @override
+  String get bizActivityHoldings => 'شركات قابضة';
+
+  @override
+  String get bizActivityInvestmentGroups => 'مجموعات استثمارية';
+
+  @override
+  String get bizActivityFinancialInstitutions => 'مؤسسات مالية';
+
+  @override
+  String get bizActivityMinistries => 'وزارات';
+
+  @override
+  String get bizActivityNationalCompanies => 'شركة وطنية';
+
+  @override
+  String get bizActivityNonProfits => 'جمعيات ومنظمات غير ربحية';
+
+  @override
+  String get bizActivityFreelancer => 'فريلانسر';
+
+  @override
+  String get bizActivitySoloActivity => 'نشاط فردي';
+
+  @override
+  String get bizActivitySmallProjects => 'مشاريع صغيرة';
+
+  @override
+  String get bizActivityOther => 'أخرى (حدد)';
+
+  @override
+  String get companyRoleOwner => 'المالك';
+
+  @override
+  String get companyRoleMarketingOfficer => 'المكلف بالتسويق';
+
+  @override
+  String get companyRoleCompanyOwner => 'مالك المؤسسة';
+
+  @override
+  String get companyRoleMarketingDirector => 'مدير التسويق بالشركة';
+
+  @override
+  String get companyRoleRelationsOfficer => 'المكلف بالعلاقات';
+
+  @override
+  String get companyRoleStoreOwner => 'مالك المتجر';
+
+  @override
+  String get companyRoleProjectOwner => 'مالك المشروع';
+
+  @override
+  String get companyRoleOther => 'أخرى (حدد)';
+
+  @override
+  String get companyStepPersonal => 'المسؤول عن الحساب';
+
+  @override
+  String get companyStepBusiness => 'المؤسسة';
+
+  @override
+  String get companyStepPresence => 'النشاط والظهور';
+
+  @override
+  String get companyStepFinish => 'المالية والوثائق';
+
+  @override
+  String get companyRoleTitle => 'الصفة';
+
+  @override
+  String get companyRoleOtherHint => 'حدد صفتك';
+
+  @override
+  String get companyAccountName => 'اختر اسماً لحسابك';
+
+  @override
+  String companyAccountNameRules(int min, int max) {
+    return 'لا تنتحل اسم شخص أو علامة أخرى، ولا تستعمل ألفاظاً مسيئة، ومن $min إلى $max حرفاً.';
+  }
+
+  @override
+  String get companyAccountNameTaken => 'هذا الاسم مستعمل من حساب آخر';
+
+  @override
+  String get companyAccountNameReserved => 'هذا الاسم محجوز، اختر اسماً آخر';
+
+  @override
+  String companyAccountNameInvalid(int min, int max) {
+    return 'حروف وأرقام ومسافات فقط، من $min إلى $max حرفاً';
+  }
+
+  @override
+  String get companyInstitutionName => 'اسم المؤسسة';
+
+  @override
+  String get companyBranch => 'الفرع (اختياري)';
+
+  @override
+  String get companyAccountNameQuestion => 'أيهما تريده اسماً لحسابك؟';
+
+  @override
+  String get companyNameOption => 'اسم المؤسسة';
+
+  @override
+  String get companyBranchOption => 'اسم الفرع';
+
+  @override
+  String get companyHqWilaya => 'ولاية المقر';
+
+  @override
+  String get companyHqAddress => 'عنوان مقر المؤسسة';
+
+  @override
+  String get companyCapital => 'رأس المال (تقديري، اختياري)';
+
+  @override
+  String get companyCurrency => 'دج';
+
+  @override
+  String get companyPhotoSubtitle => 'شعار مؤسستك أو صورتك، تظهر للمؤثرين';
+
+  @override
+  String get companyBio => 'نبذة عن نشاطك';
+
+  @override
+  String get companyBioHint => 'ماذا تقدم ولمن؟';
+
+  @override
+  String get companyActivitiesTitle => 'مجالات النشاط';
+
+  @override
+  String companyActivitiesMax(int max) {
+    return 'اختر $max على الأكثر';
+  }
+
+  @override
+  String get companyActivityOtherHint => 'حدد مجال نشاطك';
+
+  @override
+  String get companyPagesTitle => 'صفحات التسويق الرسمية (اختياري)';
+
+  @override
+  String get companyPagesHint => 'الصق رابط الصفحة ونتعرف على المنصة تلقائياً';
+
+  @override
+  String companyPagesLimit(int max) {
+    return '$max صفحات على الأكثر';
+  }
+
+  @override
+  String get companyPhoneHint => 'لا تستعمل رقمك الشخصي';
+
+  @override
+  String get companyWhatsappOptional => 'رقم مرتبط بواتساب (اختياري)';
+
+  @override
+  String get companyPhone2 => 'رقم هاتف ثاني (اختياري)';
+
+  @override
+  String get companyEmailHint => 'بريد حسابك، سنطلب تأكيده لاحقاً';
+
+  @override
+  String get docTaxCertificate => 'وثيقة الرقم الجبائي';
+
+  @override
+  String get docLicense => 'ترخيص أو تصريح';
+
+  @override
+  String get companyLicensesTitle => 'التراخيص والتصاريح (اختيارية)';
+
+  @override
+  String get companyLicensesHint => 'للنشاطات التي قد تروّج لها لاحقاً';
+
+  @override
+  String get companyAddLicense => 'إضافة ترخيص';
+
+  @override
+  String get companyProofOptional => 'أضف صكاً أو شيكاً أو RIB (اختياري)';
+
+  @override
+  String get docReviewPending => 'قيد المراجعة';
+
+  @override
+  String get docReviewAccepted => 'مقبولة';
+
+  @override
+  String docReviewRejected(String reason) {
+    return 'مرفوضة: $reason';
+  }
+
+  @override
+  String get companyMeetingNote =>
+      'بعد الإرسال نحدد معك لقاءً لمراجعة كل الإثباتات';
+
+  @override
+  String get companyScanDocsTitle => 'املأ من وثائق المؤسسة';
+
+  @override
+  String get companyScanDocsHint =>
+      'صوّر السجل التجاري ووثيقة الرقم الجبائي، نملأ الاسم والأرقام والعنوان ورأس المال تلقائياً، وأكمل الباقي. الوثيقتان اختياريتان.';
+
+  @override
+  String get regIdNumber => 'رقم بطاقة التعريف';
+
+  @override
+  String get regContentLanguagesHint => 'نسبة كل لغة في محتواك، والمجموع 100%';
+
+  @override
+  String get regLanguageShare => 'النسبة';
+
+  @override
+  String get regOptionalContactTitle => 'معلومات إضافية (اختيارية)';
+
+  @override
+  String get regBackupPhone => 'رقم هاتف احتياطي (اختياري)';
+
+  @override
+  String get regDeliveryAddress => 'عنوان وصول طرودك (اختياري)';
+
+  @override
+  String get regDeliveryAddressHint => 'لاستلام المنتجات إذا أرسلها لك معلن';
+
+  @override
+  String get audWritten => 'محتوى كتابي';
+
+  @override
+  String get audAudio => 'محتوى صوتي';
+
+  @override
+  String get audInteractive => 'محتوى تفاعلي';
+
+  @override
+  String get audContentRankHint => 'رتّبها من الأكثر تفاعلاً إلى الأقل';
+
+  @override
+  String get regSkipOptional => 'تخطي، سأكملها لاحقاً';
+
+  @override
+  String get finAddHint =>
+      'أضف مؤسسة مالية واحدة على الأقل: اسمها، وثيقة إن وُجدت، ورقم الحساب';
+
+  @override
+  String get finProofAdded => 'الوثيقة مرفقة';
+
+  @override
+  String get finReadDone => 'قرأنا رقم الحساب من الوثيقة، راجعه';
+
+  @override
+  String get finAttachDocument => 'إرفاق وثيقة (صك، RIB...) اختياري';
+
+  @override
+  String get finAttachDocumentHint =>
+      'إذا أرفقت وثيقة نقرأ رقم الحساب تلقائياً، وإلا اكتبه بنفسك';
 }

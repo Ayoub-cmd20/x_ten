@@ -16,12 +16,14 @@ class ContactStep extends StatefulWidget {
 }
 
 class _ContactStepState extends State<ContactStep> with ServerFieldErrors {
-  static const _fields = ['phone', 'whatsapp', 'email'];
+  static const _fields = ['phone', 'whatsapp', 'email', 'backupPhone', 'deliveryAddress'];
 
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController _phone;
   late final TextEditingController _whatsapp;
   late final TextEditingController _email;
+  late final TextEditingController _backupPhone;
+  late final TextEditingController _deliveryAddress;
 
   @override
   void initState() {
@@ -32,11 +34,13 @@ class _ContactStepState extends State<ContactStep> with ServerFieldErrors {
     _phone = TextEditingController(text: pick(contact?.phone, state.account?.phone));
     _whatsapp = TextEditingController(text: pick(contact?.whatsapp, state.account?.phone));
     _email = TextEditingController(text: pick(contact?.email, state.account?.email));
+    _backupPhone = TextEditingController(text: contact?.backupPhone);
+    _deliveryAddress = TextEditingController(text: contact?.deliveryAddress);
   }
 
   @override
   void dispose() {
-    for (final c in [_phone, _whatsapp, _email]) {
+    for (final c in [_phone, _whatsapp, _email, _backupPhone, _deliveryAddress]) {
       c.dispose();
     }
     super.dispose();
@@ -46,7 +50,13 @@ class _ContactStepState extends State<ContactStep> with ServerFieldErrors {
     FocusScope.of(context).unfocus();
     if (!(_formKey.currentState?.validate() ?? false)) return;
     context.read<RegistrationCubit>().saveSection(
-          ContactInfo(phone: _phone.text, whatsapp: _whatsapp.text, email: _email.text),
+          ContactInfo(
+            phone: _phone.text,
+            whatsapp: _whatsapp.text,
+            email: _email.text,
+            backupPhone: _backupPhone.text,
+            deliveryAddress: _deliveryAddress.text,
+          ),
         );
   }
 
@@ -100,6 +110,29 @@ class _ContactStepState extends State<ContactStep> with ServerFieldErrors {
               l10n.email,
               TextInputType.emailAddress,
               (value) => Validators.isEmail(value ?? '') ? null : l10n.emailInvalid,
+            ),
+            SectionTitle(l10n.regOptionalContactTitle),
+            _field(
+              _backupPhone,
+              'backupPhone',
+              l10n.regBackupPhone,
+              TextInputType.phone,
+              (value) => (value ?? '').trim().isEmpty ? null : _phoneCheck(value),
+            ),
+            gap,
+            TextFormField(
+              controller: _deliveryAddress,
+              minLines: 2,
+              maxLines: 3,
+              maxLength: 255,
+              keyboardType: TextInputType.streetAddress,
+              forceErrorText: serverError('deliveryAddress'),
+              onChanged: (_) => clearServerError('deliveryAddress'),
+              decoration: InputDecoration(
+                labelText: l10n.regDeliveryAddress,
+                helperText: l10n.regDeliveryAddressHint,
+                alignLabelWithHint: true,
+              ),
             ),
           ],
         ),

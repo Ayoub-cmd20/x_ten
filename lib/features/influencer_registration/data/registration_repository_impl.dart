@@ -113,8 +113,8 @@ class RegistrationRepositoryImpl implements RegistrationRepository {
   Future<Result<void>> deleteFinancialAccount(int id) => guard(() => _remote.deleteFinancialAccount(id));
 
   @override
-  Future<Result<FinancialScan>> scanCcpCheque(int registrationId, UploadFile file) =>
-      guard(() => _remote.scanCcpCheque(registrationId, file));
+  Future<Result<FinancialAccount>> readFinancialDocument(int registrationId, UploadFile file) =>
+      guard(() => _remote.readFinancialDocument(registrationId, file));
 
   @override
   Future<Result<RegistrationDocument>> uploadDocument(

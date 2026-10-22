@@ -34,8 +34,10 @@ abstract final class ApiKeys {
   static const displayName = 'displayName';
   static const birthDate = 'birthDate';
   static const birthPlace = 'birthPlace';
+  static const idNumber = 'idNumber';
+  static const backupPhone = 'backupPhone';
+  static const deliveryAddress = 'deliveryAddress';
   static const bio = 'bio';
-  static const skills = 'skills';
   static const whatsapp = 'whatsapp';
   static const profileImageUrl = 'profileImageUrl';
   static const primaryCategories = 'primaryCategories';
@@ -95,21 +97,24 @@ abstract final class ApiKeys {
   static const scheduledAt = 'scheduledAt';
 
   static const businessType = 'businessType';
-  static const ownerName = 'ownerName';
   static const companyName = 'companyName';
   static const branch = 'branch';
   static const address = 'address';
-  static const professionalTitle = 'professionalTitle';
-  static const activity = 'activity';
-  static const nationalIdNumber = 'nationalIdNumber';
-  static const declaredIndividualActivity = 'declaredIndividualActivity';
+  static const accountNameSource = 'accountNameSource';
+  static const wilaya = 'wilaya';
   static const registrationNumber = 'registrationNumber';
-  static const establishmentDate = 'establishmentDate';
   static const ns = 'ns';
   static const nif = 'nif';
-  static const website = 'website';
-  static const marketingLinks = 'marketingLinks';
-  static const logo = 'logo';
+  static const nis = 'nis';
+  static const capital = 'capital';
+  static const roleOther = 'roleOther';
+  static const activity = 'activity';
+  static const activityAreas = 'activityAreas';
+  static const activityOther = 'activityOther';
+  static const marketingPages = 'marketingPages';
+  static const phone2 = 'phone2';
+  static const reviewStatus = 'reviewStatus';
+  static const reviewReason = 'reviewReason';
 
   static const page = 'page';
   static const search = 'search';
@@ -167,7 +172,6 @@ abstract final class ApiKeys {
   static const entityType = 'entityType';
   static const contentLanguages = 'contentLanguages';
   static const addressLanguages = 'addressLanguages';
-  static const level = 'level';
   static const countries = 'countries';
   static const country = 'country';
   static const regions = 'regions';
@@ -180,7 +184,6 @@ abstract final class ApiKeys {
   static const fromHour = 'fromHour';
   static const toHour = 'toHour';
   static const contentEngagement = 'contentEngagement';
-  static const purchasingPower = 'purchasingPower';
   static const recoveryMethod = 'recoveryMethod';
   static const recoveryPhone = 'recoveryPhone';
   static const kind = 'kind';

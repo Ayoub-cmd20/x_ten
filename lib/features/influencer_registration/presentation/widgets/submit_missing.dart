@@ -16,13 +16,17 @@ List<SubmitMissing> submitMissingFrom(BuildContext context, ValidationFailure fa
   final details = failure.details;
   bool has(String key) => details.containsKey(key);
   return [
-    if ([ApiKeys.firstName, ApiKeys.lastName, ApiKeys.birthDate, ApiKeys.birthPlace, ApiKeys.entityType].any(has))
+    if ([
+      ApiKeys.firstName,
+      ApiKeys.lastName,
+      ApiKeys.idNumber,
+      ApiKeys.birthDate,
+      ApiKeys.birthPlace,
+      ApiKeys.entityType,
+    ].any(has))
       (label: l10n.regStepPersonal, step: RegistrationStep.personal),
     for (final type in failure.missingDocuments.map((t) => enumFromApi(DocumentType.values, t, DocumentType.other)))
-      (
-        label: l10n.missingDocumentsWarning(l10n.documentLabel(type)),
-        step: type == DocumentType.ccpCheque ? RegistrationStep.financial : RegistrationStep.personal,
-      ),
+      (label: l10n.missingDocumentsWarning(l10n.documentLabel(type)), step: RegistrationStep.personal),
     if ([
       ApiKeys.displayName,
       ApiKeys.bio,
@@ -32,15 +36,17 @@ List<SubmitMissing> submitMissingFrom(BuildContext context, ValidationFailure fa
       'profileImage',
     ].any(has))
       (label: l10n.regStepProfile, step: RegistrationStep.profile),
-    if ([ApiKeys.phone, ApiKeys.whatsapp, ApiKeys.email].any(has))
+    if ([ApiKeys.phone, ApiKeys.whatsapp, ApiKeys.email, ApiKeys.backupPhone].any(has))
       (label: l10n.regStepContact, step: RegistrationStep.contact),
     if (has(ApiKeys.socialAccounts)) (label: l10n.socialAccountsEmpty, step: RegistrationStep.accounts),
     if (has(ApiKeys.financialAccounts)) (label: l10n.regStepFinancial, step: RegistrationStep.financial),
+    if ([ApiKeys.acceptedTerms, ApiKeys.acceptedPrivacy].any(has))
+      (label: l10n.acceptAllConsents, step: RegistrationStep.financial),
   ];
 }
 
 class SubmitMissingBox extends StatelessWidget {
-  const SubmitMissingBox({required this.items, required this.onFix});
+  const SubmitMissingBox({super.key, required this.items, required this.onFix});
 
   final List<SubmitMissing> items;
   final ValueChanged<RegistrationStep> onFix;

@@ -17,7 +17,7 @@ enum RegistrationAction {
   uploadDocument,
   deleteDocument,
   socialScreenshot,
-  scanCcpCheque,
+  readFinancial,
   scanAudience,
   submit,
   newAttempt,
@@ -43,6 +43,7 @@ final class RegistrationState extends Equatable {
     this.documents = const [],
     this.meeting,
     this.scannedAudience,
+    this.readAccount,
     this.step = RegistrationStep.personal,
   });
 
@@ -63,6 +64,7 @@ final class RegistrationState extends Equatable {
 
   /// آخر نتيجة من لقطات Insights (تعمّر الاستمارة، ماشي محفوظة)
   final Audience? scannedAudience;
+  final FinancialAccount? readAccount;
   final RegistrationStep step;
 
   bool get isLoading => status == OperationStatus.loading;
@@ -90,14 +92,15 @@ final class RegistrationState extends Equatable {
       .where((d) => d.type == type && d.financialAccountId == financialAccountId)
       .firstOrNull;
 
-  bool get hasIdCard =>
-      documentOf(DocumentType.identityFront) != null && documentOf(DocumentType.identityBack) != null;
+  bool get hasIdCard => documentOf(DocumentType.identityFront) != null;
 
   bool get hasIdentity => hasIdCard || documentOf(DocumentType.passport) != null;
 
-  RegistrationDocument? get ccpCheque => documents.where((d) => d.type == DocumentType.ccpCheque).firstOrNull;
+  bool get financialComplete => financialAccounts.isNotEmpty;
 
-  bool get financialComplete => ccpCheque != null;
+  RegistrationDocument? proofOf(int accountId) => documents
+      .where((d) => d.financialAccountId == accountId && (d.type == DocumentType.financialProof || d.type == DocumentType.ccpCheque))
+      .firstOrNull;
 
   RegistrationState copyWith({
     RegistrationAction? action,
@@ -113,6 +116,7 @@ final class RegistrationState extends Equatable {
     List<RegistrationDocument>? documents,
     Object? meeting = _keep,
     Object? scannedAudience = _keep,
+    Object? readAccount = _keep,
     RegistrationStep? step,
   }) =>
       RegistrationState(
@@ -129,6 +133,7 @@ final class RegistrationState extends Equatable {
         documents: documents ?? this.documents,
         meeting: identical(meeting, _keep) ? this.meeting : meeting as VerificationMeeting?,
         scannedAudience: identical(scannedAudience, _keep) ? this.scannedAudience : scannedAudience as Audience?,
+        readAccount: identical(readAccount, _keep) ? this.readAccount : readAccount as FinancialAccount?,
         step: step ?? this.step,
       );
 
@@ -147,6 +152,7 @@ final class RegistrationState extends Equatable {
         documents,
         meeting,
         scannedAudience,
+        readAccount,
         step,
       ];
 }

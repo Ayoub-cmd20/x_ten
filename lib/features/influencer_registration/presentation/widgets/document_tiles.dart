@@ -169,7 +169,7 @@ class IdentityDocuments extends StatelessWidget {
   final bool showErrors;
 
   static List<DocumentType> typesFor(IdentityKind kind) => switch (kind) {
-        IdentityKind.idCard => const [DocumentType.identityFront, DocumentType.identityBack],
+        IdentityKind.idCard => const [DocumentType.identityFront],
         IdentityKind.passport => const [DocumentType.passport],
       };
 

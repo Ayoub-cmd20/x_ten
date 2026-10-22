@@ -507,9 +507,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get stepFinancial => 'Payout & documents';
 
   @override
-  String get stepReview => 'Review & submit';
-
-  @override
   String stepCounter(int current, int total) {
     return 'Step $current of $total';
   }
@@ -561,12 +558,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get bioHint => 'Introduce yourself and the content you create';
-
-  @override
-  String get skills => 'Skills';
-
-  @override
-  String get skillsHint => 'e.g. filming, editing, presenting';
 
   @override
   String get whatsapp => 'WhatsApp number';
@@ -707,9 +698,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bankAccount => 'Bank account number';
 
   @override
-  String get ribInvalid => 'Exactly 20 digits';
-
-  @override
   String get documentsTitle => 'Documents';
 
   @override
@@ -764,16 +752,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get consentsTitle => 'Consents';
-
-  @override
-  String get consentConfirm =>
-      'I confirm the information I provided is accurate';
-
-  @override
-  String get consentTerms => 'I accept the terms and conditions';
-
-  @override
-  String get consentPrivacy => 'I accept the privacy policy';
 
   @override
   String get consentVerification =>
@@ -961,37 +939,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get companyStepType => 'Business type';
 
   @override
-  String get companyStepInfo => 'Business details';
-
-  @override
   String get companyStepContact => 'Contact';
 
   @override
-  String get businessTypeQuestion => 'What kind of business are you?';
+  String get businessTypeQuestion => 'Do you have a commercial register?';
 
   @override
   String get businessTypeHint =>
       'This decides which details and documents we need.';
 
   @override
-  String get businessRegistered => 'Registered business';
+  String get businessRegistered => 'Yes, registered business';
 
   @override
   String get businessRegisteredDesc =>
       'You have a commercial register and a tax ID.';
 
   @override
-  String get businessIndividual => 'Individual activity';
+  String get businessIndividual => 'No, individual activity';
 
   @override
   String get businessIndividualDesc =>
       'You work on your own without a commercial register.';
-
-  @override
-  String get ownerName => 'Owner name';
-
-  @override
-  String get branch => 'Branch or wilaya';
 
   @override
   String get address => 'Address';
@@ -1000,41 +969,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get legalInfo => 'Legal information';
 
   @override
-  String get establishmentDate => 'Founding date';
-
-  @override
-  String get professionalTitle => 'Professional title';
-
-  @override
-  String get activityLabel => 'Activity';
-
-  @override
-  String get nationalIdNumber => 'National ID number';
-
-  @override
-  String get declaredIndividualActivity =>
-      'I declare that I carry out this activity individually';
-
-  @override
-  String get website => 'Website';
-
-  @override
-  String get marketingLinks => 'Marketing links';
-
-  @override
-  String get marketingLinksHint => 'Your social pages, optional';
-
-  @override
-  String get docCompanyIdentity => 'Manager’s ID card';
-
-  @override
   String get docCommercialRegister => 'Commercial register';
-
-  @override
-  String get docCompanyStamp => 'Company stamp';
-
-  @override
-  String get docCancelledCheque => 'Cancelled cheque';
 
   @override
   String get companyNeedsChangesBanner =>
@@ -1441,10 +1376,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get regDisplayName => 'Public name (profile name)';
 
   @override
-  String get regPrimaryCategories => 'Main fields';
+  String get regPrimaryCategories => 'Main influencer in these fields';
 
   @override
-  String get regSecondaryCategories => 'Secondary fields';
+  String get regSecondaryCategories => 'Secondary influencer in these fields';
 
   @override
   String get regBio => 'About the influencer';
@@ -1481,15 +1416,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get langOther => 'Other';
-
-  @override
-  String get levelBasic => 'Basic';
-
-  @override
-  String get levelGood => 'Good';
-
-  @override
-  String get levelAdvanced => 'Advanced';
 
   @override
   String get moveUp => 'Move up';
@@ -1541,14 +1467,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get regAudienceTitle => 'Audience details';
-
-  @override
-  String get regSkillsTitle => 'Your skills (choose what fits)';
-
-  @override
-  String regSkillsHint(int min, int max) {
-    return '$min to $max skills';
-  }
 
   @override
   String get regContentTypesTitle =>
@@ -1699,111 +1617,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get audPhoto => 'Photos';
-
-  @override
-  String get audPurchasing => 'Approximate purchasing power';
-
-  @override
-  String get audLow => 'Low';
-
-  @override
-  String get audMedium => 'Medium';
-
-  @override
-  String get audHigh => 'High';
-
-  @override
-  String get skillGroupCore => 'Content creation skills';
-
-  @override
-  String get skillGroupProduction => 'Production & technical skills';
-
-  @override
-  String get skillGroupMarketing => 'Advertising & marketing skills';
-
-  @override
-  String get skillGroupAdvanced => 'Advanced skills';
-
-  @override
-  String get skillCopywriting => 'Copywriting';
-
-  @override
-  String get skillStorytelling => 'Storytelling';
-
-  @override
-  String get skillOnCamera => 'On-camera presenting';
-
-  @override
-  String get skillActing => 'Acting / performance';
-
-  @override
-  String get skillVoiceOver => 'Voice over';
-
-  @override
-  String get skillProductReviews => 'Product reviews';
-
-  @override
-  String get skillEducational => 'Educational content';
-
-  @override
-  String get skillMotivational => 'Motivational content';
-
-  @override
-  String get skillComedy => 'Comedy content';
-
-  @override
-  String get skillDailyLife => 'Real life / vlogs';
-
-  @override
-  String get skillVideoShooting => 'Video shooting';
-
-  @override
-  String get skillPhotography => 'Photography';
-
-  @override
-  String get skillVideoEditing => 'Video editing';
-
-  @override
-  String get skillPhotoEditing => 'Photo editing';
-
-  @override
-  String get skillDirecting => 'Basic directing';
-
-  @override
-  String get skillLighting => 'Lighting setup';
-
-  @override
-  String get skillAudioSetup => 'Audio setup';
-
-  @override
-  String get skillAdIntegration => 'Smooth ad integration';
-
-  @override
-  String get skillIndirectPromotion => 'Indirect promotion';
-
-  @override
-  String get skillEffectiveCta => 'Effective CTA';
-
-  @override
-  String get skillBrandIdentity => 'Respecting brand identity';
-
-  @override
-  String get skillBriefCompliance => 'Following a script / brief';
-
-  @override
-  String get skillCampaignManagement => 'Full campaign management';
-
-  @override
-  String get skillAdScripting => 'Ad scriptwriting';
-
-  @override
-  String get skillPerformanceAnalysis => 'Content performance analysis';
-
-  @override
-  String get skillContentRepurposing => 'Content repurposing';
-
-  @override
-  String get skillMultilingual => 'Working in several languages';
 
   @override
   String get adctReview => 'Product review';
@@ -1992,8 +1805,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get finInstitutionName => 'Financial institution name';
 
   @override
-  String get finInstitutionHint =>
-      'Pick from the list or type any other institution';
+  String get finInstitutionHint => 'E.g. Algérie Poste, BNA, CPA, Payoneer';
 
   @override
   String get finAccountNumber => 'Account number';
@@ -2064,11 +1876,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String finProofAttached(String name) {
-    return 'Attached image: $name';
-  }
-
-  @override
   String audScanDone(int count) {
     return 'Filled $count sections from the screenshots, review and save';
   }
@@ -2082,22 +1889,489 @@ class AppLocalizationsEn extends AppLocalizations {
       'The screenshot shows another account: the username doesn\'t match the link';
 
   @override
-  String get ccpChequeTitle => 'Crossed postal cheque (required)';
+  String get bizSectorFoodBeverage => 'Food & beverages';
 
   @override
-  String get ccpChequeHint =>
-      'Photograph the cheque and we extract the RIP automatically';
+  String get bizSectorTrade => 'Trade & sales';
 
   @override
-  String get ccpChequeRequired => 'The crossed postal cheque is required';
+  String get bizSectorIndustry => 'Industry & production';
 
   @override
-  String get ccpChequeRead => 'RIP read from the cheque';
+  String get bizSectorAgriculture => 'Agriculture & farm products';
 
   @override
-  String get ccpRipLabel => 'RIP or CCP number';
+  String get bizSectorRealEstate => 'Real estate & construction';
 
   @override
-  String get otherInstitutionsTitle =>
-      'Other financial institutions (optional)';
+  String get bizSectorTransport => 'Transport & logistics';
+
+  @override
+  String get bizSectorHealth => 'Health & medical services';
+
+  @override
+  String get bizSectorEducation => 'Education & training';
+
+  @override
+  String get bizSectorTelecomTech => 'Telecom & technology';
+
+  @override
+  String get bizSectorTourism => 'Tourism & leisure';
+
+  @override
+  String get bizSectorBeauty => 'Beauty & personal care';
+
+  @override
+  String get bizSectorFashion => 'Fashion & clothing';
+
+  @override
+  String get bizSectorAutomotive => 'Cars & private transport';
+
+  @override
+  String get bizSectorProfessionalServices => 'Professional services';
+
+  @override
+  String get bizSectorMedia => 'Media & communication';
+
+  @override
+  String get bizSectorHomeServices => 'Home services';
+
+  @override
+  String get bizSectorConglomerates => 'Groups & multi-activity companies';
+
+  @override
+  String get bizSectorGovernment => 'Government & semi-public bodies';
+
+  @override
+  String get bizSectorIndividuals => 'Individuals / independent work';
+
+  @override
+  String get bizSectorOther => 'Other';
+
+  @override
+  String get bizActivityRestaurants => 'Restaurants';
+
+  @override
+  String get bizActivityCafes => 'Cafés';
+
+  @override
+  String get bizActivityFoodFactories => 'Food factories';
+
+  @override
+  String get bizActivityFoodDistribution => 'Food distribution';
+
+  @override
+  String get bizActivityRetail => 'Retail stores';
+
+  @override
+  String get bizActivityWholesale => 'Wholesale';
+
+  @override
+  String get bizActivityOnlineSales => 'Online sales';
+
+  @override
+  String get bizActivityLocalMarkets => 'Local markets';
+
+  @override
+  String get bizActivityManufacturing => 'Manufacturing';
+
+  @override
+  String get bizActivityFactories => 'Factories';
+
+  @override
+  String get bizActivityMaterialsProduction => 'Materials production';
+
+  @override
+  String get bizActivityFarming => 'Farming';
+
+  @override
+  String get bizActivityLivestock => 'Livestock';
+
+  @override
+  String get bizActivityAgriProcessing => 'Agri-food processing';
+
+  @override
+  String get bizActivityRealEstateDevelopment => 'Real estate development';
+
+  @override
+  String get bizActivityContracting => 'Contracting';
+
+  @override
+  String get bizActivityPublicWorks => 'Public works';
+
+  @override
+  String get bizActivityFreightTransport => 'Land / sea / air transport';
+
+  @override
+  String get bizActivityWarehousing => 'Warehousing';
+
+  @override
+  String get bizActivityLogisticsDistribution => 'Distribution';
+
+  @override
+  String get bizActivityDelivery => 'Delivery';
+
+  @override
+  String get bizActivityClinics => 'Clinics';
+
+  @override
+  String get bizActivityLaboratories => 'Laboratories';
+
+  @override
+  String get bizActivityPharmacies => 'Pharmacies';
+
+  @override
+  String get bizActivityMedicalManufacturing => 'Medical manufacturing';
+
+  @override
+  String get bizActivitySchools => 'Schools';
+
+  @override
+  String get bizActivityUniversities => 'Universities';
+
+  @override
+  String get bizActivityTrainingCenters => 'Training centers';
+
+  @override
+  String get bizActivityPrivateEducation => 'Private education';
+
+  @override
+  String get bizActivityTelecom => 'Telecommunications';
+
+  @override
+  String get bizActivityTechCompanies => 'Tech companies';
+
+  @override
+  String get bizActivityDigitalServices => 'Digital services';
+
+  @override
+  String get bizActivityHotels => 'Hotels';
+
+  @override
+  String get bizActivityTravelAgencies => 'Travel agencies';
+
+  @override
+  String get bizActivityResorts => 'Resorts';
+
+  @override
+  String get bizActivityLeisure => 'Leisure activities';
+
+  @override
+  String get bizActivitySalons => 'Salons';
+
+  @override
+  String get bizActivityCosmeticClinics => 'Cosmetic clinics';
+
+  @override
+  String get bizActivityCareProducts => 'Care products';
+
+  @override
+  String get bizActivityClothingStores => 'Clothing stores';
+
+  @override
+  String get bizActivityFashionDesign => 'Fashion design';
+
+  @override
+  String get bizActivityFashionDistribution => 'Distribution';
+
+  @override
+  String get bizActivityCarSales => 'Car sales';
+
+  @override
+  String get bizActivityCarMaintenance => 'Maintenance & repair';
+
+  @override
+  String get bizActivityCarRental => 'Rental';
+
+  @override
+  String get bizActivityLaw => 'Law firms';
+
+  @override
+  String get bizActivityAccounting => 'Accounting';
+
+  @override
+  String get bizActivityConsulting => 'Consulting';
+
+  @override
+  String get bizActivityAdministrativeServices => 'Administrative services';
+
+  @override
+  String get bizActivityMediaProduction => 'Media production';
+
+  @override
+  String get bizActivityAdAgencies => 'Advertising agencies';
+
+  @override
+  String get bizActivityEvents => 'Event management';
+
+  @override
+  String get bizActivityHomeMaintenance => 'Maintenance & repair';
+
+  @override
+  String get bizActivityCleaning => 'Cleaning';
+
+  @override
+  String get bizActivitySmallWorks => 'Small works';
+
+  @override
+  String get bizActivityHoldings => 'Holding companies';
+
+  @override
+  String get bizActivityInvestmentGroups => 'Investment groups';
+
+  @override
+  String get bizActivityFinancialInstitutions => 'Financial institutions';
+
+  @override
+  String get bizActivityMinistries => 'Ministries';
+
+  @override
+  String get bizActivityNationalCompanies => 'National companies';
+
+  @override
+  String get bizActivityNonProfits => 'Associations & non-profits';
+
+  @override
+  String get bizActivityFreelancer => 'Freelancer';
+
+  @override
+  String get bizActivitySoloActivity => 'Solo activity';
+
+  @override
+  String get bizActivitySmallProjects => 'Small projects';
+
+  @override
+  String get bizActivityOther => 'Other (specify)';
+
+  @override
+  String get companyRoleOwner => 'Owner';
+
+  @override
+  String get companyRoleMarketingOfficer => 'Marketing officer';
+
+  @override
+  String get companyRoleCompanyOwner => 'Company owner';
+
+  @override
+  String get companyRoleMarketingDirector => 'Marketing director';
+
+  @override
+  String get companyRoleRelationsOfficer => 'Relations officer';
+
+  @override
+  String get companyRoleStoreOwner => 'Store owner';
+
+  @override
+  String get companyRoleProjectOwner => 'Project owner';
+
+  @override
+  String get companyRoleOther => 'Other (specify)';
+
+  @override
+  String get companyStepPersonal => 'Account manager';
+
+  @override
+  String get companyStepBusiness => 'Business';
+
+  @override
+  String get companyStepPresence => 'Activity & presence';
+
+  @override
+  String get companyStepFinish => 'Finance & documents';
+
+  @override
+  String get companyRoleTitle => 'Your role';
+
+  @override
+  String get companyRoleOtherHint => 'Specify your role';
+
+  @override
+  String get companyAccountName => 'Choose your account name';
+
+  @override
+  String companyAccountNameRules(int min, int max) {
+    return 'Don\'t impersonate another person or brand, no offensive words, $min to $max characters.';
+  }
+
+  @override
+  String get companyAccountNameTaken =>
+      'This name is already used by another account';
+
+  @override
+  String get companyAccountNameReserved =>
+      'This name is reserved, choose another one';
+
+  @override
+  String companyAccountNameInvalid(int min, int max) {
+    return 'Letters, digits and spaces only, $min to $max characters';
+  }
+
+  @override
+  String get companyInstitutionName => 'Company name';
+
+  @override
+  String get companyBranch => 'Branch (optional)';
+
+  @override
+  String get companyAccountNameQuestion =>
+      'Which name should your account show?';
+
+  @override
+  String get companyNameOption => 'Company name';
+
+  @override
+  String get companyBranchOption => 'Branch name';
+
+  @override
+  String get companyHqWilaya => 'Head office wilaya';
+
+  @override
+  String get companyHqAddress => 'Head office address';
+
+  @override
+  String get companyCapital => 'Capital (estimate, optional)';
+
+  @override
+  String get companyCurrency => 'DZD';
+
+  @override
+  String get companyPhotoSubtitle => 'Your logo or photo, shown to influencers';
+
+  @override
+  String get companyBio => 'About your business';
+
+  @override
+  String get companyBioHint => 'What do you offer and to whom?';
+
+  @override
+  String get companyActivitiesTitle => 'Fields of activity';
+
+  @override
+  String companyActivitiesMax(int max) {
+    return 'Choose up to $max';
+  }
+
+  @override
+  String get companyActivityOtherHint => 'Specify your field of activity';
+
+  @override
+  String get companyPagesTitle => 'Official marketing pages (optional)';
+
+  @override
+  String get companyPagesHint =>
+      'Paste the page link and we detect the platform automatically';
+
+  @override
+  String companyPagesLimit(int max) {
+    return 'Up to $max pages';
+  }
+
+  @override
+  String get companyPhoneHint => 'Don\'t use your personal number';
+
+  @override
+  String get companyWhatsappOptional => 'WhatsApp number (optional)';
+
+  @override
+  String get companyPhone2 => 'Second phone number (optional)';
+
+  @override
+  String get companyEmailHint =>
+      'Your account email, we\'ll ask you to confirm it later';
+
+  @override
+  String get docTaxCertificate => 'Tax ID certificate';
+
+  @override
+  String get docLicense => 'License or permit';
+
+  @override
+  String get companyLicensesTitle => 'Licenses & permits (optional)';
+
+  @override
+  String get companyLicensesHint => 'For activities you may promote later';
+
+  @override
+  String get companyAddLicense => 'Add a license';
+
+  @override
+  String get companyProofOptional => 'Add a cheque or RIB (optional)';
+
+  @override
+  String get docReviewPending => 'Under review';
+
+  @override
+  String get docReviewAccepted => 'Accepted';
+
+  @override
+  String docReviewRejected(String reason) {
+    return 'Rejected: $reason';
+  }
+
+  @override
+  String get companyMeetingNote =>
+      'After you submit, we\'ll schedule a meeting to check all your proofs';
+
+  @override
+  String get companyScanDocsTitle => 'Fill in from your documents';
+
+  @override
+  String get companyScanDocsHint =>
+      'Photograph the commercial register and the tax ID document: we fill in the name, numbers, address and capital, you complete the rest. Both documents are optional.';
+
+  @override
+  String get regIdNumber => 'ID document number';
+
+  @override
+  String get regContentLanguagesHint =>
+      'The share of each language in your content, totalling 100%';
+
+  @override
+  String get regLanguageShare => 'Share';
+
+  @override
+  String get regOptionalContactTitle => 'Extra details (optional)';
+
+  @override
+  String get regBackupPhone => 'Backup phone number (optional)';
+
+  @override
+  String get regDeliveryAddress => 'Parcel delivery address (optional)';
+
+  @override
+  String get regDeliveryAddressHint =>
+      'To receive products an advertiser sends you';
+
+  @override
+  String get audWritten => 'Written content';
+
+  @override
+  String get audAudio => 'Audio content';
+
+  @override
+  String get audInteractive => 'Interactive content';
+
+  @override
+  String get audContentRankHint => 'Rank them from most to least engaging';
+
+  @override
+  String get regSkipOptional => 'Skip, I\'ll do it later';
+
+  @override
+  String get finAddHint =>
+      'Add at least one institution: its name, a document if you have one, and the account number';
+
+  @override
+  String get finProofAdded => 'Document attached';
+
+  @override
+  String get finReadDone =>
+      'We read the account number from the document, check it';
+
+  @override
+  String get finAttachDocument => 'Attach a document (cheque, RIB...) optional';
+
+  @override
+  String get finAttachDocumentHint =>
+      'With a document we read the number automatically, otherwise type it yourself';
 }

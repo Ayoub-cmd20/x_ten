@@ -101,16 +101,36 @@ class StepActions extends StatelessWidget {
     required this.onNext,
     this.onBack,
     this.nextLabel,
+    this.onSkip,
+    this.skipLabel,
     this.isLoading = false,
   });
 
   final VoidCallback? onNext;
   final VoidCallback? onBack;
   final String? nextLabel;
+  final VoidCallback? onSkip;
+  final String? skipLabel;
   final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
+    final skip = onSkip;
+    final row = _row(context);
+    if (skip == null) {
+      return row;
+    }
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        TextButton(onPressed: isLoading ? null : skip, child: Text(skipLabel ?? context.l10n.next)),
+        row,
+      ],
+    );
+  }
+
+  Widget _row(BuildContext context) {
     final back = onBack;
     return Row(
       children: [

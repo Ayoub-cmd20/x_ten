@@ -16,11 +16,19 @@ class CompanyRepositoryImpl implements CompanyRepository {
         try {
           profile = await _remote.getProfile();
         } on ServerException catch (e) {
-          if (e.statusCode == 404) return const CompanyBundle();
+          if (e.statusCode == 404) {
+            return const CompanyBundle();
+          }
           rethrow;
         }
-        if (!profile.isEditable) return CompanyBundle(profile: profile);
-        return CompanyBundle(profile: profile, documents: await _remote.getDocuments());
+        if (!profile.isEditable) {
+          return CompanyBundle(profile: profile);
+        }
+        return CompanyBundle(
+          profile: profile,
+          documents: await _remote.getDocuments(),
+          financialAccounts: await _remote.getFinancialAccounts(),
+        );
       });
 
   @override
@@ -31,24 +39,32 @@ class CompanyRepositoryImpl implements CompanyRepository {
       guard(() => _remote.updateProfile(CompanyJson.type(type)));
 
   @override
-  Future<Result<CompanyProfile>> updateInfo(BusinessType type, CompanyInfo info) =>
-      guard(() => _remote.updateProfile(CompanyJson.info(type, info)));
+  Future<Result<CompanyProfile>> saveSection(CompanySection section) =>
+      guard(() => _remote.updateProfile(CompanyJson.section(section)));
 
   @override
-  Future<Result<CompanyProfile>> updateContact(CompanyContact contact) =>
-      guard(() => _remote.updateProfile(CompanyJson.contact(contact)));
+  Future<Result<CompanyProfile>> uploadPhoto(UploadFile image) => guard(() => _remote.uploadPhoto(image));
 
   @override
-  Future<Result<CompanyProfile>> updateConsents(CompanyConsents consents) =>
-      guard(() => _remote.updateProfile(CompanyJson.consents(consents)));
+  Future<Result<void>> deletePhoto() => guard(_remote.deletePhoto);
 
   @override
-  Future<Result<CompanyProfile>> submit() => guard(_remote.submit);
-
-  @override
-  Future<Result<CompanyDocument>> uploadDocument(CompanyDocumentType type, UploadFile file) =>
-      guard(() => _remote.uploadDocument(type, file));
+  Future<Result<CompanyDocument>> uploadDocument(CompanyUpload upload) => guard(() => _remote.uploadDocument(upload));
 
   @override
   Future<Result<void>> deleteDocument(int id) => guard(() => _remote.deleteDocument(id));
+
+  @override
+  Future<Result<FinancialAccount>> addFinancialAccount(FinancialAccount account) =>
+      guard(() => _remote.addFinancialAccount(CompanyJson.financialAccount(account)));
+
+  @override
+  Future<Result<void>> deleteFinancialAccount(int id) => guard(() => _remote.deleteFinancialAccount(id));
+
+  @override
+  Future<Result<FinancialAccount>> readFinancialDocument(UploadFile file) =>
+      guard(() => _remote.readFinancialDocument(file));
+
+  @override
+  Future<Result<CompanyProfile>> submit() => guard(_remote.submit);
 }

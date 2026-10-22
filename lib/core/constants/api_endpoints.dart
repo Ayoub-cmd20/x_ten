@@ -22,7 +22,7 @@ abstract final class ApiEndpoints {
   static String audienceScreenshots(int registrationId) => '${registration(registrationId)}audience-screenshots/';
   static String financialAccounts(int registrationId) => '${registration(registrationId)}financial-accounts/';
   static String financialAccount(int id) => '/influencers/financial-accounts/$id/';
-  static String ccpCheque(int registrationId) => '${financialAccounts(registrationId)}ccp-cheque/';
+  static String financialRead(int registrationId) => '${financialAccounts(registrationId)}read/';
   static String portfolio(int registrationId) => '${registration(registrationId)}portfolio/';
   static String portfolioItem(int id) => '/influencers/portfolio/$id/';
   static String documents(int registrationId) => '${registration(registrationId)}documents/';
@@ -33,7 +33,11 @@ abstract final class ApiEndpoints {
   static const companyProfile = '/companies/profile/';
   static const companySubmit = '/companies/profile/submit/';
   static const companyDocuments = '/companies/profile/documents/';
+  static const companyImage = '/companies/profile/image/';
+  static const companyFinancialAccounts = '/companies/profile/financial-accounts/';
+  static const companyFinancialRead = '${companyFinancialAccounts}read/';
   static String companyDocument(int id) => '/companies/documents/$id/';
+  static String companyFinancialAccount(int id) => '/companies/financial-accounts/$id/';
 
   static const marketplaceInfluencers = '/marketplace/influencers/';
   static String marketplaceInfluencer(int id) => '$marketplaceInfluencers$id/';
