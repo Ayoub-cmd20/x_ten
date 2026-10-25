@@ -6,6 +6,7 @@ import 'package:x_ten/core/theme/app_dimens.dart';
 import 'package:x_ten/core/theme/theme_context.dart';
 import 'package:x_ten/core/widgets/feedback/app_snackbar.dart';
 import 'package:x_ten/core/widgets/loading/app_loader.dart';
+import 'package:x_ten/core/widgets/form_helpers.dart';
 import 'package:x_ten/core/widgets/step_form.dart';
 import 'package:x_ten/features/company_profile/domain/company_entities.dart';
 import 'package:x_ten/features/company_profile/presentation/company_cubit.dart';
@@ -191,6 +192,7 @@ class CompanyIdentityDocuments extends StatelessWidget {
             child: CompanyDocumentTile(
               type: type,
               slot: type,
+              title: req(l10n.companyDocumentLabel(type)),
               document: state.documentOf(type),
               highlightMissing: showErrors && state.documentOf(type) == null,
               onUpload: (file, acceptUnreadable) =>

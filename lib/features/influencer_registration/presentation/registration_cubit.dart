@@ -14,7 +14,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   RegistrationCubit({
     required LoadCurrentRegistrationUseCase loadCurrent,
     required SaveSectionUseCase saveSection,
-    required StartNewAttemptUseCase startNewAttempt,
     required SubmitRegistrationUseCase submit,
     required UploadProfileImageUseCase uploadPhoto,
     required DeleteProfileImageUseCase deletePhoto,
@@ -35,7 +34,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     required GetCurrentUserUseCase getCurrentUser,
   })  : _loadCurrent = loadCurrent,
         _saveSection = saveSection,
-        _startNewAttempt = startNewAttempt,
         _submit = submit,
         _uploadPhoto = uploadPhoto,
         _deletePhoto = deletePhoto,
@@ -58,7 +56,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
 
   final LoadCurrentRegistrationUseCase _loadCurrent;
   final SaveSectionUseCase _saveSection;
-  final StartNewAttemptUseCase _startNewAttempt;
   final SubmitRegistrationUseCase _submit;
   final UploadProfileImageUseCase _uploadPhoto;
   final DeleteProfileImageUseCase _deletePhoto;
@@ -173,24 +170,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         return _submit(id);
       },
       (current, saved) => current.copyWith(registration: saved),
-    );
-  }
-
-  Future<void> startNewAttempt() async {
-    final previous = state.registration;
-    if (previous == null || !previous.canStartNewAttempt) return;
-    await _save(
-      RegistrationAction.newAttempt,
-      () => _startNewAttempt(previous),
-      (current, registration) => current.copyWith(
-        registration: registration,
-        socialAccounts: const [],
-        portfolio: const [],
-        financialAccounts: const [],
-        documents: const [],
-        meeting: null,
-        step: RegistrationStep.personal,
-      ),
     );
   }
 
@@ -412,7 +391,8 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     if (!registration.profile.isComplete || registration.profileImageUrl == null) return RegistrationStep.profile;
     if (!registration.contact.isComplete) return RegistrationStep.contact;
     if (state.socialAccounts.isEmpty) return RegistrationStep.accounts;
-    return RegistrationStep.financial;
+    if (!state.financialComplete) return RegistrationStep.financial;
+    return RegistrationStep.review;
   }
 
 }

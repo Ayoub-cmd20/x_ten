@@ -1609,7 +1609,7 @@ abstract class AppLocalizations {
   /// No description provided for @statusNeedsChangesBody.
   ///
   /// In ar, this message translates to:
-  /// **'أرسل محاولة جديدة بعد التعديل. ستحتاج إعادة إضافة الحسابات والمستندات.'**
+  /// **'عدّل المعلومات المطلوبة في ملفك ثم أعد إرساله.'**
   String get statusNeedsChangesBody;
 
   /// No description provided for @statusRejectedTitle.
@@ -1621,20 +1621,8 @@ abstract class AppLocalizations {
   /// No description provided for @statusRejectedBody.
   ///
   /// In ar, this message translates to:
-  /// **'يمكنك تقديم محاولة جديدة بمعلومات محدّثة.'**
+  /// **'للاستفسار يمكنك التواصل مع إدارة المنصة.'**
   String get statusRejectedBody;
-
-  /// No description provided for @attemptNumber.
-  ///
-  /// In ar, this message translates to:
-  /// **'المحاولة رقم {number}'**
-  String attemptNumber(int number);
-
-  /// No description provided for @startNewAttempt.
-  ///
-  /// In ar, this message translates to:
-  /// **'محاولة جديدة'**
-  String get startNewAttempt;
 
   /// No description provided for @refreshStatus.
   ///
@@ -2677,19 +2665,19 @@ abstract class AppLocalizations {
   /// No description provided for @regEntityQuestion.
   ///
   /// In ar, this message translates to:
-  /// **'هل تعتبر نفسك شخصية طبيعية ( محتوى شخصي ) أو شخصية معنوية ( صفحة إلكترونية )'**
+  /// **'هل تعتبر نفسك:'**
   String get regEntityQuestion;
 
   /// No description provided for @regEntityNatural.
   ///
   /// In ar, this message translates to:
-  /// **'شخصية طبيعية ( محتوى شخصي )'**
+  /// **'شخص طبيعي (محتوى شخصي)'**
   String get regEntityNatural;
 
   /// No description provided for @regEntityLegal.
   ///
   /// In ar, this message translates to:
-  /// **'شخصية معنوية ( صفحة إلكترونية )'**
+  /// **'شخص معنوي (صفحة إلكترونية)'**
   String get regEntityLegal;
 
   /// No description provided for @regDisplayName.
@@ -2701,13 +2689,13 @@ abstract class AppLocalizations {
   /// No description provided for @regPrimaryCategories.
   ///
   /// In ar, this message translates to:
-  /// **'مؤثر رئيسي في هذه المجالات'**
+  /// **'مجالات تأثيرك الرئيسية :'**
   String get regPrimaryCategories;
 
   /// No description provided for @regSecondaryCategories.
   ///
   /// In ar, this message translates to:
-  /// **'مؤثر ثانوي في هذه المجالات'**
+  /// **'مجالات تأثيرك الثانوية'**
   String get regSecondaryCategories;
 
   /// No description provided for @regBio.
@@ -2920,23 +2908,11 @@ abstract class AppLocalizations {
   /// **'إضافة دولة'**
   String get audAddCountry;
 
-  /// No description provided for @audRegions.
-  ///
-  /// In ar, this message translates to:
-  /// **'المناطق داخل الدولة'**
-  String get audRegions;
-
   /// No description provided for @audRegionsHint.
   ///
   /// In ar, this message translates to:
   /// **'لا تحدد كل المناطق، اكتفِ بما يساعد فقط'**
   String get audRegionsHint;
-
-  /// No description provided for @audRegionsUnspecified.
-  ///
-  /// In ar, this message translates to:
-  /// **'تفضيل عدم التحديد'**
-  String get audRegionsUnspecified;
 
   /// No description provided for @regionNorth.
   ///
@@ -4471,14 +4447,8 @@ abstract class AppLocalizations {
   /// No description provided for @regContentLanguagesHint.
   ///
   /// In ar, this message translates to:
-  /// **'نسبة كل لغة في محتواك، والمجموع 100%'**
+  /// **'اختر مستواك في كل لغة'**
   String get regContentLanguagesHint;
-
-  /// No description provided for @regLanguageShare.
-  ///
-  /// In ar, this message translates to:
-  /// **'النسبة'**
-  String get regLanguageShare;
 
   /// No description provided for @regOptionalContactTitle.
   ///
@@ -4501,7 +4471,7 @@ abstract class AppLocalizations {
   /// No description provided for @regDeliveryAddressHint.
   ///
   /// In ar, this message translates to:
-  /// **'لاستلام المنتجات إذا أرسلها لك معلن'**
+  /// **'حدد عنوان البيت بدقة لتستلم الطرد حتى بيتك أو البلدية القريبة لك لتستلم فيها الطرد من مكاتب التوصيل'**
   String get regDeliveryAddressHint;
 
   /// No description provided for @audWritten.
@@ -4563,6 +4533,294 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'إذا أرفقت وثيقة نقرأ رقم الحساب تلقائياً، وإلا اكتبه بنفسك'**
   String get finAttachDocumentHint;
+
+  /// No description provided for @regEntityRadio.
+  ///
+  /// In ar, this message translates to:
+  /// **'إذاعة'**
+  String get regEntityRadio;
+
+  /// No description provided for @regEntityTv.
+  ///
+  /// In ar, this message translates to:
+  /// **'تلفزيون'**
+  String get regEntityTv;
+
+  /// No description provided for @regEntityShort.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصفة'**
+  String get regEntityShort;
+
+  /// No description provided for @levelBasic.
+  ///
+  /// In ar, this message translates to:
+  /// **'أساسي'**
+  String get levelBasic;
+
+  /// No description provided for @levelGood.
+  ///
+  /// In ar, this message translates to:
+  /// **'جيد'**
+  String get levelGood;
+
+  /// No description provided for @levelAdvanced.
+  ///
+  /// In ar, this message translates to:
+  /// **'متقدم'**
+  String get levelAdvanced;
+
+  /// No description provided for @regChooseLevel.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر المستوى'**
+  String get regChooseLevel;
+
+  /// No description provided for @regNationalId.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم التعريف الوطني'**
+  String get regNationalId;
+
+  /// No description provided for @regNationalIdHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'18 رقمًا'**
+  String get regNationalIdHint;
+
+  /// No description provided for @regNationalIdInvalid.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم التعريف الوطني يتكون من 18 رقمًا'**
+  String get regNationalIdInvalid;
+
+  /// No description provided for @regIdentityDocument.
+  ///
+  /// In ar, this message translates to:
+  /// **'وثيقة الهوية'**
+  String get regIdentityDocument;
+
+  /// No description provided for @requiredFieldsNote.
+  ///
+  /// In ar, this message translates to:
+  /// **'* ملاحظة : (الحقول المحصورة بنجمة (*) إلزامية لإدخال البيانات)'**
+  String get requiredFieldsNote;
+
+  /// No description provided for @upgradePrefix.
+  ///
+  /// In ar, this message translates to:
+  /// **'يمكنك الترقية'**
+  String get upgradePrefix;
+
+  /// No description provided for @upgradeTapHere.
+  ///
+  /// In ar, this message translates to:
+  /// **'بالضغط هنا'**
+  String get upgradeTapHere;
+
+  /// No description provided for @regBioOptional.
+  ///
+  /// In ar, this message translates to:
+  /// **'نبذة عنك (غير إلزامية)'**
+  String get regBioOptional;
+
+  /// No description provided for @adctComparison.
+  ///
+  /// In ar, this message translates to:
+  /// **'المقارنات'**
+  String get adctComparison;
+
+  /// No description provided for @adctTipsTricks.
+  ///
+  /// In ar, this message translates to:
+  /// **'النصائح والحيل'**
+  String get adctTipsTricks;
+
+  /// No description provided for @adctPolls.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاستطلاعات (أسئلة وأجوبة)'**
+  String get adctPolls;
+
+  /// No description provided for @adctDailyVlog.
+  ///
+  /// In ar, this message translates to:
+  /// **'اليوميات'**
+  String get adctDailyVlog;
+
+  /// No description provided for @adctChallenges.
+  ///
+  /// In ar, this message translates to:
+  /// **'التحديات والمسابقات'**
+  String get adctChallenges;
+
+  /// No description provided for @adctAffiliateLinks.
+  ///
+  /// In ar, this message translates to:
+  /// **'روابط الأفلييت'**
+  String get adctAffiliateLinks;
+
+  /// No description provided for @adctGiveaways.
+  ///
+  /// In ar, this message translates to:
+  /// **'الهدايا والمسابقات'**
+  String get adctGiveaways;
+
+  /// No description provided for @adctInspiringStories.
+  ///
+  /// In ar, this message translates to:
+  /// **'قصص ملهمة'**
+  String get adctInspiringStories;
+
+  /// No description provided for @adctPodcast.
+  ///
+  /// In ar, this message translates to:
+  /// **'بودكاست'**
+  String get adctPodcast;
+
+  /// No description provided for @adctMotivationalPosts.
+  ///
+  /// In ar, this message translates to:
+  /// **'منشورات تحفيزية'**
+  String get adctMotivationalPosts;
+
+  /// No description provided for @instAlgeriePoste.
+  ///
+  /// In ar, this message translates to:
+  /// **'بريد الجزائر'**
+  String get instAlgeriePoste;
+
+  /// No description provided for @instBna.
+  ///
+  /// In ar, this message translates to:
+  /// **'البنك الوطني الجزائري (BNA)'**
+  String get instBna;
+
+  /// No description provided for @instBea.
+  ///
+  /// In ar, this message translates to:
+  /// **'بنك الجزائر الخارجي (BEA)'**
+  String get instBea;
+
+  /// No description provided for @instBdl.
+  ///
+  /// In ar, this message translates to:
+  /// **'بنك التنمية المحلية (BDL)'**
+  String get instBdl;
+
+  /// No description provided for @instBadr.
+  ///
+  /// In ar, this message translates to:
+  /// **'بنك الفلاحة والتنمية الريفية (BADR)'**
+  String get instBadr;
+
+  /// No description provided for @instCpa.
+  ///
+  /// In ar, this message translates to:
+  /// **'القرض الشعبي الجزائري (CPA)'**
+  String get instCpa;
+
+  /// No description provided for @instCnep.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصندوق الوطني للتوفير والاحتياط (CNEP-Banque)'**
+  String get instCnep;
+
+  /// No description provided for @instBnh.
+  ///
+  /// In ar, this message translates to:
+  /// **'البنك الوطني للإسكان (BNH)'**
+  String get instBnh;
+
+  /// No description provided for @instAgb.
+  ///
+  /// In ar, this message translates to:
+  /// **'بنك الخليج الجزائر (AGB)'**
+  String get instAgb;
+
+  /// No description provided for @instSocieteGenerale.
+  ///
+  /// In ar, this message translates to:
+  /// **'سوسيتيه جنرال الجزائر (Société Générale)'**
+  String get instSocieteGenerale;
+
+  /// No description provided for @instBnpParibas.
+  ///
+  /// In ar, this message translates to:
+  /// **'بي إن بي باريبا الجزائر (BNP Paribas)'**
+  String get instBnpParibas;
+
+  /// No description provided for @instBankAbc.
+  ///
+  /// In ar, this message translates to:
+  /// **'المؤسسة العربية المصرفية (Bank ABC)'**
+  String get instBankAbc;
+
+  /// No description provided for @instHousingBank.
+  ///
+  /// In ar, this message translates to:
+  /// **'بنك الإسكان للتجارة والتمويل (Housing Bank)'**
+  String get instHousingBank;
+
+  /// No description provided for @instAlSalam.
+  ///
+  /// In ar, this message translates to:
+  /// **'بنك السلام الجزائر (مصرف إسلامي)'**
+  String get instAlSalam;
+
+  /// No description provided for @instAlBaraka.
+  ///
+  /// In ar, this message translates to:
+  /// **'بنك البركة الجزائري (مصرف إسلامي)'**
+  String get instAlBaraka;
+
+  /// No description provided for @instFransabank.
+  ///
+  /// In ar, this message translates to:
+  /// **'بنك فرنسابنك الجزائر (Fransabank)'**
+  String get instFransabank;
+
+  /// No description provided for @instArabBank.
+  ///
+  /// In ar, this message translates to:
+  /// **'بنك عمان العربي تونس والجزائر (العربي)'**
+  String get instArabBank;
+
+  /// No description provided for @regStepReview.
+  ///
+  /// In ar, this message translates to:
+  /// **'مراجعة وإرسال'**
+  String get regStepReview;
+
+  /// No description provided for @regReviewHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'تأكد من معلوماتك قبل الإرسال'**
+  String get regReviewHint;
+
+  /// No description provided for @regEditFile.
+  ///
+  /// In ar, this message translates to:
+  /// **'تعديل الملف'**
+  String get regEditFile;
+
+  /// No description provided for @regGoHome.
+  ///
+  /// In ar, this message translates to:
+  /// **'الصفحة الرئيسية'**
+  String get regGoHome;
+
+  /// No description provided for @regViewStatus.
+  ///
+  /// In ar, this message translates to:
+  /// **'اضغط لعرض حالة ملفك'**
+  String get regViewStatus;
+
+  /// No description provided for @audRegionsIn.
+  ///
+  /// In ar, this message translates to:
+  /// **'المناطق داخل {country}'**
+  String audRegionsIn(String country);
 }
 
 class _AppLocalizationsDelegate

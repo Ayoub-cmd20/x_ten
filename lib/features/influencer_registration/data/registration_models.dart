@@ -35,19 +35,18 @@ abstract final class RegistrationJson {
               null => null,
             },
             ApiKeys.birthPlace: personal.birthPlace,
-            ApiKeys.idNumber: personal.idNumber,
+            ApiKeys.nationalId: personal.nationalId,
             ApiKeys.entityType: personal.entityType?.name ?? '',
           },
         final ProfileInfo profile => {
             ApiKeys.displayName: profile.displayName,
             ApiKeys.primaryCategories: profile.primaryCategories,
             ApiKeys.secondaryCategories: profile.secondaryCategories,
-            ApiKeys.bio: profile.bio,
             ApiKeys.contentLanguages: [
               for (final language in profile.contentLanguages)
                 {
                   ApiKeys.code: language.code,
-                  ApiKeys.percent: _compact(language.percent),
+                  ApiKeys.level: language.level.name,
                   if (language.name.isNotEmpty) ApiKeys.name: language.name,
                 },
             ],
@@ -61,6 +60,7 @@ abstract final class RegistrationJson {
             ApiKeys.deliveryAddress: contact.deliveryAddress,
           },
         final OptionalInfo optional => {
+            ApiKeys.bio: optional.bio,
             ApiKeys.audience: audience(optional.audience),
             ApiKeys.contentTypes: optional.contentTypes,
           },
@@ -72,10 +72,13 @@ abstract final class RegistrationJson {
 
   static Json audience(Audience audience) => {
         ApiKeys.countries: [
-          for (final c in audience.countries) {ApiKeys.country: c.country, ApiKeys.percent: _compact(c.percent)},
+          for (final c in audience.countries)
+            {
+              ApiKeys.country: c.country,
+              ApiKeys.percent: _compact(c.percent),
+              ApiKeys.regions: _sharesToJson(c.regions),
+            },
         ],
-        ApiKeys.regions: _sharesToJson(audience.regions),
-        ApiKeys.regionsUnspecified: audience.regionsUnspecified,
         ApiKeys.gender: _sharesToJson(audience.gender),
         ApiKeys.ages: _sharesToJson(audience.ages),
         ApiKeys.languages: _sharesToJson(audience.languages),
@@ -97,10 +100,9 @@ abstract final class RegistrationJson {
           CountryShare(
             country: _string(item[ApiKeys.country]),
             percent: (item[ApiKeys.percent] as num? ?? 0).toDouble(),
+            regions: _sharesFromJson(item[ApiKeys.regions]),
           ),
       ],
-      regions: _sharesFromJson(value[ApiKeys.regions]),
-      regionsUnspecified: value[ApiKeys.regionsUnspecified] as bool? ?? false,
       gender: _sharesFromJson(value[ApiKeys.gender]),
       ages: _sharesFromJson(value[ApiKeys.ages]),
       languages: _sharesFromJson(value[ApiKeys.languages]),
@@ -126,6 +128,11 @@ abstract final class RegistrationJson {
         accountNumber: _string(json[ApiKeys.accountNumber]),
       );
 
+  static FinancialAccount readInstitutionAccount(Json json) => FinancialAccount(
+        institutionName: _string(json[ApiKeys.institution]),
+        accountNumber: _string(json[ApiKeys.accountNumber]),
+      );
+
   static Json financialAccount(FinancialAccount account) => {
         ApiKeys.institutionName: account.institutionName,
         ApiKeys.accountNumber: account.accountNumber,
@@ -136,7 +143,6 @@ abstract final class RegistrationJson {
 class RegistrationModel extends Registration {
   const RegistrationModel({
     required super.id,
-    required super.attemptNumber,
     required super.isCurrent,
     required super.personal,
     required super.profile,
@@ -144,6 +150,7 @@ class RegistrationModel extends Registration {
     required super.optional,
     required super.status,
     super.consents,
+    super.country,
     super.profileImageUrl,
     super.submittedAt,
     super.updatedAt,
@@ -151,26 +158,24 @@ class RegistrationModel extends Registration {
 
   factory RegistrationModel.fromJson(Json json) => RegistrationModel(
         id: json[ApiKeys.id] as int,
-        attemptNumber: json[ApiKeys.attemptNumber] as int? ?? 1,
         isCurrent: json[ApiKeys.isCurrent] as bool? ?? false,
         personal: PersonalInfo(
           firstName: _string(json[ApiKeys.firstName]),
           lastName: _string(json[ApiKeys.lastName]),
           birthDate: _date(json[ApiKeys.birthDate]),
           birthPlace: _string(json[ApiKeys.birthPlace]),
-          idNumber: _string(json[ApiKeys.idNumber]),
+          nationalId: _string(json[ApiKeys.nationalId]),
           entityType: maybeEnum(EntityType.values, json[ApiKeys.entityType] as String?),
         ),
         profile: ProfileInfo(
           displayName: _string(json[ApiKeys.displayName]),
           primaryCategories: _strings(json[ApiKeys.primaryCategories]),
           secondaryCategories: _strings(json[ApiKeys.secondaryCategories]),
-          bio: _string(json[ApiKeys.bio]),
           contentLanguages: [
             for (final item in (json[ApiKeys.contentLanguages] as List? ?? const []).whereType<Json>())
               ContentLanguage(
                 code: _string(item[ApiKeys.code]),
-                percent: (item[ApiKeys.percent] as num? ?? 0).toDouble(),
+                level: enumFromApi(LanguageLevel.values, item[ApiKeys.level] as String?, LanguageLevel.basic),
                 name: _string(item[ApiKeys.name]),
               ),
           ],
@@ -184,6 +189,7 @@ class RegistrationModel extends Registration {
           deliveryAddress: _string(json[ApiKeys.deliveryAddress]),
         ),
         optional: OptionalInfo(
+          bio: _string(json[ApiKeys.bio]),
           audience: RegistrationJson.audienceFrom(json[ApiKeys.audience]),
           contentTypes: _strings(json[ApiKeys.contentTypes]),
         ),
@@ -191,6 +197,7 @@ class RegistrationModel extends Registration {
           acceptedTerms: json[ApiKeys.acceptedTerms] as bool? ?? false,
           acceptedPrivacy: json[ApiKeys.acceptedPrivacy] as bool? ?? false,
         ),
+        country: _string(json[ApiKeys.country]),
         profileImageUrl: json[ApiKeys.profileImageUrl] as String?,
         status: VerificationStatus.fromApi(json[ApiKeys.verificationStatus] as String?),
         submittedAt: _date(json[ApiKeys.submittedAt]),
@@ -301,6 +308,7 @@ class ScannedFieldsModel extends ScannedFields {
     super.firstName,
     super.lastName,
     super.idNumber,
+    super.nationalId,
     super.birthDate,
     super.birthPlace,
   });
@@ -312,6 +320,7 @@ class ScannedFieldsModel extends ScannedFields {
       firstName: text(value[ApiKeys.firstName]),
       lastName: text(value[ApiKeys.lastName]),
       idNumber: text(value[ApiKeys.idNumber]),
+      nationalId: text(value[ApiKeys.nationalId]),
       birthDate: _date(value[ApiKeys.birthDate]),
       birthPlace: text(value[ApiKeys.birthPlace]),
     );

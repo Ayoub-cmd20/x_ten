@@ -11,9 +11,9 @@ import 'package:x_ten/core/widgets/loading/app_loader.dart';
 import 'package:x_ten/features/influencer_registration/domain/registration_entities.dart';
 import 'package:x_ten/features/influencer_registration/domain/registration_usecases.dart';
 import 'package:x_ten/features/influencer_registration/presentation/registration_cubit.dart';
+import 'package:x_ten/features/influencer_registration/presentation/registration_labels.dart';
 import 'package:x_ten/features/influencer_registration/presentation/registration_widgets.dart';
 import 'package:x_ten/features/influencer_registration/presentation/widgets/document_tiles.dart';
-import 'package:x_ten/features/influencer_registration/presentation/widgets/submit_missing.dart';
 
 class FinancialStep extends StatefulWidget {
   const FinancialStep({super.key});
@@ -23,24 +23,15 @@ class FinancialStep extends StatefulWidget {
 }
 
 class _FinancialStepState extends State<FinancialStep> {
-  late ConsentInfo _consents;
   bool _showErrors = false;
-  List<SubmitMissing> _missing = const [];
 
-  @override
-  void initState() {
-    super.initState();
-    _consents = context.read<RegistrationCubit>().state.registration?.consents ?? const ConsentInfo();
-  }
-
-  void _submit() {
+  void _next() {
     final cubit = context.read<RegistrationCubit>();
-    if (!cubit.state.financialComplete || !_consents.all) {
+    if (!cubit.state.financialComplete) {
       setState(() => _showErrors = true);
       return;
     }
-    setState(() => _missing = const []);
-    cubit.submit(_consents);
+    cubit.next();
   }
 
   void _openForm() {
@@ -53,15 +44,7 @@ class _FinancialStepState extends State<FinancialStep> {
     if (state.status != OperationStatus.failure || failure == null) {
       return;
     }
-    if (state.action == RegistrationAction.submit && failure is ValidationFailure) {
-      final missing = submitMissingFrom(context, failure);
-      if (missing.isNotEmpty) {
-        setState(() => _missing = missing);
-        return;
-      }
-    }
     const actions = {
-      RegistrationAction.submit,
       RegistrationAction.deleteFinancial,
       RegistrationAction.uploadDocument,
     };
@@ -81,15 +64,10 @@ class _FinancialStepState extends State<FinancialStep> {
       listenWhen: (previous, current) => previous.status != current.status || previous.action != current.action,
       listener: _listener,
       child: StepBody(
-        actions: StepActions(
-          isLoading: state.isLoadingFor(RegistrationAction.submit),
-          onBack: cubit.back,
-          onNext: _submit,
-          nextLabel: l10n.submitForReview,
-        ),
+        requiredNote: true,
+        actions: StepActions(onBack: cubit.back, onNext: _next, nextLabel: l10n.next),
         children: [
-          if (_missing.isNotEmpty) SubmitMissingBox(items: _missing, onFix: cubit.goTo),
-          SectionTitle(l10n.regFinancialTitle, subtitle: l10n.finAddHint),
+          SectionTitle(req(l10n.regFinancialTitle), subtitle: l10n.finAddHint),
           for (final account in state.financialAccounts)
             Padding(
               padding: const EdgeInsets.only(bottom: AppSpacing.sm),
@@ -110,26 +88,6 @@ class _FinancialStepState extends State<FinancialStep> {
               label: Text(l10n.regAddInstitution),
             ),
           ),
-          SectionTitle(l10n.consentsTitle),
-          CheckboxListTile(
-            contentPadding: EdgeInsets.zero,
-            controlAffinity: ListTileControlAffinity.leading,
-            value: _consents.acceptedPrivacy,
-            title: Text(l10n.regConsentPrivacy, style: context.textTheme.bodyMedium),
-            onChanged: (value) => setState(
-              () => _consents = ConsentInfo(acceptedTerms: _consents.acceptedTerms, acceptedPrivacy: value ?? false),
-            ),
-          ),
-          CheckboxListTile(
-            contentPadding: EdgeInsets.zero,
-            controlAffinity: ListTileControlAffinity.leading,
-            value: _consents.acceptedTerms,
-            title: Text(l10n.regConsentTerms, style: context.textTheme.bodyMedium),
-            onChanged: (value) => setState(
-              () => _consents = ConsentInfo(acceptedTerms: value ?? false, acceptedPrivacy: _consents.acceptedPrivacy),
-            ),
-          ),
-          if (_showErrors && !_consents.all) Text(l10n.acceptAllConsents, style: errorStyle),
           const SizedBox(height: AppSpacing.lg),
         ],
       ),
@@ -157,7 +115,7 @@ class FinancialAccountCard extends StatelessWidget {
     return ItemCard(
       icon: hasProof ? Icons.task_alt_rounded : Icons.account_balance_outlined,
       highlight: hasProof ? AppColors.success : null,
-      title: account.institutionName,
+      title: l10n.institutionLabel(account.institutionName),
       subtitle: hasProof ? '${ltr(account.accountNumber)} · ${l10n.finProofAdded}' : ltr(account.accountNumber),
       trailing: busy
           ? const Padding(padding: EdgeInsets.all(AppSpacing.sm), child: AppLoader.small())
@@ -181,7 +139,7 @@ class _AccountFormState extends State<_AccountForm> with ServerFieldErrors {
   static const _fields = ['institutionName', 'accountNumber'];
 
   final _formKey = GlobalKey<FormState>();
-  final _institution = TextEditingController();
+  String? _institution;
   final _number = TextEditingController();
   UploadFile? _proof;
   bool _proofRead = false;
@@ -190,7 +148,6 @@ class _AccountFormState extends State<_AccountForm> with ServerFieldErrors {
 
   @override
   void dispose() {
-    _institution.dispose();
     _number.dispose();
     super.dispose();
   }
@@ -221,8 +178,8 @@ class _AccountFormState extends State<_AccountForm> with ServerFieldErrors {
         if (read.accountNumber.isNotEmpty) {
           _number.text = read.accountNumber;
         }
-        if (_institution.text.trim().isEmpty && read.institutionName.isNotEmpty) {
-          _institution.text = read.institutionName;
+        if (_institution == null && RegistrationCatalog.financialInstitutions.contains(read.institutionName)) {
+          _institution = read.institutionName;
         }
       });
       showSuccessSnackBar(context, l10n.finReadDone);
@@ -256,7 +213,7 @@ class _AccountFormState extends State<_AccountForm> with ServerFieldErrors {
     }
     final cubit = context.read<RegistrationCubit>();
     _accountsBefore = cubit.state.financialAccounts.length;
-    cubit.addFinancialAccount(FinancialAccount(institutionName: _institution.text, accountNumber: _number.text));
+    cubit.addFinancialAccount(FinancialAccount(institutionName: _institution ?? '', accountNumber: _number.text));
   }
 
   void _onSaved(BuildContext context, RegistrationState state) {
@@ -330,13 +287,21 @@ class _AccountFormState extends State<_AccountForm> with ServerFieldErrors {
           children: [
             Text(l10n.regAddInstitution, style: context.textTheme.titleMedium),
             gap,
-            TextFormField(
-              controller: _institution,
-              textInputAction: TextInputAction.next,
+            DropdownButtonFormField<String>(
+              initialValue: _institution,
+              key: ValueKey(_institution),
+              isExpanded: true,
               forceErrorText: serverError('institutionName'),
-              onChanged: (_) => clearServerError('institutionName'),
-              decoration: InputDecoration(labelText: l10n.finInstitutionName, helperText: l10n.finInstitutionHint),
-              validator: (v) => requiredText(context, v),
+              decoration: InputDecoration(labelText: req(l10n.finInstitutionName)),
+              items: [
+                for (final id in RegistrationCatalog.financialInstitutions)
+                  DropdownMenuItem(value: id, child: Text(l10n.institutionLabel(id), overflow: TextOverflow.ellipsis)),
+              ],
+              onChanged: (value) {
+                clearServerError('institutionName');
+                setState(() => _institution = value);
+              },
+              validator: (value) => value == null ? l10n.fieldRequired : null,
             ),
             gap,
             OutlinedButton.icon(
@@ -361,7 +326,7 @@ class _AccountFormState extends State<_AccountForm> with ServerFieldErrors {
               ],
               forceErrorText: serverError('accountNumber'),
               onChanged: (_) => clearServerError('accountNumber'),
-              decoration: InputDecoration(labelText: l10n.finAccountNumber, helperText: l10n.finAccountNumberHint),
+              decoration: InputDecoration(labelText: req(l10n.finAccountNumber), helperText: l10n.finAccountNumberHint),
               validator: (v) {
                 final number = cleanAccountNumber(v ?? '');
                 if (number.isEmpty) {

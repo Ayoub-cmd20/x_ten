@@ -60,9 +60,11 @@ class DocumentTile extends StatefulWidget {
     required this.highlightMissing,
     required this.onUpload,
     required this.onDelete,
+    this.isRequired = false,
   });
 
   final DocumentType type;
+  final bool isRequired;
 
   /// نفس target تاع الكيوبت (النوع، أو الحساب المالي)
   final Object slot;
@@ -127,7 +129,7 @@ class _DocumentTileState extends State<DocumentTile> {
       child: ItemCard(
         icon: uploaded ? Icons.task_alt_rounded : Icons.upload_file_rounded,
         highlight: uploaded ? AppColors.success : (widget.highlightMissing ? AppColors.error : null),
-        title: l10n.documentLabel(widget.type),
+        title: widget.isRequired ? req(l10n.documentLabel(widget.type)) : l10n.documentLabel(widget.type),
         subtitle: switch (document) {
           RegistrationDocument(verified: true) => l10n.documentVerified,
           RegistrationDocument(check: DocumentCheck.needsManualReview) => l10n.regNeedsReview,
@@ -199,6 +201,7 @@ class IdentityDocuments extends StatelessWidget {
             child: DocumentTile(
               type: type,
               slot: type,
+              isRequired: true,
               document: state.documentOf(type),
               busy: state.isLoadingFor(RegistrationAction.uploadDocument, type) ||
                   state.isLoadingFor(RegistrationAction.deleteDocument, type),

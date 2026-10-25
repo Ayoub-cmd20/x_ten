@@ -20,13 +20,12 @@ enum RegistrationAction {
   readFinancial,
   scanAudience,
   submit,
-  newAttempt,
 }
 
 enum OperationStatus { idle, loading, success, failure }
 
 /// نفس ترتيب وثيقة صاحب المشروع.
-enum RegistrationStep { personal, profile, contact, accounts, optional, financial }
+enum RegistrationStep { personal, profile, contact, accounts, optional, financial, review }
 
 final class RegistrationState extends Equatable {
   const RegistrationState({
@@ -78,7 +77,7 @@ final class RegistrationState extends Equatable {
 
   bool get hasRegistration => registration != null;
 
-  RegistrationStep get furthestAllowed => hasRegistration ? RegistrationStep.financial : RegistrationStep.personal;
+  RegistrationStep get furthestAllowed => hasRegistration ? RegistrationStep.review : RegistrationStep.personal;
 
   // ---------- قيم أولية من الحساب ----------
 

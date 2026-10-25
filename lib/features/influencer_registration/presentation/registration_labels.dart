@@ -12,6 +12,34 @@ extension RegistrationLabels on AppLocalizations {
         RegistrationStep.accounts => regStepSocial,
         RegistrationStep.optional => regStepOptional,
         RegistrationStep.financial => regStepFinancial,
+        RegistrationStep.review => regStepReview,
+      };
+
+  String levelLabel(LanguageLevel level) => switch (level) {
+        LanguageLevel.basic => levelBasic,
+        LanguageLevel.good => levelGood,
+        LanguageLevel.advanced => levelAdvanced,
+      };
+
+  String institutionLabel(String id) => switch (id) {
+        'algeriePoste' => instAlgeriePoste,
+        'bna' => instBna,
+        'bea' => instBea,
+        'bdl' => instBdl,
+        'badr' => instBadr,
+        'cpa' => instCpa,
+        'cnep' => instCnep,
+        'bnh' => instBnh,
+        'agb' => instAgb,
+        'societeGenerale' => instSocieteGenerale,
+        'bnpParibas' => instBnpParibas,
+        'bankAbc' => instBankAbc,
+        'housingBank' => instHousingBank,
+        'alSalam' => instAlSalam,
+        'alBaraka' => instAlBaraka,
+        'fransabank' => instFransabank,
+        'arabBank' => instArabBank,
+        _ => id,
       };
 
   String entityTypeLabel(EntityType type) => switch (type) {
@@ -38,6 +66,16 @@ extension RegistrationLabels on AppLocalizations {
         'directCta' => adctDirectCta,
         'storytelling' => adctStorytelling,
         'productPlacement' => adctProductPlacement,
+        'comparison' => adctComparison,
+        'tipsTricks' => adctTipsTricks,
+        'polls' => adctPolls,
+        'dailyVlog' => adctDailyVlog,
+        'challenges' => adctChallenges,
+        'affiliateLinks' => adctAffiliateLinks,
+        'giveaways' => adctGiveaways,
+        'inspiringStories' => adctInspiringStories,
+        'podcast' => adctPodcast,
+        'motivationalPosts' => adctMotivationalPosts,
         _ => id,
       };
 

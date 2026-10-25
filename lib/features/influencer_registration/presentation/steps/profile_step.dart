@@ -24,18 +24,16 @@ class _ProfileStepState extends State<ProfileStep> with ServerFieldErrors {
     'displayName',
     'primaryCategories',
     'secondaryCategories',
-    'bio',
     'contentLanguages',
     'addressLanguages',
   ];
 
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController _displayName;
-  late final TextEditingController _bio;
   late final TextEditingController _otherLanguage;
   late List<String> _primary;
   late List<String> _secondary;
-  late Map<String, TextEditingController> _languages;
+  late Map<String, LanguageLevel?> _languages;
   late List<String> _address;
   bool _showErrors = false;
 
@@ -45,13 +43,9 @@ class _ProfileStepState extends State<ProfileStep> with ServerFieldErrors {
     final state = context.read<RegistrationCubit>().state;
     final profile = state.registration?.profile;
     _displayName = TextEditingController(text: profile?.displayName);
-    _bio = TextEditingController(text: profile?.bio);
     _primary = [...?profile?.primaryCategories];
     _secondary = [...?profile?.secondaryCategories];
-    _languages = {
-      for (final l in profile?.contentLanguages ?? const <ContentLanguage>[])
-        l.code: TextEditingController(text: l.percent > 0 ? percentText(l.percent) : ''),
-    };
+    _languages = {for (final l in profile?.contentLanguages ?? const <ContentLanguage>[]) l.code: l.level};
     _otherLanguage = TextEditingController(
       text: profile?.contentLanguages.where((l) => l.code == RegistrationCatalog.otherLanguage).firstOrNull?.name,
     );
@@ -61,11 +55,7 @@ class _ProfileStepState extends State<ProfileStep> with ServerFieldErrors {
   @override
   void dispose() {
     _displayName.dispose();
-    _bio.dispose();
     _otherLanguage.dispose();
-    for (final controller in _languages.values) {
-      controller.dispose();
-    }
     super.dispose();
   }
 
@@ -74,26 +64,22 @@ class _ProfileStepState extends State<ProfileStep> with ServerFieldErrors {
 
   void _toggleLanguage(String code, bool on) => setState(() {
         if (on) {
-          _languages[code] = TextEditingController(text: _languages.isEmpty ? '100' : '');
+          _languages[code] = null;
         } else {
-          final removed = _languages.remove(code);
-          WidgetsBinding.instance.addPostFrameCallback((_) => removed?.dispose());
+          _languages.remove(code);
           if (code == RegistrationCatalog.otherLanguage) {
             _address.remove(code);
           }
         }
       });
 
-  Map<String, double> get _shares => {for (final entry in _languages.entries) entry.key: percentOf(entry.value)};
-
-  bool get _languagesBalanced =>
-      _languages.isNotEmpty && totals100(_shares) && _shares.values.every((v) => v > 0);
+  bool get _levelsChosen => _languages.isNotEmpty && _languages.values.every((level) => level != null);
 
   void _submit() {
     FocusScope.of(context).unfocus();
     final valid = _formKey.currentState?.validate() ?? false;
     final hasPhoto = context.read<RegistrationCubit>().state.registration?.profileImageUrl != null;
-    if (!valid || !hasPhoto || _primary.isEmpty || !_languagesBalanced || _otherNameMissing || _address.isEmpty) {
+    if (!valid || !hasPhoto || _primary.isEmpty || !_levelsChosen || _otherNameMissing || _address.isEmpty) {
       setState(() => _showErrors = true);
       return;
     }
@@ -101,13 +87,12 @@ class _ProfileStepState extends State<ProfileStep> with ServerFieldErrors {
           displayName: _displayName.text,
           primaryCategories: _primary,
           secondaryCategories: _secondary,
-          bio: _bio.text,
           contentLanguages: [
             for (final code in RegistrationCatalog.languages)
-              if (_languages[code] case final controller?)
+              if (_languages[code] case final level?)
                 ContentLanguage(
                   code: code,
-                  percent: percentOf(controller),
+                  level: level,
                   name: code == RegistrationCatalog.otherLanguage ? _otherLanguage.text : '',
                 ),
           ],
@@ -143,6 +128,7 @@ class _ProfileStepState extends State<ProfileStep> with ServerFieldErrors {
       child: Form(
         key: _formKey,
         child: StepBody(
+          requiredNote: true,
           actions: StepActions(isLoading: isSaving, onBack: context.read<RegistrationCubit>().back, onNext: _submit),
           children: [
             ProfilePhotoPicker(showError: _showErrors),
@@ -151,10 +137,12 @@ class _ProfileStepState extends State<ProfileStep> with ServerFieldErrors {
               controller: _displayName,
               forceErrorText: serverError('displayName'),
               onChanged: (_) => clearServerError('displayName'),
-              decoration: InputDecoration(labelText: l10n.regDisplayName),
+              decoration: InputDecoration(labelText: req(l10n.regDisplayName)),
               validator: (value) => requiredText(context, value),
             ),
-            SectionTitle(l10n.regPrimaryCategories, subtitle: l10n.chooseUpTo(maxPrimary)),
+            SectionTitle(req(l10n.regPrimaryCategories), subtitle: l10n.chooseUpTo(maxPrimary)),
+            const UpgradeLink(),
+            const SizedBox(height: AppSpacing.sm),
             ChoiceWrap(
               options: RegistrationCatalog.categories,
               selected: _primary,
@@ -167,6 +155,8 @@ class _ProfileStepState extends State<ProfileStep> with ServerFieldErrors {
               }),
             ),
             SectionTitle(l10n.regSecondaryCategories, subtitle: l10n.optionalChooseUpTo(maxSecondary)),
+            const UpgradeLink(),
+            const SizedBox(height: AppSpacing.sm),
             ChoiceWrap(
               options: [for (final c in RegistrationCatalog.categories) if (!_primary.contains(c)) c],
               selected: _secondary,
@@ -174,11 +164,7 @@ class _ProfileStepState extends State<ProfileStep> with ServerFieldErrors {
               labelOf: l10n.category,
               onChanged: (value) => setState(() => _secondary = value),
             ),
-            SectionTitle(
-              l10n.regContentLanguages,
-              subtitle: l10n.regContentLanguagesHint,
-              trailing: _languages.isEmpty ? null : TotalBadge(total: _shares.values.fold<double>(0, (sum, v) => sum + v)),
-            ),
+            SectionTitle(req(l10n.regContentLanguages), subtitle: l10n.regContentLanguagesHint),
             for (final code in RegistrationCatalog.languages) ...[
               CheckboxListTile(
                 contentPadding: EdgeInsets.zero,
@@ -187,7 +173,7 @@ class _ProfileStepState extends State<ProfileStep> with ServerFieldErrors {
                 title: Text(l10n.languageLabel(code), style: context.textTheme.bodyMedium),
                 onChanged: (on) => _toggleLanguage(code, on ?? false),
               ),
-              if (_languages[code] case final controller?) ...[
+              if (_languages.containsKey(code)) ...[
                 if (code == RegistrationCatalog.otherLanguage)
                   Padding(
                     padding: const EdgeInsets.only(bottom: AppSpacing.sm),
@@ -195,29 +181,36 @@ class _ProfileStepState extends State<ProfileStep> with ServerFieldErrors {
                       controller: _otherLanguage,
                       onChanged: (_) => setState(() {}),
                       decoration: InputDecoration(
-                        labelText: l10n.regOtherLanguageName,
+                        labelText: req(l10n.regOtherLanguageName),
                         errorText: _showErrors && _otherNameMissing ? l10n.fieldRequired : null,
                       ),
                     ),
                   ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-                  child: SizedBox(
-                    width: 140,
-                    child: PercentField(
-                      label: l10n.regLanguageShare,
-                      controller: controller,
-                      onChanged: () => setState(() {}),
-                    ),
+                  padding: const EdgeInsetsDirectional.only(start: AppSpacing.xl, bottom: AppSpacing.sm),
+                  child: Wrap(
+                    spacing: AppSpacing.xs,
+                    runSpacing: AppSpacing.xs,
+                    children: [
+                      for (final level in LanguageLevel.values)
+                        ChoiceChip(
+                          label: Text('${l10n.levelLabel(level)} ${ltr('${RegistrationCatalog.levelPercent[level]}%')}'),
+                          selected: _languages[code] == level,
+                          onSelected: (_) => setState(() => _languages[code] = level),
+                        ),
+                    ],
                   ),
                 ),
+                if (_showErrors && _languages[code] == null)
+                  Padding(
+                    padding: const EdgeInsetsDirectional.only(start: AppSpacing.xl, bottom: AppSpacing.sm),
+                    child: Text(l10n.regChooseLevel, style: errorStyle),
+                  ),
               ],
             ],
             if (_showErrors && _languages.isEmpty) Text(l10n.selectAtLeastOne, style: errorStyle),
-            if (_showErrors && _languages.isNotEmpty && !_languagesBalanced)
-              Text(l10n.audienceMustTotal, style: errorStyle),
             SectionTitle(
-              l10n.regAddressLanguages,
+              req(l10n.regAddressLanguages),
               subtitle: l10n.regAddressLanguagesHint(RegistrationCatalog.maxAddressLanguages),
             ),
             RankedPicker(
@@ -230,17 +223,6 @@ class _ProfileStepState extends State<ProfileStep> with ServerFieldErrors {
               labelOf: _languageName,
               errorText: _showErrors && _address.isEmpty ? l10n.selectAtLeastOne : serverError('addressLanguages'),
               onChanged: (value) => setState(() => _address = value),
-            ),
-            const SizedBox(height: AppSpacing.lg),
-            TextFormField(
-              controller: _bio,
-              maxLines: 5,
-              minLines: 3,
-              keyboardType: TextInputType.multiline,
-              forceErrorText: serverError('bio'),
-              onChanged: (_) => clearServerError('bio'),
-              decoration: InputDecoration(labelText: l10n.regBio, alignLabelWithHint: true),
-              validator: (value) => requiredText(context, value),
             ),
             const SizedBox(height: AppSpacing.lg),
           ],

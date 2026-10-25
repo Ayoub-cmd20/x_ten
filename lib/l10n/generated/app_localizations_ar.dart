@@ -806,21 +806,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get statusNeedsChangesBody =>
-      'أرسل محاولة جديدة بعد التعديل. ستحتاج إعادة إضافة الحسابات والمستندات.';
+      'عدّل المعلومات المطلوبة في ملفك ثم أعد إرساله.';
 
   @override
   String get statusRejectedTitle => 'تم رفض ملفك';
 
   @override
-  String get statusRejectedBody => 'يمكنك تقديم محاولة جديدة بمعلومات محدّثة.';
-
-  @override
-  String attemptNumber(int number) {
-    return 'المحاولة رقم $number';
-  }
-
-  @override
-  String get startNewAttempt => 'محاولة جديدة';
+  String get statusRejectedBody => 'للاستفسار يمكنك التواصل مع إدارة المنصة.';
 
   @override
   String get refreshStatus => 'تحديث الحالة';
@@ -1351,23 +1343,22 @@ class AppLocalizationsAr extends AppLocalizations {
   String get regFullName => 'الإسم واللقب';
 
   @override
-  String get regEntityQuestion =>
-      'هل تعتبر نفسك شخصية طبيعية ( محتوى شخصي ) أو شخصية معنوية ( صفحة إلكترونية )';
+  String get regEntityQuestion => 'هل تعتبر نفسك:';
 
   @override
-  String get regEntityNatural => 'شخصية طبيعية ( محتوى شخصي )';
+  String get regEntityNatural => 'شخص طبيعي (محتوى شخصي)';
 
   @override
-  String get regEntityLegal => 'شخصية معنوية ( صفحة إلكترونية )';
+  String get regEntityLegal => 'شخص معنوي (صفحة إلكترونية)';
 
   @override
   String get regDisplayName => 'إسم الشهرة ( إسم البروفايل )';
 
   @override
-  String get regPrimaryCategories => 'مؤثر رئيسي في هذه المجالات';
+  String get regPrimaryCategories => 'مجالات تأثيرك الرئيسية :';
 
   @override
-  String get regSecondaryCategories => 'مؤثر ثانوي في هذه المجالات';
+  String get regSecondaryCategories => 'مجالات تأثيرك الثانوية';
 
   @override
   String get regBio => 'نبذة عن المؤثر';
@@ -1482,13 +1473,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get audAddCountry => 'إضافة دولة';
 
   @override
-  String get audRegions => 'المناطق داخل الدولة';
-
-  @override
   String get audRegionsHint => 'لا تحدد كل المناطق، اكتفِ بما يساعد فقط';
-
-  @override
-  String get audRegionsUnspecified => 'تفضيل عدم التحديد';
 
   @override
   String get regionNorth => 'شمال';
@@ -2302,10 +2287,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get regIdNumber => 'رقم بطاقة التعريف';
 
   @override
-  String get regContentLanguagesHint => 'نسبة كل لغة في محتواك، والمجموع 100%';
-
-  @override
-  String get regLanguageShare => 'النسبة';
+  String get regContentLanguagesHint => 'اختر مستواك في كل لغة';
 
   @override
   String get regOptionalContactTitle => 'معلومات إضافية (اختيارية)';
@@ -2317,7 +2299,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get regDeliveryAddress => 'عنوان وصول طرودك (اختياري)';
 
   @override
-  String get regDeliveryAddressHint => 'لاستلام المنتجات إذا أرسلها لك معلن';
+  String get regDeliveryAddressHint =>
+      'حدد عنوان البيت بدقة لتستلم الطرد حتى بيتك أو البلدية القريبة لك لتستلم فيها الطرد من مكاتب التوصيل';
 
   @override
   String get audWritten => 'محتوى كتابي';
@@ -2350,4 +2333,151 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get finAttachDocumentHint =>
       'إذا أرفقت وثيقة نقرأ رقم الحساب تلقائياً، وإلا اكتبه بنفسك';
+
+  @override
+  String get regEntityRadio => 'إذاعة';
+
+  @override
+  String get regEntityTv => 'تلفزيون';
+
+  @override
+  String get regEntityShort => 'الصفة';
+
+  @override
+  String get levelBasic => 'أساسي';
+
+  @override
+  String get levelGood => 'جيد';
+
+  @override
+  String get levelAdvanced => 'متقدم';
+
+  @override
+  String get regChooseLevel => 'اختر المستوى';
+
+  @override
+  String get regNationalId => 'رقم التعريف الوطني';
+
+  @override
+  String get regNationalIdHint => '18 رقمًا';
+
+  @override
+  String get regNationalIdInvalid => 'رقم التعريف الوطني يتكون من 18 رقمًا';
+
+  @override
+  String get regIdentityDocument => 'وثيقة الهوية';
+
+  @override
+  String get requiredFieldsNote =>
+      '* ملاحظة : (الحقول المحصورة بنجمة (*) إلزامية لإدخال البيانات)';
+
+  @override
+  String get upgradePrefix => 'يمكنك الترقية';
+
+  @override
+  String get upgradeTapHere => 'بالضغط هنا';
+
+  @override
+  String get regBioOptional => 'نبذة عنك (غير إلزامية)';
+
+  @override
+  String get adctComparison => 'المقارنات';
+
+  @override
+  String get adctTipsTricks => 'النصائح والحيل';
+
+  @override
+  String get adctPolls => 'الاستطلاعات (أسئلة وأجوبة)';
+
+  @override
+  String get adctDailyVlog => 'اليوميات';
+
+  @override
+  String get adctChallenges => 'التحديات والمسابقات';
+
+  @override
+  String get adctAffiliateLinks => 'روابط الأفلييت';
+
+  @override
+  String get adctGiveaways => 'الهدايا والمسابقات';
+
+  @override
+  String get adctInspiringStories => 'قصص ملهمة';
+
+  @override
+  String get adctPodcast => 'بودكاست';
+
+  @override
+  String get adctMotivationalPosts => 'منشورات تحفيزية';
+
+  @override
+  String get instAlgeriePoste => 'بريد الجزائر';
+
+  @override
+  String get instBna => 'البنك الوطني الجزائري (BNA)';
+
+  @override
+  String get instBea => 'بنك الجزائر الخارجي (BEA)';
+
+  @override
+  String get instBdl => 'بنك التنمية المحلية (BDL)';
+
+  @override
+  String get instBadr => 'بنك الفلاحة والتنمية الريفية (BADR)';
+
+  @override
+  String get instCpa => 'القرض الشعبي الجزائري (CPA)';
+
+  @override
+  String get instCnep => 'الصندوق الوطني للتوفير والاحتياط (CNEP-Banque)';
+
+  @override
+  String get instBnh => 'البنك الوطني للإسكان (BNH)';
+
+  @override
+  String get instAgb => 'بنك الخليج الجزائر (AGB)';
+
+  @override
+  String get instSocieteGenerale => 'سوسيتيه جنرال الجزائر (Société Générale)';
+
+  @override
+  String get instBnpParibas => 'بي إن بي باريبا الجزائر (BNP Paribas)';
+
+  @override
+  String get instBankAbc => 'المؤسسة العربية المصرفية (Bank ABC)';
+
+  @override
+  String get instHousingBank => 'بنك الإسكان للتجارة والتمويل (Housing Bank)';
+
+  @override
+  String get instAlSalam => 'بنك السلام الجزائر (مصرف إسلامي)';
+
+  @override
+  String get instAlBaraka => 'بنك البركة الجزائري (مصرف إسلامي)';
+
+  @override
+  String get instFransabank => 'بنك فرنسابنك الجزائر (Fransabank)';
+
+  @override
+  String get instArabBank => 'بنك عمان العربي تونس والجزائر (العربي)';
+
+  @override
+  String get regStepReview => 'مراجعة وإرسال';
+
+  @override
+  String get regReviewHint => 'تأكد من معلوماتك قبل الإرسال';
+
+  @override
+  String get regEditFile => 'تعديل الملف';
+
+  @override
+  String get regGoHome => 'الصفحة الرئيسية';
+
+  @override
+  String get regViewStatus => 'اضغط لعرض حالة ملفك';
+
+  @override
+  String audRegionsIn(String country) {
+    return 'المناطق داخل $country';
+  }
 }

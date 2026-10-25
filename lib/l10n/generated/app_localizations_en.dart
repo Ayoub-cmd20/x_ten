@@ -807,22 +807,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get statusNeedsChangesBody =>
-      'Send a new attempt with the changes. You’ll need to add your accounts and documents again.';
+      'Update the requested information in your file, then send it again.';
 
   @override
   String get statusRejectedTitle => 'Your profile was rejected';
 
   @override
   String get statusRejectedBody =>
-      'You can send a new attempt with updated information.';
-
-  @override
-  String attemptNumber(int number) {
-    return 'Attempt $number';
-  }
-
-  @override
-  String get startNewAttempt => 'New attempt';
+      'For any question, you can contact the platform team.';
 
   @override
   String get refreshStatus => 'Refresh status';
@@ -1363,23 +1355,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get regFullName => 'First and last name';
 
   @override
-  String get regEntityQuestion =>
-      'Do you consider yourself a natural person (personal content) or a legal entity (online page)?';
+  String get regEntityQuestion => 'Do you consider yourself:';
 
   @override
   String get regEntityNatural => 'Natural person (personal content)';
 
   @override
-  String get regEntityLegal => 'Legal entity (online page)';
+  String get regEntityLegal => 'Legal person (online page)';
 
   @override
   String get regDisplayName => 'Public name (profile name)';
 
   @override
-  String get regPrimaryCategories => 'Main influencer in these fields';
+  String get regPrimaryCategories => 'Your main fields of influence:';
 
   @override
-  String get regSecondaryCategories => 'Secondary influencer in these fields';
+  String get regSecondaryCategories => 'Your secondary fields of influence';
 
   @override
   String get regBio => 'About the influencer';
@@ -1495,13 +1486,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get audAddCountry => 'Add country';
 
   @override
-  String get audRegions => 'Regions within the country';
-
-  @override
   String get audRegionsHint => 'Don\'t fill every region, only what helps';
-
-  @override
-  String get audRegionsUnspecified => 'Prefer not to specify';
 
   @override
   String get regionNorth => 'North';
@@ -2323,11 +2308,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get regIdNumber => 'ID document number';
 
   @override
-  String get regContentLanguagesHint =>
-      'The share of each language in your content, totalling 100%';
-
-  @override
-  String get regLanguageShare => 'Share';
+  String get regContentLanguagesHint => 'Choose your level in each language';
 
   @override
   String get regOptionalContactTitle => 'Extra details (optional)';
@@ -2340,7 +2321,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get regDeliveryAddressHint =>
-      'To receive products an advertiser sends you';
+      'Enter your exact home address to receive parcels at your door, or the nearest municipality to collect them from a delivery office';
 
   @override
   String get audWritten => 'Written content';
@@ -2374,4 +2355,153 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get finAttachDocumentHint =>
       'With a document we read the number automatically, otherwise type it yourself';
+
+  @override
+  String get regEntityRadio => 'Radio';
+
+  @override
+  String get regEntityTv => 'Television';
+
+  @override
+  String get regEntityShort => 'Type';
+
+  @override
+  String get levelBasic => 'Basic';
+
+  @override
+  String get levelGood => 'Good';
+
+  @override
+  String get levelAdvanced => 'Advanced';
+
+  @override
+  String get regChooseLevel => 'Choose a level';
+
+  @override
+  String get regNationalId => 'National identification number';
+
+  @override
+  String get regNationalIdHint => '18 digits';
+
+  @override
+  String get regNationalIdInvalid =>
+      'The national identification number has 18 digits';
+
+  @override
+  String get regIdentityDocument => 'Identity document';
+
+  @override
+  String get requiredFieldsNote =>
+      '* Note: (fields marked with an asterisk (*) are required)';
+
+  @override
+  String get upgradePrefix => 'You can upgrade';
+
+  @override
+  String get upgradeTapHere => 'by tapping here';
+
+  @override
+  String get regBioOptional => 'About you (optional)';
+
+  @override
+  String get adctComparison => 'Comparisons';
+
+  @override
+  String get adctTipsTricks => 'Tips and tricks';
+
+  @override
+  String get adctPolls => 'Polls (Q&A)';
+
+  @override
+  String get adctDailyVlog => 'Daily vlogs';
+
+  @override
+  String get adctChallenges => 'Challenges and contests';
+
+  @override
+  String get adctAffiliateLinks => 'Affiliate links';
+
+  @override
+  String get adctGiveaways => 'Giveaways';
+
+  @override
+  String get adctInspiringStories => 'Inspiring stories';
+
+  @override
+  String get adctPodcast => 'Podcast';
+
+  @override
+  String get adctMotivationalPosts => 'Motivational posts';
+
+  @override
+  String get instAlgeriePoste => 'Algérie Poste';
+
+  @override
+  String get instBna => 'Banque Nationale d\'Algérie (BNA)';
+
+  @override
+  String get instBea => 'Banque Extérieure d\'Algérie (BEA)';
+
+  @override
+  String get instBdl => 'Banque de Développement Local (BDL)';
+
+  @override
+  String get instBadr =>
+      'Banque de l\'Agriculture et du Développement Rural (BADR)';
+
+  @override
+  String get instCpa => 'Crédit Populaire d\'Algérie (CPA)';
+
+  @override
+  String get instCnep => 'CNEP-Banque';
+
+  @override
+  String get instBnh => 'Banque Nationale de l\'Habitat (BNH)';
+
+  @override
+  String get instAgb => 'Gulf Bank Algeria (AGB)';
+
+  @override
+  String get instSocieteGenerale => 'Société Générale Algérie';
+
+  @override
+  String get instBnpParibas => 'BNP Paribas El Djazaïr';
+
+  @override
+  String get instBankAbc => 'Bank ABC Algeria';
+
+  @override
+  String get instHousingBank => 'The Housing Bank for Trade and Finance';
+
+  @override
+  String get instAlSalam => 'Al Salam Bank Algeria';
+
+  @override
+  String get instAlBaraka => 'Al Baraka Bank Algeria';
+
+  @override
+  String get instFransabank => 'Fransabank El Djazaïr';
+
+  @override
+  String get instArabBank => 'Arab Bank';
+
+  @override
+  String get regStepReview => 'Review and send';
+
+  @override
+  String get regReviewHint => 'Check your information before sending';
+
+  @override
+  String get regEditFile => 'Edit my file';
+
+  @override
+  String get regGoHome => 'Home page';
+
+  @override
+  String get regViewStatus => 'Tap to see the status of your file';
+
+  @override
+  String audRegionsIn(String country) {
+    return 'Regions in $country';
+  }
 }

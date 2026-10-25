@@ -12,7 +12,7 @@ abstract final class RegistrationRoutes {
 
   static String destinationFor(Registration? registration) => switch (registration?.status) {
         null || VerificationStatus.draft => form,
-        VerificationStatus.verified => creatorHome,
-        _ => status,
+        VerificationStatus.needsChanges || VerificationStatus.rejected => status,
+        _ => creatorHome,
       };
 }

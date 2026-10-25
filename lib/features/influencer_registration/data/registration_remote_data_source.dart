@@ -160,7 +160,7 @@ class RegistrationRemoteDataSourceImpl implements RegistrationRemoteDataSource {
   @override
   Future<FinancialAccount> readFinancialDocument(int registrationId, UploadFile file) async {
     final form = FormData.fromMap({ApiKeys.file: await _multipart(file)});
-    return RegistrationJson.readAccount(
+    return RegistrationJson.readInstitutionAccount(
       await _api.post(ApiEndpoints.financialRead(registrationId), data: form) as Json,
     );
   }

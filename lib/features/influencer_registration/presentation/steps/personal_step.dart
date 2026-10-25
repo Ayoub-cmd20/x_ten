@@ -22,13 +22,13 @@ class PersonalStep extends StatefulWidget {
 }
 
 class _PersonalStepState extends State<PersonalStep> with ServerFieldErrors {
-  static const _fields = ['firstName', 'lastName', 'idNumber', 'birthDate', 'birthPlace', 'entityType'];
+  static const _fields = ['firstName', 'lastName', 'nationalId', 'birthDate', 'birthPlace', 'entityType'];
 
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController _firstName;
   late final TextEditingController _lastName;
   late final TextEditingController _birthPlace;
-  late final TextEditingController _idNumber;
+  late final TextEditingController _nationalId;
   DateTime? _birthDate;
   EntityType? _entityType;
   bool _showErrors = false;
@@ -41,7 +41,7 @@ class _PersonalStepState extends State<PersonalStep> with ServerFieldErrors {
     _firstName = TextEditingController(text: seed.firstName);
     _lastName = TextEditingController(text: seed.lastName);
     _birthPlace = TextEditingController(text: seed.birthPlace);
-    _idNumber = TextEditingController(text: seed.idNumber);
+    _nationalId = TextEditingController(text: seed.nationalId);
     _birthDate = seed.birthDate;
     _entityType = seed.entityType;
     _identity = initialIdentityKind(context.read<RegistrationCubit>().state);
@@ -55,7 +55,10 @@ class _PersonalStepState extends State<PersonalStep> with ServerFieldErrors {
       if (scanned.firstName.isNotEmpty) _firstName.text = scanned.firstName;
       if (scanned.lastName.isNotEmpty) _lastName.text = scanned.lastName;
       if (scanned.birthPlace.isNotEmpty) _birthPlace.text = scanned.birthPlace;
-      if (scanned.idNumber.isNotEmpty) _idNumber.text = scanned.idNumber;
+      final nationalId = scanned.nationalId.replaceAll(RegExp(r'\D'), '');
+      if (nationalId.length == RegistrationCatalog.nationalIdLength) {
+        _nationalId.text = nationalId;
+      }
       _birthDate = scanned.birthDate ?? _birthDate;
     });
     clearServerErrors();
@@ -83,7 +86,7 @@ class _PersonalStepState extends State<PersonalStep> with ServerFieldErrors {
 
   @override
   void dispose() {
-    for (final c in [_firstName, _lastName, _birthPlace, _idNumber]) {
+    for (final c in [_firstName, _lastName, _birthPlace, _nationalId]) {
       c.dispose();
     }
     super.dispose();
@@ -117,7 +120,7 @@ class _PersonalStepState extends State<PersonalStep> with ServerFieldErrors {
           lastName: _lastName.text,
           birthDate: _birthDate,
           birthPlace: _birthPlace.text,
-          idNumber: _idNumber.text,
+          nationalId: _nationalId.text,
           entityType: _entityType,
         ));
   }
@@ -127,7 +130,7 @@ class _PersonalStepState extends State<PersonalStep> with ServerFieldErrors {
         textInputAction: TextInputAction.next,
         forceErrorText: serverError(field),
         onChanged: (_) => clearServerError(field),
-        decoration: InputDecoration(labelText: label),
+        decoration: InputDecoration(labelText: req(label)),
         validator: (value) => requiredText(context, value),
       );
 
@@ -145,6 +148,7 @@ class _PersonalStepState extends State<PersonalStep> with ServerFieldErrors {
       child: Form(
         key: _formKey,
         child: StepBody(
+          requiredNote: true,
           actions: StepActions(isLoading: isSaving, onNext: _submit),
           children: [
             _ScanBanner(title: l10n.scanFromIdTitle, text: l10n.scanFromIdHint),
@@ -165,15 +169,25 @@ class _PersonalStepState extends State<PersonalStep> with ServerFieldErrors {
             ),
             gap,
             TextFormField(
-              controller: _idNumber,
-              keyboardType: TextInputType.visiblePassword,
+              controller: _nationalId,
+              keyboardType: TextInputType.number,
               textDirection: TextDirection.ltr,
-              textCapitalization: TextCapitalization.characters,
-              inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[A-Za-z0-9 ]')), LengthLimitingTextInputFormatter(30)],
-              forceErrorText: serverError('idNumber'),
-              onChanged: (_) => clearServerError('idNumber'),
-              decoration: InputDecoration(labelText: l10n.regIdNumber),
-              validator: (value) => requiredText(context, value),
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+                LengthLimitingTextInputFormatter(RegistrationCatalog.nationalIdLength),
+              ],
+              forceErrorText: serverError('nationalId'),
+              onChanged: (_) => clearServerError('nationalId'),
+              decoration: InputDecoration(labelText: req(l10n.regNationalId), hintText: l10n.regNationalIdHint),
+              validator: (value) {
+                if ((value ?? '').trim().isEmpty) {
+                  return l10n.fieldRequired;
+                }
+                if (value!.trim().length != RegistrationCatalog.nationalIdLength) {
+                  return l10n.regNationalIdInvalid;
+                }
+                return null;
+              },
             ),
             gap,
             InkWell(
@@ -181,7 +195,7 @@ class _PersonalStepState extends State<PersonalStep> with ServerFieldErrors {
               onTap: _pickBirthDate,
               child: InputDecorator(
                 decoration: InputDecoration(
-                  labelText: l10n.dateOfBirth,
+                  labelText: req(l10n.dateOfBirth),
                   suffixIcon: const Icon(Icons.calendar_month_outlined),
                   errorText: serverError('birthDate') ?? (_showErrors && _birthDate == null ? l10n.fieldRequired : null),
                 ),
@@ -195,7 +209,7 @@ class _PersonalStepState extends State<PersonalStep> with ServerFieldErrors {
             ),
             gap,
             _field(_birthPlace, 'birthPlace', l10n.birthPlace),
-            SectionTitle(l10n.regEntityQuestion),
+            SectionTitle(req(l10n.regEntityQuestion)),
             RadioGroup<EntityType>(
               groupValue: _entityType,
               onChanged: (value) => setState(() => _entityType = value),
@@ -206,6 +220,17 @@ class _PersonalStepState extends State<PersonalStep> with ServerFieldErrors {
                       contentPadding: EdgeInsets.zero,
                       value: type,
                       title: Text(l10n.entityTypeLabel(type), style: context.textTheme.bodyMedium),
+                    ),
+                  for (final label in [l10n.regEntityRadio, l10n.regEntityTv])
+                    ListTile(
+                      enabled: false,
+                      contentPadding: EdgeInsets.zero,
+                      leading: const Padding(
+                        padding: EdgeInsetsDirectional.only(start: AppSpacing.sm),
+                        child: Icon(Icons.radio_button_unchecked_rounded),
+                      ),
+                      title: Text(label, style: context.textTheme.bodyMedium),
+                      subtitle: Text(l10n.comingSoon, style: context.textTheme.bodySmall),
                     ),
                 ],
               ),

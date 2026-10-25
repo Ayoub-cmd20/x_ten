@@ -27,7 +27,6 @@ abstract final class ApiKeys {
   static const access = 'access';
   static const refresh = 'refresh';
 
-  static const attemptNumber = 'attemptNumber';
   static const isCurrent = 'isCurrent';
   static const firstName = 'firstName';
   static const lastName = 'lastName';
@@ -35,6 +34,7 @@ abstract final class ApiKeys {
   static const birthDate = 'birthDate';
   static const birthPlace = 'birthPlace';
   static const idNumber = 'idNumber';
+  static const nationalId = 'nationalId';
   static const backupPhone = 'backupPhone';
   static const deliveryAddress = 'deliveryAddress';
   static const bio = 'bio';
@@ -169,13 +169,13 @@ abstract final class ApiKeys {
   // تسجيل المؤثر (حسب وثيقة صاحب المشروع)
   static const key = 'key';
   static const percent = 'percent';
+  static const level = 'level';
   static const entityType = 'entityType';
   static const contentLanguages = 'contentLanguages';
   static const addressLanguages = 'addressLanguages';
   static const countries = 'countries';
   static const country = 'country';
   static const regions = 'regions';
-  static const regionsUnspecified = 'regionsUnspecified';
   static const gender = 'gender';
   static const ages = 'ages';
   static const languages = 'languages';
@@ -188,6 +188,7 @@ abstract final class ApiKeys {
   static const recoveryPhone = 'recoveryPhone';
   static const kind = 'kind';
   static const institutionName = 'institutionName';
+  static const institution = 'institution';
   static const accountNumber = 'accountNumber';
   static const accountKey = 'accountKey';
   static const keyValid = 'keyValid';

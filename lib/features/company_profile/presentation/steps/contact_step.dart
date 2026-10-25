@@ -81,7 +81,7 @@ class _CompanyContactStepState extends State<CompanyContactStep> with ServerFiel
         inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9+ ]')), LengthLimitingTextInputFormatter(16)],
         forceErrorText: serverError(field),
         onChanged: (_) => clearServerError(field),
-        decoration: InputDecoration(labelText: label, helperText: helper),
+        decoration: InputDecoration(labelText: required ? req(label) : label, helperText: helper),
         validator: (value) => _validatePhone(value, required: required),
       );
 
@@ -98,6 +98,7 @@ class _CompanyContactStepState extends State<CompanyContactStep> with ServerFiel
       child: Form(
         key: _formKey,
         child: StepBody(
+          requiredNote: true,
           actions: StepActions(
             isLoading: state.isLoadingFor(CompanyAction.saveSection),
             onBack: cubit.back,
@@ -125,7 +126,7 @@ class _CompanyContactStepState extends State<CompanyContactStep> with ServerFiel
               enabled: false,
               textDirection: TextDirection.ltr,
               decoration: InputDecoration(
-                labelText: l10n.officialEmail,
+                labelText: req(l10n.officialEmail),
                 helperText: l10n.companyEmailHint,
                 errorText: serverError('email'),
               ),

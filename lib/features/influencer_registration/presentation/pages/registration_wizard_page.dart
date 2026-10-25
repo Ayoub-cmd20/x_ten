@@ -18,6 +18,8 @@ import 'package:x_ten/features/influencer_registration/presentation/steps/financ
 import 'package:x_ten/features/influencer_registration/presentation/steps/optional_step.dart';
 import 'package:x_ten/features/influencer_registration/presentation/steps/personal_step.dart';
 import 'package:x_ten/features/influencer_registration/presentation/steps/profile_step.dart';
+import 'package:x_ten/features/influencer_registration/presentation/steps/review_step.dart';
+import 'package:x_ten/features/influencer_registration/presentation/widgets/submitted_dialog.dart';
 
 const _snackbarActions = {
   RegistrationAction.deletePortfolio,
@@ -37,7 +39,14 @@ class RegistrationWizardPage extends StatelessWidget {
   void _listener(BuildContext context, RegistrationState state) {
     final failure = state.failure;
     if (state.didSucceed(RegistrationAction.submit)) {
-      context.go(RegistrationRoutes.status);
+      final router = GoRouter.of(context);
+      router.go(RegistrationRoutes.destinationFor(state.registration));
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final root = router.routerDelegate.navigatorKey.currentContext;
+        if (root != null && root.mounted) {
+          showRegistrationSubmittedDialog(root);
+        }
+      });
     } else if (state.status == OperationStatus.failure && failure != null && _snackbarActions.contains(state.action)) {
       showRegistrationFailure(context, failure);
     }
@@ -82,6 +91,7 @@ class RegistrationWizardPage extends StatelessWidget {
               RegistrationStep.accounts => const AccountsStep(),
               RegistrationStep.optional => const OptionalStep(),
               RegistrationStep.financial => const FinancialStep(),
+              RegistrationStep.review => const ReviewStep(),
             },
           ),
         ),

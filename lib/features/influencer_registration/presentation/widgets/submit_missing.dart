@@ -19,7 +19,7 @@ List<SubmitMissing> submitMissingFrom(BuildContext context, ValidationFailure fa
     if ([
       ApiKeys.firstName,
       ApiKeys.lastName,
-      ApiKeys.idNumber,
+      ApiKeys.nationalId,
       ApiKeys.birthDate,
       ApiKeys.birthPlace,
       ApiKeys.entityType,
@@ -29,7 +29,6 @@ List<SubmitMissing> submitMissingFrom(BuildContext context, ValidationFailure fa
       (label: l10n.missingDocumentsWarning(l10n.documentLabel(type)), step: RegistrationStep.personal),
     if ([
       ApiKeys.displayName,
-      ApiKeys.bio,
       ApiKeys.primaryCategories,
       ApiKeys.contentLanguages,
       ApiKeys.addressLanguages,
@@ -41,7 +40,7 @@ List<SubmitMissing> submitMissingFrom(BuildContext context, ValidationFailure fa
     if (has(ApiKeys.socialAccounts)) (label: l10n.socialAccountsEmpty, step: RegistrationStep.accounts),
     if (has(ApiKeys.financialAccounts)) (label: l10n.regStepFinancial, step: RegistrationStep.financial),
     if ([ApiKeys.acceptedTerms, ApiKeys.acceptedPrivacy].any(has))
-      (label: l10n.acceptAllConsents, step: RegistrationStep.financial),
+      (label: l10n.acceptAllConsents, step: RegistrationStep.review),
   ];
 }
 

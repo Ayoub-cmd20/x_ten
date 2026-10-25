@@ -182,9 +182,10 @@ class _AccountsStepState extends State<AccountsStep> {
       listenWhen: (previous, current) => previous.status != current.status || previous.action != current.action,
       listener: _listener,
       child: StepBody(
+        requiredNote: true,
         actions: StepActions(onBack: cubit.back, onNext: _next, nextLabel: l10n.next),
         children: [
-          SectionTitle(l10n.regSocialTitle, subtitle: l10n.regSocialAutoHint),
+          SectionTitle(req(l10n.regSocialTitle), subtitle: l10n.regSocialAutoHint),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -446,7 +447,7 @@ class _AccountDetailsFormState extends State<_AccountDetailsForm> with ServerFie
               controller: _name,
               forceErrorText: serverError('accountName'),
               onChanged: (_) => clearServerError('accountName'),
-              decoration: InputDecoration(labelText: l10n.accountName),
+              decoration: InputDecoration(labelText: req(l10n.accountName)),
               validator: (v) => requiredText(context, v),
             ),
             gap,
@@ -457,7 +458,7 @@ class _AccountDetailsFormState extends State<_AccountDetailsForm> with ServerFie
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               forceErrorText: serverError('followers'),
               onChanged: (_) => clearServerError('followers'),
-              decoration: InputDecoration(labelText: l10n.followers),
+              decoration: InputDecoration(labelText: req(l10n.followers)),
               validator: (v) => (int.tryParse(v ?? '') ?? 0) > 0 ? null : l10n.fieldRequired,
             ),
             const SizedBox(height: AppSpacing.xl),

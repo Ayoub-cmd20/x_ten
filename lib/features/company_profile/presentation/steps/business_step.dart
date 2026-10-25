@@ -185,7 +185,7 @@ class _CompanyBusinessStepState extends State<CompanyBusinessStep> with ServerFi
           clearServerError(field);
           onChanged?.call(value);
         },
-        decoration: InputDecoration(labelText: label, helperText: helper, helperMaxLines: 3),
+        decoration: InputDecoration(labelText: required ? req(label) : label, helperText: helper, helperMaxLines: 3),
         validator: validator ?? (required ? (value) => requiredText(context, value) : null),
       );
 
@@ -203,6 +203,7 @@ class _CompanyBusinessStepState extends State<CompanyBusinessStep> with ServerFi
       child: Form(
         key: _formKey,
         child: StepBody(
+          requiredNote: true,
           actions: StepActions(
             isLoading: state.isLoadingFor(CompanyAction.saveSection),
             onBack: cubit.back,
@@ -251,7 +252,7 @@ class _CompanyBusinessStepState extends State<CompanyBusinessStep> with ServerFi
               isExpanded: true,
               menuMaxHeight: 420,
               decoration: InputDecoration(
-                labelText: registered ? l10n.companyHqWilaya : l10n.wilaya,
+                labelText: req(registered ? l10n.companyHqWilaya : l10n.wilaya),
                 errorText: serverError('wilaya'),
               ),
               items: [

@@ -1,12 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:x_ten/core/errors/failure_message.dart';
 import 'package:x_ten/core/errors/failures.dart';
+import 'package:x_ten/core/localization/localization_extension.dart';
 import 'package:x_ten/core/theme/app_colors.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
 import 'package:x_ten/core/widgets/feedback/app_snackbar.dart';
 import 'package:x_ten/core/widgets/loading/app_loader.dart';
 
 String ltr(String text) => '\u2066$text\u2069';
+
+String req(String label) => '$label *';
+
+class RequiredFieldsNote extends StatelessWidget {
+  const RequiredFieldsNote({super.key});
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(top: AppSpacing.lg),
+        child: Text(
+          context.l10n.requiredFieldsNote,
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.error),
+        ),
+      );
+}
+
+class UpgradeLink extends StatelessWidget {
+  const UpgradeLink({super.key, this.onTap});
+
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final style = Theme.of(context).textTheme.bodySmall;
+    return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: [
+        Text('${l10n.upgradePrefix} ', style: style),
+        InkWell(
+          onTap: onTap ?? () {},
+          child: Text(
+            l10n.upgradeTapHere,
+            style: style?.copyWith(color: AppColors.gold, fontWeight: FontWeight.w700),
+          ),
+        ),
+      ],
+    );
+  }
+}
 
 void showFailure(BuildContext context, Failure failure) =>
     showErrorSnackBar(context, failure.localized(context));

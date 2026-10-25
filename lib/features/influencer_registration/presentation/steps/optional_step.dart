@@ -1,6 +1,7 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:x_ten/core/catalog/countries.dart';
 import 'package:x_ten/core/errors/failures.dart';
 import 'package:x_ten/core/localization/localization_extension.dart';
 import 'package:x_ten/core/theme/app_colors.dart';
@@ -16,16 +17,23 @@ import 'package:x_ten/features/influencer_registration/presentation/registration
 import 'package:x_ten/features/influencer_registration/presentation/steps/accounts_step.dart' show platformIcon;
 
 class _CountryRow {
-  _CountryRow(String country, double percent)
-      : country = TextEditingController(text: country),
-        percent = TextEditingController(text: percent > 0 ? percentText(percent) : '');
+  _CountryRow(this.country, double percent, Map<String, double> regions)
+      : percent = TextEditingController(text: percent > 0 ? percentText(percent) : ''),
+        regions = percentControllers(RegistrationCatalog.audienceRegions, regions);
 
-  final TextEditingController country;
+  _CountryRow.of(CountryShare share) : this(share.country, share.percent, share.regions);
+
+  final String country;
   final TextEditingController percent;
+  final Map<String, TextEditingController> regions;
+
+  CountryShare get share => CountryShare(country: country, percent: percentOf(percent), regions: percentValues(regions));
 
   void dispose() {
-    country.dispose();
     percent.dispose();
+    for (final controller in regions.values) {
+      controller.dispose();
+    }
   }
 }
 
@@ -42,11 +50,10 @@ class OptionalStep extends StatefulWidget {
 
 class _OptionalStepState extends State<OptionalStep> {
   late final List<_CountryRow> _countries;
-  late final Map<String, TextEditingController> _regions;
+  late final TextEditingController _bio;
   late final Map<String, TextEditingController> _gender;
   late final Map<String, TextEditingController> _ages;
   late final Map<String, TextEditingController> _languages;
-  late bool _regionsUnspecified;
   late List<String> _topPlatforms;
   late List<String> _days;
   late String _fromHour;
@@ -58,15 +65,18 @@ class _OptionalStepState extends State<OptionalStep> {
   @override
   void initState() {
     super.initState();
-    final optional = context.read<RegistrationCubit>().state.registration?.optional ?? const OptionalInfo();
+    final registration = context.read<RegistrationCubit>().state.registration;
+    final optional = registration?.optional ?? const OptionalInfo();
     final audience = optional.audience;
-    _countries = [for (final c in audience.countries) _CountryRow(c.country, c.percent)];
-    if (_countries.isEmpty) _countries.add(_CountryRow('', 0));
-    _regions = percentControllers(RegistrationCatalog.audienceRegions, audience.regions);
+    _bio = TextEditingController(text: optional.bio);
+    _countries = [for (final c in audience.countries) _CountryRow.of(c)];
+    if (_countries.isEmpty) {
+      final country = registration?.country ?? '';
+      _countries.add(_CountryRow(country.isEmpty ? RegistrationCatalog.defaultCountry : country, 100, const {}));
+    }
     _gender = percentControllers(RegistrationCatalog.audienceGenders, audience.gender);
     _ages = percentControllers(RegistrationCatalog.audienceAges, audience.ages);
     _languages = percentControllers(RegistrationCatalog.audienceLanguages, audience.languages);
-    _regionsUnspecified = audience.regionsUnspecified;
     _topPlatforms = [...audience.topPlatforms];
     _days = [...audience.activityDays];
     _fromHour = audience.fromHour;
@@ -77,10 +87,11 @@ class _OptionalStepState extends State<OptionalStep> {
 
   @override
   void dispose() {
+    _bio.dispose();
     for (final row in _countries) {
       row.dispose();
     }
-    for (final group in [_regions, _gender, _ages, _languages]) {
+    for (final group in [_gender, _ages, _languages]) {
       for (final c in group.values) {
         c.dispose();
       }
@@ -91,11 +102,8 @@ class _OptionalStepState extends State<OptionalStep> {
   Audience get _audience => Audience(
         countries: [
           for (final row in _countries)
-            if (row.country.text.trim().isNotEmpty && percentOf(row.percent) > 0)
-              CountryShare(country: row.country.text.trim(), percent: percentOf(row.percent)),
+            if (percentOf(row.percent) > 0) row.share,
         ],
-        regions: _regionsUnspecified ? const {} : percentValues(_regions),
-        regionsUnspecified: _regionsUnspecified,
         gender: percentValues(_gender),
         ages: percentValues(_ages),
         languages: percentValues(_languages),
@@ -114,7 +122,7 @@ class _OptionalStepState extends State<OptionalStep> {
       return;
     }
     context.read<RegistrationCubit>().saveSection(
-          OptionalInfo(audience: audience, contentTypes: _contentTypes),
+          OptionalInfo(bio: _bio.text, audience: audience, contentTypes: _contentTypes),
           advance: widget.inWizard,
         );
   }
@@ -164,15 +172,13 @@ class _OptionalStepState extends State<OptionalStep> {
         final old = [..._countries];
         _countries
           ..clear()
-          ..addAll([for (final c in scan.countries) _CountryRow(c.country, c.percent)]);
+          ..addAll([for (final c in scan.countries) _CountryRow.of(c)]);
         WidgetsBinding.instance.addPostFrameCallback((_) {
           for (final row in old) {
             row.dispose();
           }
         });
       }
-      if (scan.regions.isNotEmpty) _regionsUnspecified = false;
-      _setGroup(_regions, scan.regions);
       _setGroup(_gender, scan.gender);
       _setGroup(_ages, scan.ages);
       _setGroup(_languages, scan.languages);
@@ -228,6 +234,20 @@ class _OptionalStepState extends State<OptionalStep> {
 
   double get _countriesTotal => _countries.fold(0, (sum, row) => sum + percentOf(row.percent));
 
+  Future<void> _addCountry() async {
+    final taken = {for (final row in _countries) row.country};
+    final code = await pickCountry(context, exclude: taken);
+    if (code == null || !mounted) {
+      return;
+    }
+    setState(() => _countries.add(_CountryRow(code, 0, const {})));
+  }
+
+  void _removeCountry(_CountryRow row) {
+    setState(() => _countries.remove(row));
+    WidgetsBinding.instance.addPostFrameCallback((_) => row.dispose());
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
@@ -251,8 +271,15 @@ class _OptionalStepState extends State<OptionalStep> {
             : PrimaryButton(label: l10n.save, isLoading: isSaving, onPressed: _save),
         children: [
           _OptionalBanner(text: l10n.regOptionalHint),
-
-          // ---------------- حصر الجمهور ----------------
+          _Header(title: l10n.regBioOptional),
+          const SizedBox(height: AppSpacing.sm),
+          TextField(
+            controller: _bio,
+            maxLines: 5,
+            minLines: 3,
+            keyboardType: TextInputType.multiline,
+            decoration: InputDecoration(labelText: l10n.regBio, hintText: l10n.bioHint, alignLabelWithHint: true),
+          ),
           _Header(title: l10n.regAudienceTitle),
           const SizedBox(height: AppSpacing.sm),
           Text(l10n.audScanHint, style: context.textTheme.bodySmall),
@@ -266,58 +293,22 @@ class _OptionalStepState extends State<OptionalStep> {
           ),
           SectionTitle(l10n.audCountries, trailing: TotalBadge(total: _countriesTotal)),
           for (final row in _countries)
-            Padding(
+            _CountryCard(
               key: ObjectKey(row),
-              padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: TextField(
-                      controller: row.country,
-                      onChanged: (_) => refresh(),
-                      decoration: InputDecoration(labelText: l10n.audCountryName, isDense: true),
-                    ),
-                  ),
-                  const SizedBox(width: AppSpacing.xs),
-                  Expanded(flex: 2, child: PercentField(label: '', controller: row.percent, onChanged: refresh)),
-                  IconButton(
-                    tooltip: l10n.delete,
-                    onPressed: _countries.length == 1
-                        ? null
-                        : () {
-                            setState(() => _countries.remove(row));
-                            WidgetsBinding.instance.addPostFrameCallback((_) => row.dispose());
-                          },
-                    icon: const Icon(Icons.close_rounded),
-                  ),
-                ],
-              ),
+              row: row,
+              showErrors: _showErrors,
+              onChanged: refresh,
+              onRemove: _countries.length == 1 ? null : () => _removeCountry(row),
             ),
+          if (_showErrors && !totals100(_audience.countryShares)) Text(l10n.audienceMustTotal, style: errorStyle),
           Align(
             alignment: AlignmentDirectional.centerStart,
             child: TextButton.icon(
-              onPressed: () => setState(() => _countries.add(_CountryRow('', 0))),
+              onPressed: _addCountry,
               icon: const Icon(Icons.add_rounded),
               label: Text(l10n.audAddCountry),
             ),
           ),
-          if (_showErrors && !totals100(_audience.countryShares)) Text(l10n.audienceMustTotal, style: errorStyle),
-          SectionTitle(l10n.audRegions, subtitle: l10n.audRegionsHint),
-          SwitchListTile(
-            contentPadding: EdgeInsets.zero,
-            title: Text(l10n.audRegionsUnspecified, style: context.textTheme.bodyMedium),
-            value: _regionsUnspecified,
-            onChanged: (value) => setState(() => _regionsUnspecified = value),
-          ),
-          if (!_regionsUnspecified)
-            PercentGroup(
-              title: '',
-              controllers: _regions,
-              labelOf: l10n.regionLabel,
-              onChanged: refresh,
-              showError: _showErrors,
-            ),
           PercentGroup(
             title: l10n.audGender,
             controllers: _gender,
@@ -389,10 +380,14 @@ class _OptionalStepState extends State<OptionalStep> {
 
           // ---------------- أنواع المحتوى الإعلاني ----------------
           _Header(title: l10n.regContentTypesTitle),
-          SizedBox(height: AppSpacing.sm),
+          const SizedBox(height: AppSpacing.xs),
+          Text(l10n.chooseUpTo(RegistrationCatalog.maxAdContentTypes), style: context.textTheme.bodySmall),
+          const UpgradeLink(),
+          const SizedBox(height: AppSpacing.sm),
           RankedPicker(
             options: RegistrationCatalog.adContentTypes,
             selected: _contentTypes,
+            max: RegistrationCatalog.maxAdContentTypes,
             labelOf: l10n.adContentTypeLabel,
             onChanged: (value) => setState(() => _contentTypes = value),
           ),
@@ -401,6 +396,122 @@ class _OptionalStepState extends State<OptionalStep> {
           _Header(title: l10n.regPortfolioTitle),
           const _PortfolioSection(),
           const SizedBox(height: AppSpacing.lg),
+        ],
+      ),
+    );
+  }
+}
+
+Future<String?> pickCountry(BuildContext context, {Set<String> exclude = const {}}) {
+  final language = Localizations.localeOf(context).languageCode;
+  final codes = [for (final code in Countries.codes) if (!exclude.contains(code)) code]
+    ..sort((a, b) => Countries.name(a, language).compareTo(Countries.name(b, language)));
+  return showModalBottomSheet<String>(
+    context: context,
+    isScrollControlled: true,
+    builder: (sheetContext) => _CountryPicker(codes: codes, language: language),
+  );
+}
+
+class _CountryPicker extends StatefulWidget {
+  const _CountryPicker({required this.codes, required this.language});
+
+  final List<String> codes;
+  final String language;
+
+  @override
+  State<_CountryPicker> createState() => _CountryPickerState();
+}
+
+class _CountryPickerState extends State<_CountryPicker> {
+  String _query = '';
+
+  @override
+  Widget build(BuildContext context) {
+    final query = _query.trim().toLowerCase();
+    final codes = [
+      for (final code in widget.codes)
+        if (query.isEmpty || Countries.name(code, widget.language).toLowerCase().contains(query)) code,
+    ];
+    return SafeArea(
+      child: SizedBox(
+        height: MediaQuery.sizeOf(context).height * 0.75,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(AppSpacing.md),
+              child: TextField(
+                autofocus: true,
+                onChanged: (value) => setState(() => _query = value),
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.search_rounded),
+                  hintText: context.l10n.audCountryName,
+                  isDense: true,
+                ),
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: codes.length,
+                itemBuilder: (context, index) => ListTile(
+                  title: Text(Countries.name(codes[index], widget.language)),
+                  onTap: () => Navigator.pop(context, codes[index]),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _CountryCard extends StatelessWidget {
+  const _CountryCard({
+    super.key,
+    required this.row,
+    required this.showErrors,
+    required this.onChanged,
+    required this.onRemove,
+  });
+
+  final _CountryRow row;
+  final bool showErrors;
+  final VoidCallback onChanged;
+  final VoidCallback? onRemove;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final language = Localizations.localeOf(context).languageCode;
+    return Container(
+      margin: const EdgeInsets.only(bottom: AppSpacing.md),
+      padding: const EdgeInsets.all(AppSpacing.md),
+      decoration: BoxDecoration(
+        color: context.colors.surfaceContainer,
+        borderRadius: AppRadius.lgAll,
+        border: Border.all(color: AppColors.accentPurple.withValues(alpha: 0.3)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              const Icon(Icons.public_rounded, color: AppColors.accentPurple),
+              const SizedBox(width: AppSpacing.sm),
+              Expanded(child: Text(Countries.name(row.country, language), style: context.textTheme.titleSmall)),
+              SizedBox(width: 96, child: PercentField(label: '', controller: row.percent, onChanged: onChanged)),
+              IconButton(tooltip: l10n.delete, onPressed: onRemove, icon: const Icon(Icons.close_rounded)),
+            ],
+          ),
+          PercentGroup(
+            title: l10n.audRegionsIn(Countries.name(row.country, language)),
+            subtitle: l10n.audRegionsHint,
+            controllers: row.regions,
+            labelOf: l10n.regionLabel,
+            onChanged: onChanged,
+            showError: showErrors,
+          ),
         ],
       ),
     );

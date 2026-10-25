@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:x_ten/core/widgets/custom_sidebar.dart';
+import 'package:x_ten/features/influencer_registration/presentation/widgets/review_banner.dart';
 import 'package:x_ten/features/work_management/presentation/pages/notifications_approval_screen.dart';
 import 'package:x_ten/features/work_management/presentation/pages/pending_confirmations_screen.dart';
 import 'package:x_ten/features/work_management/presentation/pages/pending_delivery_screen.dart';
@@ -50,6 +51,7 @@ class DashboardScreen extends StatelessWidget {
               const SizedBox(height: 4),
               const Text('لوحة التحكم الإبداعية', style: TextStyle(color: Color(0xFFE2C044), fontSize: 14)),
               const SizedBox(height: 24),
+              const RegistrationReviewBanner(),
 
               // Stacked Full-Width Professional Cards in requested order
               Column(

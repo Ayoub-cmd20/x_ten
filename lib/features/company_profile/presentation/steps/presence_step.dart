@@ -159,6 +159,7 @@ class _CompanyPresenceStepState extends State<CompanyPresenceStep> with ServerFi
       child: Form(
         key: _formKey,
         child: StepBody(
+          requiredNote: true,
           actions: StepActions(
             isLoading: state.isLoadingFor(CompanyAction.saveSection),
             onBack: cubit.back,
@@ -171,7 +172,7 @@ class _CompanyPresenceStepState extends State<CompanyPresenceStep> with ServerFi
               cacheKey: url == null ? null : '$url#${profile?.updatedAt?.millisecondsSinceEpoch}',
               busy: state.isLoadingFor(CompanyAction.uploadPhoto) || state.isLoadingFor(CompanyAction.deletePhoto),
               showError: _showErrors,
-              subtitle: l10n.companyPhotoSubtitle,
+              subtitle: req(l10n.companyPhotoSubtitle),
               onPicked: cubit.uploadPhoto,
               onRemove: cubit.deletePhoto,
             ),
@@ -183,11 +184,11 @@ class _CompanyPresenceStepState extends State<CompanyPresenceStep> with ServerFi
               maxLength: 1000,
               forceErrorText: serverError('bio'),
               onChanged: (_) => clearServerError('bio'),
-              decoration: InputDecoration(labelText: l10n.companyBio, hintText: l10n.companyBioHint),
+              decoration: InputDecoration(labelText: req(l10n.companyBio), hintText: l10n.companyBioHint),
               validator: (value) => requiredText(context, value),
             ),
             SectionTitle(
-              l10n.companyActivitiesTitle,
+              req(l10n.companyActivitiesTitle),
               subtitle: l10n.companyActivitiesMax(max),
               trailing: Text('${_areas.length}/$max', style: context.textTheme.labelMedium),
             ),
@@ -217,7 +218,7 @@ class _CompanyPresenceStepState extends State<CompanyPresenceStep> with ServerFi
                 controller: _activityOther,
                 forceErrorText: serverError('activityOther'),
                 onChanged: (_) => clearServerError('activityOther'),
-                decoration: InputDecoration(labelText: l10n.companyActivityOtherHint),
+                decoration: InputDecoration(labelText: req(l10n.companyActivityOtherHint)),
                 validator: (value) => requiredText(context, value),
               ),
             ],

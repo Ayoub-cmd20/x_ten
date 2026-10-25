@@ -16,7 +16,8 @@ void main() {
 
   test('client lists', () {
     expect(RegistrationCatalog.categories.length, 17);
-    expect(RegistrationCatalog.adContentTypes.length, 8);
+    expect(RegistrationCatalog.adContentTypes.length, 18);
+    expect(RegistrationCatalog.maxAdContentTypes, 4);
     expect(RegistrationCatalog.audienceContent, containsAll(['written', 'audio', 'interactive']));
   });
 
@@ -31,6 +32,24 @@ void main() {
     expect(merged.ages, {'18-24': 100});
     expect(merged.contentEngagement, ['video', 'written']);
     expect(merged.filledGroups, 3);
+  });
+
+  test('language levels have fixed percentages', () {
+    expect(const ContentLanguage(code: 'arabic', level: LanguageLevel.basic).percent, 33);
+    expect(const ContentLanguage(code: 'arabic', level: LanguageLevel.good).percent, 66);
+    expect(const ContentLanguage(code: 'arabic', level: LanguageLevel.advanced).percent, 100);
+  });
+
+  test('every country must split its own regions to 100', () {
+    const balanced = Audience(countries: [
+      CountryShare(country: 'DZ', percent: 80, regions: {'north': 60, 'south': 40}),
+      CountryShare(country: 'FR', percent: 20),
+    ]);
+    expect(balanced.unbalanced, isEmpty);
+    const broken = Audience(countries: [
+      CountryShare(country: 'DZ', percent: 100, regions: {'north': 50}),
+    ]);
+    expect(broken.unbalanced, ['regions']);
   });
 
   test('any account number format is cleaned the same way', () {

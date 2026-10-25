@@ -140,7 +140,7 @@ class _CompanyPersonalStepState extends State<CompanyPersonalStep> with ServerFi
         textInputAction: TextInputAction.next,
         forceErrorText: serverError(field),
         onChanged: (_) => clearServerError(field),
-        decoration: InputDecoration(labelText: label),
+        decoration: InputDecoration(labelText: req(label)),
         validator: (value) => requiredText(context, value),
       );
 
@@ -160,6 +160,7 @@ class _CompanyPersonalStepState extends State<CompanyPersonalStep> with ServerFi
       child: Form(
         key: _formKey,
         child: StepBody(
+          requiredNote: true,
           actions: StepActions(
             isLoading: state.isLoadingFor(CompanyAction.saveSection),
             onBack: context.read<CompanyCubit>().back,
@@ -191,7 +192,7 @@ class _CompanyPersonalStepState extends State<CompanyPersonalStep> with ServerFi
               inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[A-Za-z0-9 ]')), LengthLimitingTextInputFormatter(30)],
               forceErrorText: serverError('idNumber'),
               onChanged: (_) => clearServerError('idNumber'),
-              decoration: InputDecoration(labelText: l10n.regIdNumber),
+              decoration: InputDecoration(labelText: req(l10n.regIdNumber)),
               validator: (value) => requiredText(context, value),
             ),
             if (registered) ...[
@@ -201,7 +202,7 @@ class _CompanyPersonalStepState extends State<CompanyPersonalStep> with ServerFi
                 onTap: _pickBirthDate,
                 child: InputDecorator(
                   decoration: InputDecoration(
-                    labelText: l10n.dateOfBirth,
+                    labelText: req(l10n.dateOfBirth),
                     suffixIcon: const Icon(Icons.calendar_month_outlined),
                     errorText:
                         serverError('birthDate') ?? (_showErrors && _birthDate == null ? l10n.fieldRequired : null),
@@ -213,7 +214,7 @@ class _CompanyPersonalStepState extends State<CompanyPersonalStep> with ServerFi
                 ),
               ),
             ],
-            SectionTitle(l10n.companyRoleTitle),
+            SectionTitle(req(l10n.companyRoleTitle)),
             RadioGroup<String>(
               groupValue: _role,
               onChanged: (value) => setState(() => _role = value),
@@ -233,7 +234,7 @@ class _CompanyPersonalStepState extends State<CompanyPersonalStep> with ServerFi
                 controller: _roleOther,
                 forceErrorText: serverError('roleOther'),
                 onChanged: (_) => clearServerError('roleOther'),
-                decoration: InputDecoration(labelText: l10n.companyRoleOtherHint),
+                decoration: InputDecoration(labelText: req(l10n.companyRoleOtherHint)),
                 validator: (value) => requiredText(context, value),
               ),
             if ((_showErrors && _role == null) || serverError('role') != null)

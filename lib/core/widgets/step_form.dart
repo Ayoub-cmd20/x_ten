@@ -65,10 +65,11 @@ Future<UploadFile?> pickPhoto(ImageSource source) async {
 }
 
 class StepBody extends StatelessWidget {
-  const StepBody({super.key, required this.children, required this.actions});
+  const StepBody({super.key, required this.children, required this.actions, this.requiredNote = false});
 
   final List<Widget> children;
   final Widget actions;
+  final bool requiredNote;
 
   @override
   Widget build(BuildContext context) => Column(
@@ -80,7 +81,10 @@ class StepBody extends StatelessWidget {
               child: SingleChildScrollView(
                 padding: AppSpacing.screen,
                 keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-                child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: children),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [...children, if (requiredNote) const RequiredFieldsNote()],
+                ),
               ),
             ),
           ),

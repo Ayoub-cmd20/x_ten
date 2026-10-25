@@ -59,7 +59,7 @@ Result<RegistrationSection> cleanSection(RegistrationSection section) =>
         PersonalInfo(
           firstName: personal.firstName.trim(),
           lastName: personal.lastName.trim(),
-          idNumber: personal.idNumber.replaceAll(RegExp(r'[^A-Za-z0-9]'), '').toUpperCase(),
+          nationalId: _digits(personal.nationalId),
           birthDate: personal.birthDate,
           birthPlace: personal.birthPlace.trim(),
           entityType: personal.entityType,
@@ -95,7 +95,7 @@ Result<RegistrationSection> _cleanProfile(ProfileInfo profile) {
     for (final language in profile.contentLanguages)
       ContentLanguage(
         code: language.code,
-        percent: language.percent,
+        level: language.level,
         name: language.code == RegistrationCatalog.otherLanguage
             ? language.name.trim()
             : '',
@@ -106,10 +106,6 @@ Result<RegistrationSection> _cleanProfile(ProfileInfo profile) {
   )) {
     return Err(_invalid('contentLanguages', 'otherName'));
   }
-  if (!totals100({for (final l in languages) l.code: l.percent}) ||
-      languages.any((l) => l.percent <= 0)) {
-    return Err(_invalid('contentLanguages', 'total'));
-  }
   return Ok(
     ProfileInfo(
       displayName: profile.displayName.trim(),
@@ -118,7 +114,6 @@ Result<RegistrationSection> _cleanProfile(ProfileInfo profile) {
         for (final c in profile.secondaryCategories)
           if (!profile.primaryCategories.contains(c)) c,
       ],
-      bio: profile.bio.trim(),
       contentLanguages: languages,
       addressLanguages: profile.addressLanguages
           .take(RegistrationCatalog.maxAddressLanguages)
@@ -138,17 +133,14 @@ Result<RegistrationSection> _cleanOptional(OptionalInfo info) {
   final audience = info.audience;
   return Ok(
     OptionalInfo(
-      contentTypes: info.contentTypes,
+      bio: info.bio.trim(),
+      contentTypes: info.contentTypes.take(RegistrationCatalog.maxAdContentTypes).toList(),
       audience: Audience(
         countries: [
           for (final c in audience.countries)
-            if (c.country.trim().isNotEmpty && c.percent > 0)
-              CountryShare(country: c.country.trim(), percent: c.percent),
+            if (c.country.isNotEmpty && c.percent > 0)
+              CountryShare(country: c.country, percent: c.percent, regions: positive(c.regions)),
         ],
-        regions: audience.regionsUnspecified
-            ? const {}
-            : positive(audience.regions),
-        regionsUnspecified: audience.regionsUnspecified,
         gender: positive(audience.gender),
         ages: positive(audience.ages),
         languages: positive(audience.languages),
@@ -195,33 +187,6 @@ class SaveSectionUseCase implements UseCase<Registration, SaveSectionParams> {
       return Err(_invalid('registration', 'required'));
     }
     return _repository.create(section);
-  }
-}
-
-
-class StartNewAttemptUseCase implements UseCase<Registration, Registration> {
-  const StartNewAttemptUseCase(this._repository);
-
-  final RegistrationRepository _repository;
-
-  @override
-  Future<Result<Registration>> call(Registration previous) async {
-    final created = await _repository.create(previous.personal);
-    if (created case Err()) {
-      return created;
-    }
-    var registration = (created as Ok<Registration>).value;
-    for (final section in <RegistrationSection>[
-      previous.profile,
-      previous.contact,
-      previous.optional,
-    ]) {
-      final saved = await _repository.saveSection(registration.id, section);
-      if (saved case Ok(:final value)) {
-        registration = value;
-      }
-    }
-    return Ok(registration);
   }
 }
 
@@ -432,8 +397,7 @@ class AddFinancialAccountUseCase
     if (key.isNotEmpty && key.length != 2) {
       return Err(_invalid('accountKey', 'invalid'));
     }
-    final isRib = RegExp(r'^\d{20}$').hasMatch(number);
-    if (institution.isEmpty && !isRib) {
+    if (!RegistrationCatalog.financialInstitutions.contains(institution)) {
       return Err(_invalid('institutionName', 'required'));
     }
     return _repository.addFinancialAccount(

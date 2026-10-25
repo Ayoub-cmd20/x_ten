@@ -11,6 +11,8 @@ T? maybeEnum<T extends Enum>(List<T> values, String? value) => values.where((e) 
 
 enum EntityType { natural, legal }
 
+enum LanguageLevel { basic, good, advanced }
+
 enum FinancialKind { ccp, bank, other }
 
 enum SocialPlatform { facebook, instagram, tiktok, youtube, snapchat, x, linkedin, telegram, website, blog, other }
@@ -47,6 +49,42 @@ abstract final class RegistrationCatalog {
     'directCta',
     'storytelling',
     'productPlacement',
+    'comparison',
+    'tipsTricks',
+    'polls',
+    'dailyVlog',
+    'challenges',
+    'affiliateLinks',
+    'giveaways',
+    'inspiringStories',
+    'podcast',
+    'motivationalPosts',
+  ];
+  static const maxAdContentTypes = 4;
+
+  static const levelPercent = {LanguageLevel.basic: 33, LanguageLevel.good: 66, LanguageLevel.advanced: 100};
+
+  static const nationalIdLength = 18;
+  static const defaultCountry = 'DZ';
+
+  static const financialInstitutions = [
+    'algeriePoste',
+    'bna',
+    'bea',
+    'bdl',
+    'badr',
+    'cpa',
+    'cnep',
+    'bnh',
+    'agb',
+    'societeGenerale',
+    'bnpParibas',
+    'bankAbc',
+    'housingBank',
+    'alSalam',
+    'alBaraka',
+    'fransabank',
+    'arabBank',
   ];
 
 
@@ -84,14 +122,14 @@ class PersonalInfo extends RegistrationSection {
     required this.firstName,
     required this.lastName,
     required this.birthPlace,
-    this.idNumber = '',
+    this.nationalId = '',
     this.birthDate,
     this.entityType,
   });
 
   final String firstName;
   final String lastName;
-  final String idNumber;
+  final String nationalId;
   final DateTime? birthDate;
   final String birthPlace;
   final EntityType? entityType;
@@ -99,24 +137,26 @@ class PersonalInfo extends RegistrationSection {
   bool get isComplete =>
       firstName.isNotEmpty &&
       lastName.isNotEmpty &&
-      idNumber.isNotEmpty &&
+      nationalId.length == RegistrationCatalog.nationalIdLength &&
       birthDate != null &&
       birthPlace.isNotEmpty &&
       entityType != null;
 
   @override
-  List<Object?> get props => [firstName, lastName, idNumber, birthDate, birthPlace, entityType];
+  List<Object?> get props => [firstName, lastName, nationalId, birthDate, birthPlace, entityType];
 }
 
 class ContentLanguage extends Equatable {
-  const ContentLanguage({required this.code, required this.percent, this.name = ''});
+  const ContentLanguage({required this.code, required this.level, this.name = ''});
 
   final String code;
-  final double percent;
+  final LanguageLevel level;
   final String name;
 
+  int get percent => RegistrationCatalog.levelPercent[level]!;
+
   @override
-  List<Object?> get props => [code, percent, name];
+  List<Object?> get props => [code, level, name];
 }
 
 class ProfileInfo extends RegistrationSection {
@@ -124,7 +164,6 @@ class ProfileInfo extends RegistrationSection {
     required this.displayName,
     required this.primaryCategories,
     required this.secondaryCategories,
-    required this.bio,
     required this.contentLanguages,
     required this.addressLanguages,
   });
@@ -132,7 +171,6 @@ class ProfileInfo extends RegistrationSection {
   final String displayName;
   final List<String> primaryCategories;
   final List<String> secondaryCategories;
-  final String bio;
   final List<ContentLanguage> contentLanguages;
 
 
@@ -141,13 +179,12 @@ class ProfileInfo extends RegistrationSection {
   bool get isComplete =>
       displayName.isNotEmpty &&
       primaryCategories.isNotEmpty &&
-      bio.isNotEmpty &&
       contentLanguages.isNotEmpty &&
       addressLanguages.isNotEmpty;
 
   @override
   List<Object?> get props =>
-      [displayName, primaryCategories, secondaryCategories, bio, contentLanguages, addressLanguages];
+      [displayName, primaryCategories, secondaryCategories, contentLanguages, addressLanguages];
 }
 
 class ContactInfo extends RegistrationSection {
@@ -184,21 +221,20 @@ class ConsentInfo extends RegistrationSection {
 }
 
 class CountryShare extends Equatable {
-  const CountryShare({required this.country, required this.percent});
+  const CountryShare({required this.country, required this.percent, this.regions = const {}});
 
   final String country;
   final double percent;
+  final Map<String, double> regions;
 
   @override
-  List<Object?> get props => [country, percent];
+  List<Object?> get props => [country, percent, regions];
 }
 
 
 class Audience extends Equatable {
   const Audience({
     this.countries = const [],
-    this.regions = const {},
-    this.regionsUnspecified = false,
     this.gender = const {},
     this.ages = const {},
     this.languages = const {},
@@ -210,8 +246,6 @@ class Audience extends Equatable {
   });
 
   final List<CountryShare> countries;
-  final Map<String, double> regions;
-  final bool regionsUnspecified;
   final Map<String, double> gender;
   final Map<String, double> ages;
   final Map<String, double> languages;
@@ -226,8 +260,6 @@ class Audience extends Equatable {
 
   Audience overlay(Audience scan) => Audience(
         countries: scan.countries.isNotEmpty ? scan.countries : countries,
-        regions: scan.regions.isNotEmpty ? scan.regions : regions,
-        regionsUnspecified: scan.regions.isNotEmpty ? false : regionsUnspecified,
         gender: scan.gender.isNotEmpty ? scan.gender : gender,
         ages: scan.ages.isNotEmpty ? scan.ages : ages,
         languages: scan.languages.isNotEmpty ? scan.languages : languages,
@@ -241,7 +273,7 @@ class Audience extends Equatable {
  
   int get filledGroups => [
         countries.isNotEmpty,
-        regions.isNotEmpty,
+        countries.any((c) => c.regions.isNotEmpty),
         gender.isNotEmpty,
         ages.isNotEmpty,
         languages.isNotEmpty,
@@ -251,7 +283,7 @@ class Audience extends Equatable {
 
   List<String> get unbalanced => [
         if (!totals100(countryShares)) 'countries',
-        if (!regionsUnspecified && !totals100(regions)) 'regions',
+        if (countries.any((c) => !totals100(c.regions))) 'regions',
         if (!totals100(gender)) 'gender',
         if (!totals100(ages)) 'ages',
         if (!totals100(languages)) 'languages',
@@ -259,8 +291,6 @@ class Audience extends Equatable {
 
   bool get isEmpty =>
       countries.isEmpty &&
-      regions.isEmpty &&
-      !regionsUnspecified &&
       gender.isEmpty &&
       ages.isEmpty &&
       languages.isEmpty &&
@@ -271,8 +301,6 @@ class Audience extends Equatable {
   @override
   List<Object?> get props => [
         countries,
-        regions,
-        regionsUnspecified,
         gender,
         ages,
         languages,
@@ -285,20 +313,20 @@ class Audience extends Equatable {
 }
 
 class OptionalInfo extends RegistrationSection {
-  const OptionalInfo({this.audience = const Audience(), this.contentTypes = const []});
+  const OptionalInfo({this.bio = '', this.audience = const Audience(), this.contentTypes = const []});
 
+  final String bio;
   final Audience audience;
   final List<String> contentTypes;
 
   @override
-  List<Object?> get props => [audience, contentTypes];
+  List<Object?> get props => [bio, audience, contentTypes];
 }
 
 
 class Registration extends Equatable {
   const Registration({
     required this.id,
-    required this.attemptNumber,
     required this.isCurrent,
     required this.personal,
     required this.profile,
@@ -306,25 +334,26 @@ class Registration extends Equatable {
     required this.optional,
     required this.status,
     this.consents = const ConsentInfo(),
+    this.country = '',
     this.profileImageUrl,
     this.submittedAt,
     this.updatedAt,
   });
 
   final int id;
-  final int attemptNumber;
   final bool isCurrent;
   final PersonalInfo personal;
   final ProfileInfo profile;
   final ContactInfo contact;
   final OptionalInfo optional;
   final ConsentInfo consents;
+  final String country;
   final VerificationStatus status;
   final String? profileImageUrl;
   final DateTime? submittedAt;
   final DateTime? updatedAt;
 
-  bool get isDraft => status == VerificationStatus.draft;
+  bool get isEditable => status == VerificationStatus.draft || status == VerificationStatus.needsChanges;
 
 
   bool hasSaved(RegistrationSection section) => switch (section) {
@@ -335,20 +364,17 @@ class Registration extends Equatable {
         final ConsentInfo value => value == consents,
       };
 
-  bool get canStartNewAttempt => status == VerificationStatus.needsChanges || status == VerificationStatus.rejected;
-
-
-  bool get canEditOptional => isCurrent && !canStartNewAttempt;
+  bool get canEditOptional => isCurrent && status != VerificationStatus.rejected;
 
   Registration copyWith({Object? profileImageUrl = _keep, DateTime? updatedAt}) => Registration(
         id: id,
-        attemptNumber: attemptNumber,
         isCurrent: isCurrent,
         personal: personal,
         profile: profile,
         contact: contact,
         optional: optional,
         consents: consents,
+        country: country,
         status: status,
         profileImageUrl: identical(profileImageUrl, _keep) ? this.profileImageUrl : profileImageUrl as String?,
         submittedAt: submittedAt,
@@ -360,13 +386,13 @@ class Registration extends Equatable {
   @override
   List<Object?> get props => [
         id,
-        attemptNumber,
         isCurrent,
         personal,
         profile,
         contact,
         optional,
         consents,
+        country,
         status,
         profileImageUrl,
         submittedAt,
@@ -484,6 +510,7 @@ class ScannedFields extends Equatable {
     this.firstName = '',
     this.lastName = '',
     this.idNumber = '',
+    this.nationalId = '',
     this.birthDate,
     this.birthPlace = '',
   });
@@ -491,14 +518,20 @@ class ScannedFields extends Equatable {
   final String firstName;
   final String lastName;
   final String idNumber;
+  final String nationalId;
   final DateTime? birthDate;
   final String birthPlace;
 
   bool get hasIdentity =>
-      firstName.isNotEmpty || lastName.isNotEmpty || idNumber.isNotEmpty || birthDate != null || birthPlace.isNotEmpty;
+      firstName.isNotEmpty ||
+      lastName.isNotEmpty ||
+      idNumber.isNotEmpty ||
+      nationalId.isNotEmpty ||
+      birthDate != null ||
+      birthPlace.isNotEmpty;
 
   @override
-  List<Object?> get props => [firstName, lastName, idNumber, birthDate, birthPlace];
+  List<Object?> get props => [firstName, lastName, idNumber, nationalId, birthDate, birthPlace];
 }
 
 class RegistrationDocument extends Equatable {

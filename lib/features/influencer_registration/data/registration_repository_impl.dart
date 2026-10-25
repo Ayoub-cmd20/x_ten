@@ -20,7 +20,7 @@ class RegistrationRepositoryImpl implements RegistrationRepository {
         // معرض الأعمال اختياري ويتعدّل حتى بعد التوثيق: نجيبوه دايماً
         final portfolio = await _remote.getPortfolio(current.id);
 
-        if (current.isDraft) {
+        if (current.isEditable) {
           final socialAccounts = await _remote.getSocialAccounts(current.id);
           final financialAccounts = await _remote.getFinancialAccounts(current.id);
           final documents = await _remote.getDocuments(current.id);

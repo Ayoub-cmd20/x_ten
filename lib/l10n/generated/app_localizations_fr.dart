@@ -817,22 +817,14 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get statusNeedsChangesBody =>
-      'Envoyez une nouvelle demande corrigée. Vous devrez ajouter à nouveau vos comptes et documents.';
+      'Modifiez les informations demandées dans votre dossier, puis renvoyez-le.';
 
   @override
   String get statusRejectedTitle => 'Votre profil a été refusé';
 
   @override
   String get statusRejectedBody =>
-      'Vous pouvez envoyer une nouvelle demande avec des informations à jour.';
-
-  @override
-  String attemptNumber(int number) {
-    return 'Tentative n° $number';
-  }
-
-  @override
-  String get startNewAttempt => 'Nouvelle tentative';
+      'Pour toute question, vous pouvez contacter l\'équipe de la plateforme.';
 
   @override
   String get refreshStatus => 'Actualiser le statut';
@@ -1376,8 +1368,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get regFullName => 'Nom et prénom';
 
   @override
-  String get regEntityQuestion =>
-      'Vous considérez-vous comme une personne physique (contenu personnel) ou une personne morale (page en ligne) ?';
+  String get regEntityQuestion => 'Vous vous considérez comme :';
 
   @override
   String get regEntityNatural => 'Personne physique (contenu personnel)';
@@ -1389,11 +1380,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get regDisplayName => 'Nom public (nom du profil)';
 
   @override
-  String get regPrimaryCategories => 'Influenceur principal dans ces domaines';
+  String get regPrimaryCategories => 'Vos domaines d\'influence principaux :';
 
   @override
-  String get regSecondaryCategories =>
-      'Influenceur secondaire dans ces domaines';
+  String get regSecondaryCategories => 'Vos domaines d\'influence secondaires';
 
   @override
   String get regBio => 'À propos de l\'influenceur';
@@ -1510,14 +1500,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String get audAddCountry => 'Ajouter un pays';
 
   @override
-  String get audRegions => 'Régions du pays';
-
-  @override
   String get audRegionsHint =>
       'Ne remplissez pas toutes les régions, seulement l’utile';
-
-  @override
-  String get audRegionsUnspecified => 'Je préfère ne pas préciser';
 
   @override
   String get regionNorth => 'Nord';
@@ -2347,10 +2331,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get regContentLanguagesHint =>
-      'La part de chaque langue dans votre contenu, total 100 %';
-
-  @override
-  String get regLanguageShare => 'Part';
+      'Choisissez votre niveau dans chaque langue';
 
   @override
   String get regOptionalContactTitle =>
@@ -2365,7 +2346,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get regDeliveryAddressHint =>
-      'Pour recevoir les produits qu\'un annonceur vous envoie';
+      'Indiquez précisément l\'adresse de votre domicile pour recevoir le colis chez vous, ou la commune la plus proche pour le récupérer dans un bureau de livraison';
 
   @override
   String get audWritten => 'Contenu écrit';
@@ -2400,4 +2381,153 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get finAttachDocumentHint =>
       'Avec un document, nous lisons le numéro automatiquement ; sinon saisissez-le';
+
+  @override
+  String get regEntityRadio => 'Radio';
+
+  @override
+  String get regEntityTv => 'Télévision';
+
+  @override
+  String get regEntityShort => 'Type';
+
+  @override
+  String get levelBasic => 'Basique';
+
+  @override
+  String get levelGood => 'Bon';
+
+  @override
+  String get levelAdvanced => 'Avancé';
+
+  @override
+  String get regChooseLevel => 'Choisissez un niveau';
+
+  @override
+  String get regNationalId => 'Numéro d\'identification nationale';
+
+  @override
+  String get regNationalIdHint => '18 chiffres';
+
+  @override
+  String get regNationalIdInvalid =>
+      'Le numéro d\'identification nationale comporte 18 chiffres';
+
+  @override
+  String get regIdentityDocument => 'Pièce d\'identité';
+
+  @override
+  String get requiredFieldsNote =>
+      '* Remarque : (les champs marqués d\'un astérisque (*) sont obligatoires)';
+
+  @override
+  String get upgradePrefix => 'Vous pouvez passer à la version supérieure';
+
+  @override
+  String get upgradeTapHere => 'en appuyant ici';
+
+  @override
+  String get regBioOptional => 'À propos de vous (facultatif)';
+
+  @override
+  String get adctComparison => 'Comparatifs';
+
+  @override
+  String get adctTipsTricks => 'Astuces et conseils';
+
+  @override
+  String get adctPolls => 'Sondages (questions-réponses)';
+
+  @override
+  String get adctDailyVlog => 'Vlogs quotidiens';
+
+  @override
+  String get adctChallenges => 'Défis et concours';
+
+  @override
+  String get adctAffiliateLinks => 'Liens d\'affiliation';
+
+  @override
+  String get adctGiveaways => 'Cadeaux et jeux-concours';
+
+  @override
+  String get adctInspiringStories => 'Histoires inspirantes';
+
+  @override
+  String get adctPodcast => 'Podcast';
+
+  @override
+  String get adctMotivationalPosts => 'Publications motivantes';
+
+  @override
+  String get instAlgeriePoste => 'Algérie Poste';
+
+  @override
+  String get instBna => 'Banque Nationale d\'Algérie (BNA)';
+
+  @override
+  String get instBea => 'Banque Extérieure d\'Algérie (BEA)';
+
+  @override
+  String get instBdl => 'Banque de Développement Local (BDL)';
+
+  @override
+  String get instBadr =>
+      'Banque de l\'Agriculture et du Développement Rural (BADR)';
+
+  @override
+  String get instCpa => 'Crédit Populaire d\'Algérie (CPA)';
+
+  @override
+  String get instCnep => 'CNEP-Banque';
+
+  @override
+  String get instBnh => 'Banque Nationale de l\'Habitat (BNH)';
+
+  @override
+  String get instAgb => 'Gulf Bank Algérie (AGB)';
+
+  @override
+  String get instSocieteGenerale => 'Société Générale Algérie';
+
+  @override
+  String get instBnpParibas => 'BNP Paribas El Djazaïr';
+
+  @override
+  String get instBankAbc => 'Bank ABC Algérie';
+
+  @override
+  String get instHousingBank => 'Housing Bank for Trade and Finance';
+
+  @override
+  String get instAlSalam => 'Al Salam Bank Algérie';
+
+  @override
+  String get instAlBaraka => 'Banque Al Baraka d\'Algérie';
+
+  @override
+  String get instFransabank => 'Fransabank El Djazaïr';
+
+  @override
+  String get instArabBank => 'Arab Bank';
+
+  @override
+  String get regStepReview => 'Vérifier et envoyer';
+
+  @override
+  String get regReviewHint => 'Vérifiez vos informations avant l\'envoi';
+
+  @override
+  String get regEditFile => 'Modifier mon dossier';
+
+  @override
+  String get regGoHome => 'Page d\'accueil';
+
+  @override
+  String get regViewStatus => 'Appuyez pour voir l\'état de votre dossier';
+
+  @override
+  String audRegionsIn(String country) {
+    return 'Régions — $country';
+  }
 }

@@ -127,7 +127,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> with ServerFiel
             forceErrorText: serverError('phone'),
             onChanged: (_) => clearServerError('phone'),
             decoration: InputDecoration(
-              labelText: l10n.phone,
+              labelText: req(l10n.phone),
               hintText: '05XXXXXXXX',
               prefixIcon: const Icon(Icons.phone_outlined),
             ),
@@ -141,6 +141,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> with ServerFiel
           ),
           const SizedBox(height: AppSpacing.xxl),
           PrimaryButton(label: l10n.sendCode, isLoading: isLoading, onPressed: _requestCode),
+          const RequiredFieldsNote(),
         ],
       ),
     );
@@ -178,7 +179,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> with ServerFiel
           PasswordField(
             controller: _password,
             enabled: !isLoading,
-            label: l10n.newPassword,
+            label: req(l10n.newPassword),
             textInputAction: TextInputAction.next,
             autofillHints: const [AutofillHints.newPassword],
             errorText: serverError('newPassword'),
@@ -194,7 +195,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> with ServerFiel
           PasswordField(
             controller: _confirm,
             enabled: !isLoading,
-            label: l10n.confirmPassword,
+            label: req(l10n.confirmPassword),
             autofillHints: const [AutofillHints.newPassword],
             validator: (value) => value != _password.text ? l10n.passwordsDoNotMatch : null,
             onSubmitted: (_) => _confirmReset(),
@@ -203,6 +204,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> with ServerFiel
           PrimaryButton(label: l10n.resetPassword, isLoading: isLoading, onPressed: _confirmReset),
           const SizedBox(height: AppSpacing.sm),
           TextButton(onPressed: isLoading ? null : _changePhone, child: Text(l10n.changePhone)),
+          const RequiredFieldsNote(),
         ],
       ),
     );

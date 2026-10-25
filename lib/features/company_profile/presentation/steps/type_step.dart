@@ -4,6 +4,7 @@ import 'package:x_ten/core/localization/localization_extension.dart';
 import 'package:x_ten/core/theme/app_colors.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
 import 'package:x_ten/core/theme/theme_context.dart';
+import 'package:x_ten/core/widgets/form_helpers.dart';
 import 'package:x_ten/core/widgets/step_form.dart';
 import 'package:x_ten/features/company_profile/domain/company_entities.dart';
 import 'package:x_ten/features/company_profile/presentation/company_cubit.dart';
@@ -36,6 +37,7 @@ class _BusinessTypeStepState extends State<BusinessTypeStep> {
       listenWhen: (previous, current) => current.didFail(CompanyAction.saveType) && previous.status != current.status,
       listener: (context, state) => showRegistrationFailure(context, state.failure!),
       child: StepBody(
+        requiredNote: true,
         actions: StepActions(
           isLoading: isSaving,
           onNext: selected == null
@@ -50,7 +52,7 @@ class _BusinessTypeStepState extends State<BusinessTypeStep> {
         ),
         children: [
           const SizedBox(height: AppSpacing.md),
-          Text(l10n.businessTypeQuestion, style: context.textTheme.titleLarge),
+          Text(req(l10n.businessTypeQuestion), style: context.textTheme.titleLarge),
           const SizedBox(height: AppSpacing.xs),
           Text(l10n.businessTypeHint, style: context.textTheme.bodySmall),
           const SizedBox(height: AppSpacing.xl),

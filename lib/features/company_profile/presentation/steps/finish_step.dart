@@ -121,6 +121,7 @@ class _CompanyFinishStepState extends State<CompanyFinishStep> {
       listenWhen: (previous, current) => previous.status != current.status || previous.action != current.action,
       listener: _listener,
       child: StepBody(
+        requiredNote: true,
         actions: StepActions(
           isLoading: state.isLoadingFor(CompanyAction.submit),
           onBack: cubit.back,
@@ -129,7 +130,7 @@ class _CompanyFinishStepState extends State<CompanyFinishStep> {
         ),
         children: [
           if (_missing.isNotEmpty) _MissingBox(items: _missing, onFix: cubit.goTo),
-          SectionTitle(l10n.regFinancialTitle, subtitle: l10n.finAddHint),
+          SectionTitle(req(l10n.regFinancialTitle), subtitle: l10n.finAddHint),
           for (final account in state.financialAccounts)
             Padding(
               padding: const EdgeInsets.only(bottom: AppSpacing.sm),
@@ -150,7 +151,7 @@ class _CompanyFinishStepState extends State<CompanyFinishStep> {
               label: Text(l10n.regAddInstitution),
             ),
           ),
-          SectionTitle(l10n.consentsTitle),
+          SectionTitle(req(l10n.consentsTitle)),
           CheckboxListTile(
             contentPadding: EdgeInsets.zero,
             controlAffinity: ListTileControlAffinity.leading,
@@ -380,7 +381,7 @@ class _AccountFormState extends State<_AccountForm> with ServerFieldErrors {
               textInputAction: TextInputAction.next,
               forceErrorText: serverError('institutionName'),
               onChanged: (_) => clearServerError('institutionName'),
-              decoration: InputDecoration(labelText: l10n.finInstitutionName, helperText: l10n.finInstitutionHint),
+              decoration: InputDecoration(labelText: req(l10n.finInstitutionName), helperText: l10n.finInstitutionHint),
               validator: (v) => requiredText(context, v),
             ),
             gap,
@@ -406,7 +407,7 @@ class _AccountFormState extends State<_AccountForm> with ServerFieldErrors {
               ],
               forceErrorText: serverError('accountNumber'),
               onChanged: (_) => clearServerError('accountNumber'),
-              decoration: InputDecoration(labelText: l10n.finAccountNumber, helperText: l10n.finAccountNumberHint),
+              decoration: InputDecoration(labelText: req(l10n.finAccountNumber), helperText: l10n.finAccountNumberHint),
               validator: (v) {
                 final number = cleanAccountNumber(v ?? '');
                 if (number.isEmpty) {

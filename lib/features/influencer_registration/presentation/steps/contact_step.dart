@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:x_ten/core/localization/localization_extension.dart';
+import 'package:x_ten/core/theme/app_colors.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
+import 'package:x_ten/core/theme/theme_context.dart';
 import 'package:x_ten/core/utils/validators.dart';
 import 'package:x_ten/features/influencer_registration/domain/registration_entities.dart';
 import 'package:x_ten/features/influencer_registration/presentation/registration_cubit.dart';
@@ -97,17 +99,18 @@ class _ContactStepState extends State<ContactStep> with ServerFieldErrors {
       child: Form(
         key: _formKey,
         child: StepBody(
+          requiredNote: true,
           actions: StepActions(isLoading: isSaving, onBack: context.read<RegistrationCubit>().back, onNext: _submit),
           children: [
             SectionTitle(l10n.regContactTitle),
-            _field(_phone, 'phone', l10n.phone, TextInputType.phone, _phoneCheck),
+            _field(_phone, 'phone', req(l10n.phone), TextInputType.phone, _phoneCheck),
             gap,
-            _field(_whatsapp, 'whatsapp', l10n.whatsapp, TextInputType.phone, _phoneCheck),
+            _field(_whatsapp, 'whatsapp', req(l10n.whatsapp), TextInputType.phone, _phoneCheck),
             gap,
             _field(
               _email,
               'email',
-              l10n.email,
+              req(l10n.email),
               TextInputType.emailAddress,
               (value) => Validators.isEmail(value ?? '') ? null : l10n.emailInvalid,
             ),
@@ -130,7 +133,10 @@ class _ContactStepState extends State<ContactStep> with ServerFieldErrors {
               onChanged: (_) => clearServerError('deliveryAddress'),
               decoration: InputDecoration(
                 labelText: l10n.regDeliveryAddress,
-                helperText: l10n.regDeliveryAddressHint,
+                hintText: l10n.regDeliveryAddressHint,
+                hintMaxLines: 3,
+                hintStyle: context.textTheme.bodySmall?.copyWith(color: AppColors.textMuted),
+                floatingLabelBehavior: FloatingLabelBehavior.always,
                 alignLabelWithHint: true,
               ),
             ),

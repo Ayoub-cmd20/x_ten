@@ -16,8 +16,22 @@ import 'package:x_ten/l10n/generated/app_localizations.dart';
 
 typedef _StatusView = ({IconData icon, Color color, String title, String body});
 
-class RegistrationStatusPage extends StatelessWidget {
+class RegistrationStatusPage extends StatefulWidget {
   const RegistrationStatusPage({super.key});
+
+  @override
+  State<RegistrationStatusPage> createState() => _RegistrationStatusPageState();
+}
+
+class _RegistrationStatusPageState extends State<RegistrationStatusPage> {
+  @override
+  void initState() {
+    super.initState();
+    final cubit = context.read<RegistrationCubit>();
+    if (!cubit.state.loaded) {
+      cubit.load();
+    }
+  }
 
   static _StatusView _view(AppLocalizations l10n, VerificationStatus status) => switch (status) {
         VerificationStatus.underReview => (
@@ -60,11 +74,11 @@ class RegistrationStatusPage extends StatelessWidget {
 
   void _listener(BuildContext context, RegistrationState state) {
     final failure = state.failure;
-    if (state.didSucceed(RegistrationAction.newAttempt)) {
-      context.go(RegistrationRoutes.form);
-    } else if (state.didSucceed(RegistrationAction.load)) {
+    if (state.didSucceed(RegistrationAction.load)) {
       final destination = RegistrationRoutes.destinationFor(state.registration);
-      if (destination != RegistrationRoutes.status) context.go(destination);
+      if (destination == RegistrationRoutes.form || state.registration?.status == VerificationStatus.verified) {
+        context.go(destination);
+      }
     } else if (state.status == OperationStatus.failure && failure != null) {
       showRegistrationFailure(context, failure);
     }
@@ -78,10 +92,16 @@ class RegistrationStatusPage extends StatelessWidget {
     final registration = state.registration;
 
     if (registration == null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (context.mounted) context.go(RegistrationRoutes.gate);
-      });
-      return const Scaffold(body: AppLoader());
+      if (state.loaded) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (context.mounted) context.go(RegistrationRoutes.form);
+        });
+      }
+      return BlocListener<RegistrationCubit, RegistrationState>(
+        listenWhen: (previous, current) => previous.status != current.status || previous.action != current.action,
+        listener: _listener,
+        child: const Scaffold(body: AppLoader()),
+      );
     }
 
     final view = _view(l10n, registration.status);
@@ -133,13 +153,6 @@ class RegistrationStatusPage extends StatelessWidget {
                   subtitle: ltr(DateFormat.jm(locale).format(meeting.scheduledAt)),
                 ),
               ],
-              const SizedBox(height: AppSpacing.xl),
-              Center(
-                child: Text(
-                  l10n.attemptNumber(registration.attemptNumber),
-                  style: context.textTheme.bodySmall,
-                ),
-              ),
               const SizedBox(height: AppSpacing.xxl),
               if (registration.canEditOptional) ...[
                 OutlinedButton.icon(
@@ -149,12 +162,20 @@ class RegistrationStatusPage extends StatelessWidget {
                 ),
                 const SizedBox(height: AppSpacing.sm),
               ],
-              if (registration.canStartNewAttempt) ...[
+              if (registration.status == VerificationStatus.needsChanges) ...[
                 PrimaryButton(
-                  label: l10n.startNewAttempt,
-                  icon: Icons.restart_alt_rounded,
-                  isLoading: state.isLoadingFor(RegistrationAction.newAttempt),
-                  onPressed: cubit.startNewAttempt,
+                  label: l10n.regEditFile,
+                  icon: Icons.edit_note_rounded,
+                  onPressed: () => context.go(RegistrationRoutes.form),
+                ),
+                const SizedBox(height: AppSpacing.sm),
+              ],
+              if (registration.status != VerificationStatus.needsChanges &&
+                  registration.status != VerificationStatus.rejected) ...[
+                OutlinedButton.icon(
+                  onPressed: () => context.go(RegistrationRoutes.creatorHome),
+                  icon: const Icon(Icons.home_outlined),
+                  label: Text(l10n.regGoHome),
                 ),
                 const SizedBox(height: AppSpacing.sm),
               ],

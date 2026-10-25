@@ -89,7 +89,7 @@ class _SignupPageState extends State<SignupPage> with ServerFieldErrors {
                   forceErrorText: serverError('fullName'),
                   onChanged: (_) => clearServerError('fullName'),
                   decoration: InputDecoration(
-                    labelText: l10n.fullName,
+                    labelText: req(l10n.username),
                     hintText: l10n.fullNameHint,
                     prefixIcon: const Icon(Icons.person_outline_rounded),
                   ),
@@ -107,7 +107,7 @@ class _SignupPageState extends State<SignupPage> with ServerFieldErrors {
                   forceErrorText: serverError('email'),
                   onChanged: (_) => clearServerError('email'),
                   decoration: InputDecoration(
-                    labelText: l10n.email,
+                    labelText: req(l10n.email),
                     hintText: 'email@example.com',
                     prefixIcon: const Icon(Icons.email_outlined),
                   ),
@@ -129,7 +129,7 @@ class _SignupPageState extends State<SignupPage> with ServerFieldErrors {
                   forceErrorText: serverError('phone'),
                   onChanged: (_) => clearServerError('phone'),
                   decoration: InputDecoration(
-                    labelText: l10n.phone,
+                    labelText: req(l10n.phone),
                     hintText: '05XXXXXXXX',
                     prefixIcon: const Icon(Icons.phone_outlined),
                   ),
@@ -144,7 +144,7 @@ class _SignupPageState extends State<SignupPage> with ServerFieldErrors {
                 PasswordField(
                   controller: _password,
                   enabled: !isLoading,
-                  label: l10n.password,
+                  label: req(l10n.password),
                   hint: l10n.passwordHint,
                   autofillHints: const [AutofillHints.newPassword],
                   errorText: serverError('password'),
@@ -165,6 +165,7 @@ class _SignupPageState extends State<SignupPage> with ServerFieldErrors {
                   action: l10n.login,
                   onTap: isLoading ? null : _goToLogin,
                 ),
+                const RequiredFieldsNote(),
               ],
             ),
           ),

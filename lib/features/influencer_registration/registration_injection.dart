@@ -11,7 +11,6 @@ void initRegistrationFeature() {
     ..registerLazySingleton<RegistrationRepository>(() => RegistrationRepositoryImpl(sl()))
     ..registerLazySingleton(() => LoadCurrentRegistrationUseCase(sl()))
     ..registerLazySingleton(() => SaveSectionUseCase(sl()))
-    ..registerLazySingleton(() => StartNewAttemptUseCase(sl()))
     ..registerLazySingleton(() => SubmitRegistrationUseCase(sl()))
     ..registerLazySingleton(() => UploadProfileImageUseCase(sl()))
     ..registerLazySingleton(() => DeleteProfileImageUseCase(sl()))
@@ -33,7 +32,6 @@ void initRegistrationFeature() {
       () => RegistrationCubit(
         loadCurrent: sl(),
         saveSection: sl(),
-        startNewAttempt: sl(),
         submit: sl(),
         uploadPhoto: sl(),
         deletePhoto: sl(),
