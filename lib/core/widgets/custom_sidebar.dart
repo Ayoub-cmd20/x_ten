@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:x_ten/features/auth/presentation/auth_cubit.dart';
 import 'package:x_ten/features/auth/presentation/auth_routes.dart';
+import 'package:x_ten/features/auth/presentation/cubit/auth_cubit.dart';
 
 class CustomSidebar extends StatelessWidget {
   const CustomSidebar({super.key});

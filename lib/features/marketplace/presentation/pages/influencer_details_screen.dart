@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:x_ten/core/errors/failure_message.dart';
 import 'package:x_ten/core/localization/category_labels.dart';
 import 'package:x_ten/core/localization/localization_extension.dart';
 import 'package:x_ten/core/widgets/auth_image.dart';
 import 'package:x_ten/core/widgets/feedback/error_view.dart';
 import 'package:x_ten/core/widgets/loading/app_loader.dart';
-import 'package:x_ten/features/marketplace/presentation/marketplace_cubit.dart';
+import 'package:x_ten/features/marketplace/presentation/cubit/marketplace_cubit.dart';
 import 'package:x_ten/features/saved_items/data/saved_items_service.dart';
 import 'package:x_ten/features/saved_items/domain/models/saved_item.dart';
 

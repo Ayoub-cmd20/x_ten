@@ -32,6 +32,8 @@ abstract interface class CompanyRemoteDataSource {
   Future<void> deleteFinancialAccount(int id);
 
   Future<FinancialAccount> readFinancialDocument(UploadFile file);
+
+  Future<MarketingPage> readMarketingScreenshot(UploadFile file, String url);
 }
 
 class CompanyRemoteDataSourceImpl implements CompanyRemoteDataSource {
@@ -108,6 +110,17 @@ class CompanyRemoteDataSourceImpl implements CompanyRemoteDataSource {
   @override
   Future<FinancialAccount> readFinancialDocument(UploadFile file) async {
     final form = FormData.fromMap({ApiKeys.file: await _multipart(file)});
-    return RegistrationJson.readAccount(await _api.post(ApiEndpoints.companyFinancialRead, data: form) as Json);
+    return RegistrationJson.readInstitutionAccount(await _api.post(ApiEndpoints.companyFinancialRead, data: form) as Json);
+  }
+
+  @override
+  Future<MarketingPage> readMarketingScreenshot(UploadFile file, String url) async {
+    final form = FormData.fromMap({ApiKeys.file: await _multipart(file), ApiKeys.url: url});
+    final json = await _api.post(ApiEndpoints.companyMarketingRead, data: form) as Json;
+    return MarketingPage(
+      url: url,
+      accountName: '${json[ApiKeys.accountName] ?? ''}',
+      followers: (json[ApiKeys.followers] as num?)?.toInt(),
+    );
   }
 }

@@ -345,11 +345,7 @@ class _AccountCard extends StatelessWidget {
                     icon: const Icon(Icons.refresh_rounded),
                   )
                 else ...[
-                  IconButton(
-                    tooltip: l10n.socialScreenshotButton,
-                    onPressed: enabled ? onScreenshot : null,
-                    icon: const Icon(Icons.screenshot_outlined),
-                  ),
+                
                   IconButton(
                     tooltip: l10n.edit,
                     onPressed: enabled ? onDetails : null,

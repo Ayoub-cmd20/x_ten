@@ -6,8 +6,8 @@ import 'package:x_ten/core/localization/locale_cubit.dart';
 import 'package:x_ten/core/localization/localization_extension.dart';
 import 'package:x_ten/core/widgets/feedback/error_view.dart';
 import 'package:x_ten/core/widgets/loading/app_loader.dart';
-import 'package:x_ten/features/auth/presentation/auth_cubit.dart';
 import 'package:x_ten/features/auth/presentation/auth_routes.dart';
+import 'package:x_ten/features/auth/presentation/cubit/auth_cubit.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});

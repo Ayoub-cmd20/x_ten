@@ -9,10 +9,12 @@ import 'package:x_ten/core/theme/app_dimens.dart';
 import 'package:x_ten/core/theme/theme_context.dart';
 import 'package:x_ten/core/widgets/feedback/app_snackbar.dart';
 import 'package:x_ten/core/widgets/feedback/empty_view.dart';
-import 'package:x_ten/features/auth/domain/auth_usecases.dart';
-import 'package:x_ten/features/auth/presentation/auth_cubit.dart';
+import 'package:x_ten/core/widgets/form_helpers.dart';
+import 'package:x_ten/features/auth/domain/usecases/select_role_usecase.dart';
 import 'package:x_ten/features/auth/presentation/auth_routes.dart';
-import 'package:x_ten/features/auth/presentation/auth_widgets.dart';
+import 'package:x_ten/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:x_ten/features/auth/presentation/widgets/auth_header.dart';
+import 'package:x_ten/features/auth/presentation/widgets/auth_scaffold.dart';
 import 'package:x_ten/l10n/generated/app_localizations.dart';
 
 class AccountTypePage extends StatefulWidget {

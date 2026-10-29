@@ -5,9 +5,14 @@ import 'package:x_ten/core/localization/localization_extension.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
 import 'package:x_ten/core/utils/validators.dart';
 import 'package:x_ten/core/widgets/feedback/app_snackbar.dart';
-import 'package:x_ten/features/auth/presentation/auth_cubit.dart';
+import 'package:x_ten/core/widgets/form_helpers.dart';
 import 'package:x_ten/features/auth/presentation/auth_routes.dart';
-import 'package:x_ten/features/auth/presentation/auth_widgets.dart';
+import 'package:x_ten/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:x_ten/features/auth/presentation/widgets/auth_header.dart';
+import 'package:x_ten/features/auth/presentation/widgets/auth_scaffold.dart';
+import 'package:x_ten/features/auth/presentation/widgets/otp_input.dart';
+import 'package:x_ten/features/auth/presentation/widgets/password_field.dart';
+import 'package:x_ten/features/auth/presentation/widgets/resend_code_button.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});

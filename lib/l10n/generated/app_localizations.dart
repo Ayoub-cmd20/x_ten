@@ -4279,7 +4279,7 @@ abstract class AppLocalizations {
   /// No description provided for @companyCapital.
   ///
   /// In ar, this message translates to:
-  /// **'رأس المال (تقديري، اختياري)'**
+  /// **'رأس المال (اختياري)'**
   String get companyCapital;
 
   /// No description provided for @companyCurrency.
@@ -4305,6 +4305,42 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'ماذا تقدم ولمن؟'**
   String get companyBioHint;
+
+  /// No description provided for @companyBioOptional.
+  ///
+  /// In ar, this message translates to:
+  /// **'نبذة عن نشاطك (اختيارية)'**
+  String get companyBioOptional;
+
+  /// No description provided for @companyOfficialEmail.
+  ///
+  /// In ar, this message translates to:
+  /// **'البريد الإلكتروني الرسمي للشركة (اختياري)'**
+  String get companyOfficialEmail;
+
+  /// No description provided for @companyPageScreenshot.
+  ///
+  /// In ar, this message translates to:
+  /// **'لقطة شاشة للصفحة (اختيارية)'**
+  String get companyPageScreenshot;
+
+  /// No description provided for @companyPageScreenshotHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'لقطة الشاشة اختيارية: نقرأ منها اسم الحساب وعدد المتابعين'**
+  String get companyPageScreenshotHint;
+
+  /// No description provided for @companyAddPage.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة منصة أخرى'**
+  String get companyAddPage;
+
+  /// No description provided for @signupEmailNote.
+  ///
+  /// In ar, this message translates to:
+  /// **'هذا الإيميل تستخدمه للدخول إلى حسابك ولاسترجاع كلمة السر وللتواصل مع شركة x10'**
+  String get signupEmailNote;
 
   /// No description provided for @companyActivitiesTitle.
   ///
@@ -4357,7 +4393,7 @@ abstract class AppLocalizations {
   /// No description provided for @companyPhone2.
   ///
   /// In ar, this message translates to:
-  /// **'رقم هاتف ثاني (اختياري)'**
+  /// **'رقم الهاتف الاحتياطي (اختياري)'**
   String get companyPhone2;
 
   /// No description provided for @companyEmailHint.

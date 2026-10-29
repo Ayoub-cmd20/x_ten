@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:x_ten/features/campaigns/presentation/pages/campaign_creation_screen.dart';
-import 'package:x_ten/features/marketplace/domain/models/influencer.dart';
+import 'package:x_ten/features/marketplace/domain/entities/influencer.dart';
 
 class InfluencerDetailsScreen
     extends StatelessWidget {

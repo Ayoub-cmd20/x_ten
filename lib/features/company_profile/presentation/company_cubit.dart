@@ -20,6 +20,7 @@ class CompanyCubit extends Cubit<CompanyState> {
     required AddCompanyFinancialAccountUseCase addFinancial,
     required DeleteCompanyFinancialAccountUseCase deleteFinancial,
     required ReadCompanyFinancialDocumentUseCase readFinancial,
+    required ReadMarketingScreenshotUseCase readMarketing,
     required SubmitCompanyUseCase submit,
   })  : _load = load,
         _saveType = saveType,
@@ -31,6 +32,7 @@ class CompanyCubit extends Cubit<CompanyState> {
         _addFinancial = addFinancial,
         _deleteFinancial = deleteFinancial,
         _readFinancial = readFinancial,
+        _readMarketing = readMarketing,
         _submit = submit,
         super(const CompanyState());
 
@@ -44,6 +46,7 @@ class CompanyCubit extends Cubit<CompanyState> {
   final AddCompanyFinancialAccountUseCase _addFinancial;
   final DeleteCompanyFinancialAccountUseCase _deleteFinancial;
   final ReadCompanyFinancialDocumentUseCase _readFinancial;
+  final ReadMarketingScreenshotUseCase _readMarketing;
   final SubmitCompanyUseCase _submit;
 
   Future<void> load() async {
@@ -75,7 +78,26 @@ class CompanyCubit extends Cubit<CompanyState> {
     if (state.isLoading || !state.canOpen(step)) {
       return;
     }
-    emit(state.copyWith(step: step, action: CompanyAction.none, status: CompanyStatus.idle, failure: null));
+    emit(state.copyWith(
+      step: step,
+      returnToReview: step == CompanyStep.review ? false : null,
+      action: CompanyAction.none,
+      status: CompanyStatus.idle,
+      failure: null,
+    ));
+  }
+
+  void editFrom(CompanyStep step) {
+    if (state.isLoading || !state.canOpen(step)) {
+      return;
+    }
+    emit(state.copyWith(
+      step: step,
+      returnToReview: step != CompanyStep.review,
+      action: CompanyAction.none,
+      status: CompanyStatus.idle,
+      failure: null,
+    ));
   }
 
   void back() {
@@ -86,6 +108,10 @@ class CompanyCubit extends Cubit<CompanyState> {
   }
 
   void next() {
+    if (state.returnToReview) {
+      goTo(CompanyStep.review);
+      return;
+    }
     final index = state.step.index;
     if (index < CompanyStep.values.length - 1) {
       goTo(CompanyStep.values[index + 1]);
@@ -95,10 +121,12 @@ class CompanyCubit extends Cubit<CompanyState> {
   static CompanyStep _after(CompanyStep step) =>
       step.index < CompanyStep.values.length - 1 ? CompanyStep.values[step.index + 1] : step;
 
+  static CompanyStep _nextStep(CompanyState state) => state.returnToReview ? CompanyStep.review : _after(state.step);
+
   Future<void> saveType(BusinessType type) => _save(
         CompanyAction.saveType,
         () => _saveType((type: type, exists: state.profile != null)),
-        (current, profile) => current.copyWith(profile: profile, step: CompanyStep.personal),
+        (current, profile) => current.copyWith(profile: profile, step: CompanyStep.personal, returnToReview: false),
       );
 
   Future<void> saveSection(CompanySection section) async {
@@ -108,18 +136,27 @@ class CompanyCubit extends Cubit<CompanyState> {
       return;
     }
     if (cleanCompanySection(type, section) case Ok(:final value) when profile.hasSaved(value)) {
+      final step = _nextStep(state);
       emit(state.copyWith(
         action: CompanyAction.saveSection,
         status: CompanyStatus.success,
         failure: null,
-        step: _after(state.step),
+        step: step,
+        returnToReview: step == CompanyStep.review ? false : null,
       ));
       return;
     }
     await _save(
       CompanyAction.saveSection,
       () => _saveSection((type: type, section: section)),
-      (current, saved) => current.copyWith(profile: saved, step: _after(current.step)),
+      (current, saved) {
+        final step = _nextStep(current);
+        return current.copyWith(
+          profile: saved,
+          step: step,
+          returnToReview: step == CompanyStep.review ? false : null,
+        );
+      },
     );
   }
 
@@ -207,6 +244,12 @@ class CompanyCubit extends Cubit<CompanyState> {
         (current, account) => current.copyWith(readAccount: account),
       );
 
+  Future<void> readMarketingScreenshot(UploadFile file, String url) => _save(
+        CompanyAction.readMarketing,
+        () => _readMarketing((file: file, url: url)),
+        (current, page) => current.copyWith(readPage: page),
+      );
+
   Future<void> submit(CompanyConsents consents) => _save(
         CompanyAction.submit,
         () => _submit((consents: consents, consentsSaved: state.profile?.hasSaved(consents) ?? false)),
@@ -257,6 +300,9 @@ class CompanyCubit extends Cubit<CompanyState> {
     if (profile.contact.phone.isEmpty) {
       return CompanyStep.contact;
     }
-    return CompanyStep.finish;
+    if (!state.financialComplete) {
+      return CompanyStep.finish;
+    }
+    return CompanyStep.review;
   }
 }

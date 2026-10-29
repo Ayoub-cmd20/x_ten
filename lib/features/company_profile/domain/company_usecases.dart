@@ -4,6 +4,7 @@ import 'package:x_ten/core/utils/file_rules.dart';
 import 'package:x_ten/core/utils/result.dart';
 import 'package:x_ten/features/company_profile/domain/company_entities.dart';
 import 'package:x_ten/features/company_profile/domain/company_repository.dart';
+import 'package:x_ten/features/influencer_registration/domain/registration_entities.dart' show RegistrationCatalog;
 import 'package:x_ten/features/influencer_registration/domain/registration_usecases.dart'
     show checkFile, cleanAccountNumber;
 
@@ -12,6 +13,7 @@ export 'package:x_ten/features/company_profile/domain/company_repository.dart' s
 typedef SaveTypeParams = ({BusinessType type, bool exists});
 typedef SaveCompanySectionParams = ({BusinessType type, CompanySection section});
 typedef SubmitCompanyParams = ({CompanyConsents consents, bool consentsSaved});
+typedef MarketingScreenshotParams = ({UploadFile file, String url});
 
 ValidationFailure _invalid(String field, String error) => ValidationFailure(details: {field: error});
 
@@ -32,6 +34,7 @@ Result<CompanySection> cleanCompanySection(BusinessType type, CompanySection sec
         whatsapp: _phone(contact.whatsapp),
         phone2: registered ? _phone(contact.phone2) : '',
         email: contact.email.trim().toLowerCase(),
+        officialEmail: contact.officialEmail.trim().toLowerCase(),
       )),
     final CompanyConsents consents => Ok(consents),
   };
@@ -92,7 +95,13 @@ Result<CompanySection> _cleanPresence(BusinessType type, CompanyPresence presenc
     marketingPages: [
       for (final page in presence.marketingPages)
         if (page.url.trim().isNotEmpty && seen.add(page.url.trim()))
-          MarketingPage(url: page.url.trim(), platform: page.platform, username: page.username),
+          MarketingPage(
+            url: page.url.trim(),
+            platform: page.platform,
+            username: page.username,
+            accountName: _oneLine(page.accountName),
+            followers: page.followers,
+          ),
     ],
   ));
 }
@@ -191,11 +200,11 @@ class AddCompanyFinancialAccountUseCase implements UseCase<FinancialAccount, Fin
   @override
   Future<Result<FinancialAccount>> call(FinancialAccount account) async {
     final number = cleanAccountNumber(account.accountNumber);
-    final institution = _oneLine(account.institutionName);
+    final institution = account.institutionName.trim();
     if (!_number.hasMatch(number)) {
       return Err(_invalid('accountNumber', 'invalid'));
     }
-    if (institution.isEmpty && !RegExp(r'^\d{20}$').hasMatch(number)) {
+    if (!RegistrationCatalog.financialInstitutions.contains(institution)) {
       return Err(_invalid('institutionName', 'required'));
     }
     return _repository.addFinancialAccount(FinancialAccount(institutionName: institution, accountNumber: number));
@@ -222,6 +231,20 @@ class ReadCompanyFinancialDocumentUseCase implements UseCase<FinancialAccount, U
       return Err<FinancialAccount>(failure);
     }
     return _repository.readFinancialDocument(file);
+  }
+}
+
+class ReadMarketingScreenshotUseCase implements UseCase<MarketingPage, MarketingScreenshotParams> {
+  const ReadMarketingScreenshotUseCase(this._repository);
+
+  final CompanyRepository _repository;
+
+  @override
+  Future<Result<MarketingPage>> call(MarketingScreenshotParams params) async {
+    if (checkFile(params.file, FileRules.images) case final failure?) {
+      return Err<MarketingPage>(failure);
+    }
+    return _repository.readMarketingScreenshot(params.file, params.url);
   }
 }
 

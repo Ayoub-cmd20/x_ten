@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:x_ten/core/constants/api_keys.dart';
 import 'package:x_ten/core/errors/failures.dart';
 import 'package:x_ten/core/localization/localization_extension.dart';
 import 'package:x_ten/core/theme/app_colors.dart';
@@ -13,49 +12,12 @@ import 'package:x_ten/core/widgets/loading/app_loader.dart';
 import 'package:x_ten/core/widgets/step_form.dart';
 import 'package:x_ten/features/company_profile/domain/company_entities.dart';
 import 'package:x_ten/features/company_profile/presentation/company_cubit.dart';
-import 'package:x_ten/features/company_profile/presentation/company_labels.dart';
+import 'package:x_ten/features/company_profile/presentation/widgets/business_documents.dart';
 import 'package:x_ten/features/company_profile/presentation/widgets/company_documents.dart';
-import 'package:x_ten/features/company_profile/presentation/widgets/scan_banner.dart';
+import 'package:x_ten/features/influencer_registration/domain/registration_entities.dart' show RegistrationCatalog;
 import 'package:x_ten/features/influencer_registration/domain/registration_usecases.dart' show cleanAccountNumber;
+import 'package:x_ten/features/influencer_registration/presentation/registration_labels.dart';
 import 'package:x_ten/features/influencer_registration/presentation/steps/financial_step.dart' show FinancialAccountCard;
-
-typedef _Missing = ({String label, CompanyStep step});
-
-List<_Missing> _missingFrom(BuildContext context, ValidationFailure failure) {
-  final l10n = context.l10n;
-  bool has(List<String> keys) => keys.any(failure.details.containsKey);
-  final documents = [
-    for (final name in failure.missingDocuments)
-      enumFromApi(CompanyDocumentType.values, name, CompanyDocumentType.other),
-  ];
-  return [
-    if (has([ApiKeys.businessType])) (label: l10n.companyStepType, step: CompanyStep.type),
-    if (has([ApiKeys.firstName, ApiKeys.lastName, ApiKeys.idNumber, ApiKeys.birthDate, ApiKeys.role, ApiKeys.roleOther]))
-      (label: l10n.companyStepPersonal, step: CompanyStep.personal),
-    for (final type in documents)
-      (
-        label: l10n.missingDocumentsWarning(l10n.companyDocumentLabel(type)),
-        step: CompanyCatalog.identityDocuments.contains(type) ? CompanyStep.personal : CompanyStep.finish,
-      ),
-    if (has([
-      ApiKeys.accountName,
-      ApiKeys.companyName,
-      ApiKeys.branch,
-      ApiKeys.wilaya,
-      ApiKeys.address,
-      ApiKeys.registrationNumber,
-      ApiKeys.ns,
-      ApiKeys.nif,
-    ]))
-      (label: l10n.companyStepBusiness, step: CompanyStep.business),
-    if (has([ApiKeys.bio, ApiKeys.activityAreas, ApiKeys.activityOther, 'profileImage']))
-      (label: l10n.companyStepPresence, step: CompanyStep.presence),
-    if (has([ApiKeys.phone, ApiKeys.whatsapp, ApiKeys.phone2, ApiKeys.email]))
-      (label: l10n.companyStepContact, step: CompanyStep.contact),
-    if (has([ApiKeys.financialAccounts])) (label: l10n.regStepFinancial, step: CompanyStep.finish),
-    if (has([ApiKeys.acceptedTerms, ApiKeys.acceptedPrivacy])) (label: l10n.acceptAllConsents, step: CompanyStep.finish),
-  ];
-}
 
 class CompanyFinishStep extends StatefulWidget {
   const CompanyFinishStep({super.key});
@@ -65,24 +27,15 @@ class CompanyFinishStep extends StatefulWidget {
 }
 
 class _CompanyFinishStepState extends State<CompanyFinishStep> {
-  late CompanyConsents _consents;
   bool _showErrors = false;
-  List<_Missing> _missing = const [];
 
-  @override
-  void initState() {
-    super.initState();
-    _consents = context.read<CompanyCubit>().state.profile?.consents ?? const CompanyConsents();
-  }
-
-  void _submit() {
+  void _next() {
     final cubit = context.read<CompanyCubit>();
-    if (!cubit.state.financialComplete || !_consents.all) {
+    if (!cubit.state.financialComplete) {
       setState(() => _showErrors = true);
       return;
     }
-    setState(() => _missing = const []);
-    cubit.submit(_consents);
+    cubit.next();
   }
 
   void _openAccountForm() {
@@ -95,15 +48,10 @@ class _CompanyFinishStepState extends State<CompanyFinishStep> {
     if (state.status != CompanyStatus.failure || failure == null) {
       return;
     }
-    if (state.action == CompanyAction.submit && failure is ValidationFailure) {
-      final missing = _missingFrom(context, failure);
-      if (missing.isNotEmpty) {
-        setState(() => _missing = missing);
-        return;
-      }
-    }
     switch (state.action) {
-      case CompanyAction.submit || CompanyAction.deleteFinancial || CompanyAction.uploadDocument:
+      case CompanyAction.uploadDocument when state.target is int:
+        showRegistrationFailure(context, failure);
+      case CompanyAction.deleteFinancial || CompanyAction.deleteDocument:
         showRegistrationFailure(context, failure);
       default:
         break;
@@ -122,14 +70,8 @@ class _CompanyFinishStepState extends State<CompanyFinishStep> {
       listener: _listener,
       child: StepBody(
         requiredNote: true,
-        actions: StepActions(
-          isLoading: state.isLoadingFor(CompanyAction.submit),
-          onBack: cubit.back,
-          onNext: _submit,
-          nextLabel: l10n.submitForReview,
-        ),
+        actions: StepActions(onBack: cubit.back, onNext: _next, nextLabel: l10n.next),
         children: [
-          if (_missing.isNotEmpty) _MissingBox(items: _missing, onFix: cubit.goTo),
           SectionTitle(req(l10n.regFinancialTitle), subtitle: l10n.finAddHint),
           for (final account in state.financialAccounts)
             Padding(
@@ -151,65 +93,10 @@ class _CompanyFinishStepState extends State<CompanyFinishStep> {
               label: Text(l10n.regAddInstitution),
             ),
           ),
-          SectionTitle(req(l10n.consentsTitle)),
-          CheckboxListTile(
-            contentPadding: EdgeInsets.zero,
-            controlAffinity: ListTileControlAffinity.leading,
-            value: _consents.acceptedPrivacy,
-            title: Text(l10n.regConsentPrivacy, style: context.textTheme.bodyMedium),
-            onChanged: (value) => setState(
-              () => _consents = CompanyConsents(acceptedTerms: _consents.acceptedTerms, acceptedPrivacy: value ?? false),
-            ),
-          ),
-          CheckboxListTile(
-            contentPadding: EdgeInsets.zero,
-            controlAffinity: ListTileControlAffinity.leading,
-            value: _consents.acceptedTerms,
-            title: Text(l10n.regConsentTerms, style: context.textTheme.bodyMedium),
-            onChanged: (value) => setState(
-              () => _consents = CompanyConsents(acceptedTerms: value ?? false, acceptedPrivacy: _consents.acceptedPrivacy),
-            ),
-          ),
-          if (_showErrors && !_consents.all) Text(l10n.acceptAllConsents, style: errorStyle),
-          const SizedBox(height: AppSpacing.md),
-          ScanBanner(title: l10n.companyStepFinish, text: l10n.companyMeetingNote, icon: Icons.event_available_outlined),
-        ],
-      ),
-    );
-  }
-}
-
-class _MissingBox extends StatelessWidget {
-  const _MissingBox({required this.items, required this.onFix});
-
-  final List<_Missing> items;
-  final ValueChanged<CompanyStep> onFix;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    return Container(
-      margin: const EdgeInsets.only(bottom: AppSpacing.md),
-      padding: const EdgeInsets.all(AppSpacing.md),
-      decoration: BoxDecoration(
-        color: AppColors.errorContainer,
-        borderRadius: AppRadius.lgAll,
-        border: Border.all(color: AppColors.error.withValues(alpha: 0.5)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(l10n.submitMissingTitle, style: context.textTheme.titleSmall?.copyWith(color: AppColors.error)),
-          const SizedBox(height: AppSpacing.xs),
-          for (final item in items)
-            Row(
-              children: [
-                const Icon(Icons.error_outline_rounded, size: 18, color: AppColors.error),
-                const SizedBox(width: AppSpacing.xs),
-                Expanded(child: Text(item.label, style: context.textTheme.bodySmall)),
-                TextButton(onPressed: () => onFix(item.step), child: Text(l10n.fix)),
-              ],
-            ),
+          if (state.isRegistered) ...[
+            SectionTitle(l10n.companyLicensesTitle, subtitle: l10n.companyLicensesHint),
+            const CompanyLicenses(),
+          ],
         ],
       ),
     );
@@ -227,8 +114,8 @@ class _AccountFormState extends State<_AccountForm> with ServerFieldErrors {
   static const _fields = ['institutionName', 'accountNumber'];
 
   final _formKey = GlobalKey<FormState>();
-  final _institution = TextEditingController();
   final _number = TextEditingController();
+  String? _institution;
   UploadFile? _proof;
   bool _proofRead = false;
   int _attempts = 0;
@@ -236,7 +123,6 @@ class _AccountFormState extends State<_AccountForm> with ServerFieldErrors {
 
   @override
   void dispose() {
-    _institution.dispose();
     _number.dispose();
     super.dispose();
   }
@@ -267,8 +153,8 @@ class _AccountFormState extends State<_AccountForm> with ServerFieldErrors {
         if (read.accountNumber.isNotEmpty) {
           _number.text = read.accountNumber;
         }
-        if (_institution.text.trim().isEmpty && read.institutionName.isNotEmpty) {
-          _institution.text = read.institutionName;
+        if (_institution == null && RegistrationCatalog.financialInstitutions.contains(read.institutionName)) {
+          _institution = read.institutionName;
         }
       });
       showSuccessSnackBar(context, l10n.finReadDone);
@@ -302,7 +188,7 @@ class _AccountFormState extends State<_AccountForm> with ServerFieldErrors {
     }
     final cubit = context.read<CompanyCubit>();
     _accountsBefore = cubit.state.financialAccounts.length;
-    cubit.addFinancialAccount(FinancialAccount(institutionName: _institution.text, accountNumber: _number.text));
+    cubit.addFinancialAccount(FinancialAccount(institutionName: _institution ?? '', accountNumber: _number.text));
   }
 
   void _onSaved(BuildContext context, CompanyState state) {
@@ -376,13 +262,21 @@ class _AccountFormState extends State<_AccountForm> with ServerFieldErrors {
           children: [
             Text(l10n.regAddInstitution, style: context.textTheme.titleMedium),
             gap,
-            TextFormField(
-              controller: _institution,
-              textInputAction: TextInputAction.next,
+            DropdownButtonFormField<String>(
+              initialValue: _institution,
+              key: ValueKey(_institution),
+              isExpanded: true,
               forceErrorText: serverError('institutionName'),
-              onChanged: (_) => clearServerError('institutionName'),
-              decoration: InputDecoration(labelText: req(l10n.finInstitutionName), helperText: l10n.finInstitutionHint),
-              validator: (v) => requiredText(context, v),
+              decoration: InputDecoration(labelText: req(l10n.finInstitutionName)),
+              items: [
+                for (final id in RegistrationCatalog.financialInstitutions)
+                  DropdownMenuItem(value: id, child: Text(l10n.institutionLabel(id), overflow: TextOverflow.ellipsis)),
+              ],
+              onChanged: (value) {
+                clearServerError('institutionName');
+                setState(() => _institution = value);
+              },
+              validator: (value) => value == null ? l10n.fieldRequired : null,
             ),
             gap,
             OutlinedButton.icon(

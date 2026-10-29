@@ -44,6 +44,7 @@ final class RegistrationState extends Equatable {
     this.scannedAudience,
     this.readAccount,
     this.step = RegistrationStep.personal,
+    this.returnToReview = false,
   });
 
   static const _keep = Object();
@@ -65,6 +66,7 @@ final class RegistrationState extends Equatable {
   final Audience? scannedAudience;
   final FinancialAccount? readAccount;
   final RegistrationStep step;
+  final bool returnToReview;
 
   bool get isLoading => status == OperationStatus.loading;
 
@@ -117,6 +119,7 @@ final class RegistrationState extends Equatable {
     Object? scannedAudience = _keep,
     Object? readAccount = _keep,
     RegistrationStep? step,
+    bool? returnToReview,
   }) =>
       RegistrationState(
         action: action ?? this.action,
@@ -134,6 +137,7 @@ final class RegistrationState extends Equatable {
         scannedAudience: identical(scannedAudience, _keep) ? this.scannedAudience : scannedAudience as Audience?,
         readAccount: identical(readAccount, _keep) ? this.readAccount : readAccount as FinancialAccount?,
         step: step ?? this.step,
+        returnToReview: returnToReview ?? this.returnToReview,
       );
 
   @override
@@ -153,5 +157,6 @@ final class RegistrationState extends Equatable {
         scannedAudience,
         readAccount,
         step,
+        returnToReview,
       ];
 }

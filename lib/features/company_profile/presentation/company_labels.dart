@@ -12,6 +12,7 @@ extension CompanyLabels on AppLocalizations {
         CompanyStep.presence => companyStepPresence,
         CompanyStep.contact => companyStepContact,
         CompanyStep.finish => companyStepFinish,
+        CompanyStep.review => regStepReview,
       };
 
   String businessTypeTitle(BusinessType type) => switch (type) {

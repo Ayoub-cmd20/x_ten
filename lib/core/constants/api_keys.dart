@@ -79,6 +79,7 @@ abstract final class ApiKeys {
   static const username = 'username';
   static const description = 'description';
   static const followers = 'followers';
+  static const officialEmail = 'officialEmail';
   static const avatarUrl = 'avatarUrl';
   static const verified = 'verified';
 

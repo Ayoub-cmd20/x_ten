@@ -6,8 +6,8 @@ import 'package:x_ten/core/localization/localization_extension.dart';
 import 'package:x_ten/core/navigation/app_router.dart';
 import 'package:x_ten/core/session/session_notifier.dart';
 import 'package:x_ten/core/theme/app_theme.dart';
-import 'package:x_ten/features/auth/presentation/auth_cubit.dart';
 import 'package:x_ten/features/auth/presentation/auth_routes.dart';
+import 'package:x_ten/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:x_ten/l10n/generated/app_localizations.dart';
 
 final _messengerKey = GlobalKey<ScaffoldMessengerState>();

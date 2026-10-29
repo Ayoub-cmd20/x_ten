@@ -108,11 +108,11 @@ class _ReviewStepState extends State<ReviewStep> {
           ),
           if (_missing.isNotEmpty) ...[
             const SizedBox(height: AppSpacing.md),
-            SubmitMissingBox(items: _missing, onFix: cubit.goTo),
+            SubmitMissingBox(items: _missing, onFix: cubit.editFrom),
           ],
-          _ReviewSection(
+          ReviewSection(
             title: l10n.regStepPersonal,
-            onEdit: () => cubit.goTo(RegistrationStep.personal),
+            onEdit: () => cubit.editFrom(RegistrationStep.personal),
             rows: [
               (l10n.firstName, personal.firstName),
               (l10n.lastName, personal.lastName),
@@ -132,9 +132,9 @@ class _ReviewStepState extends State<ReviewStep> {
               (l10n.regIdentityDocument, identity.join(l10n.listSeparator)),
             ],
           ),
-          _ReviewSection(
+          ReviewSection(
             title: l10n.regStepProfile,
-            onEdit: () => cubit.goTo(RegistrationStep.profile),
+            onEdit: () => cubit.editFrom(RegistrationStep.profile),
             rows: [
               (l10n.regDisplayName, profile.displayName),
               (l10n.regPrimaryCategories, names(profile.primaryCategories, l10n.category)),
@@ -150,9 +150,9 @@ class _ReviewStepState extends State<ReviewStep> {
               (l10n.regAddressLanguages, names(profile.addressLanguages, l10n.languageLabel)),
             ],
           ),
-          _ReviewSection(
+          ReviewSection(
             title: l10n.regStepContact,
-            onEdit: () => cubit.goTo(RegistrationStep.contact),
+            onEdit: () => cubit.editFrom(RegistrationStep.contact),
             rows: [
               (l10n.phone, ltr(contact.phone)),
               (l10n.whatsapp, ltr(contact.whatsapp)),
@@ -161,9 +161,9 @@ class _ReviewStepState extends State<ReviewStep> {
               (l10n.regDeliveryAddress, contact.deliveryAddress),
             ],
           ),
-          _ReviewSection(
+          ReviewSection(
             title: l10n.regStepSocial,
-            onEdit: () => cubit.goTo(RegistrationStep.accounts),
+            onEdit: () => cubit.editFrom(RegistrationStep.accounts),
             rows: [
               for (final account in state.socialAccounts)
                 (
@@ -175,9 +175,9 @@ class _ReviewStepState extends State<ReviewStep> {
                 ),
             ],
           ),
-          _ReviewSection(
+          ReviewSection(
             title: l10n.regStepOptional,
-            onEdit: () => cubit.goTo(RegistrationStep.optional),
+            onEdit: () => cubit.editFrom(RegistrationStep.optional),
             rows: [
               (l10n.regBio, optional.bio),
               (
@@ -191,9 +191,9 @@ class _ReviewStepState extends State<ReviewStep> {
               (l10n.regPortfolioTitle, state.portfolio.isEmpty ? '' : '${state.portfolio.length}'),
             ],
           ),
-          _ReviewSection(
+          ReviewSection(
             title: l10n.regStepFinancial,
-            onEdit: () => cubit.goTo(RegistrationStep.financial),
+            onEdit: () => cubit.editFrom(RegistrationStep.financial),
             rows: [
               for (final account in state.financialAccounts)
                 (l10n.institutionLabel(account.institutionName), ltr(account.accountNumber)),
@@ -225,8 +225,8 @@ class _ReviewStepState extends State<ReviewStep> {
   }
 }
 
-class _ReviewSection extends StatelessWidget {
-  const _ReviewSection({required this.title, required this.rows, required this.onEdit});
+class ReviewSection extends StatelessWidget {
+  const ReviewSection({super.key, required this.title, required this.rows, required this.onEdit});
 
   final String title;
   final List<(String, String)> rows;

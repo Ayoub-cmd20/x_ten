@@ -32,5 +32,7 @@ abstract interface class CompanyRepository {
 
   Future<Result<FinancialAccount>> readFinancialDocument(UploadFile file);
 
+  Future<Result<MarketingPage>> readMarketingScreenshot(UploadFile file, String url);
+
   Future<Result<CompanyProfile>> submit();
 }

@@ -291,10 +291,6 @@ class _CompanyBusinessStepState extends State<CompanyBusinessStep> with ServerFi
               onChanged: (_) => clearServerError('capital'),
               decoration: InputDecoration(labelText: l10n.companyCapital, suffixText: l10n.companyCurrency),
             ),
-            if (registered) ...[
-              SectionTitle(l10n.companyLicensesTitle, subtitle: l10n.companyLicensesHint),
-              const CompanyLicenses(),
-            ],
           ],
         ),
       ),

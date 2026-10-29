@@ -141,14 +141,30 @@ final class CompanyBusiness extends CompanySection {
 }
 
 class MarketingPage extends Equatable {
-  const MarketingPage({required this.url, this.platform = SocialPlatform.website, this.username = ''});
+  const MarketingPage({
+    required this.url,
+    this.platform = SocialPlatform.website,
+    this.username = '',
+    this.accountName = '',
+    this.followers,
+  });
 
   final String url;
   final SocialPlatform platform;
   final String username;
+  final String accountName;
+  final int? followers;
+
+  MarketingPage withDetails({String? accountName, int? followers}) => MarketingPage(
+        url: url,
+        platform: platform,
+        username: username,
+        accountName: accountName ?? this.accountName,
+        followers: followers ?? this.followers,
+      );
 
   @override
-  List<Object?> get props => [url];
+  List<Object?> get props => [url, accountName, followers];
 }
 
 final class CompanyPresence extends CompanySection {
@@ -169,15 +185,22 @@ final class CompanyPresence extends CompanySection {
 }
 
 final class CompanyContact extends CompanySection {
-  const CompanyContact({this.phone = '', this.whatsapp = '', this.phone2 = '', this.email = ''});
+  const CompanyContact({
+    this.phone = '',
+    this.whatsapp = '',
+    this.phone2 = '',
+    this.email = '',
+    this.officialEmail = '',
+  });
 
   final String phone;
   final String whatsapp;
   final String phone2;
   final String email;
+  final String officialEmail;
 
   @override
-  List<Object?> get props => [phone, whatsapp, phone2, email];
+  List<Object?> get props => [phone, whatsapp, phone2, email, officialEmail];
 }
 
 final class CompanyConsents extends CompanySection {

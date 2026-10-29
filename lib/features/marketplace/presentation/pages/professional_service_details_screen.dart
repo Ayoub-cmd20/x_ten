@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'package:x_ten/features/marketplace/domain/models/professional_service.dart';
+import 'package:x_ten/features/marketplace/domain/entities/professional_service.dart';
 import 'package:x_ten/features/marketplace/presentation/pages/professional_service_request_screen.dart';
 
 class ProfessionalServiceDetailsScreen

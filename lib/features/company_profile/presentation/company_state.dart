@@ -12,12 +12,13 @@ enum CompanyAction {
   addFinancial,
   deleteFinancial,
   readFinancial,
+  readMarketing,
   submit,
 }
 
 enum CompanyStatus { idle, loading, success, failure }
 
-enum CompanyStep { type, personal, business, presence, contact, finish }
+enum CompanyStep { type, personal, business, presence, contact, finish, review }
 
 final class CompanyState extends Equatable {
   const CompanyState({
@@ -30,7 +31,9 @@ final class CompanyState extends Equatable {
     this.documents = const [],
     this.financialAccounts = const [],
     this.readAccount,
+    this.readPage,
     this.step = CompanyStep.type,
+    this.returnToReview = false,
   });
 
   static const _keep = Object();
@@ -44,7 +47,9 @@ final class CompanyState extends Equatable {
   final List<CompanyDocument> documents;
   final List<FinancialAccount> financialAccounts;
   final FinancialAccount? readAccount;
+  final MarketingPage? readPage;
   final CompanyStep step;
+  final bool returnToReview;
 
   bool get isLoading => status == CompanyStatus.loading;
 
@@ -89,7 +94,9 @@ final class CompanyState extends Equatable {
     List<CompanyDocument>? documents,
     List<FinancialAccount>? financialAccounts,
     Object? readAccount = _keep,
+    Object? readPage = _keep,
     CompanyStep? step,
+    bool? returnToReview,
   }) =>
       CompanyState(
         action: action ?? this.action,
@@ -101,10 +108,12 @@ final class CompanyState extends Equatable {
         documents: documents ?? this.documents,
         financialAccounts: financialAccounts ?? this.financialAccounts,
         readAccount: identical(readAccount, _keep) ? this.readAccount : readAccount as FinancialAccount?,
+        readPage: identical(readPage, _keep) ? this.readPage : readPage as MarketingPage?,
         step: step ?? this.step,
+        returnToReview: returnToReview ?? this.returnToReview,
       );
 
   @override
   List<Object?> get props =>
-      [action, status, failure, target, loaded, profile, documents, financialAccounts, readAccount, step];
+      [action, status, failure, target, loaded, profile, documents, financialAccounts, readAccount, readPage, step, returnToReview];
 }

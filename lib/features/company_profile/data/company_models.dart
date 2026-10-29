@@ -47,7 +47,12 @@ abstract final class CompanyJson {
             ApiKeys.activityAreas: presence.activityAreas,
             ApiKeys.activityOther: presence.activityOther,
             ApiKeys.marketingPages: [
-              for (final page in presence.marketingPages) {ApiKeys.url: page.url},
+              for (final page in presence.marketingPages)
+                {
+                  ApiKeys.url: page.url,
+                  if (page.accountName.isNotEmpty) ApiKeys.accountName: page.accountName,
+                  if (page.followers != null) ApiKeys.followers: page.followers,
+                },
             ],
           },
         final CompanyContact contact => {
@@ -55,6 +60,7 @@ abstract final class CompanyJson {
             ApiKeys.whatsapp: contact.whatsapp,
             ApiKeys.phone2: contact.phone2,
             ApiKeys.email: contact.email,
+            ApiKeys.officialEmail: contact.officialEmail,
           },
         final CompanyConsents consents => {
             ApiKeys.acceptedTerms: consents.acceptedTerms,
@@ -70,12 +76,20 @@ abstract final class CompanyJson {
 }
 
 class MarketingPageModel extends MarketingPage {
-  const MarketingPageModel({required super.url, super.platform, super.username});
+  const MarketingPageModel({
+    required super.url,
+    super.platform,
+    super.username,
+    super.accountName,
+    super.followers,
+  });
 
   factory MarketingPageModel.fromJson(Json json) => MarketingPageModel(
         url: _string(json[ApiKeys.url]),
         platform: enumFromApi(SocialPlatform.values, json[ApiKeys.platform] as String?, SocialPlatform.website),
         username: _string(json[ApiKeys.username]),
+        accountName: _string(json[ApiKeys.accountName]),
+        followers: (json[ApiKeys.followers] as num?)?.toInt(),
       );
 }
 
@@ -136,6 +150,7 @@ class CompanyProfileModel extends CompanyProfile {
           whatsapp: _string(json[ApiKeys.whatsapp]),
           phone2: _string(json[ApiKeys.phone2]),
           email: _string(json[ApiKeys.email]),
+          officialEmail: _string(json[ApiKeys.officialEmail]),
         ),
         consents: CompanyConsents(
           acceptedTerms: json[ApiKeys.acceptedTerms] as bool? ?? false,

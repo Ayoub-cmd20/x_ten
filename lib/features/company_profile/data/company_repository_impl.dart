@@ -66,5 +66,9 @@ class CompanyRepositoryImpl implements CompanyRepository {
       guard(() => _remote.readFinancialDocument(file));
 
   @override
+  Future<Result<MarketingPage>> readMarketingScreenshot(UploadFile file, String url) =>
+      guard(() => _remote.readMarketingScreenshot(file, url));
+
+  @override
   Future<Result<CompanyProfile>> submit() => guard(_remote.submit);
 }

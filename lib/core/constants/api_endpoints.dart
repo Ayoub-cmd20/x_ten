@@ -36,28 +36,7 @@ abstract final class ApiEndpoints {
   static const companyImage = '/companies/profile/image/';
   static const companyFinancialAccounts = '/companies/profile/financial-accounts/';
   static const companyFinancialRead = '${companyFinancialAccounts}read/';
+  static const companyMarketingRead = '/companies/profile/marketing-pages/read/';
   static String companyDocument(int id) => '/companies/documents/$id/';
   static String companyFinancialAccount(int id) => '/companies/financial-accounts/$id/';
-
-  static const marketplaceInfluencers = '/marketplace/influencers/';
-  static String marketplaceInfluencer(int id) => '$marketplaceInfluencers$id/';
-
-  static const adRequests = '/campaigns/ad-requests/';
-  static String adRequest(int id) => '$adRequests$id/';
-  static String adRequestSubmit(int id) => '${adRequest(id)}submit/';
-  static String adRequestReject(int id) => '${adRequest(id)}reject/';
-  static String adRequestEvents(int id) => '${adRequest(id)}events/';
-  static String adRequestAcceptModification(int id) => '${adRequest(id)}accept-modification/';
-  static String adRequestRefuseModification(int id) => '${adRequest(id)}refuse-modification/';
-  static String adRequestAttachments(int id) => '${adRequest(id)}attachments/';
-  static String adRequestAttachment(int id) => '${adRequests}attachments/$id/';
-
-  static const influencerRequests = '/campaigns/influencer/ad-requests/';
-  static const influencerRequestTabs = '${influencerRequests}tabs/';
-  static String influencerRequest(int id) => '$influencerRequests$id/';
-  static String influencerRequestEvents(int id) => '${influencerRequest(id)}events/';
-  static String influencerRequestAccept(int id) => '${influencerRequest(id)}accept/';
-  static String influencerRequestCounterOffer(int id) => '${influencerRequest(id)}counter-offer/';
-  static String influencerRequestUnclear(int id) => '${influencerRequest(id)}unclear/';
-  static String influencerRequestDecline(int id) => '${influencerRequest(id)}decline/';
 }

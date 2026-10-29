@@ -2229,6 +2229,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String get companyBioHint => 'What do you offer and to whom?';
 
   @override
+  String get companyBioOptional => 'About your business (optional)';
+
+  @override
+  String get companyOfficialEmail => 'Official company email (optional)';
+
+  @override
+  String get companyPageScreenshot => 'Page screenshot (optional)';
+
+  @override
+  String get companyPageScreenshotHint =>
+      'The screenshot is optional: we read the account name and follower count from it';
+
+  @override
+  String get companyAddPage => 'Add another platform';
+
+  @override
+  String get signupEmailNote =>
+      'You use this email to sign in, to recover your password and to stay in touch with x10';
+
+  @override
   String get companyActivitiesTitle => 'Fields of activity';
 
   @override
@@ -2258,7 +2278,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get companyWhatsappOptional => 'WhatsApp number (optional)';
 
   @override
-  String get companyPhone2 => 'Second phone number (optional)';
+  String get companyPhone2 => 'Backup phone number (optional)';
 
   @override
   String get companyEmailHint =>

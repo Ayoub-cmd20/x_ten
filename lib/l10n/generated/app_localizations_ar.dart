@@ -2195,7 +2195,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get companyHqAddress => 'عنوان مقر المؤسسة';
 
   @override
-  String get companyCapital => 'رأس المال (تقديري، اختياري)';
+  String get companyCapital => 'رأس المال (اختياري)';
 
   @override
   String get companyCurrency => 'دج';
@@ -2208,6 +2208,27 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get companyBioHint => 'ماذا تقدم ولمن؟';
+
+  @override
+  String get companyBioOptional => 'نبذة عن نشاطك (اختيارية)';
+
+  @override
+  String get companyOfficialEmail =>
+      'البريد الإلكتروني الرسمي للشركة (اختياري)';
+
+  @override
+  String get companyPageScreenshot => 'لقطة شاشة للصفحة (اختيارية)';
+
+  @override
+  String get companyPageScreenshotHint =>
+      'لقطة الشاشة اختيارية: نقرأ منها اسم الحساب وعدد المتابعين';
+
+  @override
+  String get companyAddPage => 'إضافة منصة أخرى';
+
+  @override
+  String get signupEmailNote =>
+      'هذا الإيميل تستخدمه للدخول إلى حسابك ولاسترجاع كلمة السر وللتواصل مع شركة x10';
 
   @override
   String get companyActivitiesTitle => 'مجالات النشاط';
@@ -2238,7 +2259,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get companyWhatsappOptional => 'رقم مرتبط بواتساب (اختياري)';
 
   @override
-  String get companyPhone2 => 'رقم هاتف ثاني (اختياري)';
+  String get companyPhone2 => 'رقم الهاتف الاحتياطي (اختياري)';
 
   @override
   String get companyEmailHint => 'بريد حسابك، سنطلب تأكيده لاحقاً';

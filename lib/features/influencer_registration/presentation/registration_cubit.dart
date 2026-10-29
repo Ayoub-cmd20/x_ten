@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:x_ten/core/errors/failures.dart';
 import 'package:x_ten/core/usecase/usecase.dart';
 import 'package:x_ten/core/utils/result.dart';
-import 'package:x_ten/features/auth/domain/auth_entities.dart';
-import 'package:x_ten/features/auth/domain/auth_usecases.dart';
+import 'package:x_ten/features/auth/domain/entities/user.dart';
+import 'package:x_ten/features/auth/domain/usecases/get_current_user_usecase.dart';
 import 'package:x_ten/features/influencer_registration/domain/registration_entities.dart';
 import 'package:x_ten/features/influencer_registration/domain/registration_usecases.dart';
 
@@ -114,10 +114,31 @@ class RegistrationCubit extends Cubit<RegistrationState> {
 
   void goTo(RegistrationStep step) {
     if (state.isLoading || step.index > state.furthestAllowed.index) return;
-    emit(state.copyWith(step: step, action: RegistrationAction.none, status: OperationStatus.idle, failure: null));
+    emit(state.copyWith(
+      step: step,
+      returnToReview: step == RegistrationStep.review ? false : null,
+      action: RegistrationAction.none,
+      status: OperationStatus.idle,
+      failure: null,
+    ));
+  }
+
+  void editFrom(RegistrationStep step) {
+    if (state.isLoading) return;
+    emit(state.copyWith(
+      step: step,
+      returnToReview: true,
+      action: RegistrationAction.none,
+      status: OperationStatus.idle,
+      failure: null,
+    ));
   }
 
   void next() {
+    if (state.returnToReview) {
+      goTo(RegistrationStep.review);
+      return;
+    }
     final index = state.step.index + 1;
     if (index < RegistrationStep.values.length) goTo(RegistrationStep.values[index]);
   }
@@ -133,11 +154,13 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     final registration = state.registration;
     if (!state.isLoading && registration != null) {
       if (cleanSection(section) case Ok(:final value) when registration.hasSaved(value)) {
+        final step = advance ? _nextStep(state) : state.step;
         emit(state.copyWith(
           action: RegistrationAction.saveSection,
           status: OperationStatus.success,
           failure: null,
-          step: advance ? _after(state.step) : state.step,
+          step: step,
+          returnToReview: step == RegistrationStep.review ? false : null,
         ));
         return;
       }
@@ -145,10 +168,19 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     await _save(
       RegistrationAction.saveSection,
       () => _saveSection((id: _id, section: section)),
-      (current, registration) =>
-          current.copyWith(registration: registration, step: advance ? _after(current.step) : current.step),
+      (current, registration) {
+        final step = advance ? _nextStep(current) : current.step;
+        return current.copyWith(
+          registration: registration,
+          step: step,
+          returnToReview: step == RegistrationStep.review ? false : null,
+        );
+      },
     );
   }
+
+  static RegistrationStep _nextStep(RegistrationState state) =>
+      state.returnToReview ? RegistrationStep.review : _after(state.step);
 
   static RegistrationStep _after(RegistrationStep step) {
     final index = step.index + 1;

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
-import 'package:x_ten/features/marketplace/domain/models/influencer.dart';
-import 'package:x_ten/features/marketplace/data/influencers_demo_data.dart';
 import 'package:x_ten/features/influencer/presentation/screens/influencer_details_screen.dart';
+import 'package:x_ten/features/marketplace/data/demo/influencers_demo_data.dart';
+import 'package:x_ten/features/marketplace/domain/entities/influencer.dart';
 
 class InfluencersListScreen extends StatefulWidget {
   const InfluencersListScreen({super.key});

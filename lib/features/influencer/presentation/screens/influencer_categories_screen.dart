@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'package:x_ten/features/marketplace/data/influencers_demo_data.dart';
-import 'package:x_ten/features/marketplace/domain/models/influencer_category.dart';
+import 'package:x_ten/features/marketplace/data/demo/influencers_demo_data.dart';
+import 'package:x_ten/features/marketplace/domain/entities/influencer_category.dart';
 import 'package:x_ten/features/marketplace/presentation/pages/category_influencers_screen.dart';
 
 class InfluencerCategoriesScreen extends StatelessWidget {

@@ -17,12 +17,13 @@ class CompanyContactStep extends StatefulWidget {
 }
 
 class _CompanyContactStepState extends State<CompanyContactStep> with ServerFieldErrors {
-  static const _fields = ['phone', 'whatsapp', 'phone2', 'email'];
+  static const _fields = ['phone', 'whatsapp', 'phone2', 'email', 'officialEmail'];
 
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController _phone;
   late final TextEditingController _whatsapp;
   late final TextEditingController _phone2;
+  late final TextEditingController _officialEmail;
   late final String _email;
 
   @override
@@ -32,12 +33,13 @@ class _CompanyContactStepState extends State<CompanyContactStep> with ServerFiel
     _phone = TextEditingController(text: contact.phone);
     _whatsapp = TextEditingController(text: contact.whatsapp);
     _phone2 = TextEditingController(text: contact.phone2);
+    _officialEmail = TextEditingController(text: contact.officialEmail);
     _email = contact.email;
   }
 
   @override
   void dispose() {
-    for (final c in [_phone, _whatsapp, _phone2]) {
+    for (final c in [_phone, _whatsapp, _phone2, _officialEmail]) {
       c.dispose();
     }
     super.dispose();
@@ -69,6 +71,7 @@ class _CompanyContactStepState extends State<CompanyContactStep> with ServerFiel
           whatsapp: _whatsapp.text,
           phone2: _phone2.text,
           email: _email,
+          officialEmail: _officialEmail.text,
         ));
   }
 
@@ -111,7 +114,6 @@ class _CompanyContactStepState extends State<CompanyContactStep> with ServerFiel
               'phone',
               l10n.officialPhone,
               required: true,
-              helper: state.isRegistered ? l10n.companyPhoneHint : null,
             ),
             gap,
             _phoneField(_whatsapp, 'whatsapp', l10n.companyWhatsappOptional),
@@ -126,10 +128,23 @@ class _CompanyContactStepState extends State<CompanyContactStep> with ServerFiel
               enabled: false,
               textDirection: TextDirection.ltr,
               decoration: InputDecoration(
-                labelText: req(l10n.officialEmail),
+                labelText: req(l10n.email),
                 helperText: l10n.companyEmailHint,
                 errorText: serverError('email'),
               ),
+            ),
+            gap,
+            TextFormField(
+              controller: _officialEmail,
+              keyboardType: TextInputType.emailAddress,
+              textDirection: TextDirection.ltr,
+              forceErrorText: serverError('officialEmail'),
+              onChanged: (_) => clearServerError('officialEmail'),
+              decoration: InputDecoration(labelText: l10n.companyOfficialEmail),
+              validator: (value) {
+                final text = (value ?? '').trim();
+                return text.isEmpty || Validators.isEmail(text) ? null : l10n.emailInvalid;
+              },
             ),
           ],
         ),

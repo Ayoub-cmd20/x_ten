@@ -2250,6 +2250,29 @@ class AppLocalizationsFr extends AppLocalizations {
   String get companyBioHint => 'Que proposez-vous et à qui ?';
 
   @override
+  String get companyBioOptional =>
+      'Présentation de votre activité (facultatif)';
+
+  @override
+  String get companyOfficialEmail =>
+      'E-mail officiel de l\'entreprise (facultatif)';
+
+  @override
+  String get companyPageScreenshot =>
+      'Capture d\'écran de la page (facultative)';
+
+  @override
+  String get companyPageScreenshotHint =>
+      'La capture est facultative : nous y lisons le nom du compte et le nombre d\'abonnés';
+
+  @override
+  String get companyAddPage => 'Ajouter une autre plateforme';
+
+  @override
+  String get signupEmailNote =>
+      'Cet e-mail sert à vous connecter, à récupérer votre mot de passe et à communiquer avec x10';
+
+  @override
   String get companyActivitiesTitle => 'Domaines d\'activité';
 
   @override
@@ -2279,7 +2302,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get companyWhatsappOptional => 'Numéro WhatsApp (facultatif)';
 
   @override
-  String get companyPhone2 => 'Deuxième numéro (facultatif)';
+  String get companyPhone2 => 'Numéro de secours (facultatif)';
 
   @override
   String get companyEmailHint =>

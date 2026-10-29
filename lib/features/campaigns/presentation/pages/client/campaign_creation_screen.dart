@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:x_ten/core/localization/localization_extension.dart';
 import 'package:x_ten/features/campaigns/domain/campaign_usecases.dart';
 import 'package:x_ten/features/campaigns/presentation/ad_requests_cubit.dart';
 import 'package:x_ten/features/campaigns/presentation/campaign_labels.dart';
-import 'package:x_ten/features/marketplace/domain/marketplace_entities.dart';
+import 'package:x_ten/features/marketplace/domain/entities/market_influencer.dart';
 import 'package:x_ten/l10n/generated/app_localizations.dart';
 
 /// Create an ad request for the selected influencer, either from

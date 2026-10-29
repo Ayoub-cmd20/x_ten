@@ -10,8 +10,8 @@ import 'package:x_ten/core/theme/theme_context.dart';
 import 'package:x_ten/core/widgets/feedback/app_snackbar.dart';
 import 'package:x_ten/core/widgets/feedback/error_view.dart';
 import 'package:x_ten/core/widgets/loading/app_loader.dart';
-import 'package:x_ten/features/auth/presentation/auth_cubit.dart';
 import 'package:x_ten/features/auth/presentation/auth_routes.dart';
+import 'package:x_ten/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:x_ten/features/company_profile/presentation/company_cubit.dart';
 import 'package:x_ten/features/company_profile/presentation/company_labels.dart';
 import 'package:x_ten/features/company_profile/presentation/company_routes.dart';
@@ -20,6 +20,7 @@ import 'package:x_ten/features/company_profile/presentation/steps/contact_step.d
 import 'package:x_ten/features/company_profile/presentation/steps/finish_step.dart';
 import 'package:x_ten/features/company_profile/presentation/steps/personal_step.dart';
 import 'package:x_ten/features/company_profile/presentation/steps/presence_step.dart';
+import 'package:x_ten/features/company_profile/presentation/steps/review_step.dart';
 import 'package:x_ten/features/company_profile/presentation/steps/type_step.dart';
 
 Future<void> _logout(BuildContext context) async {
@@ -130,6 +131,7 @@ class CompanyWizardPage extends StatelessWidget {
                     CompanyStep.presence => const CompanyPresenceStep(),
                     CompanyStep.contact => const CompanyContactStep(),
                     CompanyStep.finish => const CompanyFinishStep(),
+                    CompanyStep.review => const CompanyReviewStep(),
                   },
                 ),
               ),

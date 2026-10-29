@@ -19,6 +19,7 @@ void initCompanyFeature() {
     ..registerLazySingleton(() => AddCompanyFinancialAccountUseCase(sl()))
     ..registerLazySingleton(() => DeleteCompanyFinancialAccountUseCase(sl()))
     ..registerLazySingleton(() => ReadCompanyFinancialDocumentUseCase(sl()))
+    ..registerLazySingleton(() => ReadMarketingScreenshotUseCase(sl()))
     ..registerLazySingleton(() => SubmitCompanyUseCase(sl()))
     ..registerFactory(
       () => CompanyCubit(
@@ -32,6 +33,7 @@ void initCompanyFeature() {
         addFinancial: sl(),
         deleteFinancial: sl(),
         readFinancial: sl(),
+        readMarketing: sl(),
         submit: sl(),
       ),
     );

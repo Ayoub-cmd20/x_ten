@@ -6,9 +6,13 @@ import 'package:x_ten/core/localization/localization_extension.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
 import 'package:x_ten/core/utils/validators.dart';
 import 'package:x_ten/core/widgets/feedback/app_snackbar.dart';
-import 'package:x_ten/features/auth/presentation/auth_cubit.dart';
+import 'package:x_ten/core/widgets/form_helpers.dart';
 import 'package:x_ten/features/auth/presentation/auth_routes.dart';
-import 'package:x_ten/features/auth/presentation/auth_widgets.dart';
+import 'package:x_ten/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:x_ten/features/auth/presentation/widgets/auth_footer_link.dart';
+import 'package:x_ten/features/auth/presentation/widgets/auth_header.dart';
+import 'package:x_ten/features/auth/presentation/widgets/auth_scaffold.dart';
+import 'package:x_ten/features/auth/presentation/widgets/password_field.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -81,7 +85,7 @@ class _LoginPageState extends State<LoginPage> with ServerFieldErrors {
                   forceErrorText: serverError('email'),
                   onChanged: (_) => clearServerError('email'),
                   decoration: InputDecoration(
-                    labelText: req(l10n.email),
+                    labelText: l10n.email,
                     hintText: 'email@example.com',
                     prefixIcon: const Icon(Icons.email_outlined),
                   ),
@@ -98,7 +102,7 @@ class _LoginPageState extends State<LoginPage> with ServerFieldErrors {
                   controller: _password,
                   focusNode: _passwordFocus,
                   enabled: !isLoading,
-                  label: req(l10n.password),
+                  label: l10n.password,
                   hint: l10n.passwordHint,
                   errorText: serverError('password'),
                   onChanged: (_) => clearServerError('password'),
@@ -125,7 +129,7 @@ class _LoginPageState extends State<LoginPage> with ServerFieldErrors {
                   action: l10n.createAccount,
                   onTap: isLoading ? null : () => context.push(AuthRoutes.signup),
                 ),
-                const RequiredFieldsNote(),
+               
               ],
             ),
           ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'package:x_ten/features/marketplace/domain/models/professional_service.dart';
+import 'package:x_ten/features/marketplace/domain/entities/professional_service.dart';
 
 class ProfessionalServiceRequestScreen
     extends StatefulWidget {
