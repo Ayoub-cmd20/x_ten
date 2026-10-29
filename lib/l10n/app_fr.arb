@@ -792,5 +792,19 @@
   "regEditFile": "Modifier mon dossier",
   "regGoHome": "Page d'accueil",
   "regViewStatus": "Appuyez pour voir l'état de votre dossier",
-  "audRegionsIn": "Régions — {country}"
+  "audRegionsIn": "Régions — {country}",
+  "themeLight": "Mode clair",
+  "themeDark": "Mode sombre",
+  "onboardingSkip": "Passer",
+  "onboardingStart": "Commencer",
+  "onboardingVerified": "Vérifié",
+  "onboardingNewRequest": "Nouvelle demande",
+  "onboardingBrand": "Marque",
+  "onboardingCreator": "Influenceur",
+  "onboarding1Title": "Trouvez l'influenceur idéal pour votre marque",
+  "onboarding1Body": "Parcourez des créateurs vérifiés par domaine et par audience, et choisissez celui qui portera le mieux votre message.",
+  "onboarding2Title": "Des opportunités publicitaires qui viennent à vous",
+  "onboarding2Body": "En tant qu'influenceur, vous recevez les demandes des marques, consultez les détails et décidez librement.",
+  "onboarding3Title": "Une plateforme de confiance entre les deux",
+  "onboarding3Body": "Chaque compte est vérifié et chaque demande passe par X Ten avant d'arriver, pour une collaboration sûre et professionnelle."
 }

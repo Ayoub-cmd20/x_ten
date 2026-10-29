@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:x_ten/core/enums/role.dart';
 import 'package:x_ten/core/errors/failures.dart';
 import 'package:x_ten/core/localization/localization_extension.dart';
-import 'package:x_ten/core/theme/app_colors.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
+import 'package:x_ten/core/theme/app_palette.dart';
 import 'package:x_ten/core/theme/theme_context.dart';
 import 'package:x_ten/core/widgets/feedback/app_snackbar.dart';
 import 'package:x_ten/core/widgets/feedback/empty_view.dart';
@@ -67,7 +67,7 @@ class _AccountTypePageState extends State<AccountTypePage> {
     }
 
     final options = [
-      for (final role in SelectRoleUseCase.selectableRoles) _RoleOption.of(role, l10n),
+      for (final role in SelectRoleUseCase.selectableRoles) _RoleOption.of(role, l10n, context.palette),
     ];
 
     return BlocListener<AuthCubit, AuthState>(
@@ -100,7 +100,7 @@ class _AccountTypePageState extends State<AccountTypePage> {
                 title: l10n.freelancer,
                 description: l10n.freelancerDesc,
                 icon: Icons.laptop_mac_rounded,
-                color: AppColors.info,
+                color: context.palette.info,
               ),
               badge: l10n.comingSoon,
               selected: false,
@@ -122,20 +122,20 @@ class _RoleOption {
     required this.color,
   });
 
-  factory _RoleOption.of(Role role, AppLocalizations l10n) => switch (role) {
+  factory _RoleOption.of(Role role, AppLocalizations l10n, AppPalette palette) => switch (role) {
         Role.brand => _RoleOption(
             role: role,
             title: l10n.brandOrCompany,
             description: l10n.brandOrCompanyDesc,
             icon: Icons.business_center_rounded,
-            color: AppColors.accentPurple,
+            color: palette.accent,
           ),
         _ => _RoleOption(
             role: role,
             title: l10n.contentCreator,
             description: l10n.contentCreatorDesc,
             icon: Icons.auto_awesome_rounded,
-            color: AppColors.gold,
+            color: palette.primary,
           ),
       };
 
@@ -220,7 +220,7 @@ class _RoleCard extends StatelessWidget {
                 const SizedBox(width: AppSpacing.sm),
                 Icon(
                   selected ? Icons.check_circle_rounded : Icons.radio_button_unchecked,
-                  color: selected ? option.color : AppColors.textDisabled,
+                  color: selected ? option.color : context.palette.textDisabled,
                 ),
               ],
             ),

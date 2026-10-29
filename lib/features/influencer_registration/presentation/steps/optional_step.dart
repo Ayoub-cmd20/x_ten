@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:x_ten/core/catalog/countries.dart';
 import 'package:x_ten/core/errors/failures.dart';
 import 'package:x_ten/core/localization/localization_extension.dart';
-import 'package:x_ten/core/theme/app_colors.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
 import 'package:x_ten/core/theme/theme_context.dart';
 import 'package:x_ten/core/widgets/feedback/app_snackbar.dart';
@@ -253,7 +252,7 @@ class _OptionalStepState extends State<OptionalStep> {
     final l10n = context.l10n;
     final cubit = context.read<RegistrationCubit>();
     final isSaving = context.select((RegistrationCubit c) => c.state.isLoadingFor(RegistrationAction.saveSection));
-    final errorStyle = context.textTheme.bodySmall?.copyWith(color: AppColors.error);
+    final errorStyle = context.textTheme.bodySmall?.copyWith(color: context.palette.error);
     void refresh() => setState(() {});
 
     return BlocListener<RegistrationCubit, RegistrationState>(
@@ -490,14 +489,14 @@ class _CountryCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: context.colors.surfaceContainer,
         borderRadius: AppRadius.lgAll,
-        border: Border.all(color: AppColors.accentPurple.withValues(alpha: 0.3)),
+        border: Border.all(color: context.palette.accent.withValues(alpha: 0.3)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Row(
             children: [
-              const Icon(Icons.public_rounded, color: AppColors.accentPurple),
+              Icon(Icons.public_rounded, color: context.palette.accent),
               const SizedBox(width: AppSpacing.sm),
               Expanded(child: Text(Countries.name(row.country, language), style: context.textTheme.titleSmall)),
               SizedBox(width: 96, child: PercentField(label: '', controller: row.percent, onChanged: onChanged)),
@@ -530,13 +529,13 @@ class _OptionalBanner extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         padding: const EdgeInsets.all(AppSpacing.md),
         decoration: BoxDecoration(
-          color: AppColors.accentPurple.withValues(alpha: 0.12),
+          color: context.palette.accent.withValues(alpha: 0.12),
           borderRadius: AppRadius.lgAll,
-          border: Border.all(color: AppColors.accentPurple.withValues(alpha: 0.4)),
+          border: Border.all(color: context.palette.accent.withValues(alpha: 0.4)),
         ),
         child: Row(
           children: [
-            const Icon(Icons.schedule_outlined, color: AppColors.accentPurple),
+            Icon(Icons.schedule_outlined, color: context.palette.accent),
             const SizedBox(width: AppSpacing.sm),
             Expanded(child: Text(text, style: context.textTheme.bodySmall)),
           ],
@@ -557,7 +556,7 @@ class _Header extends StatelessWidget {
             Container(
               width: 4,
               height: 22,
-              decoration: const BoxDecoration(color: AppColors.accentPurple, borderRadius: AppRadius.pillAll),
+              decoration: BoxDecoration(color: context.palette.accent, borderRadius: AppRadius.pillAll),
             ),
             const SizedBox(width: AppSpacing.sm),
             Expanded(child: Text(title, style: context.textTheme.titleMedium)),
@@ -720,7 +719,7 @@ class _PortfolioFormState extends State<_PortfolioForm> with ServerFieldErrors {
                 padding: const EdgeInsets.only(top: AppSpacing.xs),
                 child: Text(
                   l10n.regPortfolioLinkOrFile,
-                  style: context.textTheme.bodySmall?.copyWith(color: AppColors.error),
+                  style: context.textTheme.bodySmall?.copyWith(color: context.palette.error),
                 ),
               ),
             gap,

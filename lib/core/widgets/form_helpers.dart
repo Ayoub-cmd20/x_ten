@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:x_ten/core/errors/failure_message.dart';
 import 'package:x_ten/core/errors/failures.dart';
 import 'package:x_ten/core/localization/localization_extension.dart';
-import 'package:x_ten/core/theme/app_colors.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
+import 'package:x_ten/core/theme/app_motion.dart';
+import 'package:x_ten/core/theme/theme_context.dart';
 import 'package:x_ten/core/widgets/feedback/app_snackbar.dart';
 import 'package:x_ten/core/widgets/loading/app_loader.dart';
+import 'package:x_ten/core/widgets/press_scale.dart';
 
 String ltr(String text) => '\u2066$text\u2069';
 
@@ -19,7 +21,7 @@ class RequiredFieldsNote extends StatelessWidget {
         padding: const EdgeInsets.only(top: AppSpacing.lg),
         child: Text(
           context.l10n.requiredFieldsNote,
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.error),
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(color: context.palette.error),
         ),
       );
 }
@@ -41,7 +43,7 @@ class UpgradeLink extends StatelessWidget {
           onTap: onTap ?? () {},
           child: Text(
             l10n.upgradeTapHere,
-            style: style?.copyWith(color: AppColors.gold, fontWeight: FontWeight.w700),
+            style: style?.copyWith(color: context.palette.primary, fontWeight: FontWeight.w700),
           ),
         ),
       ],
@@ -99,20 +101,28 @@ class PrimaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final icon = this.icon;
-    return ElevatedButton(
-      onPressed: isLoading ? null : onPressed,
-      child: isLoading
-          ? const AppLoader.small(color: AppColors.background)
-          : icon == null
-              ? Text(label)
-              : Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(label),
-                    const SizedBox(width: AppSpacing.xs),
-                    Icon(icon, size: 20),
-                  ],
-                ),
+    final enabled = !isLoading && onPressed != null;
+    return PressScale(
+      enabled: enabled,
+      child: ElevatedButton(
+        onPressed: isLoading ? null : onPressed,
+        child: AnimatedSwitcher(
+          duration: AppMotion.fast,
+          child: isLoading
+              ? AppLoader.small(key: const ValueKey('loading'), color: context.palette.onGoldFill)
+              : icon == null
+                  ? Text(label, key: const ValueKey('label'))
+                  : Row(
+                      key: const ValueKey('label'),
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(label),
+                        const SizedBox(width: AppSpacing.xs),
+                        Icon(icon, size: 20),
+                      ],
+                    ),
+        ),
+      ),
     );
   }
 }

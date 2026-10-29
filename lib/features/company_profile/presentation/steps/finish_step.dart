@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:x_ten/core/errors/failures.dart';
 import 'package:x_ten/core/localization/localization_extension.dart';
-import 'package:x_ten/core/theme/app_colors.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
 import 'package:x_ten/core/theme/theme_context.dart';
 import 'package:x_ten/core/widgets/feedback/app_snackbar.dart';
@@ -63,7 +62,7 @@ class _CompanyFinishStepState extends State<CompanyFinishStep> {
     final l10n = context.l10n;
     final state = context.watch<CompanyCubit>().state;
     final cubit = context.read<CompanyCubit>();
-    final errorStyle = context.textTheme.bodySmall?.copyWith(color: AppColors.error);
+    final errorStyle = context.textTheme.bodySmall?.copyWith(color: context.palette.error);
 
     return BlocListener<CompanyCubit, CompanyState>(
       listenWhen: (previous, current) => previous.status != current.status || previous.action != current.action,

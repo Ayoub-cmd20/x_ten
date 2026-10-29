@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart' show DateFormat;
 import 'package:x_ten/core/localization/localization_extension.dart';
-import 'package:x_ten/core/theme/app_colors.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
 import 'package:x_ten/core/theme/theme_context.dart';
 import 'package:x_ten/core/widgets/feedback/app_snackbar.dart';
@@ -151,7 +150,7 @@ class _CompanyPersonalStepState extends State<CompanyPersonalStep> with ServerFi
     final type = state.businessType ?? BusinessType.individualActivity;
     final registered = type == BusinessType.registeredBusiness;
     final locale = Localizations.localeOf(context).toLanguageTag();
-    final errorStyle = context.textTheme.bodySmall?.copyWith(color: AppColors.error);
+    final errorStyle = context.textTheme.bodySmall?.copyWith(color: context.palette.error);
     const gap = SizedBox(height: AppSpacing.md);
 
     return BlocListener<CompanyCubit, CompanyState>(

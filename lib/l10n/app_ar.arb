@@ -1004,5 +1004,19 @@
         "type": "String"
       }
     }
-  }
+  },
+  "themeLight": "الوضع الفاتح",
+  "themeDark": "الوضع الداكن",
+  "onboardingSkip": "تخطي",
+  "onboardingStart": "ابدأ الآن",
+  "onboardingVerified": "موثّق",
+  "onboardingNewRequest": "طلب إعلان جديد",
+  "onboardingBrand": "شركة",
+  "onboardingCreator": "مؤثر",
+  "onboarding1Title": "اعثر على المؤثر المناسب لعلامتك",
+  "onboarding1Body": "تصفّح صنّاع محتوى موثّقين حسب المجال والجمهور، واختر من يوصل رسالتك بأفضل شكل.",
+  "onboarding2Title": "فرص إعلانية تصلك مباشرة",
+  "onboarding2Body": "كمؤثر، تستقبل طلبات الإعلان من الشركات، تراجع تفاصيلها، وتقرر بكل حرية.",
+  "onboarding3Title": "منصة موثوقة تجمع الطرفين",
+  "onboarding3Body": "كل حساب يمر بالتحقق، وكل طلب يمر عبر X Ten قبل أن يصل، لتعاون آمن واحترافي."
 }

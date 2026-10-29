@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart' show NumberFormat;
 import 'package:x_ten/core/errors/failures.dart';
 import 'package:x_ten/core/localization/localization_extension.dart';
-import 'package:x_ten/core/theme/app_colors.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
 import 'package:x_ten/core/theme/theme_context.dart';
 import 'package:x_ten/core/widgets/feedback/app_snackbar.dart';
@@ -230,7 +229,7 @@ class _CompanyPresenceStepState extends State<CompanyPresenceStep> with ServerFi
     final profile = state.profile;
     final url = profile?.profileImageUrl;
     final max = CompanyCatalog.maxActivities(state.businessType ?? BusinessType.individualActivity);
-    final errorStyle = context.textTheme.bodySmall?.copyWith(color: AppColors.error);
+    final errorStyle = context.textTheme.bodySmall?.copyWith(color: context.palette.error);
     final areasError = serverError('activityAreas') ?? (_showErrors && _areas.isEmpty ? l10n.fieldRequired : null);
     final compact = NumberFormat.compact(locale: Localizations.localeOf(context).toLanguageTag());
     final reading = state.isLoadingFor(CompanyAction.readMarketing);
@@ -430,8 +429,8 @@ class _SectorTile extends StatelessWidget {
           ? null
           : CircleAvatar(
               radius: 12,
-              backgroundColor: AppColors.gold,
-              child: Text('$count', style: context.textTheme.labelSmall?.copyWith(color: AppColors.background)),
+              backgroundColor: context.palette.primary,
+              child: Text('$count', style: context.textTheme.labelSmall?.copyWith(color: context.palette.onPrimary)),
             ),
       children: [
         Wrap(

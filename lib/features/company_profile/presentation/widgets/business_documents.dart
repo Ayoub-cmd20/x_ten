@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:x_ten/core/localization/localization_extension.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
+import 'package:x_ten/core/theme/theme_context.dart';
 import 'package:x_ten/core/widgets/loading/app_loader.dart';
 import 'package:x_ten/core/widgets/step_form.dart';
 import 'package:x_ten/features/company_profile/domain/company_entities.dart';
@@ -50,7 +51,7 @@ class CompanyLicenses extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: AppSpacing.sm),
             child: ItemCard(
               icon: Icons.verified_outlined,
-              highlight: companyDocumentColor(license),
+              highlight: companyDocumentColor(context.palette, license),
               title: license.description.isEmpty ? l10n.docLicense : license.description,
               subtitle: license.review == DocumentReview.pending
                   ? l10n.docReviewPending

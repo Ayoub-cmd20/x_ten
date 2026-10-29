@@ -792,5 +792,19 @@
   "regEditFile": "Edit my file",
   "regGoHome": "Home page",
   "regViewStatus": "Tap to see the status of your file",
-  "audRegionsIn": "Regions in {country}"
+  "audRegionsIn": "Regions in {country}",
+  "themeLight": "Light mode",
+  "themeDark": "Dark mode",
+  "onboardingSkip": "Skip",
+  "onboardingStart": "Get started",
+  "onboardingVerified": "Verified",
+  "onboardingNewRequest": "New ad request",
+  "onboardingBrand": "Brand",
+  "onboardingCreator": "Influencer",
+  "onboarding1Title": "Find the right influencer for your brand",
+  "onboarding1Body": "Browse verified creators by niche and audience, and pick the one who carries your message best.",
+  "onboarding2Title": "Ad opportunities that come to you",
+  "onboarding2Body": "As an influencer, you receive ad requests from brands, review the details, and decide freely.",
+  "onboarding3Title": "A trusted platform between both sides",
+  "onboarding3Body": "Every account is verified and every request goes through X Ten before it reaches you, for safe, professional collaboration."
 }

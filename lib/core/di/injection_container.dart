@@ -8,9 +8,11 @@ import 'package:x_ten/core/network/dio_factory.dart';
 import 'package:x_ten/core/session/session_notifier.dart';
 import 'package:x_ten/core/storage/app_preferences.dart';
 import 'package:x_ten/core/storage/token_storage.dart';
+import 'package:x_ten/core/theme/theme_cubit.dart';
 import 'package:x_ten/features/auth/auth_injection.dart';
 import 'package:x_ten/features/company_profile/company_injection.dart';
 import 'package:x_ten/features/influencer_registration/registration_injection.dart';
+import 'package:x_ten/features/onboarding/onboarding_injection.dart';
 
 final sl = GetIt.instance;
 
@@ -29,6 +31,7 @@ Future<void> initDependencies() async {
     ..registerSingleton<TokenStorage>(tokenStorage)
     ..registerLazySingleton<SessionNotifier>(SessionNotifier.new)
     ..registerLazySingleton<LocaleCubit>(() => LocaleCubit(sl()))
+    ..registerLazySingleton<ThemeCubit>(() => ThemeCubit(sl()))
     ..registerLazySingleton<Dio>(
       () => DioFactory.create(storage: sl(), session: sl(), preferences: sl()),
     )
@@ -37,4 +40,5 @@ Future<void> initDependencies() async {
   initAuthFeature();
   initRegistrationFeature();
   initCompanyFeature();
+  initOnboardingFeature();
 }

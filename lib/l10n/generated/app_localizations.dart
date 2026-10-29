@@ -4857,6 +4857,90 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'المناطق داخل {country}'**
   String audRegionsIn(String country);
+
+  /// No description provided for @themeLight.
+  ///
+  /// In ar, this message translates to:
+  /// **'الوضع الفاتح'**
+  String get themeLight;
+
+  /// No description provided for @themeDark.
+  ///
+  /// In ar, this message translates to:
+  /// **'الوضع الداكن'**
+  String get themeDark;
+
+  /// No description provided for @onboardingSkip.
+  ///
+  /// In ar, this message translates to:
+  /// **'تخطي'**
+  String get onboardingSkip;
+
+  /// No description provided for @onboardingStart.
+  ///
+  /// In ar, this message translates to:
+  /// **'ابدأ الآن'**
+  String get onboardingStart;
+
+  /// No description provided for @onboardingVerified.
+  ///
+  /// In ar, this message translates to:
+  /// **'موثّق'**
+  String get onboardingVerified;
+
+  /// No description provided for @onboardingNewRequest.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلب إعلان جديد'**
+  String get onboardingNewRequest;
+
+  /// No description provided for @onboardingBrand.
+  ///
+  /// In ar, this message translates to:
+  /// **'شركة'**
+  String get onboardingBrand;
+
+  /// No description provided for @onboardingCreator.
+  ///
+  /// In ar, this message translates to:
+  /// **'مؤثر'**
+  String get onboardingCreator;
+
+  /// No description provided for @onboarding1Title.
+  ///
+  /// In ar, this message translates to:
+  /// **'اعثر على المؤثر المناسب لعلامتك'**
+  String get onboarding1Title;
+
+  /// No description provided for @onboarding1Body.
+  ///
+  /// In ar, this message translates to:
+  /// **'تصفّح صنّاع محتوى موثّقين حسب المجال والجمهور، واختر من يوصل رسالتك بأفضل شكل.'**
+  String get onboarding1Body;
+
+  /// No description provided for @onboarding2Title.
+  ///
+  /// In ar, this message translates to:
+  /// **'فرص إعلانية تصلك مباشرة'**
+  String get onboarding2Title;
+
+  /// No description provided for @onboarding2Body.
+  ///
+  /// In ar, this message translates to:
+  /// **'كمؤثر، تستقبل طلبات الإعلان من الشركات، تراجع تفاصيلها، وتقرر بكل حرية.'**
+  String get onboarding2Body;
+
+  /// No description provided for @onboarding3Title.
+  ///
+  /// In ar, this message translates to:
+  /// **'منصة موثوقة تجمع الطرفين'**
+  String get onboarding3Title;
+
+  /// No description provided for @onboarding3Body.
+  ///
+  /// In ar, this message translates to:
+  /// **'كل حساب يمر بالتحقق، وكل طلب يمر عبر X Ten قبل أن يصل، لتعاون آمن واحترافي.'**
+  String get onboarding3Body;
 }
 
 class _AppLocalizationsDelegate

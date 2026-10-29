@@ -2524,4 +2524,49 @@ class AppLocalizationsEn extends AppLocalizations {
   String audRegionsIn(String country) {
     return 'Regions in $country';
   }
+
+  @override
+  String get themeLight => 'Light mode';
+
+  @override
+  String get themeDark => 'Dark mode';
+
+  @override
+  String get onboardingSkip => 'Skip';
+
+  @override
+  String get onboardingStart => 'Get started';
+
+  @override
+  String get onboardingVerified => 'Verified';
+
+  @override
+  String get onboardingNewRequest => 'New ad request';
+
+  @override
+  String get onboardingBrand => 'Brand';
+
+  @override
+  String get onboardingCreator => 'Influencer';
+
+  @override
+  String get onboarding1Title => 'Find the right influencer for your brand';
+
+  @override
+  String get onboarding1Body =>
+      'Browse verified creators by niche and audience, and pick the one who carries your message best.';
+
+  @override
+  String get onboarding2Title => 'Ad opportunities that come to you';
+
+  @override
+  String get onboarding2Body =>
+      'As an influencer, you receive ad requests from brands, review the details, and decide freely.';
+
+  @override
+  String get onboarding3Title => 'A trusted platform between both sides';
+
+  @override
+  String get onboarding3Body =>
+      'Every account is verified and every request goes through X Ten before it reaches you, for safe, professional collaboration.';
 }

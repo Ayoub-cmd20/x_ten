@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:x_ten/core/theme/app_colors.dart';
+import 'package:x_ten/core/theme/app_palette.dart';
 
 abstract final class AppTypography {
   static const fontFamily = 'Cairo';
 
-  static TextTheme textTheme() {
+  static TextTheme textTheme(AppPalette palette) {
     const base = TextTheme(
       displaySmall: TextStyle(fontSize: 30, fontWeight: FontWeight.w800, height: 1.25),
       headlineMedium: TextStyle(fontSize: 28, fontWeight: FontWeight.w800, height: 1.3),
@@ -22,12 +22,12 @@ abstract final class AppTypography {
 
     final themed = base.apply(
       fontFamily: fontFamily,
-      bodyColor: AppColors.textPrimary,
-      displayColor: AppColors.textPrimary,
+      bodyColor: palette.textPrimary,
+      displayColor: palette.textPrimary,
     );
 
     return themed.copyWith(
-      bodySmall: themed.bodySmall?.copyWith(color: AppColors.textMuted),
+      bodySmall: themed.bodySmall?.copyWith(color: palette.textMuted),
     );
   }
 }

@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart' show DateFormat;
 import 'package:x_ten/core/localization/localization_extension.dart';
-import 'package:x_ten/core/theme/app_colors.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
 import 'package:x_ten/core/theme/theme_context.dart';
 import 'package:x_ten/core/widgets/feedback/app_snackbar.dart';
@@ -140,7 +139,7 @@ class _PersonalStepState extends State<PersonalStep> with ServerFieldErrors {
     final isSaving = context.select((RegistrationCubit c) => c.state.isLoadingFor(RegistrationAction.saveSection));
     final locale = Localizations.localeOf(context).toLanguageTag();
     const gap = SizedBox(height: AppSpacing.md);
-    final errorStyle = context.textTheme.bodySmall?.copyWith(color: AppColors.error);
+    final errorStyle = context.textTheme.bodySmall?.copyWith(color: context.palette.error);
 
     return BlocListener<RegistrationCubit, RegistrationState>(
       listenWhen: (previous, current) => previous.status != current.status || previous.action != current.action,
@@ -253,14 +252,14 @@ class _ScanBanner extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         padding: const EdgeInsets.all(AppSpacing.md),
         decoration: BoxDecoration(
-          color: AppColors.gold.withValues(alpha: 0.1),
+          color: context.palette.primary.withValues(alpha: 0.1),
           borderRadius: AppRadius.lgAll,
-          border: Border.all(color: AppColors.gold.withValues(alpha: 0.4)),
+          border: Border.all(color: context.palette.primary.withValues(alpha: 0.4)),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Icon(Icons.document_scanner_outlined, color: AppColors.gold),
+            Icon(Icons.document_scanner_outlined, color: context.palette.primary),
             const SizedBox(width: AppSpacing.sm),
             Expanded(
               child: Column(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:x_ten/core/localization/localization_extension.dart';
-import 'package:x_ten/core/theme/app_colors.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
 import 'package:x_ten/core/theme/theme_context.dart';
 import 'package:x_ten/core/utils/upload_file.dart';
@@ -75,20 +74,20 @@ class PhotoPicker extends StatelessWidget {
             height: 112,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(color: missing ? AppColors.error : AppColors.gold, width: 2),
+              border: Border.all(color: missing ? context.palette.error : context.palette.primary, width: 2),
             ),
             padding: const EdgeInsets.all(AppSpacing.xxs),
             child: ClipOval(
               child: busy
-                  ? const ColoredBox(color: AppColors.surfaceHigh, child: AppLoader())
+                  ? ColoredBox(color: context.palette.surfaceHigh, child: AppLoader())
                   : AuthImage(
                       url: url,
                       width: 104,
                       height: 104,
                       cacheKey: cacheKey,
-                      fallback: const ColoredBox(
-                        color: AppColors.surfaceHigh,
-                        child: Icon(Icons.add_a_photo_outlined, size: 32, color: AppColors.textMuted),
+                      fallback: ColoredBox(
+                        color: context.palette.surfaceHigh,
+                        child: Icon(Icons.add_a_photo_outlined, size: 32, color: context.palette.textMuted),
                       ),
                     ),
             ),
@@ -114,7 +113,7 @@ class PhotoPicker extends StatelessWidget {
           ],
         ),
         if (missing)
-          Text(l10n.fieldRequired, style: context.textTheme.bodySmall?.copyWith(color: AppColors.error)),
+          Text(l10n.fieldRequired, style: context.textTheme.bodySmall?.copyWith(color: context.palette.error)),
       ],
     );
   }

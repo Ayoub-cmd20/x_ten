@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:x_ten/core/di/injection_container.dart';
 import 'package:x_ten/core/localization/localization_extension.dart';
-import 'package:x_ten/core/theme/app_colors.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
 import 'package:x_ten/core/theme/theme_context.dart';
 import 'package:x_ten/core/usecase/usecase.dart';
@@ -46,7 +45,7 @@ class _RegistrationReviewBannerState extends State<RegistrationReviewBanner> {
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSpacing.lg),
       child: Material(
-        color: AppColors.info.withValues(alpha: 0.12),
+        color: context.palette.info.withValues(alpha: 0.12),
         borderRadius: AppRadius.lgAll,
         child: InkWell(
           borderRadius: AppRadius.lgAll,
@@ -55,7 +54,7 @@ class _RegistrationReviewBannerState extends State<RegistrationReviewBanner> {
             padding: const EdgeInsets.all(AppSpacing.md),
             child: Row(
               children: [
-                const Icon(Icons.manage_search_rounded, color: AppColors.info),
+                Icon(Icons.manage_search_rounded, color: context.palette.info),
                 const SizedBox(width: AppSpacing.sm),
                 Expanded(
                   child: Column(

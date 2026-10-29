@@ -3,10 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:x_ten/core/localization/locale_cubit.dart';
 import 'package:x_ten/core/localization/localization_extension.dart';
-import 'package:x_ten/core/theme/app_colors.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
 import 'package:x_ten/core/theme/theme_context.dart';
+import 'package:x_ten/core/widgets/theme_mode_button.dart';
 import 'package:x_ten/features/auth/presentation/auth_routes.dart';
+import 'package:x_ten/features/onboarding/presentation/cubit/onboarding_cubit.dart';
+import 'package:x_ten/features/onboarding/presentation/onboarding_routes.dart';
 
 class LanguagePage extends StatelessWidget {
   const LanguagePage({super.key});
@@ -24,7 +26,8 @@ class LanguagePage extends StatelessWidget {
     if (context.canPop()) {
       context.pop();
     } else {
-      context.go(AuthRoutes.login);
+      final seen = context.read<OnboardingCubit>().completed;
+      context.go(seen ? AuthRoutes.login : OnboardingRoutes.onboarding);
     }
   }
 
@@ -33,7 +36,10 @@ class LanguagePage extends StatelessWidget {
     final selected = context.select((LocaleCubit cubit) => cubit.state.languageCode);
 
     return Scaffold(
-      appBar: AppBar(title: Text(context.l10n.selectLanguage)),
+      appBar: AppBar(
+        title: Text(context.l10n.selectLanguage),
+        actions: const [ThemeModeButton()],
+      ),
       body: ListView.separated(
         padding: const EdgeInsets.all(AppSpacing.lg),
         itemCount: _languages.length,
@@ -130,7 +136,7 @@ class _LanguageCard extends StatelessWidget {
                 child: Icon(
                   selected ? Icons.check_circle_rounded : Icons.radio_button_unchecked,
                   key: ValueKey(selected),
-                  color: selected ? colors.primary : AppColors.textDisabled,
+                  color: selected ? colors.primary : context.palette.textDisabled,
                   size: 25,
                 ),
               ),

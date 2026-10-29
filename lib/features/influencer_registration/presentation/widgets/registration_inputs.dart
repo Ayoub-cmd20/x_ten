@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:x_ten/core/localization/localization_extension.dart';
-import 'package:x_ten/core/theme/app_colors.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
 import 'package:x_ten/core/theme/theme_context.dart';
 import 'package:x_ten/core/widgets/step_form.dart';
@@ -50,16 +49,16 @@ class RankedPicker extends StatelessWidget {
               decoration: BoxDecoration(
                 color: context.colors.surfaceContainer,
                 borderRadius: AppRadius.mdAll,
-                border: Border.all(color: AppColors.gold.withValues(alpha: 0.35)),
+                border: Border.all(color: context.palette.primary.withValues(alpha: 0.35)),
               ),
               child: Row(
                 children: [
                   CircleAvatar(
                     radius: 13,
-                    backgroundColor: AppColors.gold,
+                    backgroundColor: context.palette.primary,
                     child: Text(
                       '${index + 1}',
-                      style: context.textTheme.labelMedium?.copyWith(color: AppColors.background),
+                      style: context.textTheme.labelMedium?.copyWith(color: context.palette.onPrimary),
                     ),
                   ),
                   const SizedBox(width: AppSpacing.sm),
@@ -102,7 +101,7 @@ class RankedPicker extends StatelessWidget {
         if (errorText != null)
           Padding(
             padding: const EdgeInsets.only(top: AppSpacing.xs),
-            child: Text(errorText, style: context.textTheme.bodySmall?.copyWith(color: AppColors.error)),
+            child: Text(errorText, style: context.textTheme.bodySmall?.copyWith(color: context.palette.error)),
           ),
       ],
     );
@@ -169,7 +168,7 @@ class PercentGroup extends StatelessWidget {
             padding: const EdgeInsets.only(top: AppSpacing.xs),
             child: Text(
               context.l10n.audienceMustTotal,
-              style: context.textTheme.bodySmall?.copyWith(color: AppColors.error),
+              style: context.textTheme.bodySmall?.copyWith(color: context.palette.error),
             ),
           ),
       ],
@@ -199,8 +198,8 @@ class ExternalAvatar extends StatelessWidget {
     final fallback = Container(
       width: size,
       height: size,
-      decoration: BoxDecoration(color: AppColors.gold.withValues(alpha: 0.12), borderRadius: AppRadius.mdAll),
-      child: Icon(fallbackIcon, color: AppColors.gold, size: size * 0.55),
+      decoration: BoxDecoration(color: context.palette.primary.withValues(alpha: 0.12), borderRadius: AppRadius.mdAll),
+      child: Icon(fallbackIcon, color: context.palette.primary, size: size * 0.55),
     );
     if (url.isEmpty) return fallback;
     return ClipRRect(

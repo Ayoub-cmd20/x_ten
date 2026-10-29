@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:x_ten/core/theme/app_colors.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
 import 'package:x_ten/core/theme/theme_context.dart';
 
@@ -14,14 +13,14 @@ class ScanBanner extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         padding: const EdgeInsets.all(AppSpacing.md),
         decoration: BoxDecoration(
-          color: AppColors.gold.withValues(alpha: 0.1),
+          color: context.palette.primary.withValues(alpha: 0.1),
           borderRadius: AppRadius.lgAll,
-          border: Border.all(color: AppColors.gold.withValues(alpha: 0.4)),
+          border: Border.all(color: context.palette.primary.withValues(alpha: 0.4)),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(icon, color: AppColors.gold),
+            Icon(icon, color: context.palette.primary),
             const SizedBox(width: AppSpacing.sm),
             Expanded(
               child: Column(

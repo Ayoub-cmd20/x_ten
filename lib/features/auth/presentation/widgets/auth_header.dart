@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:x_ten/core/theme/app_colors.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
 import 'package:x_ten/core/theme/theme_context.dart';
 
@@ -39,7 +38,7 @@ class AuthHeader extends StatelessWidget {
           Text(
             subtitle,
             textAlign: TextAlign.center,
-            style: text.bodyMedium?.copyWith(color: AppColors.textMuted),
+            style: text.bodyMedium?.copyWith(color: context.palette.textMuted),
           ),
         ],
       ],

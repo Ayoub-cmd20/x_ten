@@ -8,6 +8,8 @@ import 'package:x_ten/core/widgets/feedback/error_view.dart';
 import 'package:x_ten/core/widgets/loading/app_loader.dart';
 import 'package:x_ten/features/auth/presentation/auth_routes.dart';
 import 'package:x_ten/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:x_ten/features/onboarding/presentation/cubit/onboarding_cubit.dart';
+import 'package:x_ten/features/onboarding/presentation/onboarding_routes.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -29,7 +31,7 @@ class _SplashPageState extends State<SplashPage> {
 
     await Future.wait([
       auth.checkSession(),
-      Future<void>.delayed(const Duration(milliseconds: 1200)),
+      Future<void>.delayed(const Duration(milliseconds: 600)),
     ]);
     if (!mounted || auth.state.status == AuthStatus.failure) return;
 
@@ -38,7 +40,12 @@ class _SplashPageState extends State<SplashPage> {
       return;
     }
     final role = auth.state.role;
-    context.go(role == null ? AuthRoutes.login : AuthRoutes.homeFor(role));
+    if (role != null) {
+      context.go(AuthRoutes.homeFor(role));
+      return;
+    }
+    final seen = context.read<OnboardingCubit>().completed;
+    context.go(seen ? AuthRoutes.login : OnboardingRoutes.onboarding);
   }
 
   @override
@@ -61,7 +68,7 @@ class _SplashPageState extends State<SplashPage> {
             : Center(
                 child: TweenAnimationBuilder<double>(
                   tween: Tween(begin: 0, end: 1),
-                  duration: const Duration(milliseconds: 900),
+                  duration: const Duration(milliseconds: 450),
                   curve: Curves.easeOutCubic,
                   builder: (context, value, child) => Opacity(
                     opacity: value,

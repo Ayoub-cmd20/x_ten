@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart' show DateFormat;
 import 'package:x_ten/core/enums/verification_status.dart';
 import 'package:x_ten/core/localization/localization_extension.dart';
-import 'package:x_ten/core/theme/app_colors.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
+import 'package:x_ten/core/theme/app_palette.dart';
 import 'package:x_ten/core/theme/theme_context.dart';
 import 'package:x_ten/core/widgets/loading/app_loader.dart';
 import 'package:x_ten/features/influencer_registration/presentation/pages/registration_wizard_page.dart';
@@ -33,40 +33,40 @@ class _RegistrationStatusPageState extends State<RegistrationStatusPage> {
     }
   }
 
-  static _StatusView _view(AppLocalizations l10n, VerificationStatus status) => switch (status) {
+  static _StatusView _view(AppLocalizations l10n, AppPalette palette, VerificationStatus status) => switch (status) {
         VerificationStatus.underReview => (
             icon: Icons.manage_search_rounded,
-            color: AppColors.info,
+            color: palette.info,
             title: l10n.statusUnderReviewTitle,
             body: l10n.regSubmittedMessage,
           ),
         VerificationStatus.meetingRequired => (
             icon: Icons.support_agent_rounded,
-            color: AppColors.warning,
+            color: palette.warning,
             title: l10n.statusMeetingRequiredTitle,
             body: l10n.statusMeetingRequiredBody,
           ),
         VerificationStatus.meetingScheduled => (
             icon: Icons.event_available_rounded,
-            color: AppColors.gold,
+            color: palette.primary,
             title: l10n.statusMeetingScheduledTitle,
             body: l10n.statusMeetingScheduledBody,
           ),
         VerificationStatus.needsChanges => (
             icon: Icons.edit_note_rounded,
-            color: AppColors.warning,
+            color: palette.warning,
             title: l10n.statusNeedsChangesTitle,
             body: l10n.statusNeedsChangesBody,
           ),
         VerificationStatus.rejected => (
             icon: Icons.block_rounded,
-            color: AppColors.error,
+            color: palette.error,
             title: l10n.statusRejectedTitle,
             body: l10n.statusRejectedBody,
           ),
         _ => (
             icon: Icons.mark_email_read_outlined,
-            color: AppColors.success,
+            color: palette.success,
             title: l10n.statusSubmittedTitle,
             body: l10n.regSubmittedMessage,
           ),
@@ -104,7 +104,7 @@ class _RegistrationStatusPageState extends State<RegistrationStatusPage> {
       );
     }
 
-    final view = _view(l10n, registration.status);
+    final view = _view(l10n, context.palette, registration.status);
     final meeting = state.meeting;
     final locale = Localizations.localeOf(context).toLanguageTag();
     final refreshing = state.isLoadingFor(RegistrationAction.load);
@@ -123,7 +123,7 @@ class _RegistrationStatusPageState extends State<RegistrationStatusPage> {
             ),
           ],
         ),
-        body: RefreshIndicator(
+        body: RefreshIndicator.adaptive(
           onRefresh: cubit.load,
           child: ListView(
             padding: AppSpacing.screen,
@@ -143,7 +143,7 @@ class _RegistrationStatusPageState extends State<RegistrationStatusPage> {
               Text(
                 view.body,
                 textAlign: TextAlign.center,
-                style: context.textTheme.bodyMedium?.copyWith(color: AppColors.textSecondary),
+                style: context.textTheme.bodyMedium?.copyWith(color: context.palette.textSecondary),
               ),
               if (registration.status == VerificationStatus.meetingScheduled && meeting != null) ...[
                 const SizedBox(height: AppSpacing.xl),
@@ -157,7 +157,7 @@ class _RegistrationStatusPageState extends State<RegistrationStatusPage> {
               if (registration.canEditOptional) ...[
                 OutlinedButton.icon(
                   onPressed: () => context.push(RegistrationRoutes.optional),
-                  icon: const Icon(Icons.insights_outlined, color: AppColors.accentPurple),
+                  icon: Icon(Icons.insights_outlined, color: context.palette.accent),
                   label: Text(l10n.regCompleteOptional),
                 ),
                 const SizedBox(height: AppSpacing.sm),

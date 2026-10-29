@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:x_ten/core/localization/localization_extension.dart';
-import 'package:x_ten/core/theme/app_colors.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
 import 'package:x_ten/core/theme/theme_context.dart';
 import 'package:x_ten/core/utils/validators.dart';
@@ -135,7 +134,7 @@ class _ContactStepState extends State<ContactStep> with ServerFieldErrors {
                 labelText: l10n.regDeliveryAddress,
                 hintText: l10n.regDeliveryAddressHint,
                 hintMaxLines: 3,
-                hintStyle: context.textTheme.bodySmall?.copyWith(color: AppColors.textMuted),
+                hintStyle: context.textTheme.bodySmall?.copyWith(color: context.palette.textMuted),
                 floatingLabelBehavior: FloatingLabelBehavior.always,
                 alignLabelWithHint: true,
               ),

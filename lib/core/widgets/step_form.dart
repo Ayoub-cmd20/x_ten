@@ -7,15 +7,17 @@ import 'package:image_picker/image_picker.dart';
 import 'package:x_ten/core/errors/failure_message.dart';
 import 'package:x_ten/core/errors/failures.dart';
 import 'package:x_ten/core/localization/localization_extension.dart';
-import 'package:x_ten/core/theme/app_colors.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
 import 'package:x_ten/core/theme/theme_context.dart';
 import 'package:x_ten/core/utils/file_rules.dart';
 import 'package:x_ten/core/utils/upload_file.dart';
 import 'package:x_ten/core/widgets/feedback/app_snackbar.dart';
 import 'package:x_ten/core/widgets/form_helpers.dart';
+import 'package:x_ten/core/widgets/press_scale.dart';
 
 final digitsOnly = FilteringTextInputFormatter.digitsOnly;
+
+const maxContentWidth = 640.0;
 
 String registrationFailureText(BuildContext context, Failure failure) {
   final l10n = context.l10n;
@@ -81,9 +83,14 @@ class StepBody extends StatelessWidget {
               child: SingleChildScrollView(
                 padding: AppSpacing.screen,
                 keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [...children, if (requiredNote) const RequiredFieldsNote()],
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: maxContentWidth),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [...children, if (requiredNote) const RequiredFieldsNote()],
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -92,7 +99,12 @@ class StepBody extends StatelessWidget {
             top: false,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(AppSpacing.lg, AppSpacing.xs, AppSpacing.lg, AppSpacing.md),
-              child: actions,
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: maxContentWidth),
+                  child: actions,
+                ),
+              ),
             ),
           ),
         ],
@@ -141,7 +153,10 @@ class StepActions extends StatelessWidget {
         if (back != null) ...[
           Expanded(
             flex: 2,
-            child: OutlinedButton(onPressed: isLoading ? null : back, child: Text(context.l10n.back)),
+            child: PressScale(
+              enabled: !isLoading,
+              child: OutlinedButton(onPressed: isLoading ? null : back, child: Text(context.l10n.back)),
+            ),
           ),
           const SizedBox(width: AppSpacing.sm),
         ],
@@ -235,7 +250,7 @@ class ChoiceWrap extends StatelessWidget {
         if (errorText != null)
           Padding(
             padding: const EdgeInsets.only(top: AppSpacing.xs),
-            child: Text(errorText, style: context.textTheme.bodySmall?.copyWith(color: AppColors.error)),
+            child: Text(errorText, style: context.textTheme.bodySmall?.copyWith(color: context.palette.error)),
           ),
       ],
     );
@@ -278,7 +293,7 @@ class TotalBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ok = (total - 100).abs() <= 0.01;
-    final color = ok ? AppColors.success : AppColors.warning;
+    final color = ok ? context.palette.success : context.palette.warning;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm, vertical: AppSpacing.xxs),
       decoration: BoxDecoration(color: color.withValues(alpha: 0.12), borderRadius: AppRadius.pillAll),
@@ -354,7 +369,7 @@ class EmptyHint extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Icon(icon, color: AppColors.textMuted),
+            Icon(icon, color: context.palette.textMuted),
             const SizedBox(width: AppSpacing.sm),
             Expanded(child: Text(text, style: context.textTheme.bodySmall)),
           ],

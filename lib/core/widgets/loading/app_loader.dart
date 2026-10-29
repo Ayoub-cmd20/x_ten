@@ -16,9 +16,13 @@ class AppLoader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final color = this.color;
     final indicator = SizedBox.square(
       dimension: size,
-      child: CircularProgressIndicator(strokeWidth: strokeWidth, color: color),
+      child: CircularProgressIndicator.adaptive(
+        strokeWidth: strokeWidth,
+        valueColor: color == null ? null : AlwaysStoppedAnimation<Color>(color),
+      ),
     );
     return centered ? Center(child: indicator) : indicator;
   }

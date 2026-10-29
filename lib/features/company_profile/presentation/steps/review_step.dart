@@ -4,7 +4,6 @@ import 'package:intl/intl.dart' show DateFormat;
 import 'package:x_ten/core/constants/api_keys.dart';
 import 'package:x_ten/core/errors/failures.dart';
 import 'package:x_ten/core/localization/localization_extension.dart';
-import 'package:x_ten/core/theme/app_colors.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
 import 'package:x_ten/core/theme/theme_context.dart';
 import 'package:x_ten/core/widgets/form_helpers.dart';
@@ -107,7 +106,7 @@ class _CompanyReviewStepState extends State<CompanyReviewStep> {
     final state = context.watch<CompanyCubit>().state;
     final cubit = context.read<CompanyCubit>();
     final profile = state.profile;
-    final errorStyle = context.textTheme.bodySmall?.copyWith(color: AppColors.error);
+    final errorStyle = context.textTheme.bodySmall?.copyWith(color: context.palette.error);
     final locale = Localizations.localeOf(context);
 
     if (profile == null) {
@@ -138,13 +137,13 @@ class _CompanyReviewStepState extends State<CompanyReviewStep> {
           Container(
             padding: const EdgeInsets.all(AppSpacing.md),
             decoration: BoxDecoration(
-              color: AppColors.gold.withValues(alpha: 0.1),
+              color: context.palette.primary.withValues(alpha: 0.1),
               borderRadius: AppRadius.lgAll,
-              border: Border.all(color: AppColors.gold.withValues(alpha: 0.4)),
+              border: Border.all(color: context.palette.primary.withValues(alpha: 0.4)),
             ),
             child: Row(
               children: [
-                const Icon(Icons.fact_check_outlined, color: AppColors.gold),
+                Icon(Icons.fact_check_outlined, color: context.palette.primary),
                 const SizedBox(width: AppSpacing.sm),
                 Expanded(child: Text(l10n.regReviewHint, style: context.textTheme.titleSmall)),
               ],
@@ -312,19 +311,19 @@ class _MissingBox extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
-        color: AppColors.errorContainer,
+        color: context.palette.errorContainer,
         borderRadius: AppRadius.lgAll,
-        border: Border.all(color: AppColors.error.withValues(alpha: 0.5)),
+        border: Border.all(color: context.palette.error.withValues(alpha: 0.5)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(l10n.submitMissingTitle, style: context.textTheme.titleSmall?.copyWith(color: AppColors.error)),
+          Text(l10n.submitMissingTitle, style: context.textTheme.titleSmall?.copyWith(color: context.palette.error)),
           const SizedBox(height: AppSpacing.xs),
           for (final item in items)
             Row(
               children: [
-                const Icon(Icons.error_outline_rounded, size: 18, color: AppColors.error),
+                Icon(Icons.error_outline_rounded, size: 18, color: context.palette.error),
                 const SizedBox(width: AppSpacing.xs),
                 Expanded(child: Text(item.label, style: context.textTheme.bodySmall)),
                 TextButton(onPressed: () => onFix(item.step), child: Text(l10n.fix)),

@@ -2553,4 +2553,51 @@ class AppLocalizationsFr extends AppLocalizations {
   String audRegionsIn(String country) {
     return 'Régions — $country';
   }
+
+  @override
+  String get themeLight => 'Mode clair';
+
+  @override
+  String get themeDark => 'Mode sombre';
+
+  @override
+  String get onboardingSkip => 'Passer';
+
+  @override
+  String get onboardingStart => 'Commencer';
+
+  @override
+  String get onboardingVerified => 'Vérifié';
+
+  @override
+  String get onboardingNewRequest => 'Nouvelle demande';
+
+  @override
+  String get onboardingBrand => 'Marque';
+
+  @override
+  String get onboardingCreator => 'Influenceur';
+
+  @override
+  String get onboarding1Title =>
+      'Trouvez l\'influenceur idéal pour votre marque';
+
+  @override
+  String get onboarding1Body =>
+      'Parcourez des créateurs vérifiés par domaine et par audience, et choisissez celui qui portera le mieux votre message.';
+
+  @override
+  String get onboarding2Title =>
+      'Des opportunités publicitaires qui viennent à vous';
+
+  @override
+  String get onboarding2Body =>
+      'En tant qu\'influenceur, vous recevez les demandes des marques, consultez les détails et décidez librement.';
+
+  @override
+  String get onboarding3Title => 'Une plateforme de confiance entre les deux';
+
+  @override
+  String get onboarding3Body =>
+      'Chaque compte est vérifié et chaque demande passe par X Ten avant d\'arriver, pour une collaboration sûre et professionnelle.';
 }

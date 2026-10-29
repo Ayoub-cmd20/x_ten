@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:x_ten/core/constants/api_keys.dart';
 import 'package:x_ten/core/errors/failures.dart';
 import 'package:x_ten/core/localization/localization_extension.dart';
-import 'package:x_ten/core/theme/app_colors.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
 import 'package:x_ten/core/theme/theme_context.dart';
 import 'package:x_ten/features/influencer_registration/domain/registration_entities.dart';
@@ -57,19 +56,19 @@ class SubmitMissingBox extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: AppSpacing.md),
       padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
-        color: AppColors.errorContainer,
+        color: context.palette.errorContainer,
         borderRadius: AppRadius.lgAll,
-        border: Border.all(color: AppColors.error.withValues(alpha: 0.5)),
+        border: Border.all(color: context.palette.error.withValues(alpha: 0.5)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(l10n.submitMissingTitle, style: context.textTheme.titleSmall?.copyWith(color: AppColors.error)),
+          Text(l10n.submitMissingTitle, style: context.textTheme.titleSmall?.copyWith(color: context.palette.error)),
           const SizedBox(height: AppSpacing.xs),
           for (final item in items)
             Row(
               children: [
-                const Icon(Icons.error_outline_rounded, size: 18, color: AppColors.error),
+                Icon(Icons.error_outline_rounded, size: 18, color: context.palette.error),
                 const SizedBox(width: AppSpacing.xs),
                 Expanded(child: Text(item.label, style: context.textTheme.bodySmall)),
                 TextButton(onPressed: () => onFix(item.step), child: Text(l10n.fix)),

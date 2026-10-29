@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:x_ten/core/localization/localization_extension.dart';
-import 'package:x_ten/core/theme/app_colors.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
+import 'package:x_ten/core/theme/app_palette.dart';
 import 'package:x_ten/core/theme/theme_context.dart';
 import 'package:x_ten/core/widgets/feedback/app_snackbar.dart';
-import 'package:x_ten/core/widgets/loading/app_loader.dart';
 import 'package:x_ten/core/widgets/form_helpers.dart';
+import 'package:x_ten/core/widgets/loading/app_loader.dart';
 import 'package:x_ten/core/widgets/step_form.dart';
 import 'package:x_ten/features/company_profile/domain/company_entities.dart';
 import 'package:x_ten/features/company_profile/presentation/company_cubit.dart';
@@ -31,10 +31,10 @@ String companyDocumentStatus(BuildContext context, CompanyDocument? document) {
   };
 }
 
-Color? companyDocumentColor(CompanyDocument? document, {bool highlightMissing = false}) => switch (document) {
-      null => highlightMissing ? AppColors.error : null,
-      CompanyDocument(review: DocumentReview.rejected) => AppColors.error,
-      _ => AppColors.success,
+Color? companyDocumentColor(AppPalette palette, CompanyDocument? document, {bool highlightMissing = false}) => switch (document) {
+      null => highlightMissing ? palette.error : null,
+      CompanyDocument(review: DocumentReview.rejected) => palette.error,
+      _ => palette.success,
     };
 
 class CompanyDocumentTile extends StatefulWidget {
@@ -120,7 +120,7 @@ class _CompanyDocumentTileState extends State<CompanyDocumentTile> {
       listener: _listener,
       child: ItemCard(
         icon: document == null ? Icons.upload_file_rounded : Icons.task_alt_rounded,
-        highlight: companyDocumentColor(document, highlightMissing: widget.highlightMissing),
+        highlight: companyDocumentColor(context.palette, document, highlightMissing: widget.highlightMissing),
         title: widget.title ?? l10n.companyDocumentLabel(widget.type),
         subtitle: companyDocumentStatus(context, document),
         onTap: enabled && !busy ? () => _upload(context) : null,
@@ -202,7 +202,7 @@ class CompanyIdentityDocuments extends StatelessWidget {
         if (showErrors && !state.hasIdentity)
           Text(
             l10n.missingDocumentsWarning(l10n.companyDocumentList(types)),
-            style: context.textTheme.bodySmall?.copyWith(color: AppColors.error),
+            style: context.textTheme.bodySmall?.copyWith(color: context.palette.error),
           ),
       ],
     );

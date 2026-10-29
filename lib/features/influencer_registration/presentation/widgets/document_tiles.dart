@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:x_ten/core/localization/localization_extension.dart';
-import 'package:x_ten/core/theme/app_colors.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
 import 'package:x_ten/core/theme/theme_context.dart';
 import 'package:x_ten/core/widgets/feedback/app_snackbar.dart';
@@ -128,7 +127,7 @@ class _DocumentTileState extends State<DocumentTile> {
       listener: _listener,
       child: ItemCard(
         icon: uploaded ? Icons.task_alt_rounded : Icons.upload_file_rounded,
-        highlight: uploaded ? AppColors.success : (widget.highlightMissing ? AppColors.error : null),
+        highlight: uploaded ? context.palette.success : (widget.highlightMissing ? context.palette.error : null),
         title: widget.isRequired ? req(l10n.documentLabel(widget.type)) : l10n.documentLabel(widget.type),
         subtitle: switch (document) {
           RegistrationDocument(verified: true) => l10n.documentVerified,
@@ -215,7 +214,7 @@ class IdentityDocuments extends StatelessWidget {
         if (showErrors && !state.hasIdentity)
           Text(
             l10n.missingDocumentsWarning(l10n.documentList(types)),
-            style: context.textTheme.bodySmall?.copyWith(color: AppColors.error),
+            style: context.textTheme.bodySmall?.copyWith(color: context.palette.error),
           ),
       ],
     );

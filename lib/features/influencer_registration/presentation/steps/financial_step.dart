@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:x_ten/core/errors/failures.dart';
 import 'package:x_ten/core/localization/localization_extension.dart';
-import 'package:x_ten/core/theme/app_colors.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
 import 'package:x_ten/core/theme/theme_context.dart';
 import 'package:x_ten/core/widgets/feedback/app_snackbar.dart';
@@ -58,7 +57,7 @@ class _FinancialStepState extends State<FinancialStep> {
     final l10n = context.l10n;
     final state = context.watch<RegistrationCubit>().state;
     final cubit = context.read<RegistrationCubit>();
-    final errorStyle = context.textTheme.bodySmall?.copyWith(color: AppColors.error);
+    final errorStyle = context.textTheme.bodySmall?.copyWith(color: context.palette.error);
 
     return BlocListener<RegistrationCubit, RegistrationState>(
       listenWhen: (previous, current) => previous.status != current.status || previous.action != current.action,
@@ -114,7 +113,7 @@ class FinancialAccountCard extends StatelessWidget {
     final l10n = context.l10n;
     return ItemCard(
       icon: hasProof ? Icons.task_alt_rounded : Icons.account_balance_outlined,
-      highlight: hasProof ? AppColors.success : null,
+      highlight: hasProof ? context.palette.success : null,
       title: l10n.institutionLabel(account.institutionName),
       subtitle: hasProof ? '${ltr(account.accountNumber)} · ${l10n.finProofAdded}' : ltr(account.accountNumber),
       trailing: busy

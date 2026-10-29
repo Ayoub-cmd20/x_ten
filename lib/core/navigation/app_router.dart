@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:x_ten/core/di/injection_container.dart';
+import 'package:x_ten/core/navigation/app_page.dart';
 import 'package:x_ten/features/auth/presentation/auth_routes.dart';
 import 'package:x_ten/features/auth/presentation/pages/account_type_page.dart';
 import 'package:x_ten/features/auth/presentation/pages/forgot_password_page.dart';
@@ -19,6 +20,8 @@ import 'package:x_ten/features/influencer_registration/presentation/pages/regist
 import 'package:x_ten/features/influencer_registration/presentation/pages/registration_wizard_page.dart';
 import 'package:x_ten/features/influencer_registration/presentation/registration_cubit.dart';
 import 'package:x_ten/features/influencer_registration/presentation/registration_routes.dart';
+import 'package:x_ten/features/onboarding/presentation/onboarding_routes.dart';
+import 'package:x_ten/features/onboarding/presentation/pages/onboarding_page.dart';
 
 final GoRouter appRouter = GoRouter(
   initialLocation: AuthRoutes.splash,
@@ -26,37 +29,42 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: AuthRoutes.splash,
       name: 'splash',
-      builder: (context, state) => const SplashPage(),
+      pageBuilder: (context, state) => appPage(state, const SplashPage()),
     ),
     GoRoute(
       path: AuthRoutes.chooseLanguage,
       name: 'chooseLanguage',
-      builder: (context, state) => const LanguagePage(),
+      pageBuilder: (context, state) => appPage(state, const LanguagePage()),
+    ),
+    GoRoute(
+      path: OnboardingRoutes.onboarding,
+      name: 'onboarding',
+      pageBuilder: (context, state) => appPage(state, const OnboardingPage()),
     ),
     GoRoute(
       path: AuthRoutes.login,
       name: 'login',
-      builder: (context, state) => const LoginPage(),
+      pageBuilder: (context, state) => appPage(state, const LoginPage()),
     ),
     GoRoute(
       path: AuthRoutes.signup,
       name: 'signup',
-      builder: (context, state) => const SignupPage(),
+      pageBuilder: (context, state) => appPage(state, const SignupPage()),
     ),
     GoRoute(
       path: AuthRoutes.forgotPassword,
       name: 'forgotPassword',
-      builder: (context, state) => const ForgotPasswordPage(),
+      pageBuilder: (context, state) => appPage(state, const ForgotPasswordPage()),
     ),
     GoRoute(
       path: AuthRoutes.verifyOtp,
       name: 'verifyOtp',
-      builder: (context, state) => const OtpPage(),
+      pageBuilder: (context, state) => appPage(state, const OtpPage()),
     ),
     GoRoute(
       path: AuthRoutes.accountType,
       name: 'accountType',
-      builder: (context, state) => const AccountTypePage(),
+      pageBuilder: (context, state) => appPage(state, const AccountTypePage()),
     ),
     ShellRoute(
       builder: (context, state, child) => BlocProvider(
@@ -67,17 +75,17 @@ final GoRouter appRouter = GoRouter(
         GoRoute(
           path: CompanyRoutes.gate,
           name: 'companyRegistration',
-          builder: (context, state) => const CompanyGatePage(),
+          pageBuilder: (context, state) => appPage(state, const CompanyGatePage()),
         ),
         GoRoute(
           path: CompanyRoutes.form,
           name: 'companyRegistrationForm',
-          builder: (context, state) => const CompanyWizardPage(),
+          pageBuilder: (context, state) => appPage(state, const CompanyWizardPage()),
         ),
         GoRoute(
           path: CompanyRoutes.status,
           name: 'companyRegistrationStatus',
-          builder: (context, state) => const CompanyStatusPage(),
+          pageBuilder: (context, state) => appPage(state, const CompanyStatusPage()),
         ),
       ],
     ),
@@ -90,34 +98,34 @@ final GoRouter appRouter = GoRouter(
         GoRoute(
           path: RegistrationRoutes.gate,
           name: 'influencerRegistration',
-          builder: (context, state) => const RegistrationGatePage(),
+          pageBuilder: (context, state) => appPage(state, const RegistrationGatePage()),
         ),
         GoRoute(
           path: RegistrationRoutes.form,
           name: 'influencerRegistrationForm',
-          builder: (context, state) => const RegistrationWizardPage(),
+          pageBuilder: (context, state) => appPage(state, const RegistrationWizardPage()),
         ),
         GoRoute(
           path: RegistrationRoutes.status,
           name: 'influencerRegistrationStatus',
-          builder: (context, state) => const RegistrationStatusPage(),
+          pageBuilder: (context, state) => appPage(state, const RegistrationStatusPage()),
         ),
         GoRoute(
           path: RegistrationRoutes.optional,
           name: 'influencerRegistrationOptional',
-          builder: (context, state) => const RegistrationOptionalPage(),
+          pageBuilder: (context, state) => appPage(state, const RegistrationOptionalPage()),
         ),
       ],
     ),
     GoRoute(
       path: CompanyRoutes.advertiserHome,
       name: 'advertiserHome',
-      builder: (context, state) => const HomePage(),
+      pageBuilder: (context, state) => appPage(state, const HomePage()),
     ),
     GoRoute(
       path: RegistrationRoutes.creatorHome,
       name: 'creatorHome',
-      builder: (context, state) => const HomePage(),
+      pageBuilder: (context, state) => appPage(state, const HomePage()),
     ),
   ],
 );

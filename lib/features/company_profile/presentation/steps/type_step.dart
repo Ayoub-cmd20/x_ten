@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:x_ten/core/localization/localization_extension.dart';
-import 'package:x_ten/core/theme/app_colors.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
 import 'package:x_ten/core/theme/theme_context.dart';
 import 'package:x_ten/core/widgets/form_helpers.dart';
@@ -99,10 +98,10 @@ class _ChoiceCard extends StatelessWidget {
           duration: const Duration(milliseconds: 220),
           padding: const EdgeInsets.all(AppSpacing.lg),
           decoration: BoxDecoration(
-            color: selected ? AppColors.accentPurple.withValues(alpha: 0.08) : colors.surfaceContainer,
+            color: selected ? context.palette.accent.withValues(alpha: 0.08) : colors.surfaceContainer,
             borderRadius: AppRadius.xxlAll,
             border: Border.all(
-              color: selected ? AppColors.accentPurple : colors.outlineVariant,
+              color: selected ? context.palette.accent : colors.outlineVariant,
               width: selected ? 1.5 : 1,
             ),
           ),
@@ -112,10 +111,10 @@ class _ChoiceCard extends StatelessWidget {
                 width: 52,
                 height: 52,
                 decoration: BoxDecoration(
-                  color: AppColors.accentPurple.withValues(alpha: 0.12),
+                  color: context.palette.accent.withValues(alpha: 0.12),
                   borderRadius: AppRadius.lgAll,
                 ),
-                child: Icon(icon, color: AppColors.accentPurple),
+                child: Icon(icon, color: context.palette.accent),
               ),
               const SizedBox(width: AppSpacing.md),
               Expanded(
@@ -130,7 +129,7 @@ class _ChoiceCard extends StatelessWidget {
               ),
               Icon(
                 selected ? Icons.check_circle_rounded : Icons.radio_button_unchecked,
-                color: selected ? AppColors.accentPurple : AppColors.textDisabled,
+                color: selected ? context.palette.accent : context.palette.textDisabled,
               ),
             ],
           ),

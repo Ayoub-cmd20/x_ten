@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart' show NumberFormat;
 import 'package:x_ten/core/errors/failures.dart';
 import 'package:x_ten/core/localization/localization_extension.dart';
-import 'package:x_ten/core/theme/app_colors.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
 import 'package:x_ten/core/theme/theme_context.dart';
 import 'package:x_ten/core/widgets/feedback/app_snackbar.dart';
@@ -215,7 +214,7 @@ class _AccountsStepState extends State<AccountsStep> {
                     padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
                   ),
                   onPressed: adding || state.isLoading ? null : _add,
-                  child: adding ? const AppLoader.small(color: AppColors.background) : Text(l10n.regSocialSubmit),
+                  child: adding ? AppLoader.small(color: context.palette.onGoldFill) : Text(l10n.regSocialSubmit),
                 ),
               ),
             ],
@@ -242,9 +241,9 @@ class _AccountsStepState extends State<AccountsStep> {
                 ),
               ),
           if (_showErrors && state.socialAccounts.isEmpty)
-            Text(l10n.socialAccountsEmpty, style: context.textTheme.bodySmall?.copyWith(color: AppColors.error)),
+            Text(l10n.socialAccountsEmpty, style: context.textTheme.bodySmall?.copyWith(color: context.palette.error)),
           if (_showErrors && state.socialAccounts.any((a) => a.needsDetails))
-            Text(l10n.regSocialNeedsDetails, style: context.textTheme.bodySmall?.copyWith(color: AppColors.error)),
+            Text(l10n.regSocialNeedsDetails, style: context.textTheme.bodySmall?.copyWith(color: context.palette.error)),
         ],
       ),
     );
@@ -280,16 +279,16 @@ class _AccountCard extends StatelessWidget {
     final colors = context.colors;
     final name = account.accountName.isNotEmpty ? account.accountName : account.username;
     final badgeColor = switch (account.source) {
-      SocialSource.auto => AppColors.success,
-      SocialSource.screenshot => AppColors.gold,
-      SocialSource.manual => AppColors.warning,
+      SocialSource.auto => context.palette.success,
+      SocialSource.screenshot => context.palette.primary,
+      SocialSource.manual => context.palette.warning,
     };
 
     return Material(
       color: colors.surfaceContainer,
       shape: RoundedRectangleBorder(
         borderRadius: AppRadius.lgAll,
-        side: BorderSide(color: highlightMissing ? AppColors.error : colors.outlineVariant),
+        side: BorderSide(color: highlightMissing ? context.palette.error : colors.outlineVariant),
       ),
       clipBehavior: Clip.antiAlias,
       child: InkWell(

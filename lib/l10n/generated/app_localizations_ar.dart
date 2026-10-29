@@ -2501,4 +2501,49 @@ class AppLocalizationsAr extends AppLocalizations {
   String audRegionsIn(String country) {
     return 'المناطق داخل $country';
   }
+
+  @override
+  String get themeLight => 'الوضع الفاتح';
+
+  @override
+  String get themeDark => 'الوضع الداكن';
+
+  @override
+  String get onboardingSkip => 'تخطي';
+
+  @override
+  String get onboardingStart => 'ابدأ الآن';
+
+  @override
+  String get onboardingVerified => 'موثّق';
+
+  @override
+  String get onboardingNewRequest => 'طلب إعلان جديد';
+
+  @override
+  String get onboardingBrand => 'شركة';
+
+  @override
+  String get onboardingCreator => 'مؤثر';
+
+  @override
+  String get onboarding1Title => 'اعثر على المؤثر المناسب لعلامتك';
+
+  @override
+  String get onboarding1Body =>
+      'تصفّح صنّاع محتوى موثّقين حسب المجال والجمهور، واختر من يوصل رسالتك بأفضل شكل.';
+
+  @override
+  String get onboarding2Title => 'فرص إعلانية تصلك مباشرة';
+
+  @override
+  String get onboarding2Body =>
+      'كمؤثر، تستقبل طلبات الإعلان من الشركات، تراجع تفاصيلها، وتقرر بكل حرية.';
+
+  @override
+  String get onboarding3Title => 'منصة موثوقة تجمع الطرفين';
+
+  @override
+  String get onboarding3Body =>
+      'كل حساب يمر بالتحقق، وكل طلب يمر عبر X Ten قبل أن يصل، لتعاون آمن واحترافي.';
 }

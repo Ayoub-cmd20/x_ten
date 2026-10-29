@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:x_ten/core/localization/localization_extension.dart';
-import 'package:x_ten/core/theme/app_colors.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
 import 'package:x_ten/core/theme/theme_context.dart';
+import 'package:x_ten/core/widgets/fast_switcher.dart';
 import 'package:x_ten/core/widgets/loading/app_loader.dart';
 import 'package:x_ten/features/auth/presentation/auth_routes.dart';
 import 'package:x_ten/features/auth/presentation/cubit/auth_cubit.dart';
@@ -80,8 +80,7 @@ class RegistrationWizardPage extends StatelessWidget {
           ],
           bottom: const PreferredSize(preferredSize: Size.fromHeight(76), child: _StepHeader()),
         ),
-        body: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 220),
+        body: FastSwitcher(
           child: KeyedSubtree(
             key: ValueKey(step),
             child: switch (step) {
@@ -120,7 +119,7 @@ class _StepHeader extends StatelessWidget {
             children: [
               Text(
                 l10n.stepCounter(current + 1, steps.length),
-                style: context.textTheme.labelMedium?.copyWith(color: AppColors.gold),
+                style: context.textTheme.labelMedium?.copyWith(color: context.palette.primary),
               ),
               const SizedBox(width: AppSpacing.xs),
               Expanded(
@@ -152,9 +151,9 @@ class _StepHeader extends StatelessWidget {
                         decoration: BoxDecoration(
                           borderRadius: AppRadius.pillAll,
                           color: step.index <= current
-                              ? (step == RegistrationStep.optional ? AppColors.accentPurple : AppColors.gold)
+                              ? (step == RegistrationStep.optional ? context.palette.accent : context.palette.primary)
                               : step.index <= state.furthestAllowed.index
-                                  ? AppColors.gold.withValues(alpha: 0.3)
+                                  ? context.palette.primary.withValues(alpha: 0.3)
                                   : context.colors.surfaceContainerHighest,
                           ),
                         ),

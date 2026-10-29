@@ -7,6 +7,10 @@ abstract interface class AppPreferences {
   Future<void> setLanguageCode(String code);
   String? get lastEmail;
   Future<void> setLastEmail(String email);
+  String? get themeMode;
+  Future<void> setThemeMode(String mode);
+  bool get hasSeenOnboarding;
+  Future<void> markOnboardingSeen();
 }
 
 class SharedAppPreferences implements AppPreferences {
@@ -15,13 +19,15 @@ class SharedAppPreferences implements AppPreferences {
   static const _launchedKey = 'has_launched';
   static const _languageKey = 'language_code';
   static const _lastEmailKey = 'last_email';
+  static const _themeModeKey = 'theme_mode';
+  static const _onboardingKey = 'onboarding_seen';
 
   final SharedPreferencesWithCache _prefs;
 
   static Future<SharedAppPreferences> create() async {
     final prefs = await SharedPreferencesWithCache.create(
       cacheOptions: const SharedPreferencesWithCacheOptions(
-        allowList: {_launchedKey, _languageKey, _lastEmailKey},
+        allowList: {_launchedKey, _languageKey, _lastEmailKey, _themeModeKey, _onboardingKey},
       ),
     );
     return SharedAppPreferences(prefs);
@@ -44,4 +50,16 @@ class SharedAppPreferences implements AppPreferences {
 
   @override
   Future<void> setLastEmail(String email) => _prefs.setString(_lastEmailKey, email);
+
+  @override
+  String? get themeMode => _prefs.getString(_themeModeKey);
+
+  @override
+  Future<void> setThemeMode(String mode) => _prefs.setString(_themeModeKey, mode);
+
+  @override
+  bool get hasSeenOnboarding => _prefs.getBool(_onboardingKey) ?? false;
+
+  @override
+  Future<void> markOnboardingSeen() => _prefs.setBool(_onboardingKey, true);
 }

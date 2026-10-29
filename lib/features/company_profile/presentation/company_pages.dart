@@ -4,9 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'package:x_ten/core/enums/verification_status.dart';
 import 'package:x_ten/core/errors/failure_message.dart';
 import 'package:x_ten/core/localization/localization_extension.dart';
-import 'package:x_ten/core/theme/app_colors.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
 import 'package:x_ten/core/theme/theme_context.dart';
+import 'package:x_ten/core/widgets/fast_switcher.dart';
 import 'package:x_ten/core/widgets/feedback/app_snackbar.dart';
 import 'package:x_ten/core/widgets/feedback/error_view.dart';
 import 'package:x_ten/core/widgets/loading/app_loader.dart';
@@ -114,14 +114,13 @@ class CompanyWizardPage extends StatelessWidget {
                 margin: const EdgeInsets.fromLTRB(AppSpacing.lg, AppSpacing.sm, AppSpacing.lg, 0),
                 padding: const EdgeInsets.all(AppSpacing.md),
                 decoration: BoxDecoration(
-                  color: AppColors.warning.withValues(alpha: 0.12),
+                  color: context.palette.warning.withValues(alpha: 0.12),
                   borderRadius: AppRadius.lgAll,
                 ),
                 child: Text(l10n.companyNeedsChangesBanner, style: context.textTheme.bodySmall),
               ),
             Expanded(
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 220),
+              child: FastSwitcher(
                 child: KeyedSubtree(
                   key: ValueKey(step),
                   child: switch (step) {
@@ -163,7 +162,7 @@ class _CompanyStepHeader extends StatelessWidget {
             children: [
               Text(
                 l10n.stepCounter(current + 1, steps.length),
-                style: context.textTheme.labelMedium?.copyWith(color: AppColors.gold),
+                style: context.textTheme.labelMedium?.copyWith(color: context.palette.primary),
               ),
               const SizedBox(width: AppSpacing.xs),
               Expanded(
@@ -195,9 +194,9 @@ class _CompanyStepHeader extends StatelessWidget {
                           decoration: BoxDecoration(
                             borderRadius: AppRadius.pillAll,
                             color: index <= current
-                                ? AppColors.gold
+                                ? context.palette.primary
                                 : state.canOpen(step)
-                                    ? AppColors.gold.withValues(alpha: 0.3)
+                                    ? context.palette.primary.withValues(alpha: 0.3)
                                     : context.colors.surfaceContainerHighest,
                           ),
                         ),
@@ -243,7 +242,7 @@ class CompanyStatusPage extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(title: Text(l10n.companyTitle), actions: [_logoutButton(context)]),
-        body: RefreshIndicator(
+        body: RefreshIndicator.adaptive(
           onRefresh: cubit.load,
           child: ListView(
             padding: AppSpacing.screen,
@@ -253,8 +252,8 @@ class CompanyStatusPage extends StatelessWidget {
                 child: Container(
                   width: 96,
                   height: 96,
-                  decoration: BoxDecoration(color: AppColors.error.withValues(alpha: 0.12), shape: BoxShape.circle),
-                  child: const Icon(Icons.block_rounded, color: AppColors.error, size: 48),
+                  decoration: BoxDecoration(color: context.palette.error.withValues(alpha: 0.12), shape: BoxShape.circle),
+                  child: Icon(Icons.block_rounded, color: context.palette.error, size: 48),
                 ),
               ),
               const SizedBox(height: AppSpacing.xl),
@@ -263,7 +262,7 @@ class CompanyStatusPage extends StatelessWidget {
               Text(
                 l10n.companyRejectedBody,
                 textAlign: TextAlign.center,
-                style: context.textTheme.bodyMedium?.copyWith(color: AppColors.textSecondary),
+                style: context.textTheme.bodyMedium?.copyWith(color: context.palette.textSecondary),
               ),
               const SizedBox(height: AppSpacing.xxl),
               OutlinedButton.icon(

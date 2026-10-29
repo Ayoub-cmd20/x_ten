@@ -4,7 +4,6 @@ import 'package:intl/intl.dart' show DateFormat;
 import 'package:x_ten/core/catalog/countries.dart';
 import 'package:x_ten/core/errors/failures.dart';
 import 'package:x_ten/core/localization/localization_extension.dart';
-import 'package:x_ten/core/theme/app_colors.dart';
 import 'package:x_ten/core/theme/app_dimens.dart';
 import 'package:x_ten/core/theme/theme_context.dart';
 import 'package:x_ten/features/influencer_registration/domain/registration_entities.dart';
@@ -61,7 +60,7 @@ class _ReviewStepState extends State<ReviewStep> {
     final state = context.watch<RegistrationCubit>().state;
     final cubit = context.read<RegistrationCubit>();
     final registration = state.registration;
-    final errorStyle = context.textTheme.bodySmall?.copyWith(color: AppColors.error);
+    final errorStyle = context.textTheme.bodySmall?.copyWith(color: context.palette.error);
     final locale = Localizations.localeOf(context);
     final language = locale.languageCode;
 
@@ -94,13 +93,13 @@ class _ReviewStepState extends State<ReviewStep> {
           Container(
             padding: const EdgeInsets.all(AppSpacing.md),
             decoration: BoxDecoration(
-              color: AppColors.gold.withValues(alpha: 0.1),
+              color: context.palette.primary.withValues(alpha: 0.1),
               borderRadius: AppRadius.lgAll,
-              border: Border.all(color: AppColors.gold.withValues(alpha: 0.4)),
+              border: Border.all(color: context.palette.primary.withValues(alpha: 0.4)),
             ),
             child: Row(
               children: [
-                const Icon(Icons.fact_check_outlined, color: AppColors.gold),
+                Icon(Icons.fact_check_outlined, color: context.palette.primary),
                 const SizedBox(width: AppSpacing.sm),
                 Expanded(child: Text(l10n.regReviewHint, style: context.textTheme.titleSmall)),
               ],
@@ -241,14 +240,14 @@ class ReviewSection extends StatelessWidget {
       decoration: BoxDecoration(
         color: context.colors.surfaceContainer,
         borderRadius: AppRadius.lgAll,
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: context.palette.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Row(
             children: [
-              Expanded(child: Text(title, style: context.textTheme.titleSmall?.copyWith(color: AppColors.gold))),
+              Expanded(child: Text(title, style: context.textTheme.titleSmall?.copyWith(color: context.palette.primary))),
               TextButton.icon(
                 onPressed: onEdit,
                 icon: const Icon(Icons.edit_outlined, size: 18),
@@ -265,7 +264,7 @@ class ReviewSection extends StatelessWidget {
                 children: [
                   Expanded(
                     flex: 2,
-                    child: Text(label, style: context.textTheme.bodySmall?.copyWith(color: AppColors.textSecondary)),
+                    child: Text(label, style: context.textTheme.bodySmall?.copyWith(color: context.palette.textSecondary)),
                   ),
                   const SizedBox(width: AppSpacing.sm),
                   Expanded(
