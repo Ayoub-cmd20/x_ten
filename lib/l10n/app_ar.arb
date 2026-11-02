@@ -24,7 +24,6 @@
   "viewDetails": "عرض التفاصيل",
   "uploadFile": "رفع ملف",
   "downloadPdf": "تحميل بصيغة PDF",
-
   "login": "تسجيل الدخول",
   "logout": "تسجيل الخروج",
   "logoutConfirm": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
@@ -42,7 +41,6 @@
   "dontHaveAccount": "ليس لديك حساب؟",
   "createAccount": "إنشاء حساب جديد",
   "alreadyHaveAccount": "هل لديك حساب بالفعل؟",
-
   "accountTypeTitle": "ما الذي يجلبك إلى X Ten؟",
   "accountTypeSubtitle": "اختر المسار الأنسب لك، وسنخصص تجربتك...",
   "contentCreator": "صانع محتوى / مؤثر",
@@ -54,7 +52,6 @@
   "privacyPolicy": "سياسة الخصوصية",
   "termsConditions": "الشروط والأحكام",
   "helpCenter": "مركز المساعدة",
-
   "companyName": "اسم الشركة / العلامة التجارية",
   "businessType": "نوع النشاط التجاري",
   "commercialRegister": "رقم السجل التجاري (RC)",
@@ -64,7 +61,6 @@
   "officialPhone": "رقم الهاتف الرسمي",
   "storeName": "اسم المتجر الإلكتروني",
   "storeUrl": "رابط المتجر",
-
   "personalInfo": "البيانات الشخصية",
   "gender": "الجنس",
   "male": "ذكر",
@@ -81,7 +77,6 @@
   "verificationStatus": "حالة التوثيق",
   "pendingVerification": "قيد المراجعة",
   "verified": "موثق",
-
   "dashboardTitle": "لوحة التحكم الإبداعية",
   "welcomeBack": "مرحباً بك مجدداً",
   "managementAndMarketing": "الإدارة والتسويق",
@@ -102,7 +97,6 @@
   "aboutUs": "من نحن",
   "faq": "أسئلة شائعة",
   "contactUs": "اتصل بنا",
-
   "contracts": "العقود والاتفاقيات",
   "contractId": "رقم العقد",
   "contractValue": "قيمة العقد",
@@ -114,5 +108,915 @@
   "pendingConfirmation": "في انتظار التأكيد",
   "pendingPublishing": "في انتظار النشر",
   "submitDeliverable": "تسليم العمل النهائي",
-  "releasePayment": "تحرير المبلغ"
+  "releasePayment": "تحرير المبلغ",
+  "loginSubtitle": "سجّل الدخول إلى حسابك للمتابعة",
+  "passwordHint": "أدخل كلمة المرور",
+  "emailRequired": "يرجى إدخال البريد الإلكتروني",
+  "emailInvalid": "يرجى إدخال بريد إلكتروني صحيح",
+  "passwordRequired": "يرجى إدخال كلمة المرور",
+  "showPassword": "إظهار كلمة المرور",
+  "hidePassword": "إخفاء كلمة المرور",
+  "loginUnsupportedAccount": "هذا الحساب لا يمكنه استعمال التطبيق.",
+  "errorNetwork": "تعذر الاتصال بالخادم، تحقق من الإنترنت وحاول مجددًا.",
+  "errorThrottled": "محاولات كثيرة، حاول مجددًا بعد {seconds, plural, =1{ثانية واحدة} =2{ثانيتين} few{{seconds} ثوانٍ} many{{seconds} ثانية} other{{seconds} ثانية}}.",
+  "@errorThrottled": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "errorThrottledGeneric": "محاولات كثيرة، انتظر قليلًا ثم حاول مجددًا.",
+  "errorInvalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة، أو أن الحساب موقوف.",
+  "errorSessionExpired": "انتهت جلستك، سجّل الدخول من جديد.",
+  "errorPermission": "ليس لديك صلاحية للقيام بهذا الإجراء.",
+  "errorNotFound": "العنصر غير موجود.",
+  "errorConflict": "تغيّرت حالة هذا العنصر، حدّث الصفحة وحاول مجددًا.",
+  "errorValidation": "تحقق من البيانات المدخلة.",
+  "errorUnexpected": "حدث خطأ غير متوقع، حاول مجددًا.",
+  "retry": "إعادة المحاولة",
+  "comingSoon": "قريبًا",
+  "changePhone": "تغيير رقم الهاتف",
+  "newPassword": "كلمة المرور الجديدة",
+  "signupTitle": "انضم إلى X Ten",
+  "signupSubtitle": "أنشئ حسابك وابدأ رحلتك مع أقوى منصة للمؤثرين والعلامات التجارية.",
+  "fullNameHint": "اسمك الكامل",
+  "fullNameRequired": "يرجى إدخال الاسم الكامل",
+  "phoneRequired": "يرجى إدخال رقم الهاتف",
+  "phoneInvalid": "أدخل رقم هاتف جزائري صحيح يبدأ بـ 05 أو 06 أو 07",
+  "passwordWeak": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل وألا تكون أرقامًا فقط",
+  "passwordsDoNotMatch": "كلمتا المرور غير متطابقتين",
+  "otpTitle": "تحقق من رقمك",
+  "otpSentTo": "أرسلنا رمز التحقق إلى {phone}",
+  "@otpSentTo": {
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "otpInvalid": "أدخل الرمز المكون من 6 أرقام",
+  "resendCodeIn": "إعادة إرسال الرمز بعد {time}",
+  "@resendCodeIn": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "codeResent": "تم إرسال رمز جديد",
+  "registrationExpired": "انتهت صلاحية جلسة التسجيل، يرجى البدء من جديد.",
+  "startOver": "ابدأ من جديد",
+  "forgotPasswordTitle": "استعادة كلمة المرور",
+  "forgotPasswordSubtitle": "أدخل رقم هاتفك وسنرسل لك رمزًا لإعادة تعيين كلمة المرور.",
+  "resetCodeSubtitle": "أدخل الرمز المرسل إلى {phone} وكلمة المرور الجديدة.",
+  "@resetCodeSubtitle": {
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "passwordResetSuccess": "تم تغيير كلمة المرور بنجاح، سجّل الدخول الآن.",
+  "accountSuspended": "تم إيقاف حسابك، تواصل مع الدعم.",
+  "registrationTitle": "ملف المؤثر",
+  "stepBasicInfo": "المعلومات الأساسية",
+  "stepAudience": "التصنيفات والجمهور",
+  "stepAccounts": "الحسابات والأعمال",
+  "stepPhoto": "الصورة الشخصية",
+  "stepFinancial": "الدفع والمستندات",
+  "stepCounter": "الخطوة {current} من {total}",
+  "@stepCounter": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "back": "رجوع",
+  "saveAndContinue": "حفظ ومتابعة",
+  "add": "إضافة",
+  "optional": "اختياري",
+  "fix": "إكمال",
+  "upload": "رفع",
+  "fieldRequired": "هذا الحقل مطلوب",
+  "urlInvalid": "أدخل رابطًا صحيحًا يبدأ بـ https://",
+  "listSeparator": "، ",
+  "firstName": "الاسم",
+  "lastName": "اللقب",
+  "displayName": "الاسم المعروض",
+  "displayNameHint": "الاسم الذي تراه الشركات",
+  "birthPlace": "مكان الميلاد",
+  "bio": "نبذة عنك",
+  "bioHint": "عرّف بنفسك وبالمحتوى الذي تقدمه",
+  "whatsapp": "رقم واتساب",
+  "primaryCategories": "تصنيفاتك الأساسية",
+  "secondaryCategories": "تصنيفات ثانوية",
+  "chooseUpTo": "الحد الأقصى: {count}",
+  "@chooseUpTo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "optionalChooseUpTo": "اختياري، الحد الأقصى: {count}",
+  "@optionalChooseUpTo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "selectAtLeastOne": "اختر عنصرًا واحدًا على الأقل",
+  "audienceAge": "أعمار الجمهور",
+  "audienceGender": "جنس الجمهور",
+  "audienceLocations": "أماكن الجمهور",
+  "audienceInterests": "اهتمامات الجمهور",
+  "addLocation": "إضافة ولاية",
+  "percentTotal": "المجموع {total}",
+  "@percentTotal": {
+    "placeholders": {
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "audienceMustTotal": "مجموع نسب الأعمار يجب أن يكون 100%",
+  "socialAccountsHint": "حساب واحد على الأقل",
+  "socialAccountsEmpty": "أضف حسابًا اجتماعيًا واحدًا على الأقل",
+  "followersCount": "{count} متابع",
+  "@followersCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "addSocialAccount": "إضافة حساب اجتماعي",
+  "platformLabel": "المنصة",
+  "accountUrl": "رابط الحساب",
+  "username": "اسم المستخدم",
+  "accountName": "اسم الحساب",
+  "descriptionOptional": "وصف (اختياري)",
+  "portfolioTitle": "معرض الأعمال",
+  "portfolioEmpty": "أضف أعمالك السابقة لتبرز أمام الشركات",
+  "addPortfolioItem": "إضافة عمل",
+  "portfolioItemTitle": "عنوان العمل",
+  "portfolioItemLink": "رابط العمل",
+  "portfolioItemDescription": "وصف العمل",
+  "photoTitle": "صورتك الشخصية",
+  "photoSubtitle": "صورة واضحة لوجهك تزيد ثقة الشركات. هذه الخطوة اختيارية.",
+  "choosePhoto": "اختيار صورة",
+  "changePhoto": "تغيير الصورة",
+  "removePhoto": "حذف الصورة",
+  "fromGallery": "من المعرض",
+  "fromCamera": "من الكاميرا",
+  "payoutMethod": "طريقة استلام الأرباح",
+  "accountTypeCcp": "CCP",
+  "accountTypeBank": "بنك",
+  "accountTypeBoth": "الاثنين",
+  "ccpKey": "المفتاح",
+  "ccpKeyInvalid": "رقمين بالضبط",
+  "bankName": "اسم البنك",
+  "bankAccount": "رقم الحساب البنكي",
+  "documentsTitle": "المستندات",
+  "documentsSubtitle": "JPG أو PNG أو PDF، حتى 5MB",
+  "documentUploaded": "تم الرفع",
+  "documentVerified": "تم التحقق",
+  "missingDocumentsWarning": "مستندات ناقصة: {documents}",
+  "@missingDocumentsWarning": {
+    "placeholders": {
+      "documents": {
+        "type": "String"
+      }
+    }
+  },
+  "fileBadExtension": "صيغة الملف غير مدعومة",
+  "fileTooLarge": "حجم الملف أكبر من 5MB",
+  "docIdentityFront": "بطاقة التعريف (الوجه)",
+  "docIdentityBack": "بطاقة التعريف (الظهر)",
+  "docCcpCheque": "صك CCP مشطوب",
+  "docBankRib": "كشف RIB",
+  "docOther": "مستند آخر",
+  "notificationsTitle": "كيف نتواصل معك؟",
+  "notifyInApp": "داخل التطبيق",
+  "notifyWhatsapp": "واتساب",
+  "notifySms": "رسائل SMS",
+  "notifyPhone": "مكالمة هاتفية",
+  "consentsTitle": "الموافقات",
+  "consentVerification": "أوافق على إجراءات التحقق من هويتي",
+  "consentContact": "أوافق على أن تتواصل معي المنصة",
+  "acceptAll": "الموافقة على الكل",
+  "acceptAllConsents": "يرجى قبول كل الموافقات",
+  "submitForReview": "إرسال للمراجعة",
+  "submitMissingTitle": "أكمل هذه العناصر قبل الإرسال",
+  "missingNames": "الاسم واللقب والاسم المعروض",
+  "missingContact": "البريد الإلكتروني أو رقم الهاتف",
+  "statusSubmittedTitle": "تم إرسال ملفك",
+  "statusSubmittedBody": "سيراجع فريقنا ملفك قريبًا، وسنعلمك بأي تحديث.",
+  "statusUnderReviewTitle": "ملفك قيد المراجعة",
+  "statusMeetingRequiredTitle": "نحتاج مكالمة تحقق قصيرة",
+  "statusMeetingRequiredBody": "سنحدد معك موعد المكالمة قريبًا.",
+  "statusMeetingScheduledTitle": "موعد مكالمة التحقق",
+  "statusMeetingScheduledBody": "كن متاحًا في الموعد التالي.",
+  "statusNeedsChangesTitle": "ملفك يحتاج تعديلات",
+  "statusNeedsChangesBody": "عدّل المعلومات المطلوبة في ملفك ثم أعد إرساله.",
+  "statusRejectedTitle": "تم رفض ملفك",
+  "statusRejectedBody": "للاستفسار يمكنك التواصل مع إدارة المنصة.",
+  "refreshStatus": "تحديث الحالة",
+  "platformWebsite": "موقع إلكتروني",
+  "platformBlog": "مدونة",
+  "platformOther": "منصة أخرى",
+  "facebookProfile": "حساب شخصي",
+  "facebookPage": "صفحة",
+  "catTechnology": "التقنية و التكنولوجيا",
+  "catGaming": "الألعاب",
+  "catSports": "رياضة",
+  "catFootball": "كرة القدم",
+  "catFitness": "اللياقة البدنية",
+  "catHealth": "صحة",
+  "catBeauty": "جمال",
+  "catFashion": "الموضة",
+  "catLifestyle": "نمط الحياة",
+  "catCooking": "طبخ و تغذية",
+  "catTravel": "السياحة و الأسفار",
+  "catCars": "سيارات و ماكينات",
+  "catEducation": "تعليم و تطوير",
+  "catBusiness": "المال و الأعمال",
+  "catFinance": "المال",
+  "catMarketing": "التسويق",
+  "catEcommerce": "تجارة إلكترونية",
+  "catArt": "الفن",
+  "catMusic": "الموسيقى و الطرب",
+  "catEntertainment": "الترفيه",
+  "catFamily": "العائلة والأمومة",
+  "catPhotography": "التصوير",
+  "ctPost": "منشور",
+  "ctReel": "ريلز",
+  "ctStory": "ستوري",
+  "ctVideo": "فيديو طويل",
+  "ctLive": "بث مباشر",
+  "ctPodcast": "بودكاست",
+  "ctReview": "مراجعة منتج",
+  "ctTutorial": "شرح",
+  "companyTitle": "ملف الشركة",
+  "companyStepType": "نوع النشاط",
+  "companyStepContact": "التواصل",
+  "businessTypeQuestion": "هل لديك سجل تجاري؟",
+  "businessTypeHint": "نحدد على أساسه المعلومات والوثائق المطلوبة.",
+  "businessRegistered": "نعم، مؤسسة مسجلة",
+  "businessRegisteredDesc": "لديك سجل تجاري ورقم جبائي.",
+  "businessIndividual": "لا، نشاط فردي",
+  "businessIndividualDesc": "تعمل لحسابك دون سجل تجاري.",
+  "address": "العنوان",
+  "legalInfo": "المعلومات القانونية",
+  "docCommercialRegister": "السجل التجاري",
+  "companyNeedsChangesBanner": "طلبت الإدارة تعديلات على ملفك. عدّل المعلومات وأعد الإرسال.",
+  "companySubmittedSuccess": "تم إرسال ملفك للمراجعة",
+  "companyRejectedTitle": "تم رفض ملف الشركة",
+  "companyRejectedBody": "تواصل مع الدعم لمعرفة السبب.",
+  "featuredWorks": "أعمال مميزة",
+  "all": "الكل",
+  "yes": "نعم",
+  "no": "لا",
+  "adStatusDraft": "مسودة",
+  "adStatusSubmitted": "عند المنصة",
+  "adStatusAwaitingInfluencer": "بانتظار المؤثر",
+  "adStatusInfluencerReplied": "ردّ المؤثر",
+  "adStatusClientReviewing": "بانتظار المعلن",
+  "adStatusClientReviewingYou": "بانتظار ردّك",
+  "adStatusClientReplied": "ردّ المعلن",
+  "adStatusAgreed": "تم الاتفاق",
+  "adStatusRejected": "مرفوض",
+  "adFormatPost": "منشور",
+  "adFormatReel": "ريلز",
+  "adFormatStory": "ستوري",
+  "adEntryTemplate": "حسب النموذج",
+  "adEntryTemplateDesc": "تختار نوع المحتوى ومصدره من خيارات جاهزة",
+  "adEntryFreeText": "حسب الطلب",
+  "adEntryFreeTextDesc": "تكتب طلبك بكلماتك",
+  "adMediaImage": "صورة",
+  "adMediaVideo": "فيديو",
+  "adSourceReady": "عندي محتوى جاهز",
+  "adSourceInfluencer": "المؤثر يصنع المحتوى",
+  "adEventSubmitted": "أُرسل الطلب للمنصة",
+  "adEventForwarded": "حوّلت المنصة الطلب للمؤثر",
+  "adEventModificationSent": "اقترحت المنصة تعديلاً",
+  "adEventModificationAccepted": "قُبل التعديل",
+  "adEventModificationRefused": "رُفض التعديل",
+  "adEventInfluencerChanged": "تغيّر المؤثر",
+  "adEventInfluencerAccepted": "وافق المؤثر",
+  "adEventCounterOffer": "اقترح المؤثر عرضاً آخر",
+  "adEventUnclear": "طلب المؤثر توضيحاً",
+  "adEventDeclined": "اعتذر المؤثر",
+  "adEventRejected": "رُفض الطلب",
+  "adEventUnknown": "تحديث على الطلب",
+  "adPartyClient": "المعلن",
+  "adPartyPlatform": "المنصة",
+  "adPartyInfluencer": "المؤثر",
+  "adInfluencer": "المؤثر",
+  "adChooseInfluencer": "اختر مؤثراً من صفحة الاكتشاف",
+  "adRequiresTravel": "يتطلب حضور المؤثر",
+  "adRequiresTravelHint": "التنقل يُنسَّق بين المنصة والمؤثر خارج التطبيق",
+  "adTravelAddress": "عنوان الحضور",
+  "adPresenceRequirements": "متطلبات الحضور",
+  "adPresenceHint": "المدة، اللباس، واش لازم يدير...",
+  "adEntryMode": "طريقة الطلب",
+  "adMediaType": "نوع المحتوى",
+  "adContentSource": "مصدر المحتوى",
+  "adSampleRequired": "تحب تشوف نموذجاً قبل النشر؟",
+  "adDetails": "تفاصيل الطلب",
+  "adDetailsHint": "اشرح فكرة الإعلان، الرسالة، والجمهور اللي تستهدفه...",
+  "adFormats": "صيغ الإعلان",
+  "adPlatforms": "المنصات",
+  "adBudget": "الميزانية",
+  "adDeadline": "آخر أجل للنشر",
+  "adNeedsPlatformServices": "أحتاج خدمات المنصة (تصوير، مونتاج...)",
+  "adBriefFiles": "ملفات توضيحية",
+  "adBriefFilesHint": "صور أو PDF، حتى 10MB",
+  "adReadyContent": "المحتوى الجاهز",
+  "adReadyContentHint": "صور حتى 10MB، فيديو MP4/MOV حتى 100MB",
+  "adAddFile": "إضافة ملف",
+  "adSend": "إرسال الطلب",
+  "adSentTitle": "تم إرسال الطلب",
+  "adSentBody": "طلبك عند المنصة، تراجعه قبل ما تحوّله للمؤثر.",
+  "adDeadlineFuture": "لازم يكون التاريخ بعد اليوم",
+  "adReadyContentMissing": "أضف المحتوى الجاهز",
+  "adFileTooLarge": "الملف كبير: الصور حتى 10MB والفيديو حتى 100MB",
+  "adInfluencerUnavailable": "هذا المؤثر لم يعد متاحاً",
+  "adCheckFields": "راجع الحقول المعلّمة",
+  "adRequestTitle": "طلب {code}",
+  "@adRequestTitle": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "adPendingModification": "تعديل مقترح من المنصة",
+  "adProposedBudget": "الميزانية المقترحة",
+  "adAcceptModification": "قبول التعديل",
+  "adRefuseModification": "رفض التعديل",
+  "adRefuseHint": "علاش ترفض التعديل؟",
+  "adMessageOptional": "رسالة (اختياري)",
+  "adCancelRequest": "إلغاء الطلب",
+  "adCancelHint": "سبب الإلغاء",
+  "adRejectedBy": "رُفض من طرف {party}",
+  "@adRejectedBy": {
+    "placeholders": {
+      "party": {
+        "type": "String"
+      }
+    }
+  },
+  "adTimeline": "سجل الطلب",
+  "adDeleteDraft": "حذف المسودة",
+  "adDeleteDraftConfirm": "تحذف هذي المسودة نهائياً؟",
+  "adAttachments": "المرفقات",
+  "adWithPlatformServices": "مع خدمات المنصة",
+  "adTravel": "حضور ميداني",
+  "adEmpty": "ما كاين حتى طلب في هذي الحالة",
+  "adUpdated": "تم تحديث الطلب",
+  "oppTabRequested": "طلبات جديدة",
+  "oppTabDiscussing": "قيد النقاش",
+  "oppEmpty": "ما عندك حتى طلب هنا حالياً",
+  "oppClient": "المعلن",
+  "oppClientVerified": "معلن موثّق",
+  "oppClientDeals": "صفقات ناجحة: {count}",
+  "@oppClientDeals": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "oppAccept": "قبول الطلب",
+  "oppCounter": "اقتراح عرض آخر",
+  "oppUnclear": "طلب توضيح",
+  "oppDecline": "اعتذار",
+  "oppCounterHint": "اشرح اقتراحك",
+  "oppDeclineHint": "سبب الاعتذار",
+  "oppUnclearHint": "واش اللي ماهوش واضح؟",
+  "oppProposedBudgetOptional": "الميزانية المقترحة (اختياري)",
+  "oppReplied": "تم إرسال ردك",
+  "oppWaiting": "ردّك وصل، المنصة راح تتواصل مع المعلن",
+  "oppAgreed": "تم الاتفاق على هذا الإعلان",
+  "catActing": "تمثيل و دراما",
+  "catPublicFigures": "شخصيات عامة",
+  "catAgriculture": "الفلاحة",
+  "catIndustry": "الصناعة",
+  "catComedy": "كوميديا",
+  "catRealEstate": "العقار و البناء",
+  "regStepPersonal": "المعلومات الشخصية",
+  "regStepProfile": "معلومات البروفايل",
+  "regStepContact": "معلومات الإتصال",
+  "regStepSocial": "حسابات التواصل الإجتماعي",
+  "regStepOptional": "الجمهور والمهارات ومعرض الأعمال",
+  "regStepFinancial": "المعلومات المالية",
+  "regStepSecurity": "الموافقات ومعلومات الأمان",
+  "regStepPhoto": "صورة البروفيل",
+  "regStepDocuments": "الوثائق المطلوبة",
+  "regFullName": "الإسم واللقب",
+  "regEntityQuestion": "هل تعتبر نفسك:",
+  "regEntityNatural": "شخص طبيعي (محتوى شخصي)",
+  "regEntityLegal": "شخص معنوي (صفحة إلكترونية)",
+  "regDisplayName": "إسم الشهرة ( إسم البروفايل )",
+  "regPrimaryCategories": "مجالات تأثيرك الرئيسية :",
+  "regSecondaryCategories": "مجالات تأثيرك الثانوية",
+  "regBio": "نبذة عن المؤثر",
+  "regContentLanguages": "اللغات التي يمكنك تقديم محتوى إعلاني بها",
+  "regOtherLanguageName": "أخرى ( تحديد )",
+  "regAddressLanguages": "ترتيبات اللغة المفضلة التي تفضل أن يخاطبك بها المعلنون",
+  "regAddressLanguagesHint": "حتى {count}. لغة الخطاب تستعمل كتنبيه للمعلن عند إدخال إعلانه للتواصل معك",
+  "@regAddressLanguagesHint": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "langArabic": "العربية",
+  "langDarija": "الدارجة الجزائرية",
+  "langAmazigh": "الأمازيغية",
+  "langEnglish": "الإنجليزية",
+  "langFrench": "الفرنسية",
+  "langOther": "أخرى",
+  "moveUp": "للأعلى",
+  "moveDown": "للأسفل",
+  "regContactTitle": "معلومات الإتصال",
+  "regSocialTitle": "معلومات حسابات التواصل الإجتماعي",
+  "regSocialUrlLabel": "أدخل العنوان الالكتروني للمنصة",
+  "regSocialSubmit": "تقديم",
+  "regSocialAutoHint": "المنصة والصورة والاسم وعدد المتابعين تتعمر تلقائياً وتتجدد بتغيرها",
+  "regSocialAuto": "يتحدّث تلقائياً",
+  "regSocialManual": "مدخل يدوياً",
+  "regSocialCompleteManually": "أكمل الاسم وعدد المتابعين",
+  "regSocialNeedsDetails": "لم نستطع جلب معلومات هذه المنصة تلقائياً، أدخل الاسم وعدد المتابعين",
+  "regSocialDuplicate": "هذا الحساب مضاف من قبل",
+  "regRefresh": "تحديث",
+  "regOptionalHint": "هذه المرحلة غير إلزامية: يمكنك إكمالها الآن أو حتى بعد توثيق حسابك",
+  "regCompleteOptional": "الجمهور والمهارات ومعرض الأعمال",
+  "regAudienceTitle": "مرحلة حصر الجمهور",
+  "regContentTypesTitle": "أنواع المحتوى الإعلاني التي يمكنك تقديمها مرتبة حسب الأولوية",
+  "regPortfolioTitle": "رفع أمثلة لمعرض أعمالك ",
+  "regPortfolioFile": "رفع ملف (صورة، فيديو، PDF)",
+  "regPortfolioLinkOrFile": "أضف رابطاً أو ارفع ملفاً",
+  "regSaved": "تم الحفظ",
+  "audCountries": "الموقع الجغرافي للجمهور: الدول الأكثر متابعة",
+  "audCountryName": "الدولة",
+  "audAddCountry": "إضافة دولة",
+  "audRegionsHint": "لا تحدد كل المناطق، اكتفِ بما يساعد فقط",
+  "regionNorth": "شمال",
+  "regionNorthEast": "شمال شرقي",
+  "regionNorthWest": "شمال غربي",
+  "regionCenter": "وسط",
+  "regionCenterEast": "وسط شرقي",
+  "regionCenterWest": "وسط غربي",
+  "regionSouth": "جنوب",
+  "regionSouthEast": "جنوب شرقي",
+  "regionSouthWest": "جنوب غربي",
+  "audGender": "الجنس",
+  "audMale": "ذكور",
+  "audFemale": "إناث",
+  "audUnspecified": "غير محدد",
+  "audAges": "الفئة العمرية",
+  "audAgeUnder18": "أقل من 18",
+  "audLanguages": "اللغة / اللهجة",
+  "audLangArabic": "العربية (دارجة / فصحى)",
+  "audLangAmazigh": "الأمازيغية",
+  "audLangEnglish": "الإنجليزية",
+  "audLangFrench": "الفرنسية",
+  "audLangMixed": "مزيج لغوي",
+  "audTopPlatforms": "المنصة الأساسية",
+  "audTopPlatformsHint": "رتب 3 منصات: يستعمل هذا لإبرازها في الأول عند العرض للعميل",
+  "audActivity": "توقيت النشاط ( غير إلزامي )",
+  "audPeakDays": "أيام الذروة",
+  "audPeakHours": "ساعات الذروة",
+  "audFrom": "من",
+  "audTo": "إلى",
+  "daySat": "السبت",
+  "daySun": "الأحد",
+  "dayMon": "الإثنين",
+  "dayTue": "الثلاثاء",
+  "dayWed": "الأربعاء",
+  "dayThu": "الخميس",
+  "dayFri": "الجمعة",
+  "audContent": "نوع المحتوى الأكثر تفاعلاً",
+  "audVideo": "فيديو",
+  "audPhoto": "صور",
+  "adctReview": "مراجعة منتج (Review)",
+  "adctTestTry": "تجربة منتج (Test & Try)",
+  "adctUnboxing": "فتح صندوق (Unboxing)",
+  "adctTutorial": "شرح / Tutorial",
+  "adctRecommendation": "توصية شخصية",
+  "adctDirectCta": "إعلان مباشر (Call to Action)",
+  "adctStorytelling": "Storytelling",
+  "adctProductPlacement": "محتوى مدمج (Product Placement)",
+  "regFinancialTitle": "المؤسسات المالية التي تتعامل معها + أرقام حساباتك المالية في كل واحد منها",
+  "regAddInstitution": "إضافة مؤسسة مالية",
+  "finCcp": "بريد الجزائر (CCP)",
+  "finBank": "بنك",
+  "finInstitution": "اسم البنك",
+  "finCcpNumber": "رقم الحساب",
+  "finCcpNumberInvalid": "أرقام فقط (حتى 12)",
+  "finRib": "رقم RIB (20 رقم)",
+  "finEmpty": "أضف مؤسسة مالية واحدة على الأقل",
+  "finMissingDoc": "ارفع الصك أو الشيك لكل حساب",
+  "regConsentPrivacy": "الإمتثال للتشريعات الخاصة بحماية البيانات الشخصية",
+  "regConsentTerms": "الموافقة على الشروط و الأحكام ( إجباري )",
+  "regSecurityTitle": "معلومات الأمان",
+  "regLoginWith": "تسجيل الدخول",
+  "regLoginInfo": "{email} + كلمة السر التي اخترتها عند إنشاء الحساب",
+  "@regLoginInfo": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "regRecoveryTitle": "طريقة إسترداد الحساب",
+  "regRecoveryHint": "تحديد وسيلة إسترجاع كلمة السر",
+  "recPhone": "رقم الهاتف: {phone}",
+  "@recPhone": {
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "recWhatsapp": "واتساب: {phone}",
+  "@recWhatsapp": {
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "recEmail": "البريد الإلكتروني: {email}",
+  "@recEmail": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "recOther": "رقم آخر مسؤول عن إسترجاع كلمة السر",
+  "recOtherPhone": "رقم الإسترجاع",
+  "regPhotoTitle": "صورة البروفيل",
+  "regPhotoSubtitle": "تظهر في بروفايلك للمعلنين",
+  "regDocumentsTitle": "الوثائق المطلوبة للرفع: بطاقة التعريف أو جواز السفر",
+  "regIdCard": "بطاقة التعريف",
+  "docPassport": "جواز السفر",
+  "regFromFiles": "ملف (PDF أو صورة)",
+  "regChequesHint": "الصكوك والشيكات ترفع مع كل حساب في المعلومات المالية",
+  "regNeedsReview": "ستتم مراجعتها في الاجتماع",
+  "regSubmittedMessage": "لقد تم تسجيل طلبك سيتم مراجعة ملفك لإستكماله في حالة النقصان أو عدم وضوح بعض الوثائق\nو سيتم برمجة اجتماع لك مع إدارة المنصة عن طريق مكالمة فيديوا للتأكد من صحة المعلومات المقدمة\nيجب تحضير الوثائق التالية أثناء تاريخ الاجتماع بطاقة التعريف الأصلية أو جواز السفر + وثيقة تحمل أرقام معلوماتك المالية المدخلة ( صك بريدي / شيك بنكي ) + إثباتات الوصول للمنصات المدخلة ( الوصول للمنصات أثناء مكالمة الفيديوا )",
+  "docUnrecognized": "لم نتعرف على الوثيقة. صوّرها كاملة بإضاءة جيدة وأعد المحاولة",
+  "screenshotUnrecognized": "لم نجد الأرقام في اللقطة. خذ لقطة للصفحة كاملة",
+  "ocrUnavailable": "القراءة الآلية غير متاحة حالياً، أدخل المعلومات يدوياً",
+  "docAcceptUnreadableTitle": "تعذّرت قراءة الوثيقة",
+  "docAcceptUnreadableBody": "بعد 3 محاولات، يمكننا إرسال الوثيقة كما هي لتُراجع يدوياً في اجتماع التوثيق.",
+  "docSendForReview": "أرسلها للمراجعة",
+  "regDocChecked": "تم التحقق منها آلياً",
+  "docFinancialProof": "إثبات الحساب (صك، شيك أو RIB)",
+  "finOther": "مؤسسة مالية",
+  "finScanHint": "صوّر الصك أو الشيك ونملأ اسم المؤسسة ورقم الحساب تلقائياً. كل المؤسسات المالية مقبولة",
+  "finScanCheque": "صوّر الصك أو الشيك",
+  "finManualEntry": "أدخل يدوياً",
+  "finCompleteScanned": "قرأنا جزءاً من المعلومات، أكمل الباقي",
+  "finScanManualAfterTries": "أدخل معلومات الحساب يدوياً، وستُراجع الصورة في الاجتماع",
+  "finKeyMismatch": "المفتاح لا يطابق الرقم، سيتم التحقق منه في الاجتماع",
+  "finInstitutionName": "اسم المؤسسة المالية",
+  "finInstitutionHint": "مثال: بريد الجزائر، BNA، CPA، Payoneer",
+  "finAccountNumber": "رقم الحساب",
+  "finAccountNumberHint": "CCP أو RIB أو IBAN أو أي رقم آخر",
+  "finAccountKey": "المفتاح (اختياري)",
+  "finNumberInvalid": "أرقام وحروف لاتينية فقط (من 4 إلى 40)",
+  "finKeyInvalid": "المفتاح رقمان",
+  "scanFilled": "ملأنا المعلومات من الوثيقة، راجعها قبل المتابعة",
+  "scanFromIdTitle": "املأ معلوماتك من الوثيقة",
+  "scanFromIdHint": "صوّر بطاقة التعريف أو جواز السفر ونملأ الاسم واللقب وتاريخ ومكان الميلاد تلقائياً",
+  "screenshotManualAfterTries": "أدخل الاسم وعدد المتابعين يدوياً، وسيتم التحقق منهما في الاجتماع",
+  "screenshotApplied": "تم تحديث عدد المتابعين من اللقطة",
+  "socialScreenshotHint": "هذه المنصة لا تعطي الأرقام مباشرة. خذ لقطة شاشة لصفحة بروفايلك يظهر فيها عدد المتابعين",
+  "socialScreenshotButton": "ارفع لقطة شاشة لبروفايلك",
+  "regSocialFromScreenshot": "من لقطة شاشة",
+  "audScanPlatform": "من أي منصة هذه اللقطات؟",
+  "audScanHint": "ارفع لقطات الإحصائيات (Insights): الجنس، الأعمار، المدن، الدول... ونملأ النسب تلقائياً، ثم راجعها واحفظ",
+  "audScanTitle": "املأ من لقطات Insights",
+  "docUnrecognizedRetry": "لم نتعرف على الوثيقة. صوّرها كاملة بإضاءة جيدة (المحاولة {attempt} من {max})",
+  "@docUnrecognizedRetry": {
+    "placeholders": {
+      "attempt": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "screenshotUnrecognizedRetry": "لم نجد عدد المتابعين في اللقطة. خذ لقطة لصفحة البروفايل كاملة (المحاولة {attempt} من {max})",
+  "@screenshotUnrecognizedRetry": {
+    "placeholders": {
+      "attempt": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "finAdded": "تمت إضافة الحساب: {name}",
+  "@finAdded": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "audScanDone": "ملأنا {count} أقسام من اللقطات، راجع النسب ثم احفظ",
+  "@audScanDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "screenshotWrongPlatform": "اللقطة ليست من نفس منصة الحساب",
+  "screenshotWrongAccount": "اللقطة لحساب آخر: اسم المستخدم لا يطابق الرابط",
+  "bizSectorFoodBeverage": "الأغذية والمشروبات",
+  "bizSectorTrade": "التجارة والبيع",
+  "bizSectorIndustry": "الصناعة والإنتاج",
+  "bizSectorAgriculture": "الفلاحة والمنتجات الزراعية",
+  "bizSectorRealEstate": "العقار والإنشاءات",
+  "bizSectorTransport": "النقل واللوجستيك",
+  "bizSectorHealth": "الصحة والخدمات الطبية",
+  "bizSectorEducation": "التعليم والتكوين",
+  "bizSectorTelecomTech": "الاتصالات والتكنولوجيا",
+  "bizSectorTourism": "السياحة والترفيه",
+  "bizSectorBeauty": "الجمال والعناية الشخصية",
+  "bizSectorFashion": "الأزياء والموضة",
+  "bizSectorAutomotive": "السيارات والنقل الخاص",
+  "bizSectorProfessionalServices": "الخدمات المهنية",
+  "bizSectorMedia": "الإعلام والاتصال",
+  "bizSectorHomeServices": "الخدمات المنزلية",
+  "bizSectorConglomerates": "مجمّعات وشركات متعددة الأنشطة",
+  "bizSectorGovernment": "الجهات الحكومية والشبه حكومية",
+  "bizSectorIndividuals": "أفراد / أنشطة مستقلة",
+  "bizSectorOther": "أخرى",
+  "bizActivityRestaurants": "مطاعم",
+  "bizActivityCafes": "مقاهي",
+  "bizActivityFoodFactories": "مصانع غذائية",
+  "bizActivityFoodDistribution": "توزيع مواد غذائية",
+  "bizActivityRetail": "متاجر تجزئة",
+  "bizActivityWholesale": "تجارة جملة",
+  "bizActivityOnlineSales": "بيع عبر الإنترنت",
+  "bizActivityLocalMarkets": "أسواق محلية",
+  "bizActivityManufacturing": "صناعة تحويلية",
+  "bizActivityFactories": "مصانع",
+  "bizActivityMaterialsProduction": "إنتاج مواد",
+  "bizActivityFarming": "إنتاج فلاحي",
+  "bizActivityLivestock": "تربية",
+  "bizActivityAgriProcessing": "تحويل زراعي",
+  "bizActivityRealEstateDevelopment": "تطوير عقاري",
+  "bizActivityContracting": "مقاولات",
+  "bizActivityPublicWorks": "أشغال عامة",
+  "bizActivityFreightTransport": "نقل بري / بحري / جوي",
+  "bizActivityWarehousing": "تخزين",
+  "bizActivityLogisticsDistribution": "توزيع",
+  "bizActivityDelivery": "توصيل",
+  "bizActivityClinics": "عيادات",
+  "bizActivityLaboratories": "مخابر",
+  "bizActivityPharmacies": "صيدليات",
+  "bizActivityMedicalManufacturing": "تصنيع طبي",
+  "bizActivitySchools": "مدارس",
+  "bizActivityUniversities": "جامعات",
+  "bizActivityTrainingCenters": "مراكز تدريب",
+  "bizActivityPrivateEducation": "تعليم خاص",
+  "bizActivityTelecom": "اتصالات",
+  "bizActivityTechCompanies": "شركات تقنية",
+  "bizActivityDigitalServices": "خدمات رقمية",
+  "bizActivityHotels": "فنادق",
+  "bizActivityTravelAgencies": "وكالات سفر",
+  "bizActivityResorts": "منتجعات",
+  "bizActivityLeisure": "نشاطات ترفيهية",
+  "bizActivitySalons": "صالونات",
+  "bizActivityCosmeticClinics": "عيادات تجميل",
+  "bizActivityCareProducts": "منتجات عناية",
+  "bizActivityClothingStores": "محلات ملابس",
+  "bizActivityFashionDesign": "تصميم أزياء",
+  "bizActivityFashionDistribution": "توزيع",
+  "bizActivityCarSales": "بيع سيارات",
+  "bizActivityCarMaintenance": "صيانة",
+  "bizActivityCarRental": "كراء",
+  "bizActivityLaw": "محاماة",
+  "bizActivityAccounting": "محاسبة",
+  "bizActivityConsulting": "استشارات",
+  "bizActivityAdministrativeServices": "خدمات إدارية",
+  "bizActivityMediaProduction": "إنتاج إعلامي",
+  "bizActivityAdAgencies": "وكالات إشهار",
+  "bizActivityEvents": "تنظيم فعاليات",
+  "bizActivityHomeMaintenance": "صيانة",
+  "bizActivityCleaning": "تنظيف",
+  "bizActivitySmallWorks": "أشغال صغيرة",
+  "bizActivityHoldings": "شركات قابضة",
+  "bizActivityInvestmentGroups": "مجموعات استثمارية",
+  "bizActivityFinancialInstitutions": "مؤسسات مالية",
+  "bizActivityMinistries": "وزارات",
+  "bizActivityNationalCompanies": "شركة وطنية",
+  "bizActivityNonProfits": "جمعيات ومنظمات غير ربحية",
+  "bizActivityFreelancer": "فريلانسر",
+  "bizActivitySoloActivity": "نشاط فردي",
+  "bizActivitySmallProjects": "مشاريع صغيرة",
+  "bizActivityOther": "أخرى (حدد)",
+  "companyRoleOwner": "المالك",
+  "companyRoleMarketingOfficer": "المكلف بالتسويق",
+  "companyRoleCompanyOwner": "مالك المؤسسة",
+  "companyRoleMarketingDirector": "مدير التسويق بالشركة",
+  "companyRoleRelationsOfficer": "المكلف بالعلاقات",
+  "companyRoleStoreOwner": "مالك المتجر",
+  "companyRoleProjectOwner": "مالك المشروع",
+  "companyRoleOther": "أخرى (حدد)",
+  "companyStepPersonal": "المسؤول عن الحساب",
+  "companyStepBusiness": "المؤسسة",
+  "companyStepPresence": "النشاط والظهور",
+  "companyStepFinish": "المالية والوثائق",
+  "companyRoleTitle": "الصفة",
+  "companyRoleOtherHint": "حدد صفتك",
+  "companyAccountName": "اختر اسماً لحسابك",
+  "companyAccountNameRules": "لا تنتحل اسم شخص أو علامة أخرى، ولا تستعمل ألفاظاً مسيئة، ومن {min} إلى {max} حرفاً.",
+  "@companyAccountNameRules": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "companyAccountNameTaken": "هذا الاسم مستعمل من حساب آخر",
+  "companyAccountNameReserved": "هذا الاسم محجوز، اختر اسماً آخر",
+  "companyAccountNameInvalid": "حروف وأرقام ومسافات فقط، من {min} إلى {max} حرفاً",
+  "@companyAccountNameInvalid": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "companyInstitutionName": "اسم المؤسسة",
+  "companyBranch": "الفرع (اختياري)",
+  "companyAccountNameQuestion": "أيهما تريده اسماً لحسابك؟",
+  "companyNameOption": "اسم المؤسسة",
+  "companyBranchOption": "اسم الفرع",
+  "companyHqWilaya": "ولاية المقر",
+  "companyHqAddress": "عنوان مقر المؤسسة",
+  "companyCapital": "رأس المال (اختياري)",
+  "companyCurrency": "دج",
+  "companyPhotoSubtitle": "شعار مؤسستك أو صورتك، تظهر للمؤثرين",
+  "companyBio": "نبذة عن نشاطك",
+  
+  "companyBioHint": "ماذا تقدم ولمن؟",
+  "companyBioOptional": "نبذة عن نشاطك (اختيارية)",
+  "companyOfficialEmail": "البريد الإلكتروني الرسمي للشركة (اختياري)",
+  "companyPageScreenshot": "لقطة شاشة للصفحة (اختيارية)",
+  "companyPageScreenshotHint": "لقطة الشاشة اختيارية: نقرأ منها اسم الحساب وعدد المتابعين",
+  "companyAddPage": "إضافة منصة أخرى",
+  "signupEmailNote": "هذا الإيميل تستخدمه للدخول إلى حسابك ولاسترجاع كلمة السر وللتواصل مع شركة x10",
+  "companyActivitiesTitle": "مجالات النشاط",
+  "companyActivitiesMax": "اختر {max} على الأكثر",
+  "@companyActivitiesMax": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "companyActivityOtherHint": "حدد مجال نشاطك",
+  "companyPagesTitle": "صفحات التسويق الرسمية (اختياري)",
+  "companyPagesHint": "الصق رابط الصفحة ونتعرف على المنصة تلقائياً",
+  "companyPagesLimit": "{max} صفحات على الأكثر",
+  "@companyPagesLimit": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "companyPhoneHint": "لا تستعمل رقمك الشخصي",
+  "companyWhatsappOptional": "رقم مرتبط بواتساب (اختياري)",
+  "companyPhone2": "رقم الهاتف الاحتياطي (اختياري)",
+  "companyEmailHint": "بريد حسابك، سنطلب تأكيده لاحقاً",
+  "docTaxCertificate": "وثيقة الرقم الجبائي",
+  "docLicense": "ترخيص أو تصريح",
+  "companyLicensesTitle": "التراخيص والتصاريح (اختيارية)",
+  "companyLicensesHint": "للنشاطات التي قد تروّج لها لاحقاً",
+  "companyAddLicense": "إضافة ترخيص",
+  "companyProofOptional": "أضف صكاً أو شيكاً أو RIB (اختياري)",
+  "docReviewPending": "قيد المراجعة",
+  "docReviewAccepted": "مقبولة",
+  "docReviewRejected": "مرفوضة: {reason}",
+  "@docReviewRejected": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "companyMeetingNote": "بعد الإرسال نحدد معك لقاءً لمراجعة كل الإثباتات",
+  "companyScanDocsTitle": "املأ من وثائق المؤسسة",
+  "companyScanDocsHint": "صوّر السجل التجاري ووثيقة الرقم الجبائي، نملأ الاسم والأرقام والعنوان ورأس المال تلقائياً، وأكمل الباقي. الوثيقتان اختياريتان.",
+  "regIdNumber": "رقم بطاقة التعريف",
+  "regContentLanguagesHint": "اختر مستواك في كل لغة",
+  "regOptionalContactTitle": "معلومات إضافية (اختيارية)",
+  "regBackupPhone": "رقم هاتف احتياطي (اختياري)",
+  "regDeliveryAddress": "عنوان وصول طرودك (اختياري)",
+  "regDeliveryAddressHint": "حدد عنوان البيت بدقة لتستلم الطرد حتى بيتك أو البلدية القريبة لك لتستلم فيها الطرد من مكاتب التوصيل",
+  "audWritten": "محتوى كتابي",
+  "audAudio": "محتوى صوتي",
+  "audInteractive": "محتوى تفاعلي",
+  "audContentRankHint": "رتّبها من الأكثر تفاعلاً إلى الأقل",
+  "regSkipOptional": "تخطي، سأكملها لاحقاً",
+  "finAddHint": "أضف مؤسسة مالية واحدة على الأقل: اسمها، وثيقة إن وُجدت، ورقم الحساب",
+  "finProofAdded": "الوثيقة مرفقة",
+  "finReadDone": "قرأنا رقم الحساب من الوثيقة، راجعه",
+  "finAttachDocument": "إرفاق وثيقة (صك، RIB...) اختياري",
+  "finAttachDocumentHint": "إذا أرفقت وثيقة نقرأ رقم الحساب تلقائياً، وإلا اكتبه بنفسك",
+  "regEntityRadio": "إذاعة",
+  "regEntityTv": "تلفزيون",
+  "regEntityShort": "الصفة",
+  "levelBasic": "أساسي",
+  "levelGood": "جيد",
+  "levelAdvanced": "متقدم",
+  "regChooseLevel": "اختر المستوى",
+  "regNationalId": "رقم التعريف الوطني",
+  "regNationalIdHint": "18 رقمًا",
+  "regNationalIdInvalid": "رقم التعريف الوطني يتكون من 18 رقمًا",
+  "regIdentityDocument": "وثيقة الهوية",
+  "requiredFieldsNote": "* ملاحظة : (الحقول المحصورة بنجمة (*) إلزامية لإدخال البيانات)",
+  "upgradePrefix": "يمكنك الترقية",
+  "upgradeTapHere": "بالضغط هنا",
+  "regBioOptional": "نبذة عنك (غير إلزامية)",
+  "adctComparison": "المقارنات",
+  "adctTipsTricks": "النصائح والحيل",
+  "adctPolls": "الاستطلاعات (أسئلة وأجوبة)",
+  "adctDailyVlog": "اليوميات",
+  "adctChallenges": "التحديات والمسابقات",
+  "adctAffiliateLinks": "روابط الأفلييت",
+  "adctGiveaways": "الهدايا والمسابقات",
+  "adctInspiringStories": "قصص ملهمة",
+  "adctPodcast": "بودكاست",
+  "adctMotivationalPosts": "منشورات تحفيزية",
+  "instAlgeriePoste": "بريد الجزائر",
+  "instBna": "البنك الوطني الجزائري (BNA)",
+  "instBea": "بنك الجزائر الخارجي (BEA)",
+  "instBdl": "بنك التنمية المحلية (BDL)",
+  "instBadr": "بنك الفلاحة والتنمية الريفية (BADR)",
+  "instCpa": "القرض الشعبي الجزائري (CPA)",
+  "instCnep": "الصندوق الوطني للتوفير والاحتياط (CNEP-Banque)",
+  "instBnh": "البنك الوطني للإسكان (BNH)",
+  "instAgb": "بنك الخليج الجزائر (AGB)",
+  "instSocieteGenerale": "سوسيتيه جنرال الجزائر (Société Générale)",
+  "instBnpParibas": "بي إن بي باريبا الجزائر (BNP Paribas)",
+  "instBankAbc": "المؤسسة العربية المصرفية (Bank ABC)",
+  "instHousingBank": "بنك الإسكان للتجارة والتمويل (Housing Bank)",
+  "instAlSalam": "بنك السلام الجزائر (مصرف إسلامي)",
+  "instAlBaraka": "بنك البركة الجزائري (مصرف إسلامي)",
+  "instFransabank": "بنك فرنسابنك الجزائر (Fransabank)",
+  "instArabBank": "بنك عمان العربي تونس والجزائر (العربي)",
+  "regStepReview": "مراجعة وإرسال",
+  "regReviewHint": "تأكد من معلوماتك قبل الإرسال",
+  "regEditFile": "تعديل الملف",
+  "regGoHome": "الصفحة الرئيسية",
+  "regViewStatus": "اضغط لعرض حالة ملفك",
+  "audRegionsIn": "المناطق داخل {country}",
+  "@audRegionsIn": {
+    "placeholders": {
+      "country": {
+        "type": "String"
+      }
+    }
+  },
+  "themeLight": "الوضع الفاتح",
+  "themeDark": "الوضع الداكن",
+  "onboardingSkip": "تخطي",
+  "onboardingStart": "ابدأ الآن",
+  "onboardingVerified": "موثّق",
+  "onboardingNewRequest": "طلب إعلان جديد",
+  "onboardingBrand": "شركة",
+  "onboardingCreator": "مؤثر",
+  "onboarding1Title": "اعثر على المؤثر المناسب لعلامتك",
+  "onboarding1Body": "تصفّح صنّاع محتوى موثّقين حسب المجال والجمهور، واختر من يوصل رسالتك بأفضل شكل.",
+  "onboarding2Title": "فرص إعلانية تصلك مباشرة",
+  "onboarding2Body": "كمؤثر، تستقبل طلبات الإعلان من الشركات، تراجع تفاصيلها، وتقرر بكل حرية.",
+  "onboarding3Title": "منصة موثوقة تجمع الطرفين",
+  "onboarding3Body": "كل حساب يمر بالتحقق، وكل طلب يمر عبر X Ten قبل أن يصل، لتعاون آمن واحترافي."
 }

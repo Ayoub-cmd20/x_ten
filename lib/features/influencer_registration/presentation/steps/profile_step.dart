@@ -1,0 +1,232 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:x_ten/core/errors/failures.dart';
+import 'package:x_ten/core/localization/localization_extension.dart';
+import 'package:x_ten/core/theme/app_dimens.dart';
+import 'package:x_ten/core/theme/theme_context.dart';
+import 'package:x_ten/features/influencer_registration/domain/registration_entities.dart';
+import 'package:x_ten/features/influencer_registration/presentation/registration_cubit.dart';
+import 'package:x_ten/features/influencer_registration/presentation/registration_labels.dart';
+import 'package:x_ten/features/influencer_registration/presentation/registration_widgets.dart';
+import 'package:x_ten/features/influencer_registration/presentation/widgets/profile_photo.dart';
+
+/// معلومات البروفايل: الصورة، إسم الشهرة، المجالات، النبذة، اللغات.
+class ProfileStep extends StatefulWidget {
+  const ProfileStep({super.key});
+
+  @override
+  State<ProfileStep> createState() => _ProfileStepState();
+}
+
+class _ProfileStepState extends State<ProfileStep> with ServerFieldErrors {
+  static const _fields = [
+    'displayName',
+    'primaryCategories',
+    'secondaryCategories',
+    'contentLanguages',
+    'addressLanguages',
+  ];
+
+  final _formKey = GlobalKey<FormState>();
+  late final TextEditingController _displayName;
+  late final TextEditingController _otherLanguage;
+  late List<String> _primary;
+  late List<String> _secondary;
+  late Map<String, LanguageLevel?> _languages;
+  late List<String> _address;
+  bool _showErrors = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final state = context.read<RegistrationCubit>().state;
+    final profile = state.registration?.profile;
+    _displayName = TextEditingController(text: profile?.displayName);
+    _primary = [...?profile?.primaryCategories];
+    _secondary = [...?profile?.secondaryCategories];
+    _languages = {for (final l in profile?.contentLanguages ?? const <ContentLanguage>[]) l.code: l.level};
+    _otherLanguage = TextEditingController(
+      text: profile?.contentLanguages.where((l) => l.code == RegistrationCatalog.otherLanguage).firstOrNull?.name,
+    );
+    _address = [...?profile?.addressLanguages];
+  }
+
+  @override
+  void dispose() {
+    _displayName.dispose();
+    _otherLanguage.dispose();
+    super.dispose();
+  }
+
+  bool get _otherNameMissing =>
+      _languages.containsKey(RegistrationCatalog.otherLanguage) && _otherLanguage.text.trim().isEmpty;
+
+  void _toggleLanguage(String code, bool on) => setState(() {
+        if (on) {
+          _languages[code] = null;
+        } else {
+          _languages.remove(code);
+          if (code == RegistrationCatalog.otherLanguage) {
+            _address.remove(code);
+          }
+        }
+      });
+
+  bool get _levelsChosen => _languages.isNotEmpty && _languages.values.every((level) => level != null);
+
+  void _submit() {
+    FocusScope.of(context).unfocus();
+    final valid = _formKey.currentState?.validate() ?? false;
+    final hasPhoto = context.read<RegistrationCubit>().state.registration?.profileImageUrl != null;
+    if (!valid || !hasPhoto || _primary.isEmpty || !_levelsChosen || _otherNameMissing || _address.isEmpty) {
+      setState(() => _showErrors = true);
+      return;
+    }
+    context.read<RegistrationCubit>().saveSection(ProfileInfo(
+          displayName: _displayName.text,
+          primaryCategories: _primary,
+          secondaryCategories: _secondary,
+          contentLanguages: [
+            for (final code in RegistrationCatalog.languages)
+              if (_languages[code] case final level?)
+                ContentLanguage(
+                  code: code,
+                  level: level,
+                  name: code == RegistrationCatalog.otherLanguage ? _otherLanguage.text : '',
+                ),
+          ],
+          addressLanguages: _address,
+        ));
+  }
+
+  void _onFailure(BuildContext context, RegistrationState state) {
+    final failure = state.failure!;
+    if (failure is ValidationFailure && failure.details.keys.any(_fields.contains)) {
+      setState(() => _showErrors = true);
+    }
+    handleFailure(failure, _fields);
+  }
+
+  String _languageName(String code) {
+    final l10n = context.l10n;
+    final other = _otherLanguage.text.trim();
+    return code == RegistrationCatalog.otherLanguage && other.isNotEmpty ? other : l10n.languageLabel(code);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final isSaving = context.select((RegistrationCubit c) => c.state.isLoadingFor(RegistrationAction.saveSection));
+    final errorStyle = context.textTheme.bodySmall?.copyWith(color: context.palette.error);
+    const maxPrimary = RegistrationCatalog.maxPrimaryCategories;
+    const maxSecondary = RegistrationCatalog.maxSecondaryCategories;
+
+    return BlocListener<RegistrationCubit, RegistrationState>(
+      listenWhen: (previous, current) => current.didFail(RegistrationAction.saveSection) && previous != current,
+      listener: _onFailure,
+      child: Form(
+        key: _formKey,
+        child: StepBody(
+          requiredNote: true,
+          actions: StepActions(isLoading: isSaving, onBack: context.read<RegistrationCubit>().back, onNext: _submit),
+          children: [
+            ProfilePhotoPicker(showError: _showErrors),
+            const SizedBox(height: AppSpacing.md),
+            TextFormField(
+              controller: _displayName,
+              forceErrorText: serverError('displayName'),
+              onChanged: (_) => clearServerError('displayName'),
+              decoration: InputDecoration(labelText: req(l10n.regDisplayName)),
+              validator: (value) => requiredText(context, value),
+            ),
+            SectionTitle(req(l10n.regPrimaryCategories), subtitle: l10n.chooseUpTo(maxPrimary)),
+            const UpgradeLink(),
+            const SizedBox(height: AppSpacing.sm),
+            ChoiceWrap(
+              options: RegistrationCatalog.categories,
+              selected: _primary,
+              max: maxPrimary,
+              labelOf: l10n.category,
+              errorText: _showErrors && _primary.isEmpty ? l10n.selectAtLeastOne : serverError('primaryCategories'),
+              onChanged: (value) => setState(() {
+                _primary = value;
+                _secondary = [for (final s in _secondary) if (!value.contains(s)) s];
+              }),
+            ),
+            SectionTitle(l10n.regSecondaryCategories, subtitle: l10n.optionalChooseUpTo(maxSecondary)),
+            const UpgradeLink(),
+            const SizedBox(height: AppSpacing.sm),
+            ChoiceWrap(
+              options: [for (final c in RegistrationCatalog.categories) if (!_primary.contains(c)) c],
+              selected: _secondary,
+              max: maxSecondary,
+              labelOf: l10n.category,
+              onChanged: (value) => setState(() => _secondary = value),
+            ),
+            SectionTitle(req(l10n.regContentLanguages), subtitle: l10n.regContentLanguagesHint),
+            for (final code in RegistrationCatalog.languages) ...[
+              CheckboxListTile(
+                contentPadding: EdgeInsets.zero,
+                controlAffinity: ListTileControlAffinity.leading,
+                value: _languages.containsKey(code),
+                title: Text(l10n.languageLabel(code), style: context.textTheme.bodyMedium),
+                onChanged: (on) => _toggleLanguage(code, on ?? false),
+              ),
+              if (_languages.containsKey(code)) ...[
+                if (code == RegistrationCatalog.otherLanguage)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+                    child: TextField(
+                      controller: _otherLanguage,
+                      onChanged: (_) => setState(() {}),
+                      decoration: InputDecoration(
+                        labelText: req(l10n.regOtherLanguageName),
+                        errorText: _showErrors && _otherNameMissing ? l10n.fieldRequired : null,
+                      ),
+                    ),
+                  ),
+                Padding(
+                  padding: const EdgeInsetsDirectional.only(start: AppSpacing.xl, bottom: AppSpacing.sm),
+                  child: Wrap(
+                    spacing: AppSpacing.xs,
+                    runSpacing: AppSpacing.xs,
+                    children: [
+                      for (final level in LanguageLevel.values)
+                        ChoiceChip(
+                          label: Text('${l10n.levelLabel(level)} ${ltr('${RegistrationCatalog.levelPercent[level]}%')}'),
+                          selected: _languages[code] == level,
+                          onSelected: (_) => setState(() => _languages[code] = level),
+                        ),
+                    ],
+                  ),
+                ),
+                if (_showErrors && _languages[code] == null)
+                  Padding(
+                    padding: const EdgeInsetsDirectional.only(start: AppSpacing.xl, bottom: AppSpacing.sm),
+                    child: Text(l10n.regChooseLevel, style: errorStyle),
+                  ),
+              ],
+            ],
+            if (_showErrors && _languages.isEmpty) Text(l10n.selectAtLeastOne, style: errorStyle),
+            SectionTitle(
+              req(l10n.regAddressLanguages),
+              subtitle: l10n.regAddressLanguagesHint(RegistrationCatalog.maxAddressLanguages),
+            ),
+            RankedPicker(
+              options: [
+                for (final code in RegistrationCatalog.languages)
+                  if (code != RegistrationCatalog.otherLanguage || _languages.containsKey(code)) code,
+              ],
+              selected: _address,
+              max: RegistrationCatalog.maxAddressLanguages,
+              labelOf: _languageName,
+              errorText: _showErrors && _address.isEmpty ? l10n.selectAtLeastOne : serverError('addressLanguages'),
+              onChanged: (value) => setState(() => _address = value),
+            ),
+            const SizedBox(height: AppSpacing.lg),
+          ],
+        ),
+      ),
+    );
+  }
+}

@@ -337,4 +337,2213 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get releasePayment => 'تحرير المبلغ';
+
+  @override
+  String get loginSubtitle => 'سجّل الدخول إلى حسابك للمتابعة';
+
+  @override
+  String get passwordHint => 'أدخل كلمة المرور';
+
+  @override
+  String get emailRequired => 'يرجى إدخال البريد الإلكتروني';
+
+  @override
+  String get emailInvalid => 'يرجى إدخال بريد إلكتروني صحيح';
+
+  @override
+  String get passwordRequired => 'يرجى إدخال كلمة المرور';
+
+  @override
+  String get showPassword => 'إظهار كلمة المرور';
+
+  @override
+  String get hidePassword => 'إخفاء كلمة المرور';
+
+  @override
+  String get loginUnsupportedAccount => 'هذا الحساب لا يمكنه استعمال التطبيق.';
+
+  @override
+  String get errorNetwork =>
+      'تعذر الاتصال بالخادم، تحقق من الإنترنت وحاول مجددًا.';
+
+  @override
+  String errorThrottled(int seconds) {
+    String _temp0 = intl.Intl.pluralLogic(
+      seconds,
+      locale: localeName,
+      other: '$seconds ثانية',
+      many: '$seconds ثانية',
+      few: '$seconds ثوانٍ',
+      two: 'ثانيتين',
+      one: 'ثانية واحدة',
+    );
+    return 'محاولات كثيرة، حاول مجددًا بعد $_temp0.';
+  }
+
+  @override
+  String get errorThrottledGeneric =>
+      'محاولات كثيرة، انتظر قليلًا ثم حاول مجددًا.';
+
+  @override
+  String get errorInvalidCredentials =>
+      'البريد الإلكتروني أو كلمة المرور غير صحيحة، أو أن الحساب موقوف.';
+
+  @override
+  String get errorSessionExpired => 'انتهت جلستك، سجّل الدخول من جديد.';
+
+  @override
+  String get errorPermission => 'ليس لديك صلاحية للقيام بهذا الإجراء.';
+
+  @override
+  String get errorNotFound => 'العنصر غير موجود.';
+
+  @override
+  String get errorConflict =>
+      'تغيّرت حالة هذا العنصر، حدّث الصفحة وحاول مجددًا.';
+
+  @override
+  String get errorValidation => 'تحقق من البيانات المدخلة.';
+
+  @override
+  String get errorUnexpected => 'حدث خطأ غير متوقع، حاول مجددًا.';
+
+  @override
+  String get retry => 'إعادة المحاولة';
+
+  @override
+  String get comingSoon => 'قريبًا';
+
+  @override
+  String get changePhone => 'تغيير رقم الهاتف';
+
+  @override
+  String get newPassword => 'كلمة المرور الجديدة';
+
+  @override
+  String get signupTitle => 'انضم إلى X Ten';
+
+  @override
+  String get signupSubtitle =>
+      'أنشئ حسابك وابدأ رحلتك مع أقوى منصة للمؤثرين والعلامات التجارية.';
+
+  @override
+  String get fullNameHint => 'اسمك الكامل';
+
+  @override
+  String get fullNameRequired => 'يرجى إدخال الاسم الكامل';
+
+  @override
+  String get phoneRequired => 'يرجى إدخال رقم الهاتف';
+
+  @override
+  String get phoneInvalid => 'أدخل رقم هاتف جزائري صحيح يبدأ بـ 05 أو 06 أو 07';
+
+  @override
+  String get passwordWeak =>
+      'يجب أن تتكون كلمة المرور من 8 أحرف على الأقل وألا تكون أرقامًا فقط';
+
+  @override
+  String get passwordsDoNotMatch => 'كلمتا المرور غير متطابقتين';
+
+  @override
+  String get otpTitle => 'تحقق من رقمك';
+
+  @override
+  String otpSentTo(String phone) {
+    return 'أرسلنا رمز التحقق إلى $phone';
+  }
+
+  @override
+  String get otpInvalid => 'أدخل الرمز المكون من 6 أرقام';
+
+  @override
+  String resendCodeIn(String time) {
+    return 'إعادة إرسال الرمز بعد $time';
+  }
+
+  @override
+  String get codeResent => 'تم إرسال رمز جديد';
+
+  @override
+  String get registrationExpired =>
+      'انتهت صلاحية جلسة التسجيل، يرجى البدء من جديد.';
+
+  @override
+  String get startOver => 'ابدأ من جديد';
+
+  @override
+  String get forgotPasswordTitle => 'استعادة كلمة المرور';
+
+  @override
+  String get forgotPasswordSubtitle =>
+      'أدخل رقم هاتفك وسنرسل لك رمزًا لإعادة تعيين كلمة المرور.';
+
+  @override
+  String resetCodeSubtitle(String phone) {
+    return 'أدخل الرمز المرسل إلى $phone وكلمة المرور الجديدة.';
+  }
+
+  @override
+  String get passwordResetSuccess =>
+      'تم تغيير كلمة المرور بنجاح، سجّل الدخول الآن.';
+
+  @override
+  String get accountSuspended => 'تم إيقاف حسابك، تواصل مع الدعم.';
+
+  @override
+  String get registrationTitle => 'ملف المؤثر';
+
+  @override
+  String get stepBasicInfo => 'المعلومات الأساسية';
+
+  @override
+  String get stepAudience => 'التصنيفات والجمهور';
+
+  @override
+  String get stepAccounts => 'الحسابات والأعمال';
+
+  @override
+  String get stepPhoto => 'الصورة الشخصية';
+
+  @override
+  String get stepFinancial => 'الدفع والمستندات';
+
+  @override
+  String stepCounter(int current, int total) {
+    return 'الخطوة $current من $total';
+  }
+
+  @override
+  String get back => 'رجوع';
+
+  @override
+  String get saveAndContinue => 'حفظ ومتابعة';
+
+  @override
+  String get add => 'إضافة';
+
+  @override
+  String get optional => 'اختياري';
+
+  @override
+  String get fix => 'إكمال';
+
+  @override
+  String get upload => 'رفع';
+
+  @override
+  String get fieldRequired => 'هذا الحقل مطلوب';
+
+  @override
+  String get urlInvalid => 'أدخل رابطًا صحيحًا يبدأ بـ https://';
+
+  @override
+  String get listSeparator => '، ';
+
+  @override
+  String get firstName => 'الاسم';
+
+  @override
+  String get lastName => 'اللقب';
+
+  @override
+  String get displayName => 'الاسم المعروض';
+
+  @override
+  String get displayNameHint => 'الاسم الذي تراه الشركات';
+
+  @override
+  String get birthPlace => 'مكان الميلاد';
+
+  @override
+  String get bio => 'نبذة عنك';
+
+  @override
+  String get bioHint => 'عرّف بنفسك وبالمحتوى الذي تقدمه';
+
+  @override
+  String get whatsapp => 'رقم واتساب';
+
+  @override
+  String get primaryCategories => 'تصنيفاتك الأساسية';
+
+  @override
+  String get secondaryCategories => 'تصنيفات ثانوية';
+
+  @override
+  String chooseUpTo(int count) {
+    return 'الحد الأقصى: $count';
+  }
+
+  @override
+  String optionalChooseUpTo(int count) {
+    return 'اختياري، الحد الأقصى: $count';
+  }
+
+  @override
+  String get selectAtLeastOne => 'اختر عنصرًا واحدًا على الأقل';
+
+  @override
+  String get audienceAge => 'أعمار الجمهور';
+
+  @override
+  String get audienceGender => 'جنس الجمهور';
+
+  @override
+  String get audienceLocations => 'أماكن الجمهور';
+
+  @override
+  String get audienceInterests => 'اهتمامات الجمهور';
+
+  @override
+  String get addLocation => 'إضافة ولاية';
+
+  @override
+  String percentTotal(String total) {
+    return 'المجموع $total';
+  }
+
+  @override
+  String get audienceMustTotal => 'مجموع نسب الأعمار يجب أن يكون 100%';
+
+  @override
+  String get socialAccountsHint => 'حساب واحد على الأقل';
+
+  @override
+  String get socialAccountsEmpty => 'أضف حسابًا اجتماعيًا واحدًا على الأقل';
+
+  @override
+  String followersCount(String count) {
+    return '$count متابع';
+  }
+
+  @override
+  String get addSocialAccount => 'إضافة حساب اجتماعي';
+
+  @override
+  String get platformLabel => 'المنصة';
+
+  @override
+  String get accountUrl => 'رابط الحساب';
+
+  @override
+  String get username => 'اسم المستخدم';
+
+  @override
+  String get accountName => 'اسم الحساب';
+
+  @override
+  String get descriptionOptional => 'وصف (اختياري)';
+
+  @override
+  String get portfolioTitle => 'معرض الأعمال';
+
+  @override
+  String get portfolioEmpty => 'أضف أعمالك السابقة لتبرز أمام الشركات';
+
+  @override
+  String get addPortfolioItem => 'إضافة عمل';
+
+  @override
+  String get portfolioItemTitle => 'عنوان العمل';
+
+  @override
+  String get portfolioItemLink => 'رابط العمل';
+
+  @override
+  String get portfolioItemDescription => 'وصف العمل';
+
+  @override
+  String get photoTitle => 'صورتك الشخصية';
+
+  @override
+  String get photoSubtitle =>
+      'صورة واضحة لوجهك تزيد ثقة الشركات. هذه الخطوة اختيارية.';
+
+  @override
+  String get choosePhoto => 'اختيار صورة';
+
+  @override
+  String get changePhoto => 'تغيير الصورة';
+
+  @override
+  String get removePhoto => 'حذف الصورة';
+
+  @override
+  String get fromGallery => 'من المعرض';
+
+  @override
+  String get fromCamera => 'من الكاميرا';
+
+  @override
+  String get payoutMethod => 'طريقة استلام الأرباح';
+
+  @override
+  String get accountTypeCcp => 'CCP';
+
+  @override
+  String get accountTypeBank => 'بنك';
+
+  @override
+  String get accountTypeBoth => 'الاثنين';
+
+  @override
+  String get ccpKey => 'المفتاح';
+
+  @override
+  String get ccpKeyInvalid => 'رقمين بالضبط';
+
+  @override
+  String get bankName => 'اسم البنك';
+
+  @override
+  String get bankAccount => 'رقم الحساب البنكي';
+
+  @override
+  String get documentsTitle => 'المستندات';
+
+  @override
+  String get documentsSubtitle => 'JPG أو PNG أو PDF، حتى 5MB';
+
+  @override
+  String get documentUploaded => 'تم الرفع';
+
+  @override
+  String get documentVerified => 'تم التحقق';
+
+  @override
+  String missingDocumentsWarning(String documents) {
+    return 'مستندات ناقصة: $documents';
+  }
+
+  @override
+  String get fileBadExtension => 'صيغة الملف غير مدعومة';
+
+  @override
+  String get fileTooLarge => 'حجم الملف أكبر من 5MB';
+
+  @override
+  String get docIdentityFront => 'بطاقة التعريف (الوجه)';
+
+  @override
+  String get docIdentityBack => 'بطاقة التعريف (الظهر)';
+
+  @override
+  String get docCcpCheque => 'صك CCP مشطوب';
+
+  @override
+  String get docBankRib => 'كشف RIB';
+
+  @override
+  String get docOther => 'مستند آخر';
+
+  @override
+  String get notificationsTitle => 'كيف نتواصل معك؟';
+
+  @override
+  String get notifyInApp => 'داخل التطبيق';
+
+  @override
+  String get notifyWhatsapp => 'واتساب';
+
+  @override
+  String get notifySms => 'رسائل SMS';
+
+  @override
+  String get notifyPhone => 'مكالمة هاتفية';
+
+  @override
+  String get consentsTitle => 'الموافقات';
+
+  @override
+  String get consentVerification => 'أوافق على إجراءات التحقق من هويتي';
+
+  @override
+  String get consentContact => 'أوافق على أن تتواصل معي المنصة';
+
+  @override
+  String get acceptAll => 'الموافقة على الكل';
+
+  @override
+  String get acceptAllConsents => 'يرجى قبول كل الموافقات';
+
+  @override
+  String get submitForReview => 'إرسال للمراجعة';
+
+  @override
+  String get submitMissingTitle => 'أكمل هذه العناصر قبل الإرسال';
+
+  @override
+  String get missingNames => 'الاسم واللقب والاسم المعروض';
+
+  @override
+  String get missingContact => 'البريد الإلكتروني أو رقم الهاتف';
+
+  @override
+  String get statusSubmittedTitle => 'تم إرسال ملفك';
+
+  @override
+  String get statusSubmittedBody =>
+      'سيراجع فريقنا ملفك قريبًا، وسنعلمك بأي تحديث.';
+
+  @override
+  String get statusUnderReviewTitle => 'ملفك قيد المراجعة';
+
+  @override
+  String get statusMeetingRequiredTitle => 'نحتاج مكالمة تحقق قصيرة';
+
+  @override
+  String get statusMeetingRequiredBody => 'سنحدد معك موعد المكالمة قريبًا.';
+
+  @override
+  String get statusMeetingScheduledTitle => 'موعد مكالمة التحقق';
+
+  @override
+  String get statusMeetingScheduledBody => 'كن متاحًا في الموعد التالي.';
+
+  @override
+  String get statusNeedsChangesTitle => 'ملفك يحتاج تعديلات';
+
+  @override
+  String get statusNeedsChangesBody =>
+      'عدّل المعلومات المطلوبة في ملفك ثم أعد إرساله.';
+
+  @override
+  String get statusRejectedTitle => 'تم رفض ملفك';
+
+  @override
+  String get statusRejectedBody => 'للاستفسار يمكنك التواصل مع إدارة المنصة.';
+
+  @override
+  String get refreshStatus => 'تحديث الحالة';
+
+  @override
+  String get platformWebsite => 'موقع إلكتروني';
+
+  @override
+  String get platformBlog => 'مدونة';
+
+  @override
+  String get platformOther => 'منصة أخرى';
+
+  @override
+  String get facebookProfile => 'حساب شخصي';
+
+  @override
+  String get facebookPage => 'صفحة';
+
+  @override
+  String get catTechnology => 'التقنية و التكنولوجيا';
+
+  @override
+  String get catGaming => 'الألعاب';
+
+  @override
+  String get catSports => 'رياضة';
+
+  @override
+  String get catFootball => 'كرة القدم';
+
+  @override
+  String get catFitness => 'اللياقة البدنية';
+
+  @override
+  String get catHealth => 'صحة';
+
+  @override
+  String get catBeauty => 'جمال';
+
+  @override
+  String get catFashion => 'الموضة';
+
+  @override
+  String get catLifestyle => 'نمط الحياة';
+
+  @override
+  String get catCooking => 'طبخ و تغذية';
+
+  @override
+  String get catTravel => 'السياحة و الأسفار';
+
+  @override
+  String get catCars => 'سيارات و ماكينات';
+
+  @override
+  String get catEducation => 'تعليم و تطوير';
+
+  @override
+  String get catBusiness => 'المال و الأعمال';
+
+  @override
+  String get catFinance => 'المال';
+
+  @override
+  String get catMarketing => 'التسويق';
+
+  @override
+  String get catEcommerce => 'تجارة إلكترونية';
+
+  @override
+  String get catArt => 'الفن';
+
+  @override
+  String get catMusic => 'الموسيقى و الطرب';
+
+  @override
+  String get catEntertainment => 'الترفيه';
+
+  @override
+  String get catFamily => 'العائلة والأمومة';
+
+  @override
+  String get catPhotography => 'التصوير';
+
+  @override
+  String get ctPost => 'منشور';
+
+  @override
+  String get ctReel => 'ريلز';
+
+  @override
+  String get ctStory => 'ستوري';
+
+  @override
+  String get ctVideo => 'فيديو طويل';
+
+  @override
+  String get ctLive => 'بث مباشر';
+
+  @override
+  String get ctPodcast => 'بودكاست';
+
+  @override
+  String get ctReview => 'مراجعة منتج';
+
+  @override
+  String get ctTutorial => 'شرح';
+
+  @override
+  String get companyTitle => 'ملف الشركة';
+
+  @override
+  String get companyStepType => 'نوع النشاط';
+
+  @override
+  String get companyStepContact => 'التواصل';
+
+  @override
+  String get businessTypeQuestion => 'هل لديك سجل تجاري؟';
+
+  @override
+  String get businessTypeHint => 'نحدد على أساسه المعلومات والوثائق المطلوبة.';
+
+  @override
+  String get businessRegistered => 'نعم، مؤسسة مسجلة';
+
+  @override
+  String get businessRegisteredDesc => 'لديك سجل تجاري ورقم جبائي.';
+
+  @override
+  String get businessIndividual => 'لا، نشاط فردي';
+
+  @override
+  String get businessIndividualDesc => 'تعمل لحسابك دون سجل تجاري.';
+
+  @override
+  String get address => 'العنوان';
+
+  @override
+  String get legalInfo => 'المعلومات القانونية';
+
+  @override
+  String get docCommercialRegister => 'السجل التجاري';
+
+  @override
+  String get companyNeedsChangesBanner =>
+      'طلبت الإدارة تعديلات على ملفك. عدّل المعلومات وأعد الإرسال.';
+
+  @override
+  String get companySubmittedSuccess => 'تم إرسال ملفك للمراجعة';
+
+  @override
+  String get companyRejectedTitle => 'تم رفض ملف الشركة';
+
+  @override
+  String get companyRejectedBody => 'تواصل مع الدعم لمعرفة السبب.';
+
+  @override
+  String get featuredWorks => 'أعمال مميزة';
+
+  @override
+  String get all => 'الكل';
+
+  @override
+  String get yes => 'نعم';
+
+  @override
+  String get no => 'لا';
+
+  @override
+  String get adStatusDraft => 'مسودة';
+
+  @override
+  String get adStatusSubmitted => 'عند المنصة';
+
+  @override
+  String get adStatusAwaitingInfluencer => 'بانتظار المؤثر';
+
+  @override
+  String get adStatusInfluencerReplied => 'ردّ المؤثر';
+
+  @override
+  String get adStatusClientReviewing => 'بانتظار المعلن';
+
+  @override
+  String get adStatusClientReviewingYou => 'بانتظار ردّك';
+
+  @override
+  String get adStatusClientReplied => 'ردّ المعلن';
+
+  @override
+  String get adStatusAgreed => 'تم الاتفاق';
+
+  @override
+  String get adStatusRejected => 'مرفوض';
+
+  @override
+  String get adFormatPost => 'منشور';
+
+  @override
+  String get adFormatReel => 'ريلز';
+
+  @override
+  String get adFormatStory => 'ستوري';
+
+  @override
+  String get adEntryTemplate => 'حسب النموذج';
+
+  @override
+  String get adEntryTemplateDesc => 'تختار نوع المحتوى ومصدره من خيارات جاهزة';
+
+  @override
+  String get adEntryFreeText => 'حسب الطلب';
+
+  @override
+  String get adEntryFreeTextDesc => 'تكتب طلبك بكلماتك';
+
+  @override
+  String get adMediaImage => 'صورة';
+
+  @override
+  String get adMediaVideo => 'فيديو';
+
+  @override
+  String get adSourceReady => 'عندي محتوى جاهز';
+
+  @override
+  String get adSourceInfluencer => 'المؤثر يصنع المحتوى';
+
+  @override
+  String get adEventSubmitted => 'أُرسل الطلب للمنصة';
+
+  @override
+  String get adEventForwarded => 'حوّلت المنصة الطلب للمؤثر';
+
+  @override
+  String get adEventModificationSent => 'اقترحت المنصة تعديلاً';
+
+  @override
+  String get adEventModificationAccepted => 'قُبل التعديل';
+
+  @override
+  String get adEventModificationRefused => 'رُفض التعديل';
+
+  @override
+  String get adEventInfluencerChanged => 'تغيّر المؤثر';
+
+  @override
+  String get adEventInfluencerAccepted => 'وافق المؤثر';
+
+  @override
+  String get adEventCounterOffer => 'اقترح المؤثر عرضاً آخر';
+
+  @override
+  String get adEventUnclear => 'طلب المؤثر توضيحاً';
+
+  @override
+  String get adEventDeclined => 'اعتذر المؤثر';
+
+  @override
+  String get adEventRejected => 'رُفض الطلب';
+
+  @override
+  String get adEventUnknown => 'تحديث على الطلب';
+
+  @override
+  String get adPartyClient => 'المعلن';
+
+  @override
+  String get adPartyPlatform => 'المنصة';
+
+  @override
+  String get adPartyInfluencer => 'المؤثر';
+
+  @override
+  String get adInfluencer => 'المؤثر';
+
+  @override
+  String get adChooseInfluencer => 'اختر مؤثراً من صفحة الاكتشاف';
+
+  @override
+  String get adRequiresTravel => 'يتطلب حضور المؤثر';
+
+  @override
+  String get adRequiresTravelHint =>
+      'التنقل يُنسَّق بين المنصة والمؤثر خارج التطبيق';
+
+  @override
+  String get adTravelAddress => 'عنوان الحضور';
+
+  @override
+  String get adPresenceRequirements => 'متطلبات الحضور';
+
+  @override
+  String get adPresenceHint => 'المدة، اللباس، واش لازم يدير...';
+
+  @override
+  String get adEntryMode => 'طريقة الطلب';
+
+  @override
+  String get adMediaType => 'نوع المحتوى';
+
+  @override
+  String get adContentSource => 'مصدر المحتوى';
+
+  @override
+  String get adSampleRequired => 'تحب تشوف نموذجاً قبل النشر؟';
+
+  @override
+  String get adDetails => 'تفاصيل الطلب';
+
+  @override
+  String get adDetailsHint =>
+      'اشرح فكرة الإعلان، الرسالة، والجمهور اللي تستهدفه...';
+
+  @override
+  String get adFormats => 'صيغ الإعلان';
+
+  @override
+  String get adPlatforms => 'المنصات';
+
+  @override
+  String get adBudget => 'الميزانية';
+
+  @override
+  String get adDeadline => 'آخر أجل للنشر';
+
+  @override
+  String get adNeedsPlatformServices => 'أحتاج خدمات المنصة (تصوير، مونتاج...)';
+
+  @override
+  String get adBriefFiles => 'ملفات توضيحية';
+
+  @override
+  String get adBriefFilesHint => 'صور أو PDF، حتى 10MB';
+
+  @override
+  String get adReadyContent => 'المحتوى الجاهز';
+
+  @override
+  String get adReadyContentHint => 'صور حتى 10MB، فيديو MP4/MOV حتى 100MB';
+
+  @override
+  String get adAddFile => 'إضافة ملف';
+
+  @override
+  String get adSend => 'إرسال الطلب';
+
+  @override
+  String get adSentTitle => 'تم إرسال الطلب';
+
+  @override
+  String get adSentBody => 'طلبك عند المنصة، تراجعه قبل ما تحوّله للمؤثر.';
+
+  @override
+  String get adDeadlineFuture => 'لازم يكون التاريخ بعد اليوم';
+
+  @override
+  String get adReadyContentMissing => 'أضف المحتوى الجاهز';
+
+  @override
+  String get adFileTooLarge => 'الملف كبير: الصور حتى 10MB والفيديو حتى 100MB';
+
+  @override
+  String get adInfluencerUnavailable => 'هذا المؤثر لم يعد متاحاً';
+
+  @override
+  String get adCheckFields => 'راجع الحقول المعلّمة';
+
+  @override
+  String adRequestTitle(String code) {
+    return 'طلب $code';
+  }
+
+  @override
+  String get adPendingModification => 'تعديل مقترح من المنصة';
+
+  @override
+  String get adProposedBudget => 'الميزانية المقترحة';
+
+  @override
+  String get adAcceptModification => 'قبول التعديل';
+
+  @override
+  String get adRefuseModification => 'رفض التعديل';
+
+  @override
+  String get adRefuseHint => 'علاش ترفض التعديل؟';
+
+  @override
+  String get adMessageOptional => 'رسالة (اختياري)';
+
+  @override
+  String get adCancelRequest => 'إلغاء الطلب';
+
+  @override
+  String get adCancelHint => 'سبب الإلغاء';
+
+  @override
+  String adRejectedBy(String party) {
+    return 'رُفض من طرف $party';
+  }
+
+  @override
+  String get adTimeline => 'سجل الطلب';
+
+  @override
+  String get adDeleteDraft => 'حذف المسودة';
+
+  @override
+  String get adDeleteDraftConfirm => 'تحذف هذي المسودة نهائياً؟';
+
+  @override
+  String get adAttachments => 'المرفقات';
+
+  @override
+  String get adWithPlatformServices => 'مع خدمات المنصة';
+
+  @override
+  String get adTravel => 'حضور ميداني';
+
+  @override
+  String get adEmpty => 'ما كاين حتى طلب في هذي الحالة';
+
+  @override
+  String get adUpdated => 'تم تحديث الطلب';
+
+  @override
+  String get oppTabRequested => 'طلبات جديدة';
+
+  @override
+  String get oppTabDiscussing => 'قيد النقاش';
+
+  @override
+  String get oppEmpty => 'ما عندك حتى طلب هنا حالياً';
+
+  @override
+  String get oppClient => 'المعلن';
+
+  @override
+  String get oppClientVerified => 'معلن موثّق';
+
+  @override
+  String oppClientDeals(int count) {
+    return 'صفقات ناجحة: $count';
+  }
+
+  @override
+  String get oppAccept => 'قبول الطلب';
+
+  @override
+  String get oppCounter => 'اقتراح عرض آخر';
+
+  @override
+  String get oppUnclear => 'طلب توضيح';
+
+  @override
+  String get oppDecline => 'اعتذار';
+
+  @override
+  String get oppCounterHint => 'اشرح اقتراحك';
+
+  @override
+  String get oppDeclineHint => 'سبب الاعتذار';
+
+  @override
+  String get oppUnclearHint => 'واش اللي ماهوش واضح؟';
+
+  @override
+  String get oppProposedBudgetOptional => 'الميزانية المقترحة (اختياري)';
+
+  @override
+  String get oppReplied => 'تم إرسال ردك';
+
+  @override
+  String get oppWaiting => 'ردّك وصل، المنصة راح تتواصل مع المعلن';
+
+  @override
+  String get oppAgreed => 'تم الاتفاق على هذا الإعلان';
+
+  @override
+  String get catActing => 'تمثيل و دراما';
+
+  @override
+  String get catPublicFigures => 'شخصيات عامة';
+
+  @override
+  String get catAgriculture => 'الفلاحة';
+
+  @override
+  String get catIndustry => 'الصناعة';
+
+  @override
+  String get catComedy => 'كوميديا';
+
+  @override
+  String get catRealEstate => 'العقار و البناء';
+
+  @override
+  String get regStepPersonal => 'المعلومات الشخصية';
+
+  @override
+  String get regStepProfile => 'معلومات البروفايل';
+
+  @override
+  String get regStepContact => 'معلومات الإتصال';
+
+  @override
+  String get regStepSocial => 'حسابات التواصل الإجتماعي';
+
+  @override
+  String get regStepOptional => 'الجمهور والمهارات ومعرض الأعمال';
+
+  @override
+  String get regStepFinancial => 'المعلومات المالية';
+
+  @override
+  String get regStepSecurity => 'الموافقات ومعلومات الأمان';
+
+  @override
+  String get regStepPhoto => 'صورة البروفيل';
+
+  @override
+  String get regStepDocuments => 'الوثائق المطلوبة';
+
+  @override
+  String get regFullName => 'الإسم واللقب';
+
+  @override
+  String get regEntityQuestion => 'هل تعتبر نفسك:';
+
+  @override
+  String get regEntityNatural => 'شخص طبيعي (محتوى شخصي)';
+
+  @override
+  String get regEntityLegal => 'شخص معنوي (صفحة إلكترونية)';
+
+  @override
+  String get regDisplayName => 'إسم الشهرة ( إسم البروفايل )';
+
+  @override
+  String get regPrimaryCategories => 'مجالات تأثيرك الرئيسية :';
+
+  @override
+  String get regSecondaryCategories => 'مجالات تأثيرك الثانوية';
+
+  @override
+  String get regBio => 'نبذة عن المؤثر';
+
+  @override
+  String get regContentLanguages => 'اللغات التي يمكنك تقديم محتوى إعلاني بها';
+
+  @override
+  String get regOtherLanguageName => 'أخرى ( تحديد )';
+
+  @override
+  String get regAddressLanguages =>
+      'ترتيبات اللغة المفضلة التي تفضل أن يخاطبك بها المعلنون';
+
+  @override
+  String regAddressLanguagesHint(int count) {
+    return 'حتى $count. لغة الخطاب تستعمل كتنبيه للمعلن عند إدخال إعلانه للتواصل معك';
+  }
+
+  @override
+  String get langArabic => 'العربية';
+
+  @override
+  String get langDarija => 'الدارجة الجزائرية';
+
+  @override
+  String get langAmazigh => 'الأمازيغية';
+
+  @override
+  String get langEnglish => 'الإنجليزية';
+
+  @override
+  String get langFrench => 'الفرنسية';
+
+  @override
+  String get langOther => 'أخرى';
+
+  @override
+  String get moveUp => 'للأعلى';
+
+  @override
+  String get moveDown => 'للأسفل';
+
+  @override
+  String get regContactTitle => 'معلومات الإتصال';
+
+  @override
+  String get regSocialTitle => 'معلومات حسابات التواصل الإجتماعي';
+
+  @override
+  String get regSocialUrlLabel => 'أدخل العنوان الالكتروني للمنصة';
+
+  @override
+  String get regSocialSubmit => 'تقديم';
+
+  @override
+  String get regSocialAutoHint =>
+      'المنصة والصورة والاسم وعدد المتابعين تتعمر تلقائياً وتتجدد بتغيرها';
+
+  @override
+  String get regSocialAuto => 'يتحدّث تلقائياً';
+
+  @override
+  String get regSocialManual => 'مدخل يدوياً';
+
+  @override
+  String get regSocialCompleteManually => 'أكمل الاسم وعدد المتابعين';
+
+  @override
+  String get regSocialNeedsDetails =>
+      'لم نستطع جلب معلومات هذه المنصة تلقائياً، أدخل الاسم وعدد المتابعين';
+
+  @override
+  String get regSocialDuplicate => 'هذا الحساب مضاف من قبل';
+
+  @override
+  String get regRefresh => 'تحديث';
+
+  @override
+  String get regOptionalHint =>
+      'هذه المرحلة غير إلزامية: يمكنك إكمالها الآن أو حتى بعد توثيق حسابك';
+
+  @override
+  String get regCompleteOptional => 'الجمهور والمهارات ومعرض الأعمال';
+
+  @override
+  String get regAudienceTitle => 'مرحلة حصر الجمهور';
+
+  @override
+  String get regContentTypesTitle =>
+      'أنواع المحتوى الإعلاني التي يمكنك تقديمها مرتبة حسب الأولوية';
+
+  @override
+  String get regPortfolioTitle => 'رفع أمثلة لمعرض أعمالك ';
+
+  @override
+  String get regPortfolioFile => 'رفع ملف (صورة، فيديو، PDF)';
+
+  @override
+  String get regPortfolioLinkOrFile => 'أضف رابطاً أو ارفع ملفاً';
+
+  @override
+  String get regSaved => 'تم الحفظ';
+
+  @override
+  String get audCountries => 'الموقع الجغرافي للجمهور: الدول الأكثر متابعة';
+
+  @override
+  String get audCountryName => 'الدولة';
+
+  @override
+  String get audAddCountry => 'إضافة دولة';
+
+  @override
+  String get audRegionsHint => 'لا تحدد كل المناطق، اكتفِ بما يساعد فقط';
+
+  @override
+  String get regionNorth => 'شمال';
+
+  @override
+  String get regionNorthEast => 'شمال شرقي';
+
+  @override
+  String get regionNorthWest => 'شمال غربي';
+
+  @override
+  String get regionCenter => 'وسط';
+
+  @override
+  String get regionCenterEast => 'وسط شرقي';
+
+  @override
+  String get regionCenterWest => 'وسط غربي';
+
+  @override
+  String get regionSouth => 'جنوب';
+
+  @override
+  String get regionSouthEast => 'جنوب شرقي';
+
+  @override
+  String get regionSouthWest => 'جنوب غربي';
+
+  @override
+  String get audGender => 'الجنس';
+
+  @override
+  String get audMale => 'ذكور';
+
+  @override
+  String get audFemale => 'إناث';
+
+  @override
+  String get audUnspecified => 'غير محدد';
+
+  @override
+  String get audAges => 'الفئة العمرية';
+
+  @override
+  String get audAgeUnder18 => 'أقل من 18';
+
+  @override
+  String get audLanguages => 'اللغة / اللهجة';
+
+  @override
+  String get audLangArabic => 'العربية (دارجة / فصحى)';
+
+  @override
+  String get audLangAmazigh => 'الأمازيغية';
+
+  @override
+  String get audLangEnglish => 'الإنجليزية';
+
+  @override
+  String get audLangFrench => 'الفرنسية';
+
+  @override
+  String get audLangMixed => 'مزيج لغوي';
+
+  @override
+  String get audTopPlatforms => 'المنصة الأساسية';
+
+  @override
+  String get audTopPlatformsHint =>
+      'رتب 3 منصات: يستعمل هذا لإبرازها في الأول عند العرض للعميل';
+
+  @override
+  String get audActivity => 'توقيت النشاط ( غير إلزامي )';
+
+  @override
+  String get audPeakDays => 'أيام الذروة';
+
+  @override
+  String get audPeakHours => 'ساعات الذروة';
+
+  @override
+  String get audFrom => 'من';
+
+  @override
+  String get audTo => 'إلى';
+
+  @override
+  String get daySat => 'السبت';
+
+  @override
+  String get daySun => 'الأحد';
+
+  @override
+  String get dayMon => 'الإثنين';
+
+  @override
+  String get dayTue => 'الثلاثاء';
+
+  @override
+  String get dayWed => 'الأربعاء';
+
+  @override
+  String get dayThu => 'الخميس';
+
+  @override
+  String get dayFri => 'الجمعة';
+
+  @override
+  String get audContent => 'نوع المحتوى الأكثر تفاعلاً';
+
+  @override
+  String get audVideo => 'فيديو';
+
+  @override
+  String get audPhoto => 'صور';
+
+  @override
+  String get adctReview => 'مراجعة منتج (Review)';
+
+  @override
+  String get adctTestTry => 'تجربة منتج (Test & Try)';
+
+  @override
+  String get adctUnboxing => 'فتح صندوق (Unboxing)';
+
+  @override
+  String get adctTutorial => 'شرح / Tutorial';
+
+  @override
+  String get adctRecommendation => 'توصية شخصية';
+
+  @override
+  String get adctDirectCta => 'إعلان مباشر (Call to Action)';
+
+  @override
+  String get adctStorytelling => 'Storytelling';
+
+  @override
+  String get adctProductPlacement => 'محتوى مدمج (Product Placement)';
+
+  @override
+  String get regFinancialTitle =>
+      'المؤسسات المالية التي تتعامل معها + أرقام حساباتك المالية في كل واحد منها';
+
+  @override
+  String get regAddInstitution => 'إضافة مؤسسة مالية';
+
+  @override
+  String get finCcp => 'بريد الجزائر (CCP)';
+
+  @override
+  String get finBank => 'بنك';
+
+  @override
+  String get finInstitution => 'اسم البنك';
+
+  @override
+  String get finCcpNumber => 'رقم الحساب';
+
+  @override
+  String get finCcpNumberInvalid => 'أرقام فقط (حتى 12)';
+
+  @override
+  String get finRib => 'رقم RIB (20 رقم)';
+
+  @override
+  String get finEmpty => 'أضف مؤسسة مالية واحدة على الأقل';
+
+  @override
+  String get finMissingDoc => 'ارفع الصك أو الشيك لكل حساب';
+
+  @override
+  String get regConsentPrivacy =>
+      'الإمتثال للتشريعات الخاصة بحماية البيانات الشخصية';
+
+  @override
+  String get regConsentTerms => 'الموافقة على الشروط و الأحكام ( إجباري )';
+
+  @override
+  String get regSecurityTitle => 'معلومات الأمان';
+
+  @override
+  String get regLoginWith => 'تسجيل الدخول';
+
+  @override
+  String regLoginInfo(String email) {
+    return '$email + كلمة السر التي اخترتها عند إنشاء الحساب';
+  }
+
+  @override
+  String get regRecoveryTitle => 'طريقة إسترداد الحساب';
+
+  @override
+  String get regRecoveryHint => 'تحديد وسيلة إسترجاع كلمة السر';
+
+  @override
+  String recPhone(String phone) {
+    return 'رقم الهاتف: $phone';
+  }
+
+  @override
+  String recWhatsapp(String phone) {
+    return 'واتساب: $phone';
+  }
+
+  @override
+  String recEmail(String email) {
+    return 'البريد الإلكتروني: $email';
+  }
+
+  @override
+  String get recOther => 'رقم آخر مسؤول عن إسترجاع كلمة السر';
+
+  @override
+  String get recOtherPhone => 'رقم الإسترجاع';
+
+  @override
+  String get regPhotoTitle => 'صورة البروفيل';
+
+  @override
+  String get regPhotoSubtitle => 'تظهر في بروفايلك للمعلنين';
+
+  @override
+  String get regDocumentsTitle =>
+      'الوثائق المطلوبة للرفع: بطاقة التعريف أو جواز السفر';
+
+  @override
+  String get regIdCard => 'بطاقة التعريف';
+
+  @override
+  String get docPassport => 'جواز السفر';
+
+  @override
+  String get regFromFiles => 'ملف (PDF أو صورة)';
+
+  @override
+  String get regChequesHint =>
+      'الصكوك والشيكات ترفع مع كل حساب في المعلومات المالية';
+
+  @override
+  String get regNeedsReview => 'ستتم مراجعتها في الاجتماع';
+
+  @override
+  String get regSubmittedMessage =>
+      'لقد تم تسجيل طلبك سيتم مراجعة ملفك لإستكماله في حالة النقصان أو عدم وضوح بعض الوثائق\nو سيتم برمجة اجتماع لك مع إدارة المنصة عن طريق مكالمة فيديوا للتأكد من صحة المعلومات المقدمة\nيجب تحضير الوثائق التالية أثناء تاريخ الاجتماع بطاقة التعريف الأصلية أو جواز السفر + وثيقة تحمل أرقام معلوماتك المالية المدخلة ( صك بريدي / شيك بنكي ) + إثباتات الوصول للمنصات المدخلة ( الوصول للمنصات أثناء مكالمة الفيديوا )';
+
+  @override
+  String get docUnrecognized =>
+      'لم نتعرف على الوثيقة. صوّرها كاملة بإضاءة جيدة وأعد المحاولة';
+
+  @override
+  String get screenshotUnrecognized =>
+      'لم نجد الأرقام في اللقطة. خذ لقطة للصفحة كاملة';
+
+  @override
+  String get ocrUnavailable =>
+      'القراءة الآلية غير متاحة حالياً، أدخل المعلومات يدوياً';
+
+  @override
+  String get docAcceptUnreadableTitle => 'تعذّرت قراءة الوثيقة';
+
+  @override
+  String get docAcceptUnreadableBody =>
+      'بعد 3 محاولات، يمكننا إرسال الوثيقة كما هي لتُراجع يدوياً في اجتماع التوثيق.';
+
+  @override
+  String get docSendForReview => 'أرسلها للمراجعة';
+
+  @override
+  String get regDocChecked => 'تم التحقق منها آلياً';
+
+  @override
+  String get docFinancialProof => 'إثبات الحساب (صك، شيك أو RIB)';
+
+  @override
+  String get finOther => 'مؤسسة مالية';
+
+  @override
+  String get finScanHint =>
+      'صوّر الصك أو الشيك ونملأ اسم المؤسسة ورقم الحساب تلقائياً. كل المؤسسات المالية مقبولة';
+
+  @override
+  String get finScanCheque => 'صوّر الصك أو الشيك';
+
+  @override
+  String get finManualEntry => 'أدخل يدوياً';
+
+  @override
+  String get finCompleteScanned => 'قرأنا جزءاً من المعلومات، أكمل الباقي';
+
+  @override
+  String get finScanManualAfterTries =>
+      'أدخل معلومات الحساب يدوياً، وستُراجع الصورة في الاجتماع';
+
+  @override
+  String get finKeyMismatch =>
+      'المفتاح لا يطابق الرقم، سيتم التحقق منه في الاجتماع';
+
+  @override
+  String get finInstitutionName => 'اسم المؤسسة المالية';
+
+  @override
+  String get finInstitutionHint => 'مثال: بريد الجزائر، BNA، CPA، Payoneer';
+
+  @override
+  String get finAccountNumber => 'رقم الحساب';
+
+  @override
+  String get finAccountNumberHint => 'CCP أو RIB أو IBAN أو أي رقم آخر';
+
+  @override
+  String get finAccountKey => 'المفتاح (اختياري)';
+
+  @override
+  String get finNumberInvalid => 'أرقام وحروف لاتينية فقط (من 4 إلى 40)';
+
+  @override
+  String get finKeyInvalid => 'المفتاح رقمان';
+
+  @override
+  String get scanFilled => 'ملأنا المعلومات من الوثيقة، راجعها قبل المتابعة';
+
+  @override
+  String get scanFromIdTitle => 'املأ معلوماتك من الوثيقة';
+
+  @override
+  String get scanFromIdHint =>
+      'صوّر بطاقة التعريف أو جواز السفر ونملأ الاسم واللقب وتاريخ ومكان الميلاد تلقائياً';
+
+  @override
+  String get screenshotManualAfterTries =>
+      'أدخل الاسم وعدد المتابعين يدوياً، وسيتم التحقق منهما في الاجتماع';
+
+  @override
+  String get screenshotApplied => 'تم تحديث عدد المتابعين من اللقطة';
+
+  @override
+  String get socialScreenshotHint =>
+      'هذه المنصة لا تعطي الأرقام مباشرة. خذ لقطة شاشة لصفحة بروفايلك يظهر فيها عدد المتابعين';
+
+  @override
+  String get socialScreenshotButton => 'ارفع لقطة شاشة لبروفايلك';
+
+  @override
+  String get regSocialFromScreenshot => 'من لقطة شاشة';
+
+  @override
+  String get audScanPlatform => 'من أي منصة هذه اللقطات؟';
+
+  @override
+  String get audScanHint =>
+      'ارفع لقطات الإحصائيات (Insights): الجنس، الأعمار، المدن، الدول... ونملأ النسب تلقائياً، ثم راجعها واحفظ';
+
+  @override
+  String get audScanTitle => 'املأ من لقطات Insights';
+
+  @override
+  String docUnrecognizedRetry(int attempt, int max) {
+    return 'لم نتعرف على الوثيقة. صوّرها كاملة بإضاءة جيدة (المحاولة $attempt من $max)';
+  }
+
+  @override
+  String screenshotUnrecognizedRetry(int attempt, int max) {
+    return 'لم نجد عدد المتابعين في اللقطة. خذ لقطة لصفحة البروفايل كاملة (المحاولة $attempt من $max)';
+  }
+
+  @override
+  String finAdded(String name) {
+    return 'تمت إضافة الحساب: $name';
+  }
+
+  @override
+  String audScanDone(int count) {
+    return 'ملأنا $count أقسام من اللقطات، راجع النسب ثم احفظ';
+  }
+
+  @override
+  String get screenshotWrongPlatform => 'اللقطة ليست من نفس منصة الحساب';
+
+  @override
+  String get screenshotWrongAccount =>
+      'اللقطة لحساب آخر: اسم المستخدم لا يطابق الرابط';
+
+  @override
+  String get bizSectorFoodBeverage => 'الأغذية والمشروبات';
+
+  @override
+  String get bizSectorTrade => 'التجارة والبيع';
+
+  @override
+  String get bizSectorIndustry => 'الصناعة والإنتاج';
+
+  @override
+  String get bizSectorAgriculture => 'الفلاحة والمنتجات الزراعية';
+
+  @override
+  String get bizSectorRealEstate => 'العقار والإنشاءات';
+
+  @override
+  String get bizSectorTransport => 'النقل واللوجستيك';
+
+  @override
+  String get bizSectorHealth => 'الصحة والخدمات الطبية';
+
+  @override
+  String get bizSectorEducation => 'التعليم والتكوين';
+
+  @override
+  String get bizSectorTelecomTech => 'الاتصالات والتكنولوجيا';
+
+  @override
+  String get bizSectorTourism => 'السياحة والترفيه';
+
+  @override
+  String get bizSectorBeauty => 'الجمال والعناية الشخصية';
+
+  @override
+  String get bizSectorFashion => 'الأزياء والموضة';
+
+  @override
+  String get bizSectorAutomotive => 'السيارات والنقل الخاص';
+
+  @override
+  String get bizSectorProfessionalServices => 'الخدمات المهنية';
+
+  @override
+  String get bizSectorMedia => 'الإعلام والاتصال';
+
+  @override
+  String get bizSectorHomeServices => 'الخدمات المنزلية';
+
+  @override
+  String get bizSectorConglomerates => 'مجمّعات وشركات متعددة الأنشطة';
+
+  @override
+  String get bizSectorGovernment => 'الجهات الحكومية والشبه حكومية';
+
+  @override
+  String get bizSectorIndividuals => 'أفراد / أنشطة مستقلة';
+
+  @override
+  String get bizSectorOther => 'أخرى';
+
+  @override
+  String get bizActivityRestaurants => 'مطاعم';
+
+  @override
+  String get bizActivityCafes => 'مقاهي';
+
+  @override
+  String get bizActivityFoodFactories => 'مصانع غذائية';
+
+  @override
+  String get bizActivityFoodDistribution => 'توزيع مواد غذائية';
+
+  @override
+  String get bizActivityRetail => 'متاجر تجزئة';
+
+  @override
+  String get bizActivityWholesale => 'تجارة جملة';
+
+  @override
+  String get bizActivityOnlineSales => 'بيع عبر الإنترنت';
+
+  @override
+  String get bizActivityLocalMarkets => 'أسواق محلية';
+
+  @override
+  String get bizActivityManufacturing => 'صناعة تحويلية';
+
+  @override
+  String get bizActivityFactories => 'مصانع';
+
+  @override
+  String get bizActivityMaterialsProduction => 'إنتاج مواد';
+
+  @override
+  String get bizActivityFarming => 'إنتاج فلاحي';
+
+  @override
+  String get bizActivityLivestock => 'تربية';
+
+  @override
+  String get bizActivityAgriProcessing => 'تحويل زراعي';
+
+  @override
+  String get bizActivityRealEstateDevelopment => 'تطوير عقاري';
+
+  @override
+  String get bizActivityContracting => 'مقاولات';
+
+  @override
+  String get bizActivityPublicWorks => 'أشغال عامة';
+
+  @override
+  String get bizActivityFreightTransport => 'نقل بري / بحري / جوي';
+
+  @override
+  String get bizActivityWarehousing => 'تخزين';
+
+  @override
+  String get bizActivityLogisticsDistribution => 'توزيع';
+
+  @override
+  String get bizActivityDelivery => 'توصيل';
+
+  @override
+  String get bizActivityClinics => 'عيادات';
+
+  @override
+  String get bizActivityLaboratories => 'مخابر';
+
+  @override
+  String get bizActivityPharmacies => 'صيدليات';
+
+  @override
+  String get bizActivityMedicalManufacturing => 'تصنيع طبي';
+
+  @override
+  String get bizActivitySchools => 'مدارس';
+
+  @override
+  String get bizActivityUniversities => 'جامعات';
+
+  @override
+  String get bizActivityTrainingCenters => 'مراكز تدريب';
+
+  @override
+  String get bizActivityPrivateEducation => 'تعليم خاص';
+
+  @override
+  String get bizActivityTelecom => 'اتصالات';
+
+  @override
+  String get bizActivityTechCompanies => 'شركات تقنية';
+
+  @override
+  String get bizActivityDigitalServices => 'خدمات رقمية';
+
+  @override
+  String get bizActivityHotels => 'فنادق';
+
+  @override
+  String get bizActivityTravelAgencies => 'وكالات سفر';
+
+  @override
+  String get bizActivityResorts => 'منتجعات';
+
+  @override
+  String get bizActivityLeisure => 'نشاطات ترفيهية';
+
+  @override
+  String get bizActivitySalons => 'صالونات';
+
+  @override
+  String get bizActivityCosmeticClinics => 'عيادات تجميل';
+
+  @override
+  String get bizActivityCareProducts => 'منتجات عناية';
+
+  @override
+  String get bizActivityClothingStores => 'محلات ملابس';
+
+  @override
+  String get bizActivityFashionDesign => 'تصميم أزياء';
+
+  @override
+  String get bizActivityFashionDistribution => 'توزيع';
+
+  @override
+  String get bizActivityCarSales => 'بيع سيارات';
+
+  @override
+  String get bizActivityCarMaintenance => 'صيانة';
+
+  @override
+  String get bizActivityCarRental => 'كراء';
+
+  @override
+  String get bizActivityLaw => 'محاماة';
+
+  @override
+  String get bizActivityAccounting => 'محاسبة';
+
+  @override
+  String get bizActivityConsulting => 'استشارات';
+
+  @override
+  String get bizActivityAdministrativeServices => 'خدمات إدارية';
+
+  @override
+  String get bizActivityMediaProduction => 'إنتاج إعلامي';
+
+  @override
+  String get bizActivityAdAgencies => 'وكالات إشهار';
+
+  @override
+  String get bizActivityEvents => 'تنظيم فعاليات';
+
+  @override
+  String get bizActivityHomeMaintenance => 'صيانة';
+
+  @override
+  String get bizActivityCleaning => 'تنظيف';
+
+  @override
+  String get bizActivitySmallWorks => 'أشغال صغيرة';
+
+  @override
+  String get bizActivityHoldings => 'شركات قابضة';
+
+  @override
+  String get bizActivityInvestmentGroups => 'مجموعات استثمارية';
+
+  @override
+  String get bizActivityFinancialInstitutions => 'مؤسسات مالية';
+
+  @override
+  String get bizActivityMinistries => 'وزارات';
+
+  @override
+  String get bizActivityNationalCompanies => 'شركة وطنية';
+
+  @override
+  String get bizActivityNonProfits => 'جمعيات ومنظمات غير ربحية';
+
+  @override
+  String get bizActivityFreelancer => 'فريلانسر';
+
+  @override
+  String get bizActivitySoloActivity => 'نشاط فردي';
+
+  @override
+  String get bizActivitySmallProjects => 'مشاريع صغيرة';
+
+  @override
+  String get bizActivityOther => 'أخرى (حدد)';
+
+  @override
+  String get companyRoleOwner => 'المالك';
+
+  @override
+  String get companyRoleMarketingOfficer => 'المكلف بالتسويق';
+
+  @override
+  String get companyRoleCompanyOwner => 'مالك المؤسسة';
+
+  @override
+  String get companyRoleMarketingDirector => 'مدير التسويق بالشركة';
+
+  @override
+  String get companyRoleRelationsOfficer => 'المكلف بالعلاقات';
+
+  @override
+  String get companyRoleStoreOwner => 'مالك المتجر';
+
+  @override
+  String get companyRoleProjectOwner => 'مالك المشروع';
+
+  @override
+  String get companyRoleOther => 'أخرى (حدد)';
+
+  @override
+  String get companyStepPersonal => 'المسؤول عن الحساب';
+
+  @override
+  String get companyStepBusiness => 'المؤسسة';
+
+  @override
+  String get companyStepPresence => 'النشاط والظهور';
+
+  @override
+  String get companyStepFinish => 'المالية والوثائق';
+
+  @override
+  String get companyRoleTitle => 'الصفة';
+
+  @override
+  String get companyRoleOtherHint => 'حدد صفتك';
+
+  @override
+  String get companyAccountName => 'اختر اسماً لحسابك';
+
+  @override
+  String companyAccountNameRules(int min, int max) {
+    return 'لا تنتحل اسم شخص أو علامة أخرى، ولا تستعمل ألفاظاً مسيئة، ومن $min إلى $max حرفاً.';
+  }
+
+  @override
+  String get companyAccountNameTaken => 'هذا الاسم مستعمل من حساب آخر';
+
+  @override
+  String get companyAccountNameReserved => 'هذا الاسم محجوز، اختر اسماً آخر';
+
+  @override
+  String companyAccountNameInvalid(int min, int max) {
+    return 'حروف وأرقام ومسافات فقط، من $min إلى $max حرفاً';
+  }
+
+  @override
+  String get companyInstitutionName => 'اسم المؤسسة';
+
+  @override
+  String get companyBranch => 'الفرع (اختياري)';
+
+  @override
+  String get companyAccountNameQuestion => 'أيهما تريده اسماً لحسابك؟';
+
+  @override
+  String get companyNameOption => 'اسم المؤسسة';
+
+  @override
+  String get companyBranchOption => 'اسم الفرع';
+
+  @override
+  String get companyHqWilaya => 'ولاية المقر';
+
+  @override
+  String get companyHqAddress => 'عنوان مقر المؤسسة';
+
+  @override
+  String get companyCapital => 'رأس المال (اختياري)';
+
+  @override
+  String get companyCurrency => 'دج';
+
+  @override
+  String get companyPhotoSubtitle => 'شعار مؤسستك أو صورتك، تظهر للمؤثرين';
+
+  @override
+  String get companyBio => 'نبذة عن نشاطك';
+
+  @override
+  String get companyBioHint => 'ماذا تقدم ولمن؟';
+
+  @override
+  String get companyBioOptional => 'نبذة عن نشاطك (اختيارية)';
+
+  @override
+  String get companyOfficialEmail =>
+      'البريد الإلكتروني الرسمي للشركة (اختياري)';
+
+  @override
+  String get companyPageScreenshot => 'لقطة شاشة للصفحة (اختيارية)';
+
+  @override
+  String get companyPageScreenshotHint =>
+      'لقطة الشاشة اختيارية: نقرأ منها اسم الحساب وعدد المتابعين';
+
+  @override
+  String get companyAddPage => 'إضافة منصة أخرى';
+
+  @override
+  String get signupEmailNote =>
+      'هذا الإيميل تستخدمه للدخول إلى حسابك ولاسترجاع كلمة السر وللتواصل مع شركة x10';
+
+  @override
+  String get companyActivitiesTitle => 'مجالات النشاط';
+
+  @override
+  String companyActivitiesMax(int max) {
+    return 'اختر $max على الأكثر';
+  }
+
+  @override
+  String get companyActivityOtherHint => 'حدد مجال نشاطك';
+
+  @override
+  String get companyPagesTitle => 'صفحات التسويق الرسمية (اختياري)';
+
+  @override
+  String get companyPagesHint => 'الصق رابط الصفحة ونتعرف على المنصة تلقائياً';
+
+  @override
+  String companyPagesLimit(int max) {
+    return '$max صفحات على الأكثر';
+  }
+
+  @override
+  String get companyPhoneHint => 'لا تستعمل رقمك الشخصي';
+
+  @override
+  String get companyWhatsappOptional => 'رقم مرتبط بواتساب (اختياري)';
+
+  @override
+  String get companyPhone2 => 'رقم الهاتف الاحتياطي (اختياري)';
+
+  @override
+  String get companyEmailHint => 'بريد حسابك، سنطلب تأكيده لاحقاً';
+
+  @override
+  String get docTaxCertificate => 'وثيقة الرقم الجبائي';
+
+  @override
+  String get docLicense => 'ترخيص أو تصريح';
+
+  @override
+  String get companyLicensesTitle => 'التراخيص والتصاريح (اختيارية)';
+
+  @override
+  String get companyLicensesHint => 'للنشاطات التي قد تروّج لها لاحقاً';
+
+  @override
+  String get companyAddLicense => 'إضافة ترخيص';
+
+  @override
+  String get companyProofOptional => 'أضف صكاً أو شيكاً أو RIB (اختياري)';
+
+  @override
+  String get docReviewPending => 'قيد المراجعة';
+
+  @override
+  String get docReviewAccepted => 'مقبولة';
+
+  @override
+  String docReviewRejected(String reason) {
+    return 'مرفوضة: $reason';
+  }
+
+  @override
+  String get companyMeetingNote =>
+      'بعد الإرسال نحدد معك لقاءً لمراجعة كل الإثباتات';
+
+  @override
+  String get companyScanDocsTitle => 'املأ من وثائق المؤسسة';
+
+  @override
+  String get companyScanDocsHint =>
+      'صوّر السجل التجاري ووثيقة الرقم الجبائي، نملأ الاسم والأرقام والعنوان ورأس المال تلقائياً، وأكمل الباقي. الوثيقتان اختياريتان.';
+
+  @override
+  String get regIdNumber => 'رقم بطاقة التعريف';
+
+  @override
+  String get regContentLanguagesHint => 'اختر مستواك في كل لغة';
+
+  @override
+  String get regOptionalContactTitle => 'معلومات إضافية (اختيارية)';
+
+  @override
+  String get regBackupPhone => 'رقم هاتف احتياطي (اختياري)';
+
+  @override
+  String get regDeliveryAddress => 'عنوان وصول طرودك (اختياري)';
+
+  @override
+  String get regDeliveryAddressHint =>
+      'حدد عنوان البيت بدقة لتستلم الطرد حتى بيتك أو البلدية القريبة لك لتستلم فيها الطرد من مكاتب التوصيل';
+
+  @override
+  String get audWritten => 'محتوى كتابي';
+
+  @override
+  String get audAudio => 'محتوى صوتي';
+
+  @override
+  String get audInteractive => 'محتوى تفاعلي';
+
+  @override
+  String get audContentRankHint => 'رتّبها من الأكثر تفاعلاً إلى الأقل';
+
+  @override
+  String get regSkipOptional => 'تخطي، سأكملها لاحقاً';
+
+  @override
+  String get finAddHint =>
+      'أضف مؤسسة مالية واحدة على الأقل: اسمها، وثيقة إن وُجدت، ورقم الحساب';
+
+  @override
+  String get finProofAdded => 'الوثيقة مرفقة';
+
+  @override
+  String get finReadDone => 'قرأنا رقم الحساب من الوثيقة، راجعه';
+
+  @override
+  String get finAttachDocument => 'إرفاق وثيقة (صك، RIB...) اختياري';
+
+  @override
+  String get finAttachDocumentHint =>
+      'إذا أرفقت وثيقة نقرأ رقم الحساب تلقائياً، وإلا اكتبه بنفسك';
+
+  @override
+  String get regEntityRadio => 'إذاعة';
+
+  @override
+  String get regEntityTv => 'تلفزيون';
+
+  @override
+  String get regEntityShort => 'الصفة';
+
+  @override
+  String get levelBasic => 'أساسي';
+
+  @override
+  String get levelGood => 'جيد';
+
+  @override
+  String get levelAdvanced => 'متقدم';
+
+  @override
+  String get regChooseLevel => 'اختر المستوى';
+
+  @override
+  String get regNationalId => 'رقم التعريف الوطني';
+
+  @override
+  String get regNationalIdHint => '18 رقمًا';
+
+  @override
+  String get regNationalIdInvalid => 'رقم التعريف الوطني يتكون من 18 رقمًا';
+
+  @override
+  String get regIdentityDocument => 'وثيقة الهوية';
+
+  @override
+  String get requiredFieldsNote =>
+      '* ملاحظة : (الحقول المحصورة بنجمة (*) إلزامية لإدخال البيانات)';
+
+  @override
+  String get upgradePrefix => 'يمكنك الترقية';
+
+  @override
+  String get upgradeTapHere => 'بالضغط هنا';
+
+  @override
+  String get regBioOptional => 'نبذة عنك (غير إلزامية)';
+
+  @override
+  String get adctComparison => 'المقارنات';
+
+  @override
+  String get adctTipsTricks => 'النصائح والحيل';
+
+  @override
+  String get adctPolls => 'الاستطلاعات (أسئلة وأجوبة)';
+
+  @override
+  String get adctDailyVlog => 'اليوميات';
+
+  @override
+  String get adctChallenges => 'التحديات والمسابقات';
+
+  @override
+  String get adctAffiliateLinks => 'روابط الأفلييت';
+
+  @override
+  String get adctGiveaways => 'الهدايا والمسابقات';
+
+  @override
+  String get adctInspiringStories => 'قصص ملهمة';
+
+  @override
+  String get adctPodcast => 'بودكاست';
+
+  @override
+  String get adctMotivationalPosts => 'منشورات تحفيزية';
+
+  @override
+  String get instAlgeriePoste => 'بريد الجزائر';
+
+  @override
+  String get instBna => 'البنك الوطني الجزائري (BNA)';
+
+  @override
+  String get instBea => 'بنك الجزائر الخارجي (BEA)';
+
+  @override
+  String get instBdl => 'بنك التنمية المحلية (BDL)';
+
+  @override
+  String get instBadr => 'بنك الفلاحة والتنمية الريفية (BADR)';
+
+  @override
+  String get instCpa => 'القرض الشعبي الجزائري (CPA)';
+
+  @override
+  String get instCnep => 'الصندوق الوطني للتوفير والاحتياط (CNEP-Banque)';
+
+  @override
+  String get instBnh => 'البنك الوطني للإسكان (BNH)';
+
+  @override
+  String get instAgb => 'بنك الخليج الجزائر (AGB)';
+
+  @override
+  String get instSocieteGenerale => 'سوسيتيه جنرال الجزائر (Société Générale)';
+
+  @override
+  String get instBnpParibas => 'بي إن بي باريبا الجزائر (BNP Paribas)';
+
+  @override
+  String get instBankAbc => 'المؤسسة العربية المصرفية (Bank ABC)';
+
+  @override
+  String get instHousingBank => 'بنك الإسكان للتجارة والتمويل (Housing Bank)';
+
+  @override
+  String get instAlSalam => 'بنك السلام الجزائر (مصرف إسلامي)';
+
+  @override
+  String get instAlBaraka => 'بنك البركة الجزائري (مصرف إسلامي)';
+
+  @override
+  String get instFransabank => 'بنك فرنسابنك الجزائر (Fransabank)';
+
+  @override
+  String get instArabBank => 'بنك عمان العربي تونس والجزائر (العربي)';
+
+  @override
+  String get regStepReview => 'مراجعة وإرسال';
+
+  @override
+  String get regReviewHint => 'تأكد من معلوماتك قبل الإرسال';
+
+  @override
+  String get regEditFile => 'تعديل الملف';
+
+  @override
+  String get regGoHome => 'الصفحة الرئيسية';
+
+  @override
+  String get regViewStatus => 'اضغط لعرض حالة ملفك';
+
+  @override
+  String audRegionsIn(String country) {
+    return 'المناطق داخل $country';
+  }
+
+  @override
+  String get themeLight => 'الوضع الفاتح';
+
+  @override
+  String get themeDark => 'الوضع الداكن';
+
+  @override
+  String get onboardingSkip => 'تخطي';
+
+  @override
+  String get onboardingStart => 'ابدأ الآن';
+
+  @override
+  String get onboardingVerified => 'موثّق';
+
+  @override
+  String get onboardingNewRequest => 'طلب إعلان جديد';
+
+  @override
+  String get onboardingBrand => 'شركة';
+
+  @override
+  String get onboardingCreator => 'مؤثر';
+
+  @override
+  String get onboarding1Title => 'اعثر على المؤثر المناسب لعلامتك';
+
+  @override
+  String get onboarding1Body =>
+      'تصفّح صنّاع محتوى موثّقين حسب المجال والجمهور، واختر من يوصل رسالتك بأفضل شكل.';
+
+  @override
+  String get onboarding2Title => 'فرص إعلانية تصلك مباشرة';
+
+  @override
+  String get onboarding2Body =>
+      'كمؤثر، تستقبل طلبات الإعلان من الشركات، تراجع تفاصيلها، وتقرر بكل حرية.';
+
+  @override
+  String get onboarding3Title => 'منصة موثوقة تجمع الطرفين';
+
+  @override
+  String get onboarding3Body =>
+      'كل حساب يمر بالتحقق، وكل طلب يمر عبر X Ten قبل أن يصل، لتعاون آمن واحترافي.';
 }
